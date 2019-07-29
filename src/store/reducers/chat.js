@@ -739,7 +739,8 @@ const formatShoppingData = (arrayData, focus = 0) => {
       seller.course = null;
 
       const item = {
-        ...restItem
+        ...restItem,
+        seller
       };
 
       for (let m = 0; m < chat.messages.length; m++)

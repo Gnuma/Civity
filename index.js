@@ -8,7 +8,8 @@ import { name as appName } from "./app.json";
 
 YellowBox.ignoreWarnings([
   "Warning: componentWillReceiveProps",
-  "Warning: componentWillMount"
+  "Warning: componentWillMount",
+  "Warning: Async Storage"
 ]);
 
 AppRegistry.registerComponent(appName, () => App);

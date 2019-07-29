@@ -71,6 +71,8 @@ export default class ChatHeader extends Component {
   render() {
     const { scrollY } = this.state;
     const { item, data, goBookOffert } = this.props;
+    console.log(item);
+
     return (
       <PanGestureHandler
         onHandlerStateChange={this.onHandlerStateChange}
@@ -152,7 +154,13 @@ export default class ChatHeader extends Component {
                   ]
                 }}
               >
-                <Header2 color="primary">{item.book.title}</Header2>
+                <Header2
+                  color="primary"
+                  style={{ maxWidth: usernameMaxWidth }}
+                  numberOfLines={1}
+                >
+                  {item.book.title}
+                </Header2>
               </Animated.View>
               <Button
                 style={{
@@ -224,20 +232,21 @@ export default class ChatHeader extends Component {
                   <View style={{ flex: 1, marginRight: 5 }}>
                     <Header2 color="primary">EUR {item.price}</Header2>
                     <Header3 color="secondary" numberOfLines={1}>
-                      FAKE J Von Neumann
+                      {item.seller.office.name}
                     </Header3>
                     <Header4 color="secondary" numberOfLines={2}>
-                      FAKE Via Pollenza 1441
+                      {item.seller.office.address}
                     </Header4>
                   </View>
                   <View>
-                    <CircleValue value={item.condition} radius={40} />
+                    <CircleValue value={item.condition} radius={35} />
                   </View>
                 </View>
                 <View>
-                  <Header4 color="black">ISBN</Header4>
-                  <Header4 color="black">Materia</Header4>
-                  <Header4 color="black">Istituto</Header4>
+                  <Header4 color="black">ISBN: {item.book.isbn}</Header4>
+                  <Header4 color="black">
+                    Materia: {item.book.subject.title}
+                  </Header4>
                 </View>
               </Animated.View>
             </Animated.View>
@@ -257,6 +266,7 @@ const bookTitleHeight = 30;
 const imgMinWidth = 60;
 const imgMaxWidth = 120;
 const imgRatio = 4 / 3;
+const usernameMaxWidth = viewportWidth - imgMinWidth - 44 - 24;
 
 const BottomShadow = props => {
   return (

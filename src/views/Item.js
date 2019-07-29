@@ -248,6 +248,9 @@ export class Item extends Component {
             chatID,
             subjectID
           });
+          this.setState({
+            loading: false
+          });
         })
         .catch(() => {
           this.setState({
