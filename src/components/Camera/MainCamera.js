@@ -4,8 +4,6 @@ import {
   ImageBackground,
   StyleSheet,
   ActivityIndicator,
-  ImageEditor,
-  ImageStore
 } from "react-native";
 import { RNCamera } from "react-native-camera";
 import { Header2 } from "../Text";

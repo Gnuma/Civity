@@ -2,7 +2,6 @@ import * as actionTypes from "./actionTypes";
 import NavigatorService from "../../navigator/NavigationService";
 import { setItem, getItem, removeItem } from "../utility";
 import axios from "axios";
-import { ImageStore } from "react-native";
 import RNFetchBlob from "rn-fetch-blob";
 import FormData from "form-data";
 import uuid from "uuid";
@@ -218,19 +217,6 @@ export const sellStartModifying = item => dispatch => {
   });
   NavigatorService.navigate("Camera");
 };
-
-const getBase64FS = uri =>
-  new Promise(function(resolve, reject) {
-    ImageStore.getBase64ForTag(
-      uri,
-      base64 => {
-        resolve(base64);
-      },
-      err => {
-        reject(err);
-      }
-    );
-  });
 
 const getBase64IP = uri =>
   new Promise((resolve, reject) => {
