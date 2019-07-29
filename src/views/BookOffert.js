@@ -28,10 +28,7 @@ export class BookOffert extends Component {
     this.state = {
       objectID,
       chatID,
-      price:
-        this.type == ChatType.sales
-          ? props.data[objectID].price.toString()
-          : props.data[objectID].chats[chatID].item.price.toString(),
+      price: String(props.data.item.price || ""),
       decision: null
     };
   }
@@ -122,57 +119,6 @@ export class BookOffert extends Component {
 
   focusPrice = () => this.priceInput && this.priceInput.focus();
 
-  getData = (props = this.props) => {
-    const { objectID, chatID } = this.state;
-    //console.log(this.type, props.data[objectID].chats[chatID].offerts);
-    if (this.type == ChatType.sales) {
-      console.log(props.data[objectID]);
-      const { chats, newsCount, ...item } = props.data[objectID];
-      const { offerts, statusLoading, status, UserTO, feedbacks } = chats[
-        chatID
-      ];
-      return {
-        status,
-        item,
-        //seller: mockData.item.seller //TEST
-        //seller: item.
-        offert:
-          _.isEmpty(offerts) || offerts[0].status === OffertStatus.REJECTED
-            ? undefined
-            : offerts[0],
-        loading: statusLoading,
-        UserTO,
-        feedbacks,
-        type: "seller"
-      };
-    } else {
-      console.log(props.data[objectID].chats[chatID]);
-      const {
-        UserTO,
-        item,
-        offerts,
-        statusLoading,
-        status,
-        feedbacks
-      } = props.data[objectID].chats[chatID];
-      return {
-        status,
-        item: {
-          ...item,
-          seller: UserTO
-        },
-        offert:
-          _.isEmpty(offerts) || offerts[0].status === OffertStatus.REJECTED
-            ? undefined
-            : offerts[0],
-        loading: statusLoading,
-        UserTO,
-        feedbacks,
-        type: "buyer"
-      };
-    }
-  };
-
   getState = data => {
     console.log(data);
     if (!data.offert) return OffertStates.CREATE;
@@ -254,9 +200,9 @@ export class BookOffert extends Component {
 
   render() {
     const { decision } = this.state;
-    const data = this.getData();
-    const { type, title } = this.getState(data);
+    const data = this.props.data;
     console.log(data);
+    const { type, title } = this.getState(data);
 
     return (
       <View style={{ flex: 1 }}>
@@ -271,17 +217,46 @@ export class BookOffert extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  data: state.chat.data,
-  userID: state.auth.id,
-  userSeller: {
-    ...state.auth.userData,
-    user: {
-      username: state.auth.userData.username
-    },
-    office: state.auth.office
+const mapStateToProps = (state, props) => {
+  const type = props.navigation.getParam("type", null);
+  const objectID = props.navigation.getParam("objectID", null);
+  const chatID = props.navigation.getParam("chatID", null);
+
+  const { UserTO, offerts, statusLoading, status, feedbacks } = state.chat.data[
+    objectID
+  ].chats[chatID];
+  const data = {
+    status,
+    offert:
+      _.isEmpty(offerts) || offerts[0].status === OffertStatus.REJECTED
+        ? undefined
+        : offerts[0],
+    loading: statusLoading,
+    UserTO,
+    feedbacks
+  };
+
+  if (type == ChatType.sales) {
+    const { chats, newsCount, ...itemData } = state.chat.data[objectID];
+    data.item = itemData;
+    data.type = "seller";
+  } else {
+    data.item = state.chat.data[objectID].chats[chatID].item;
+    data.type = "buyer";
   }
-});
+
+  return {
+    data,
+    userID: state.auth.id,
+    userSeller: {
+      ...state.auth.userData,
+      user: {
+        username: state.auth.userData.username
+      },
+      office: state.auth.office
+    }
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   //new
