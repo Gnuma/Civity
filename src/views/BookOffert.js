@@ -118,10 +118,9 @@ export class BookOffert extends Component {
 
   setPriceRef = ref => {
     this.priceInput = ref;
-    console.log(ref);
   };
 
-  focusPrice = () => this.priceInput.focus();
+  focusPrice = () => this.priceInput && this.priceInput.focus();
 
   getData = (props = this.props) => {
     const { objectID, chatID } = this.state;

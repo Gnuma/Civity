@@ -15,6 +15,7 @@ export default (CreateOffert = ({
   setPrice,
   focusPrice,
   createOffert,
+  setPriceRef,
   UserTO
 }) => {
   return (
@@ -47,6 +48,7 @@ export default (CreateOffert = ({
             value={price}
             containerStyle={{ marginVertical: 5, alignSelf: "center" }}
             onFocus={() => setPrice("")}
+            setPriceRef={setPriceRef}
           />
         </Card>
       </OffertInfo>
