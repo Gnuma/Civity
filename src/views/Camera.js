@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  ImageEditor,
-  ImageStore
-} from "react-native";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
+import ImageEditor from "@react-native-community/image-editor";
+import RNFS from "react-native-fs";
 import { connect } from "react-redux";
 import { RNCamera } from "react-native-camera";
 import CameraHeader from "../components/Camera/CameraHeader";
@@ -77,29 +73,14 @@ export class Camera extends Component {
 
       console.log(img, offset, size, displaySize);
       const uri = img.uri;
-      ImageEditor.cropImage(
-        uri,
-        {
-          offset,
-          size,
-          displaySize
-        },
-        uri => {
-          ImageStore.getBase64ForTag(
-            uri,
-            base64 => {
-              this.props.takePreviewRedux({ base64, uri });
-              //this.props.addReview({ base64, uri });
-            },
-            () => {
-              console.warn("Err base64");
-            }
-          );
-        },
-        () => {
-          console.warn("Error while cropping preview");
-        }
-      );
+      ImageEditor.cropImage(uri, {
+        offset,
+        size,
+        displaySize
+      })
+        .then(uri => RNFS.readFile(uri, "base64"))
+        .then(base64 => this.props.takePreviewRedux({ base64, uri }))
+        .catch(err => console.warn("Err: ", err));
     }
     this.props.removeReview();
   };
