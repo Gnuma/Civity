@@ -76,6 +76,8 @@ export const OffertStatus = {
 };
 
 export const OffertType = {
+  INVALID: "INVALID",
+
   CREATE: "CREATE",
   EDIT: "EDIT",
   DECIDE: "DECIDE",

@@ -86,6 +86,7 @@ export class Chat extends Component {
           item={item}
           goBack={this._goBack}
           goBookOffert={this.goBookOffert}
+          userID={this.props.userID}
         />
         <View style={{ flex: 1, marginTop: 120 }}>
           {chatData.status === ChatStatus.LOCAL ||

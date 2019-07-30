@@ -18,6 +18,7 @@ import CompleteExchangeOffert from "../components/BookOffert/CompleteExchangeOff
 import FeedbackOffert from "../components/BookOffert/FeedbackOffert";
 import CompletedOffert from "../components/BookOffert/CompletedOffert";
 import BlockedOffert from "../components/BookOffert/BlockedOffert";
+import InvalidOffert from "../components/BookOffert/InvalidOffert";
 
 export class BookOffert extends Component {
   constructor(props) {
@@ -119,33 +120,6 @@ export class BookOffert extends Component {
 
   focusPrice = () => this.priceInput && this.priceInput.focus();
 
-  getState = data => {
-    console.log(data);
-    if (!data.offert) return OffertStates.CREATE;
-    switch (data.status) {
-      //Offert has to be pending
-      case ChatStatus.PROGRESS:
-        if (data.offert.creator._id == this.props.userID) {
-          return OffertStates.EDIT;
-        } else {
-          return OffertStates.DECIDE;
-        }
-      case ChatStatus.EXCHANGE:
-        if (data.item.seller._id == this.props.userID) {
-          return OffertStates.COMPLETE_EXCHANGE;
-        } else {
-          return OffertStates.WAIT_EXCHANGE;
-        }
-      case ChatStatus.FEEDBACK:
-        if (!data.feedbacks[data.type]) return OffertStates.SEND_FEEDBACK;
-        else return OffertStates.COMPLETED;
-      case ChatStatus.COMPLETED:
-        return OffertStates.COMPLETED;
-      case ChatStatus.BLOCKED:
-        return OffertStates.BLOCKED;
-    }
-  };
-
   renderContent = (type, data) => {
     console.log(!data.offert, data.offert);
     switch (type) {
@@ -193,6 +167,9 @@ export class BookOffert extends Component {
       case OffertType.BLOCKED:
         return <BlockedOffert {...data} />;
 
+      case OffertType.INVALID:
+        return <InvalidOffert />;
+
       default:
         return null;
     }
@@ -202,7 +179,12 @@ export class BookOffert extends Component {
     const { decision } = this.state;
     const data = this.props.data;
     console.log(data);
-    const { type, title } = this.getState(data);
+    const { type, title } = getState(
+      data,
+      data.offert,
+      this.props.userID,
+      data.item
+    );
 
     return (
       <View style={{ flex: 1 }}>
@@ -227,10 +209,7 @@ const mapStateToProps = (state, props) => {
   ].chats[chatID];
   const data = {
     status,
-    offert:
-      _.isEmpty(offerts) || offerts[0].status === OffertStatus.REJECTED
-        ? undefined
-        : offerts[0],
+    offert: pickOffert(offerts),
     loading: statusLoading,
     UserTO,
     feedbacks
@@ -280,8 +259,12 @@ export default connect(
 )(BookOffert);
 
 const OffertStates = {
+  LOCAL: { type: OffertType.INVALID, title: "Chat locale" },
+  PENDING: { type: OffertType.INVALID, title: "In attesa di risposta" },
+  REJECTED: { type: OffertType.INVALID, title: "Chat rifiutata" },
+
   CREATE: { type: OffertType.CREATE, title: "Fai una offerta" },
-  EDIT: { type: OffertType.EDIT, title: "La tua offerta" },
+  EDIT: { type: OffertType.EDIT, title: "Gestisci offerta" },
   DECIDE: { type: OffertType.DECIDE, title: "Accetta/Declina offerta" },
   COMPLETE_EXCHANGE: {
     type: OffertType.COMPLETE_EXCHANGE,
@@ -301,6 +284,46 @@ const OffertStates = {
   },
   BLOCKED: {
     type: OffertType.BLOCKED,
-    title: "Completato"
+    title: "Inserzione bloccata"
   }
 };
+
+export const getState = (data, offert, userID, item) => {
+  console.log(data);
+
+  switch (data.status) {
+    //Offert has to be pending
+    case ChatStatus.LOCAL:
+      return OffertStates.LOCAL;
+    case ChatStatus.PENDING:
+      return OffertStates.PENDING;
+    case ChatStatus.REJECTED:
+      return OffertStates.REJECTED;
+
+    case ChatStatus.PROGRESS:
+      if (!offert) return OffertStates.CREATE;
+      if (offert.creator._id == userID) {
+        return OffertStates.EDIT;
+      } else {
+        return OffertStates.DECIDE;
+      }
+    case ChatStatus.EXCHANGE:
+      if (item.seller._id == userID) {
+        return OffertStates.COMPLETE_EXCHANGE;
+      } else {
+        return OffertStates.WAIT_EXCHANGE;
+      }
+    case ChatStatus.FEEDBACK:
+      if (!data.feedbacks[data.type]) return OffertStates.SEND_FEEDBACK;
+      else return OffertStates.COMPLETED;
+    case ChatStatus.COMPLETED:
+      return OffertStates.COMPLETED;
+    case ChatStatus.BLOCKED:
+      return OffertStates.BLOCKED;
+  }
+};
+
+export const pickOffert = offerts =>
+  _.isEmpty(offerts) || offerts[0].status === OffertStatus.REJECTED
+    ? undefined
+    : offerts[0];

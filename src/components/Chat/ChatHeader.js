@@ -23,6 +23,8 @@ import {
 } from "react-native-gesture-handler";
 import NavigationService from "../../navigator/NavigationService";
 import { StackActions } from "react-navigation";
+import { getState, pickOffert } from "../../views/BookOffert";
+import { OffertType } from "../../utils/constants";
 
 const minHeight = 120;
 const maxHeight = 250;
@@ -68,10 +70,25 @@ export default class ChatHeader extends Component {
     NavigationService.dispatch(pushAction);
   };
 
+  getOffertButtonState = () => {
+    const { type, title } = getState(
+      this.props.data,
+      pickOffert(this.props.data.offerts),
+      this.props.userID,
+      this.props.item
+    );
+
+    if (type == OffertType.INVALID || type == OffertType.BLOCKED) {
+      return { disabled: true, title };
+    } else {
+      return { disabled: false, title };
+    }
+  };
+
   render() {
     const { scrollY } = this.state;
     const { item, data, goBookOffert } = this.props;
-    console.log(item);
+    const offertButtonState = this.getOffertButtonState();
 
     return (
       <PanGestureHandler
@@ -127,9 +144,10 @@ export default class ChatHeader extends Component {
               </Header1>
             </View>
             <FullButton
-              value="Fai una offerta"
+              value={offertButtonState.title}
               onPress={goBookOffert}
               style={{ paddingVertical: 6 }}
+              disabled={offertButtonState.disabled}
             />
           </View>
           <View style={{ marginHorizontal: contentMargin }}>

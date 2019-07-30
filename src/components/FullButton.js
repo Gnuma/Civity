@@ -14,31 +14,72 @@ export default ({
   icon,
   iconStyle,
   iconSize = 22,
+  disabled,
   ...rest
 }) => {
-  return (
-    <TouchableNativeFeedback
-      {...rest}
-      style={[
-        {
-          backgroundColor: colors[color]
-        },
-        styles.container,
-        style
-      ]}
-      background={TouchableNativeFeedback.Ripple("white", false)}
-    >
-      <Header3 color="white" style={contentStyle}>
-        {value}
-      </Header3>
-      {icon &&
-        (icon === "pen" ? (
-          <Icon5 name={icon} size={iconSize} style={[styles.icon, iconStyle]} />
-        ) : (
-          <Icon name={icon} size={iconSize} style={[styles.icon, iconStyle]} />
-        ))}
-    </TouchableNativeFeedback>
-  );
+  if (disabled) {
+    return (
+      <View
+        style={[
+          {
+            backgroundColor: colors.lightGrey
+          },
+          styles.container,
+          style
+        ]}
+      >
+        <Header3 color="white" style={contentStyle}>
+          {value}
+        </Header3>
+        {icon &&
+          (icon === "pen" ? (
+            <Icon5
+              name={icon}
+              size={iconSize}
+              style={[styles.icon, iconStyle]}
+            />
+          ) : (
+            <Icon
+              name={icon}
+              size={iconSize}
+              style={[styles.icon, iconStyle]}
+            />
+          ))}
+      </View>
+    );
+  } else {
+    return (
+      <TouchableNativeFeedback
+        {...rest}
+        style={[
+          {
+            backgroundColor: colors[color]
+          },
+          styles.container,
+          style
+        ]}
+        background={TouchableNativeFeedback.Ripple("white", false)}
+      >
+        <Header3 color="white" style={contentStyle}>
+          {value}
+        </Header3>
+        {icon &&
+          (icon === "pen" ? (
+            <Icon5
+              name={icon}
+              size={iconSize}
+              style={[styles.icon, iconStyle]}
+            />
+          ) : (
+            <Icon
+              name={icon}
+              size={iconSize}
+              style={[styles.icon, iconStyle]}
+            />
+          ))}
+      </TouchableNativeFeedback>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
