@@ -9,6 +9,7 @@ import * as chatActions from "../store/actions/chat";
 import * as messagingAction from "../store/actions/messaging";
 import ContactReview from "../components/Chat/ContactReview";
 import { ChatType, ChatStatus } from "../utils/constants";
+import SpringHeader from "../components/SpringHeader";
 
 export class Chat extends Component {
   constructor(props) {
@@ -81,14 +82,8 @@ export class Chat extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <ChatHeader
-          data={chatData}
-          item={item}
-          goBack={this._goBack}
-          goBookOffert={this.goBookOffert}
-          userID={this.props.userID}
-        />
-        <View style={{ flex: 1, marginTop: 120 }}>
+        <SpringHeader minHeight={60} />
+        <View style={{ flex: 1, marginTop: 60 }}>
           {chatData.status === ChatStatus.LOCAL ||
           chatData.status === ChatStatus.PENDING ? (
             <ContactReview
@@ -168,3 +163,13 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Chat);
+
+/*
+        <ChatHeader
+          data={chatData}
+          item={item}
+          goBack={this._goBack}
+          goBookOffert={this.goBookOffert}
+          userID={this.props.userID}
+        />
+        */
