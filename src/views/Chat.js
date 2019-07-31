@@ -10,6 +10,8 @@ import * as messagingAction from "../store/actions/messaging";
 import ContactReview from "../components/Chat/ContactReview";
 import { ChatType, ChatStatus } from "../utils/constants";
 import SpringHeader from "../components/SpringHeader";
+import ScrollHeader from "../components/ScrollHeader";
+import { Header3 } from "../components/Text";
 
 export class Chat extends Component {
   constructor(props) {
@@ -24,7 +26,8 @@ export class Chat extends Component {
 
     this.state = {
       objectID: this.type === ChatType.sales ? itemID : subjectID,
-      chatID
+      chatID,
+      pointerEvent: "auto"
     };
   }
 
@@ -75,15 +78,37 @@ export class Chat extends Component {
     this.props.chatLoadEarlier(this.state.objectID, this.state.chatID);
   };
 
+  renderHeaderContent = () => {
+    return (
+      <View>
+        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
+        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
+        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
+        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
+        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
+        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
+      </View>
+    );
+  };
+
+  setPointerEvent = pointerEvent => this.setState({ pointerEvent });
+
   render() {
-    const { objectID, chatID } = this.state;
+    const { objectID, chatID, pointerEvent } = this.state;
     const chatData = this.props.chatData;
     const item = this.props.item;
 
     return (
       <View style={{ flex: 1 }}>
-        <SpringHeader minHeight={60} />
-        <View style={{ flex: 1, marginTop: 60 }}>
+        <ScrollHeader
+          minHeight={60}
+          renderContent={this.renderHeaderContent}
+          setPointerEvent={this.setPointerEvent}
+        />
+        <View
+          style={{ flex: 1, marginTop: 60, zIndex: 0 }}
+          pointerEvents={pointerEvent}
+        >
           {chatData.status === ChatStatus.LOCAL ||
           chatData.status === ChatStatus.PENDING ? (
             <ContactReview

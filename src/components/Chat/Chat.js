@@ -147,7 +147,7 @@ export default class Chat extends Component {
             );
           }}
         />
-        <View style={{ zIndex: 0 }}>
+        <View style={{ zIndex: 0, elevation: 0 }}>
           <Composer
             onSend={this.onSend}
             onComposerTextChanged={this.onComposerTextChanged}

@@ -12,7 +12,7 @@ export default class LoadingOverlay extends Component {
   render() {
     const { style, opacity = 0.2 } = this.props;
     return (
-      <View style={{ ...StyleSheet.absoluteFill, zIndex: 100 }}>
+      <View style={{ ...StyleSheet.absoluteFill, zIndex: 10 }}>
         <TouchableWithoutFeedback
           style={{
             flex: 1
