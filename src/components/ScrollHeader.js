@@ -5,10 +5,15 @@ import {
   View,
   Animated,
   Dimensions,
-  TouchableWithoutFeedback,
+  Platform,
   Keyboard
 } from "react-native";
-import { PanGestureHandler, State } from "react-native-gesture-handler";
+import {
+  PanGestureHandler,
+  State,
+  TouchableNativeFeedback,
+  TouchableOpacity
+} from "react-native-gesture-handler";
 import colors from "../styles/colors";
 import { Header3, Header1 } from "./Text";
 import NativeButton from "./NativeButton";
@@ -111,6 +116,8 @@ export default class ScrollHeader extends Component {
       }
     } else if (event.nativeEvent.state === State.BEGAN) {
       this.scrollY.stopAnimation();
+    } else if (event.nativeEvent.state === State.ACTIVE) {
+      Keyboard.dismiss();
     }
   };
 
@@ -223,7 +230,7 @@ export default class ScrollHeader extends Component {
                   {this.props.renderContent()}
                 </View>
                 <Divider />
-                {this.renderHeader()}
+                {this.props.renderHeader()}
               </View>
             </Animated.View>
           </PanGestureHandler>
@@ -231,22 +238,6 @@ export default class ScrollHeader extends Component {
       </View>
     );
   }
-
-  renderHeader = () => {
-    return (
-      <View style={[{ height: this.minHeight }, styles.container]}>
-        <Button style={styles.goBackBtn}>
-          <Icon name={"chevron-left"} size={24} style={styles.backIcon} />
-        </Button>
-        <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-          <Header1 color={"primary"} style={{ flex: 1 }} numberOfLines={1}>
-            Nome utente
-          </Header1>
-          <FullButton value="Test" style={{ marginHorizontal: 10 }} />
-        </View>
-      </View>
-    );
-  };
 
   onContentLayout = event => {
     const { height: windowHeight } = Dimensions.get("window");
@@ -265,21 +256,6 @@ export default class ScrollHeader extends Component {
     });
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "white"
-  },
-  goBackBtn: {
-    padding: 10,
-    borderRadius: 4
-  },
-  backIcon: {
-    color: colors.black
-  }
-});
 
 const HEADER_STATUS = {
   CLOSED: "CLOSED",

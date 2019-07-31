@@ -324,6 +324,6 @@ export const getState = (data, offert, userID, item) => {
 };
 
 export const pickOffert = offerts =>
-  _.isEmpty(offerts) || offerts[0].status === OffertStatus.REJECTED
+  !offerts || _.isEmpty(offerts) || offerts[0].status === OffertStatus.REJECTED
     ? undefined
     : offerts[0];

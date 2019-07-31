@@ -2,16 +2,18 @@ import React, { Component } from "react";
 import { View, Text } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import ChatHeader from "../components/Chat/ChatHeader";
 import ChatView from "../components/Chat/Chat";
-import { single } from "../mockData/Chat2";
 import * as chatActions from "../store/actions/chat";
-import * as messagingAction from "../store/actions/messaging";
 import ContactReview from "../components/Chat/ContactReview";
 import { ChatType, ChatStatus } from "../utils/constants";
-import SpringHeader from "../components/SpringHeader";
 import ScrollHeader from "../components/ScrollHeader";
-import { Header3 } from "../components/Text";
+import { Header1 } from "../components/Text";
+import ListMultiItem from "../components/ListItem/ListMultiItem";
+import { UserCard, OffertCard } from "../components/BookOffert/General";
+import { pickOffert } from "./BookOffert";
+import NativeGoBack from "../components/NativeGoBack";
+import FullButton from "../components/FullButton";
+import colors from "../styles/colors";
 
 export class Chat extends Component {
   constructor(props) {
@@ -78,11 +80,46 @@ export class Chat extends Component {
   };
 
   renderHeaderContent = () => {
+    const { item, chatData } = this.props;
+    const { UserTO: user } = chatData;
+    const offert = pickOffert(chatData.offerts);
+
     return (
       <View>
-        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
-        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
-        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
+        {offert && <OffertCard offert={offert} />}
+        {user && <UserCard userData={user} />}
+        <View style={{ marginTop: -10 }}>
+          <ListMultiItem
+            data={item}
+            isSingle={false}
+            pk={item._id}
+            native={true}
+          />
+        </View>
+      </View>
+    );
+  };
+
+  renderHeader = () => {
+    const chatData = this.props.chatData;
+    return (
+      <View
+        style={[
+          {
+            height: 60,
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: colors.white
+          }
+        ]}
+      >
+        <NativeGoBack goBack={this._goBack} />
+        <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
+          <Header1 color={"primary"} style={{ flex: 1 }} numberOfLines={1}>
+            {chatData.UserTO.user.username}
+          </Header1>
+          <FullButton value="Test" style={{ marginHorizontal: 10 }} />
+        </View>
       </View>
     );
   };
@@ -94,7 +131,11 @@ export class Chat extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <ScrollHeader minHeight={60} renderContent={this.renderHeaderContent} />
+        <ScrollHeader
+          minHeight={60}
+          renderContent={this.renderHeaderContent}
+          renderHeader={this.renderHeader}
+        />
         <View style={{ flex: 1, marginTop: 60, zIndex: 0 }}>
           {chatData.status === ChatStatus.LOCAL ||
           chatData.status === ChatStatus.PENDING ? (
