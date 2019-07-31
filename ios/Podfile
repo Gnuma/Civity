@@ -30,6 +30,8 @@ target 'Civity' do
 
 
 
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
   target 'CivityTests' do
     inherit! :search_paths
     # Pods for testing

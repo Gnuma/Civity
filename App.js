@@ -9,10 +9,16 @@ import Navigator, {
 import NavigationService from "./src/navigator/NavigationService";
 import WS from "./src/utils/WebSocket";
 import axios from "axios";
+import firebase from "react-native-firebase";
 
 class App extends Component {
+  componentDidMount() {
+    this.sub = firebase.messaging().onTokenRefresh(token => console.log(token));
+  }
+
   componentWillUnmount() {
     console.log("App Has unmounted");
+    this.sub && this.sub.unsubscribe();
   }
 
   render() {
