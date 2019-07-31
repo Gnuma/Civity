@@ -26,8 +26,7 @@ export class Chat extends Component {
 
     this.state = {
       objectID: this.type === ChatType.sales ? itemID : subjectID,
-      chatID,
-      pointerEvent: "auto"
+      chatID
     };
   }
 
@@ -84,31 +83,19 @@ export class Chat extends Component {
         <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
         <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
         <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
-        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
-        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
-        <Header3 style={{ marginVertical: 30 }}>AOOO</Header3>
       </View>
     );
   };
 
-  setPointerEvent = pointerEvent => this.setState({ pointerEvent });
-
   render() {
-    const { objectID, chatID, pointerEvent } = this.state;
+    const { objectID, chatID } = this.state;
     const chatData = this.props.chatData;
     const item = this.props.item;
 
     return (
       <View style={{ flex: 1 }}>
-        <ScrollHeader
-          minHeight={60}
-          renderContent={this.renderHeaderContent}
-          setPointerEvent={this.setPointerEvent}
-        />
-        <View
-          style={{ flex: 1, marginTop: 60, zIndex: 0 }}
-          pointerEvents={pointerEvent}
-        >
+        <ScrollHeader minHeight={60} renderContent={this.renderHeaderContent} />
+        <View style={{ flex: 1, marginTop: 60, zIndex: 0 }}>
           {chatData.status === ChatStatus.LOCAL ||
           chatData.status === ChatStatus.PENDING ? (
             <ContactReview

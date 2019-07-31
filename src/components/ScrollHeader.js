@@ -5,7 +5,8 @@ import {
   View,
   Animated,
   Dimensions,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Keyboard
 } from "react-native";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
 import colors from "../styles/colors";
@@ -20,6 +21,8 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get(
   "window"
 );
 
+THRESHOLD_VELOCITY = 500;
+
 export default class ScrollHeader extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +33,9 @@ export default class ScrollHeader extends Component {
 
     this.state = {
       status: HEADER_STATUS.CLOSED,
-      contentHeight: viewportHeight
+      contentHeight: viewportHeight,
+      initialized: false,
+      pointerEvent: "box-none"
     };
   }
 
@@ -44,13 +49,16 @@ export default class ScrollHeader extends Component {
 
   onHandlerStateChange = event => {
     if (event.nativeEvent.oldState === State.ACTIVE) {
-      this.props.setPointerEvent("none");
+      this.setPointerEvent("auto");
 
       const { velocityY: v, translationY } = event.nativeEvent;
       const { height: windowHeight } = Dimensions.get("window");
 
       if (this.state.status === HEADER_STATUS.CLOSED) {
-        if (v <= 0) {
+        if (
+          (translationY < windowHeight / 2 && v < THRESHOLD_VELOCITY) ||
+          (translationY >= windowHeight / 2 && v < -THRESHOLD_VELOCITY)
+        ) {
           this.scrollTo(0, HEADER_STATUS.CLOSED, v);
         } else {
           this.scrollTo(
@@ -60,13 +68,16 @@ export default class ScrollHeader extends Component {
           );
         }
       } else if (this.state.status === HEADER_STATUS.PENDING) {
-        if (v <= -500) {
+        if (translationY <= 0 && v <= -THRESHOLD_VELOCITY) {
           this.scrollTo(
             -(windowHeight - this.minHeight),
             HEADER_STATUS.CLOSED,
             v
           );
-        } else if (v > 500 && v < 500) {
+        } else if (
+          translationY <= 0 ||
+          this.lastScrollY == this.state.contentHeight
+        ) {
           this.scrollTo(0, HEADER_STATUS.PENDING, v);
         } else {
           this.lastScrollY += translationY;
@@ -76,12 +87,11 @@ export default class ScrollHeader extends Component {
           );
           this.scrollY.setOffset(this.lastScrollY);
           this.scrollY.setValue(0);
-          if (this.lastScrollY !== this.state.contentHeight)
-            setTimeout(() => {
-              this.setState({
-                status: HEADER_STATUS.OPEN
-              });
-            }, 0);
+          setTimeout(() => {
+            this.setState({
+              status: HEADER_STATUS.OPEN
+            });
+          }, 0);
         }
       } else if (this.state.status === HEADER_STATUS.OPEN) {
         this.lastScrollY += translationY;
@@ -127,7 +137,7 @@ export default class ScrollHeader extends Component {
   };
 
   scrollTo = (toValue, status, velocity) => {
-    status === HEADER_STATUS.CLOSED && this.props.setPointerEvent("auto");
+    status === HEADER_STATUS.CLOSED && this.setPointerEvent("box-none");
     Animated.spring(this.scrollY, {
       toValue,
       tension: 15,
@@ -147,52 +157,66 @@ export default class ScrollHeader extends Component {
   };
 
   render() {
-    const { status } = this.state;
-    const { height: windowHeight } = Dimensions.get("window");
-    const { height: screenHeight } = Dimensions.get("screen");
+    const { status, contentHeight, initialized, pointerEvent } = this.state;
+    let { height: windowHeight } = Dimensions.get("window");
 
     const { minScroll, maxScroll } = this.getConstraints(status);
 
     return (
       <View
         style={{
-          position: "absolute",
-          bottom: windowHeight - this.minHeight,
-          right: 0,
-          left: 0,
+          ...StyleSheet.absoluteFill,
           elevation: 10,
           zIndex: 10
         }}
+        pointerEvents={pointerEvent}
       >
-        <PanGestureHandler
-          onHandlerStateChange={this.onHandlerStateChange}
-          onGestureEvent={this.onPanGestureEvent}
+        <Animated.View
+          style={{
+            ...StyleSheet.absoluteFill,
+            backgroundColor: colors.black,
+            opacity: this.scrollY.interpolate({
+              inputRange: [minScroll, maxScroll],
+              outputRange: [0, 1]
+            })
+          }}
+          pointerEvents="none"
+        />
+        <View
+          style={{
+            position: "absolute",
+            top: initialized ? -contentHeight : undefined,
+            bottom: initialized ? undefined : windowHeight - this.minHeight,
+            right: 0,
+            left: 0,
+            elevation: 10,
+            zIndex: 10
+          }}
         >
-          <Animated.View
-            style={{
-              backgroundColor: colors.white,
-              minHeight: windowHeight,
-              transform: [
-                {
-                  translateY: this.scrollY.interpolate({
-                    inputRange: [minScroll, maxScroll],
-                    outputRange: [minScroll, maxScroll],
-                    extrapolate: "clamp"
-                  })
-                }
-              ],
-              elevation: 4
-            }}
+          <PanGestureHandler
+            onHandlerStateChange={this.onHandlerStateChange}
+            onGestureEvent={this.onPanGestureEvent}
           >
-            <TouchableWithoutFeedback
-              style={{ flex: 1, justifyContent: "flex-end" }}
-              onStartShouldSetResponder={() => console.log("Ao")}
+            <Animated.View
+              style={{
+                backgroundColor: colors.white,
+                minHeight: windowHeight,
+                transform: [
+                  {
+                    translateY: this.scrollY.interpolate({
+                      inputRange: [minScroll, maxScroll],
+                      outputRange: [minScroll, maxScroll],
+                      extrapolate: "clamp"
+                    })
+                  }
+                ],
+                elevation: 4
+              }}
             >
               <View
                 style={{
                   flex: 1,
-                  justifyContent: "flex-end",
-                  backgroundColor: "red"
+                  justifyContent: "flex-end"
                 }}
               >
                 <View onLayout={this.onContentLayout}>
@@ -201,9 +225,9 @@ export default class ScrollHeader extends Component {
                 <Divider />
                 {this.renderHeader()}
               </View>
-            </TouchableWithoutFeedback>
-          </Animated.View>
-        </PanGestureHandler>
+            </Animated.View>
+          </PanGestureHandler>
+        </View>
       </View>
     );
   }
@@ -227,10 +251,17 @@ export default class ScrollHeader extends Component {
   onContentLayout = event => {
     const { height: windowHeight } = Dimensions.get("window");
     this.setState({
+      initialized: true,
       contentHeight: Math.max(
         event.nativeEvent.layout.height,
         windowHeight - this.minHeight
       )
+    });
+  };
+
+  setPointerEvent = pointerEvent => {
+    this.setState({
+      pointerEvent
     });
   };
 }
