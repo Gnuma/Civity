@@ -59,3 +59,5 @@ export const ___SEND_FEEDBACK___ = ___BASE_ENDPOINT___ + "chat/feedback/";
 export const ___CHECK_USERNAME___ = ___BASE_ENDPOINT___ + "verify/username/";
 export const ___CHECK_EMAIL___ = ___BASE_ENDPOINT___ + "verify/email/";
 export const ___CHECK_PHONE___ = ___BASE_ENDPOINT___ + "verify/phone/";
+
+export const ___UPDATE_FCM___ = ___BASE_ENDPOINT___ + "fcm/change/";

@@ -19,6 +19,7 @@ import { chatClear } from "./chat";
 import { mockWHOAMI } from "../../mockData/MockUser";
 import NetInfo from "@react-native-community/netinfo";
 import { formatUserData } from "../../utils/helper";
+import { updateFCMToken } from "./settings";
 
 const isOffline = false;
 
@@ -49,10 +50,10 @@ export const authCompleted = () => {
 };
 
 export const loginSuccess = (token, userData, isDelayed) => {
+  axios.defaults.headers.common["Authorization"] = "Token " + token; // for all requests
   setItem(tokenKey, token);
   setItem(userDataKey, userData);
   setItem(officeKey, userData.office);
-  axios.defaults.headers.common["Authorization"] = "Token " + token; // for all requests
   return {
     type: actionTypes.LOGIN_SUCCESS,
     payload: {
@@ -259,8 +260,8 @@ const login = async ({ dispatch, resolve, reject, token }) => {
   }
 
   //userData = mockWHOAMI; //TEST
-
   dispatch(loginSuccess(token, userData));
+  dispatch(updateFCMToken());
   console.log(userData.isActive);
   if (userData.isActive) {
     WS.init(token, resolve);
