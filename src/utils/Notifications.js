@@ -1,4 +1,5 @@
 import firebase from "react-native-firebase";
+import store from "../store/store";
 
 class Notifications {
   constructor() {
@@ -12,37 +13,41 @@ class Notifications {
     firebase.notifications().android.createChannel(this.channel);
   }
 
+  onNotification = notificationData => {
+    //Check if chat == Chatt
+    console.log(store.getState().chat.chatFocus);
+    if (store.getState().chat.chatFocus) return;
+
+    this.displayNotification(notificationData);
+  };
+
+  openNotification = openAction => {
+    console.log(openAction);
+  };
+
   start = async () => {
     //if (!(await this.requestPermisions())) return;
     this.removeNotificationDisplayedListener = firebase
       .notifications()
-      .onNotificationDisplayed(notification => {
-        // Process your notification as required
-        // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
-        console.log("Notification", notification);
-      });
+      .onNotificationDisplayed(notification =>
+        console.log("Notification", notification)
+      );
+
     this.removeNotificationListener = firebase
       .notifications()
-      .onNotification(notificationData => {
-        // Process your notification as required
-        console.log("Aoo", notificationData);
-        const notification = new firebase.notifications.Notification()
-          .setNotificationId(notificationData._notificationId)
-          .setTitle(notificationData._title)
-          .setBody(notificationData._body)
-          .setData(notificationData._data)
-          .android.setChannelId(this.channel.channelId)
-          .android.setPriority(firebase.notifications.Android.Priority.High)
-          .setSound("default");
+      .onNotification(this.onNotification);
 
-        firebase.notifications().displayNotification(notification);
-      });
+    this.removeNotificationOpenedListener = firebase
+      .notifications()
+      .onNotificationOpened(this.openNotification);
   };
 
   die() {
     this.removeNotificationDisplayedListener &&
       this.removeNotificationDisplayedListener();
     this.removeNotificationListener && this.removeNotificationListener();
+    this.removeNotificationOpenedListener &&
+      this.removeNotificationOpenedListener();
   }
 
   requestPermisions = async () => {
@@ -56,6 +61,20 @@ class Notifications {
       console.log(error);
     }
     return false;
+  };
+
+  displayNotification = notificationData => {
+    console.log("Displaying", notificationData);
+    const notification = new firebase.notifications.Notification()
+      .setNotificationId(notificationData._notificationId)
+      .setTitle(notificationData._title)
+      .setBody(notificationData._body)
+      .setData(notificationData._data)
+      .android.setChannelId(this.channel.channelId)
+      .android.setPriority(firebase.notifications.Android.Priority.High)
+      .setSound("default");
+
+    firebase.notifications().displayNotification(notification);
   };
 }
 
