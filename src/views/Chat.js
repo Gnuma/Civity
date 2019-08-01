@@ -6,14 +6,7 @@ import ChatView from "../components/Chat/Chat";
 import * as chatActions from "../store/actions/chat";
 import ContactReview from "../components/Chat/ContactReview";
 import { ChatType, ChatStatus } from "../utils/constants";
-import ScrollHeader from "../components/ScrollHeader";
-import { Header1 } from "../components/Text";
-import ListMultiItem from "../components/ListItem/ListMultiItem";
-import { UserCard, OffertCard } from "../components/BookOffert/General";
-import { pickOffert } from "./BookOffert";
-import NativeGoBack from "../components/NativeGoBack";
-import FullButton from "../components/FullButton";
-import colors from "../styles/colors";
+import ChatHeader from "../components/Chat/ChatHeader";
 
 export class Chat extends Component {
   constructor(props) {
@@ -79,51 +72,6 @@ export class Chat extends Component {
     this.props.chatLoadEarlier(this.state.objectID, this.state.chatID);
   };
 
-  renderHeaderContent = () => {
-    const { item, chatData } = this.props;
-    const { UserTO: user } = chatData;
-    const offert = pickOffert(chatData.offerts);
-
-    return (
-      <View>
-        {offert && <OffertCard offert={offert} />}
-        {user && <UserCard userData={user} />}
-        <View style={{ marginTop: -10 }}>
-          <ListMultiItem
-            data={item}
-            isSingle={false}
-            pk={item._id}
-            native={true}
-          />
-        </View>
-      </View>
-    );
-  };
-
-  renderHeader = () => {
-    const chatData = this.props.chatData;
-    return (
-      <View
-        style={[
-          {
-            height: 60,
-            flexDirection: "row",
-            alignItems: "center",
-            backgroundColor: colors.white
-          }
-        ]}
-      >
-        <NativeGoBack goBack={this._goBack} />
-        <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-          <Header1 color={"primary"} style={{ flex: 1 }} numberOfLines={1}>
-            {chatData.UserTO.user.username}
-          </Header1>
-          <FullButton value="Test" style={{ marginHorizontal: 10 }} />
-        </View>
-      </View>
-    );
-  };
-
   render() {
     const { objectID, chatID } = this.state;
     const chatData = this.props.chatData;
@@ -131,10 +79,11 @@ export class Chat extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <ScrollHeader
-          minHeight={60}
-          renderContent={this.renderHeaderContent}
-          renderHeader={this.renderHeader}
+        <ChatHeader
+          chatData={chatData}
+          item={item}
+          goBack={this._goBack}
+          goBookOffert={this.goBookOffert}
         />
         <View style={{ flex: 1, marginTop: 60, zIndex: 0 }}>
           {chatData.status === ChatStatus.LOCAL ||
