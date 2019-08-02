@@ -29,6 +29,7 @@ import * as sellActions from "../store/actions/sell";
 
 const BATCH_SIZE = 99;
 
+const NUM_PREVIEWS = 5;
 export class ImagePicker extends Component {
   static propTypes = {};
 
@@ -38,13 +39,14 @@ export class ImagePicker extends Component {
     this.state = {
       data: [],
       hasMore: true,
-      selected: [],
-      numSelected: 0,
+      selected: {},
       hasPermission: undefined
     };
 
     this.retrieveIndex = undefined;
     this.loading = false;
+    this.MAX_IMAGES =
+      NUM_PREVIEWS - this.props.navigation.getParam("occupied", 0);
   }
 
   componentDidMount() {
@@ -59,52 +61,12 @@ export class ImagePicker extends Component {
     })
       .then(res => {
         this.retrieveIndex = res.page_info.end_cursor;
-        this.setState({
-          hasMore: res.page_info.has_next_page
-        });
-        let data = this.state.data;
-        let dataIndex = data.length - 1;
-        if (res.edges.length > 0) {
-          if (dataIndex === -1) {
-            data = update(data, {
-              $push: [
-                {
-                  title: new Date(res.edges[0].node.timestamp * 1000),
-                  data: [],
-                  sectionID: 0
-                }
-              ]
-            });
-            dataIndex++;
-          }
-        }
-        for (let i = 0; i < res.edges.length; i++) {
-          const node = res.edges[i].node;
-          console.log(node);
-          const day = new Date(node.timestamp * 1000);
-          if (day.getDay() !== data[dataIndex].title.getDay()) {
-            data = update(data, {
-              $push: [
-                {
-                  title: day,
-                  data: [node],
-                  sectionID: dataIndex + 1
-                }
-              ]
-            });
-            dataIndex++;
-          } else {
-            data = update(data, {
-              [dataIndex]: {
-                data: { $push: [node] }
-              }
-            });
-          }
-        }
         this.setState(
-          {
-            data
-          },
+          state =>
+            update(state, {
+              hasMore: { $set: res.page_info.has_next_page },
+              data: { $push: res.edges }
+            }),
           () => (this.loading = false)
         );
       })
@@ -113,100 +75,55 @@ export class ImagePicker extends Component {
       });
   };
 
-  togleImg = (sectionID, index) => {
-    this.setState(prevState =>
-      update(prevState, {
+  togleImg = index =>
+    this.setState(state =>
+      update(state, {
         selected: {
-          [sectionID]: section =>
-            update(section || {}, {
-              [index]: state =>
-                update(state || false, {
-                  $apply: oldStatus => {
-                    if (!oldStatus) {
-                      if (prevState.numSelected < 5) {
-                        prevState.numSelected++;
-                        return true;
-                      } else {
-                        ToastAndroid.show(
-                          "Numero di foto massimo raggiunto",
-                          ToastAndroid.SHORT
-                        );
-                        return false;
-                      }
-                    } else {
-                      prevState.numSelected--;
-                      return false;
-                    }
-                  }
-                })
-            })
+          $apply: selected => {
+            if (selected[index]) delete selected[index];
+            else {
+              if (Object.keys(selected).length < this.MAX_IMAGES)
+                selected[index] = true;
+              else
+                ToastAndroid.show(
+                  "Hai raggiunto il limite di foto caricabili",
+                  ToastAndroid.SHORT
+                );
+            }
+            return selected;
+          }
         }
       })
     );
-  };
 
   complete = () => {
     let data = [];
-    for (const sectionID in this.state.selected) {
-      if (this.state.selected.hasOwnProperty(sectionID)) {
-        const section = this.state.selected[sectionID];
-        for (const itemID in section) {
-          if (section.hasOwnProperty(itemID)) {
-            if (section[itemID])
-              data.push(this.state.data[sectionID].data[itemID].image);
-          }
-        }
-      }
-    }
+    for (const key in this.state.selected)
+      data.push(this.state.data[key].node.image);
     this.props.addReview(data);
     this.exitPicker();
   };
 
-  exitPicker = () => this.props.navigation.goBack(null);
-
-  renderItem = ({ index, section }) => {
+  renderItem = ({ item, index }) => {
     return (
-      <ListRow
-        index={index}
-        section={section}
+      <ImageRoll
+        item={item.node}
+        id={index}
         toggle={this.togleImg}
-        selected={this.state.selected[section.sectionID] || {}}
+        active={this.state.selected[index]}
       />
     );
   };
 
-  renderHeader = ({ section: { title } }) => {
-    return (
-      <View
-        style={{
-          marginVertical: 4,
-          paddingVertical: 6,
-          borderBottomColor: colors.lightGrey,
-          borderBottomWidth: 0.5
-        }}
-      >
-        <Header2
-          color="black"
-          style={{
-            marginLeft: 25
-          }}
-        >
-          {days[title.getDay()] +
-            " " +
-            title.getDate() +
-            " " +
-            months[title.getMonth()]}
-        </Header2>
-      </View>
-    );
-  };
-
   render() {
-    const { data, numSelected, hasPermission } = this.state;
+    const { data, selected, hasPermission } = this.state;
     //console.log(data);
     if (hasPermission === undefined) {
       return null;
     }
+
+    const numSelected = Object.keys(selected).length;
+    const totalOccupied = NUM_PREVIEWS - this.MAX_IMAGES + numSelected;
 
     return (
       <View style={{ flex: 1, paddingTop: StatusBar.currentHeight }}>
@@ -214,13 +131,13 @@ export class ImagePicker extends Component {
           complete={this.complete}
           goBack={this.exitPicker}
           numSelected={numSelected}
+          totalOccupied={totalOccupied}
         />
         {hasPermission ? (
           <View style={{ flex: 1 }}>
-            <SectionList
-              sections={data}
+            <FlatList
+              data={data}
               renderItem={this.renderItem}
-              renderSectionHeader={this.renderHeader}
               keyExtractor={this.keyExtractor}
               onEndReached={() => {
                 this.state.hasMore &&
@@ -228,8 +145,8 @@ export class ImagePicker extends Component {
                   this.retrieveImages(BATCH_SIZE);
               }}
               onEndReachedThreshold={0.5}
-              //initialNumToRender={50}
               ListFooterComponent={this.renderFooter}
+              numColumns={3}
             />
           </View>
         ) : (
@@ -248,6 +165,8 @@ export class ImagePicker extends Component {
   keyExtractor = (item, index) => {
     return index.toString();
   };
+
+  exitPicker = () => this.props.navigation.goBack(null);
 
   renderFooter = () => {
     if (!this.state.hasMore) return null;
@@ -300,46 +219,14 @@ export default connect(
   mapDispatchToProps
 )(ImagePicker);
 
-class ListRow extends Component {
-  shouldComponentUpdate(nextProps) {
-    const { section, selected } = this.props;
-    return (
-      section.length !== nextProps.length ||
-      !_.isEqual(selected, nextProps.selected)
-    );
-  }
-  render() {
-    const { index, section, toggle, selected } = this.props;
-    //console.log("updating", selected);
-    const numColumns = 3;
-    if (index % numColumns !== 0) return null;
-    const items = [];
-    for (let i = index; i < index + numColumns; i++) {
-      if (i >= section.data.length) break;
-      items.push(
-        <ImageRoll
-          item={section.data[i]}
-          key={i.toString()}
-          id={i}
-          toggle={toggle}
-          active={!!selected[i]}
-          sectionID={section.sectionID}
-        />
-      );
-    }
-    return <View style={styles.row}>{items}</View>;
-  }
-}
-
 class ImageRoll extends PureComponent {
   render() {
-    //console.log("rendering Item");
-    const { item, toggle, id, active, sectionID } = this.props;
+    const { item, toggle, id, active } = this.props;
     return (
-      <View style={[styles.item]}>
+      <View style={styles.item}>
         <TouchableNativeFeedback
           style={styles.itemBtn}
-          onPress={() => toggle(sectionID, id)}
+          onPress={() => toggle(id)}
         >
           <View style={{ flex: 1 }}>
             <FastImage
@@ -360,14 +247,14 @@ class ImageRoll extends PureComponent {
 
 class PickerHeader extends PureComponent {
   render() {
-    const { numSelected } = this.props;
+    const { totalOccupied, numSelected } = this.props;
     let statusBar = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < NUM_PREVIEWS; i++) {
       statusBar.push(
         <View
           key={i}
           style={[
-            i < numSelected ? styles.statusActive : styles.statusInactive,
+            i < totalOccupied ? styles.statusActive : styles.statusInactive,
             i == 4 && { marginRight: 0 }
           ]}
         />
@@ -407,10 +294,10 @@ class PickerHeader extends PureComponent {
   }
 }
 
-const margin = 10;
+const margin = 3;
 
 const { width: screenWidth } = Dimensions.get("screen");
-const itemWidth = (screenWidth - margin * 4.2) / 3;
+const itemWidth = (screenWidth - margin * 4) / 3;
 const itemHeight = itemWidth;
 
 const styles = StyleSheet.create({
@@ -421,6 +308,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: 6,
     overflow: "hidden",
+    marginTop: margin,
     marginLeft: margin
   },
   itemBtn: {
@@ -428,7 +316,7 @@ const styles = StyleSheet.create({
     height: itemHeight
   },
   row: {
-    marginTop: 10,
+    marginTop: margin,
     flexDirection: "row"
   },
   overlay: {

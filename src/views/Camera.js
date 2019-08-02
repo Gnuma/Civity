@@ -26,7 +26,12 @@ export class Camera extends Component {
   };
 
   openImagePicker = () => {
-    this.props.navigation.navigate("ImagePicker");
+    let busyPreviews = 0;
+    for (let key in this.props.previews)
+      if (this.props.previews[key] !== null) busyPreviews++;
+    this.props.navigation.navigate("ImagePicker", {
+      occupied: busyPreviews
+    });
   };
 
   takePicture = async () => {
