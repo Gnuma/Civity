@@ -81,6 +81,7 @@ const NativeButton = ({ onPress, children }) => {
         style={{
           flex: 1
         }}
+        onPress={onPress}
       >
         {children}
       </TouchableNativeFeedback>

@@ -23,6 +23,7 @@ export const ___INITUSER_ENDPOINT___ = ___BASE_ENDPOINT___ + "init/";
 export const ___VALIDATE_USER___ = ___BASE_ENDPOINT___ + "verify/";
 export const ___SEND_VALIDATION___ = ___BASE_ENDPOINT___ + "send/";
 export const ___MODIFY_USER___ = ___BASE_ENDPOINT___ + "change/";
+export const ___OFFICE_CHANGE___ = ___BASE_ENDPOINT___ + "office/change/";
 
 export const ___CREATE_AD___ = ___BASE_ENDPOINT___ + "ads/";
 export const ___BASE_UPLOAD_PICTURE___ = ___BASE_ENDPOINT___ + "ads/upload/";

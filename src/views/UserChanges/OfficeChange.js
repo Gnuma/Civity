@@ -10,6 +10,8 @@ import { Header2, Header3 } from "../../components/Text";
 import { AndroidBackHandler } from "react-navigation-backhandler";
 import colors from "../../styles/colors";
 import FullButton from "../../components/FullButton";
+import axios from "axios";
+import { ___OFFICE_CHANGE___ } from "../../store/constants";
 
 export class OfficeChange extends Component {
   static propTypes = {};
@@ -84,6 +86,11 @@ export class OfficeChange extends Component {
         }
       };
       this.props.appInitRedux(office);
+      if (this.props.isAuthenticated) {
+        axios.post(___OFFICE_CHANGE___, {
+          office: this.state.office.id
+        });
+      }
       this.props.navigation.goBack(null);
     }
   };
@@ -126,7 +133,8 @@ export class OfficeChange extends Component {
 }
 
 const mapStateToProps = state => ({
-  office: state.auth.office
+  office: state.auth.office,
+  isAuthenticated: !!state.auth.token
 });
 
 const mapDispatchToProps = dispatch => ({
