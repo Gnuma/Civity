@@ -192,6 +192,14 @@ export const chatBlockItem = (itemID, excludedChat) => ({
   }
 });
 
+export const chatBlockChat = (objectID, chatID) => ({
+  type: actionTypes.CHAT_BLOCK_CHAT,
+  payload: {
+    objectID,
+    chatID
+  }
+});
+
 // ---THUNK---
 
 // --ChatNotifications--

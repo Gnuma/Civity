@@ -8,6 +8,7 @@ import Button from "../Button";
 import Divider from "../Divider";
 import { Header3, Header2, Header4, Header5 } from "../Text";
 import helper from "../../utils/helper";
+import BlockedBadge from "../Item/BlockedBadge";
 
 export default class ShoppingChatsList extends Component {
   static propTypes = {

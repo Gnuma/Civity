@@ -571,6 +571,24 @@ const chatBlockItem = (state, { payload: { itemID, exclutedChat } }) => {
   });
 };
 
+const chatBlockChat = (state, { payload: { objectID, chatID } }) =>
+  update(state, {
+    data: {
+      [objectID]: {
+        enabled: {
+          $set: false
+        },
+        chats: {
+          [chatID]: {
+            status: {
+              $set: ChatStatus.BLOCKED
+            }
+          }
+        }
+      }
+    }
+  });
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.CHAT_INIT:
@@ -662,6 +680,9 @@ export default (state = initialState, action) => {
 
     case actionTypes.CHAT_BLOCK_ITEM:
       return chatBlockItem(state, action);
+
+    case actionTypes.CHAT_BLOCK_CHAT:
+      return chatBlockChat(state, action);
 
     default:
       return state;
