@@ -556,6 +556,7 @@ export const chatCompleteExchange = (objectID, chatID) => dispatch => {
     .then(res => {
       console.log(res);
       dispatch(chatSettleAction(objectID, chatID, ChatStatus.FEEDBACK));
+      dispatch(chatBlockItem(objectID, chatID));
     })
     .catch(err => {
       dispatch(chatOffertFail(objectID, chatID, err));

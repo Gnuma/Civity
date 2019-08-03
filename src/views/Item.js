@@ -110,7 +110,7 @@ export class Item extends Component {
       this.props.blockItem(id);
       this.props.navigation.pop();
     } catch (error) {
-      console.log(error);
+      console.log({ error });
     }
     this.setState({
       decision: null,
@@ -263,15 +263,18 @@ export class Item extends Component {
   };
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.userData
-    ? {
-        username: state.auth.userData.username,
-        id: state.auth.id
-      }
-    : {},
-  commentsData: state.comments.data
-});
+const mapStateToProps = (state, props) => {
+  const subjectID = props.navigation.getParam("itemID", -1);
+  return {
+    user: state.auth.userData
+      ? {
+          username: state.auth.userData.username,
+          id: state.auth.id
+        }
+      : {},
+    commentsData: state.comments.data
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {

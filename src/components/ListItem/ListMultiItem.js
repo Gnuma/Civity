@@ -54,7 +54,7 @@ export class ListMultiItem extends Component {
     const pushAction = StackActions.push({
       routeName: "Item",
       params: {
-        itemID: pk,
+        itemID: pk || this.props.data._id,
         name: book.title,
         authors: book.author
       }

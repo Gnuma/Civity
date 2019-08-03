@@ -14,6 +14,7 @@ import Divider from "../components/Divider";
 import update from "immutability-helper";
 import LoadingOverlay from "../components/LoadingOverlay";
 import { ___CREATE_BOOK___ } from "../store/constants";
+import { GreyBar } from "../components/StatusBars";
 
 export class CreateBook extends Component {
   constructor(props) {
@@ -44,6 +45,7 @@ export class CreateBook extends Component {
 
     return (
       <View style={{ flex: 1 }}>
+        <GreyBar />
         <BasicHeader title="Aggiungi il  libro" />
         <View style={{ flex: 1 }}>
           <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>

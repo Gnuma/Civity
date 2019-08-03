@@ -70,9 +70,11 @@ class Notifications {
       .setTitle(notificationData._title)
       .setBody(notificationData._body)
       .setData(notificationData._data)
+      .setSound("default")
       .android.setChannelId(this.channel.channelId)
       .android.setPriority(firebase.notifications.Android.Priority.High)
-      .setSound("default");
+      .android.setAutoCancel(true)
+      .android.setCategory(firebase.notifications.Android.Category.Alarm);
 
     firebase.notifications().displayNotification(notification);
   };
