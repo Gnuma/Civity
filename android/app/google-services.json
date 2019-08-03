@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "562749540744",
+    "firebase_url": "https://civity-776e0.firebaseio.com",
+    "project_id": "civity-776e0",
+    "storage_bucket": "civity-776e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562749540744:android:a3bd48924e7db2e7",
+        "android_client_info": {
+          "package_name": "com.civity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562749540744-penrjho7ser1co7b50iaot0tf8h7ri2u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ34eQKZIys8_zdP_lziaDkAg8hcvfmGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562749540744-penrjho7ser1co7b50iaot0tf8h7ri2u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

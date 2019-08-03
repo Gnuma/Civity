@@ -9,6 +9,7 @@ import { Header4 } from "../components/Text";
 import colors from "../styles/colors";
 import NavigationService from "../navigator/NavigationService";
 import protectedAction from "../utils/protectedAction";
+import firebase from "react-native-firebase";
 
 export class TabBar extends Component {
   static propTypes = {};

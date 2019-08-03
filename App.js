@@ -9,10 +9,16 @@ import Navigator, {
 import NavigationService from "./src/navigator/NavigationService";
 import WS from "./src/utils/WebSocket";
 import axios from "axios";
+import Notification from "./src/utils/Notifications";
+import firebase from "react-native-firebase";
 
 class App extends Component {
+  componentDidMount() {
+    Notification.start();
+  }
+
   componentWillUnmount() {
-    console.log("App Has unmounted");
+    Notification.die();
   }
 
   render() {
