@@ -1,77 +1,158 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView, Keyboard, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as sellActions from "../store/actions/sell";
 import axios from "axios";
 import BasicHeader from "../components/BasicHeader";
-import OutlinedInput from "../components/Form/OutlinedInput";
-import SolidButton from "../components/SolidButton";
 import { Header3 } from "../components/Text";
-import { isNotISBN } from "../utils/validator";
+import { isNotISBN, isEmpty, submit } from "../utils/validator";
 import colors from "../styles/colors";
+import FullButton from "../components/FullButton";
+import LabeledInput from "../components/Form/LabeledInput";
+import Divider from "../components/Divider";
+import update from "immutability-helper";
+import LoadingOverlay from "../components/LoadingOverlay";
+import { ___CREATE_BOOK___ } from "../store/constants";
 
 export class CreateBook extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      title: props.title,
-      isbn: props.isbn
+      fields: {
+        isbn: { value: "", errorMessage: "" },
+        title: { value: "", errorMessage: "" },
+        author: { value: "", errorMessage: "" }
+      },
+      loading: false
     };
   }
 
+  updateField = (key, value) => {
+    this.setState(prevState =>
+      update(prevState, {
+        fields: {
+          [key]: { $set: { value, errorMessage: "" } }
+        }
+      })
+    );
+  };
+
   render() {
-    const { title, isbn } = this.state;
-    const canContinue = title && !isNotISBN(isbn);
+    const { fields, loading } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
-        <BasicHeader title="Aggiungi il tuo libro" />
-        <View style={{ flex: 1, marginTop: 14 }}>
-          <OutlinedInput
-            value={title}
-            onTextChange={this._handleTitleChange}
-            placeholder="Titolo eg: Il Rosso ed il Blu"
-          />
-          <OutlinedInput
-            value={isbn}
-            onTextChange={this._handleIsbnChange}
-            placeholder="ISBN eg: 937271848"
-            inputType="numeric"
-          />
-          <SolidButton
+        <BasicHeader title="Aggiungi il  libro" />
+        <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
+            <ScrollView>
+              <LabeledInput
+                placeholder={"ISBN"}
+                state={fields.isbn}
+                onTextChange={text => this.updateField("isbn", text)}
+              />
+              <Divider style={{ marginVertical: 10 }} />
+              <LabeledInput
+                placeholder={"Nome"}
+                state={fields.title}
+                onTextChange={text => this.updateField("title", text)}
+              />
+              <LabeledInput
+                placeholder={"Autori"}
+                state={fields.author}
+                onTextChange={text => this.updateField("author", text)}
+              />
+              <Divider style={{ marginVertical: 10 }} />
+              <Header3>Coming soon...</Header3>
+            </ScrollView>
+          </View>
+          <View
             style={{
-              margin: 20,
-              marginTop: 20,
-              borderColor: canContinue ? colors.secondary : colors.white,
-              borderWidth: 2
+              paddingVertical: 10,
+              paddingHorizontal: 20
             }}
-            disabled={!canContinue}
-            onPress={this._handleContinue}
           >
-            <Header3 color={canContinue ? "primary" : undefined}>
-              Avanti
-            </Header3>
-          </SolidButton>
+            <FullButton
+              onPress={this.continue}
+              value="Aggiungi"
+              icon="pen"
+              contentStyle={{
+                flex: 1,
+                textAlign: "center"
+              }}
+              disabled={!this.canContinue()}
+            />
+          </View>
+          {loading && (
+            <View style={{ ...StyleSheet.absoluteFill, elevation: 10 }}>
+              <LoadingOverlay />
+            </View>
+          )}
         </View>
       </View>
     );
   }
 
-  _handleTitleChange = text => {
+  canContinue = () =>
+    this.state.fields.isbn.value && this.state.fields.title.value;
+
+  continue = async () => {
+    Keyboard.dismiss();
     this.setState({
-      title: text
+      loading: true
     });
+    const { author: authorField, ...fields } = this.state.fields;
+    const result = await submit(fields, this.validators);
+    console.log(fields, this.validators);
+    if (result == true) {
+      const isbn = fields.isbn.value;
+      const title = fields.title.value;
+      const author = authorField.value;
+
+      axios
+        .post(___CREATE_BOOK___, {
+          isbn,
+          title,
+          author,
+          subject: 1 //To change
+        })
+        .then(res => {
+          console.log(res);
+          this.setState({
+            loading: false
+          });
+          this.props.navigation.goBack(null);
+        })
+        .catch(err => {
+          console.log({ err });
+          this.setState({
+            loading: false
+          });
+        });
+    } else {
+      this.setState(state =>
+        update(state, {
+          fields: { $merge: fields },
+          loading: { $set: false }
+        })
+      );
+    }
   };
-  _handleIsbnChange = text => {
-    this.setState({
-      isbn: text
-    });
-  };
-  _handleContinue = () => {
-    this.props.createBookRedux(this.state.title, this.state.isbn);
-    this.props.navigation.navigate("VendiInfos");
+
+  validators = {
+    isbn: {
+      functions: [isEmpty, isNotISBN],
+      warnings: [
+        "Inserisci l'isbn",
+        "Il codice inserito non sembra un codice ISBN"
+      ]
+    },
+    title: {
+      functions: [isEmpty],
+      warnings: ["Inserisci il titolo"]
+    }
   };
 }
 

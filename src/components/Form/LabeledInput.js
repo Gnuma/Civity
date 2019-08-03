@@ -15,12 +15,13 @@ export default class LabeledInput extends Component {
     label: PropTypes.string,
     inputType: PropTypes.string,
     inputContainerStyle: PropTypes.any,
-    borderFocus: PropTypes.bool
+    borderFocus: PropTypes.bool,
+    containerStyle: PropTypes.any
   };
 
   render() {
     return (
-      <View>
+      <View style={this.props.containerStyle}>
         <Header4 color="black" style={styles.label} numberOfLines={1}>
           {this.props.label || this.props.placeholder}
         </Header4>

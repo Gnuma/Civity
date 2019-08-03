@@ -25,6 +25,7 @@ export const ___SEND_VALIDATION___ = ___BASE_ENDPOINT___ + "send/";
 export const ___MODIFY_USER___ = ___BASE_ENDPOINT___ + "change/";
 export const ___OFFICE_CHANGE___ = ___BASE_ENDPOINT___ + "office/change/";
 
+export const ___CREATE_BOOK___ = ___BASE_ENDPOINT___ + "books/";
 export const ___CREATE_AD___ = ___BASE_ENDPOINT___ + "ads/";
 export const ___BASE_UPLOAD_PICTURE___ = ___BASE_ENDPOINT___ + "ads/upload/";
 export const ___GET_AD___ = ___BASE_ENDPOINT___ + "ads/";

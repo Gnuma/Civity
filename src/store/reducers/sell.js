@@ -15,8 +15,6 @@ const initialState = {
   previewsOrder: [0, 1, 2, 3, 4],
   checking: [],
   book: null,
-  isbn: "",
-  title: "",
 
   price: "",
   conditions: null,
@@ -57,17 +55,20 @@ const setPreviewsOrder = (state, action) => {
 
 const selectBook = (state, action) => {
   return updateObject(state, {
-    book: action.payload.book,
-    isbn: "",
-    title: ""
+    book: action.payload.book
   });
 };
 
-const createBook = (state, action) => {
+const createBook = (state, { payload: { title, isbn, author, subject } }) => {
   return updateObject(state, {
-    isbn: action.payload.isbn,
-    title: action.payload.title,
-    book: null
+    book: {
+      $set: {
+        title,
+        isbn,
+        author,
+        subject
+      }
+    }
   });
 };
 

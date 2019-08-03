@@ -70,12 +70,14 @@ export const selectBook = book => {
   };
 };
 
-export const createBook = (title, isbn) => {
+export const createBook = (isbn, title, author = "Sconosciuto", subject) => {
   return {
     type: actionTypes.SELL_CREATEBOOK,
     payload: {
+      isbn,
       title,
-      isbn
+      author,
+      subject
     }
   };
 };
@@ -128,8 +130,6 @@ export const submit = () => {
         price,
         conditions,
         description,
-        isbn,
-        title,
         loading,
         type,
         itemModId
@@ -153,12 +153,7 @@ export const submit = () => {
         }
       }
 
-      if (book) {
-        data.append("isbn", book.isbn);
-      } else {
-        data.append("isbn", isbn);
-        data.append("title", title);
-      }
+      data.append("isbn", book.isbn);
       data.append("price", price);
       data.append("condition", conditions);
       data.append("description", description);
