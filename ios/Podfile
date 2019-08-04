@@ -17,6 +17,9 @@ target 'Civity' do
   pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text'
   pod 'React-RCTVibration', :path => '../node_modules/react-native/Libraries/Vibration'
   pod 'React-RCTWebSocket', :path => '../node_modules/react-native/Libraries/WebSocket'
+  # Required by RNFirebase
+  pod 'Firebase/Core', '~> 6.3.0'
+  pod 'Firebase/Messaging', '~> 6.3.0'
 
   pod 'React-cxxreact', :path => '../node_modules/react-native/ReactCommon/cxxreact'
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
@@ -28,9 +31,8 @@ target 'Civity' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-
-
-  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'CivityTests' do
     inherit! :search_paths
