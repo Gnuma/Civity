@@ -16,6 +16,7 @@ const initialState = {
   data: {},
   salesOrderedData: [],
   shoppingOrderedData: [],
+  contactedItems: {},
   error: null,
   salesFocus: null,
   shoppingFocus: null,
@@ -25,9 +26,11 @@ const initialState = {
 
 const chatInit = (state, { payload: { salesData, shoppingData } }) => {
   const { salesFormattedData, ...salesRest } = formatSalesData(salesData);
-  const { shoppingFormattedData, ...shoppingRest } = formatShoppingData(
-    shoppingData
-  );
+  const {
+    shoppingFormattedData,
+    contactedItems,
+    ...shoppingRest
+  } = formatShoppingData(shoppingData);
 
   return updateObject(state, {
     data: {
@@ -36,6 +39,7 @@ const chatInit = (state, { payload: { salesData, shoppingData } }) => {
     },
     ...salesRest,
     ...shoppingRest,
+    contactedItems,
     loading: false
   });
 };
@@ -396,6 +400,9 @@ const chatContactUser = (state, { payload: { item, chatID } }) => {
           chats: { [chatID]: { $set: chat } }
         })
     },
+    contactedItems: {
+      [item.pk]: { $set: true }
+    },
     shoppingOrderedData:
       subjectIndex === -1
         ? {
@@ -741,6 +748,7 @@ const formatShoppingData = (arrayData, focus = 0) => {
   console.log("SHOPPING: ", arrayData);
   let orderedData = [];
   let data = {};
+  let contactedItems = {};
   for (let i = 0; i < arrayData.length; i++) {
     const { subject, items, newsCount, ...restSubject } = arrayData[i];
 
@@ -764,6 +772,8 @@ const formatShoppingData = (arrayData, focus = 0) => {
         seller
       };
 
+      contactedItems[restItem._id] = true;
+
       for (let m = 0; m < chat.messages.length; m++)
         chat.messages[m].createdAt = new Date(chat.messages[m].createdAt);
 
@@ -780,6 +790,7 @@ const formatShoppingData = (arrayData, focus = 0) => {
   return {
     shoppingFormattedData: data,
     shoppingOrderedData: orderedData,
-    shoppingFocus: focus
+    shoppingFocus: focus,
+    contactedItems
   };
 };

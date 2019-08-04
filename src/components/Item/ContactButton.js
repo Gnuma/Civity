@@ -14,7 +14,8 @@ export class ContactButton extends Component {
       viewHeight,
       setContactButtonHeight,
       contactSnapY,
-      isOwner
+      isOwner,
+      isContacted
     } = this.props;
     console.log(contactSnapY);
     return (
@@ -57,6 +58,7 @@ export class ContactButton extends Component {
             icon={isOwner ? "pen" : "send"}
             contentStyle={{ flex: 1, textAlign: "center" }}
             onPress={this.props.onContact}
+            disabled={isContacted && !isOwner}
           />
         </View>
       </Animated.View>

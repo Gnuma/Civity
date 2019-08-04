@@ -39,7 +39,8 @@ export class MainItem extends Component {
       isOwner,
       refreshing,
       onRefresh,
-      deleteItem
+      deleteItem,
+      isContacted
     } = this.props;
     const primaryData = {
       price: data.price,
@@ -111,6 +112,7 @@ export class MainItem extends Component {
             setContactButtonHeight={this.setContactButtonHeight}
             contactSnapY={this.containerOffset + this.state.contactSnapY}
             isOwner={isOwner}
+            isContacted={isContacted}
           />
         </Animated.ScrollView>
         {data.enabled && (

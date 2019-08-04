@@ -187,7 +187,7 @@ export class Item extends Component {
       decision,
       loading
     } = this.state;
-    const { navigation } = this.props;
+    const { navigation, isContacted } = this.props;
     const isLoading = data === undefined;
 
     return (
@@ -221,6 +221,7 @@ export class Item extends Component {
                 onRefresh={this.onRefresh}
                 refreshing={refreshing}
                 deleteItem={this.deleteItem}
+                isContacted={isContacted}
               />
             )}
             {decision && <DecisionOverlay decision={decision} />}
@@ -264,7 +265,8 @@ export class Item extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const subjectID = props.navigation.getParam("itemID", -1);
+  const itemID = props.navigation.getParam("itemID", -1);
+  const isContacted = !!state.chat.contactedItems[itemID];
   return {
     user: state.auth.userData
       ? {
@@ -272,7 +274,8 @@ const mapStateToProps = (state, props) => {
           id: state.auth.id
         }
       : {},
-    commentsData: state.comments.data
+    commentsData: state.comments.data,
+    isContacted
   };
 };
 
