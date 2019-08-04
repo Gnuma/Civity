@@ -1,7 +1,6 @@
 import React, { Component, PureComponent } from "react";
 import {
   View,
-  CameraRoll,
   SectionList,
   StyleSheet,
   ActivityIndicator,
@@ -26,6 +25,7 @@ import Button from "../components/Button";
 import _ from "lodash";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as sellActions from "../store/actions/sell";
+import CameraRoll from "@react-native-community/cameraroll";
 
 const BATCH_SIZE = 99;
 
