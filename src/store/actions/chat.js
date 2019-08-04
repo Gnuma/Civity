@@ -184,14 +184,6 @@ export const chatOnline = () => ({
   type: actionTypes.CHAT_ONLINE
 });
 
-export const chatBlockItem = (itemID, excludedChat) => ({
-  type: actionTypes.CHAT_BLOCK_ITEM,
-  payload: {
-    itemID,
-    excludedChat
-  }
-});
-
 export const chatBlockChat = (objectID, chatID) => ({
   type: actionTypes.CHAT_BLOCK_CHAT,
   payload: {
@@ -283,18 +275,22 @@ export const chatSettleAction = (objectID, chatID, status) => (
   });
   switch (status) {
     case ChatStatus.PROGRESS:
-      dispatch(
+      return dispatch(
         chatSystemMsg(
           objectID,
           chatID,
           SystemMessages.acceptChat(getUserTO(getState, { objectID, chatID }))
         )
       );
-      break;
 
     case ChatStatus.FEEDBACK:
-      dispatch(
+      return dispatch(
         chatSystemMsg(objectID, chatID, SystemMessages.completeExchange())
+      );
+
+    case ChatStatus.BLOCKED:
+      return dispatch(
+        chatSystemMsg(objectID, chatID, SystemMessages.blockItem())
       );
 
     default:
@@ -545,6 +541,17 @@ export const chatAcceptOffert = (objectID, chatID) => (dispatch, getState) => {
     .catch(err => {
       dispatch(chatOffertFail(objectID, chatID, err));
     });
+};
+
+export const chatBlockItem = (itemID, excludedChat) => (dispatch, getState) => {
+  console.log(itemID, excludedChat);
+  const chats = getState().chat.data[itemID].chats;
+  for (const chatID in chats) {
+    console.log(chatID, excludedChat);
+    if (chats.hasOwnProperty(chatID) && chatID != excludedChat) {
+      dispatch(chatSettleAction(itemID, chatID, ChatStatus.BLOCKED));
+    }
+  }
 };
 
 export const chatCompleteExchange = (objectID, chatID) => dispatch => {

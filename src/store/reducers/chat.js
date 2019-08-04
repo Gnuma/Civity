@@ -564,20 +564,6 @@ const chatSetFeedback = (
   });
 };
 
-const chatBlockItem = (state, { payload: { itemID, exclutedChat } }) => {
-  const item = state.data[itemID];
-  item.enabled = false;
-  for (chatID in item.chats) {
-    if (chatID == exclutedChat) continue;
-    item.chats[chatID].status = ChatStatus.BLOCKED;
-  }
-  return update(state, {
-    data: {
-      [itemID]: { $set: item }
-    }
-  });
-};
-
 const chatBlockChat = (state, { payload: { objectID, chatID } }) =>
   update(state, {
     data: {
@@ -684,9 +670,6 @@ export default (state = initialState, action) => {
 
     case actionTypes.CHAT_SET_FEEDBACK:
       return chatSetFeedback(state, action);
-
-    case actionTypes.CHAT_BLOCK_ITEM:
-      return chatBlockItem(state, action);
 
     case actionTypes.CHAT_BLOCK_CHAT:
       return chatBlockChat(state, action);

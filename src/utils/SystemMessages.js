@@ -9,5 +9,6 @@ export default {
   completeExchange: user =>
     `${user} ha segnalato di aver completato lo scambio`,
   sendFeedback: (user, feedbackType) =>
-    `${user} ha lasciato un feedback ${feedbackType}`
+    `${user} ha lasciato un feedback ${feedbackType}`,
+  blockItem: () => "Il libro è stato eliminato o venduto"
 };
