@@ -36,7 +36,8 @@ import { of, timer, interval, fromEvent, throwError, iif } from "rxjs";
 import {
   ChatStatus,
   FEEDBACK_TYPES,
-  TextFeedbackTypes
+  TextFeedbackTypes,
+  ChatType
 } from "../../utils/constants";
 import SystemMessages from "../../utils/SystemMessages";
 
@@ -184,9 +185,10 @@ export const chatOnline = () => ({
   type: actionTypes.CHAT_ONLINE
 });
 
-export const chatBlockChat = (objectID, chatID) => ({
-  type: actionTypes.CHAT_BLOCK_CHAT,
-  payload: {
+export const chatDisableItem = (type, objectID, chatID) => ({
+  type: actionTypes.CHAT_DISABLE_ITEM,
+  paylaod: {
+    type,
     objectID,
     chatID
   }
@@ -552,6 +554,7 @@ export const chatBlockItem = (itemID, excludedChat) => (dispatch, getState) => {
       dispatch(chatSettleAction(itemID, chatID, ChatStatus.BLOCKED));
     }
   }
+  dispatch(chatDisableItem(ChatType.sales, itemID));
 };
 
 export const chatCompleteExchange = (objectID, chatID) => dispatch => {

@@ -33,7 +33,9 @@ import {
   chatRemoveOffert,
   chatSetOffertAccepted,
   chatSettleAction,
-  chatSetFeedback
+  chatSetFeedback,
+  chatBlockChat,
+  chatDisableItem
 } from "../store/actions/chat";
 
 class WS {
@@ -182,6 +184,14 @@ class WS {
             )
           );
 
+        case DataType.ITEM_BLOCKED:
+          store.dispatch(
+            chatSettleAction("s" + data.objectID, data._id, ChatStatus.BLOCKED)
+          );
+          return store.dispatch(
+            chatDisableItem(ChatType.sales, "s" + data.objectID, data._id)
+          );
+
         default:
           throw `Type ${data.type} not valid`;
       }
@@ -264,7 +274,8 @@ const DataType = {
   REJECTED_OFFERT: "rejectOffert",
   CANCEL_OFFERT: "deleteOffert",
   FEEDBACK_CHAT: "feedbackChat",
-  COMPLETE_CHAT: "completeChat"
+  COMPLETE_CHAT: "completeChat",
+  ITEM_BLOCKED: "itemBlocked"
 };
 
 formatMsg = msg => {

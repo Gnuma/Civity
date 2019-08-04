@@ -125,7 +125,8 @@ export class CreateBook extends Component {
           this.setState({
             loading: false
           });
-          this.props.navigation.goBack(null);
+          this.props.selectBook(res.data);
+          this.props.navigation.navigate("VendiInfos");
         })
         .catch(err => {
           console.log({ err });
@@ -165,7 +166,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   createBookRedux: (title, isbn) =>
-    dispatch(sellActions.createBook(title, isbn))
+    dispatch(sellActions.createBook(title, isbn)),
+  selectBook: book => dispatch(sellActions.selectBook(book))
 });
 export default connect(
   mapStateToProps,
