@@ -12,10 +12,31 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1E4C5610F15276979937E02D /* libPods-Civity-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23EAA72E4BA906177145ABEA /* libPods-Civity-tvOSTests.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* CivityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CivityTests.m */; };
+		7E93AD483EA66EE117BB6AB1 /* libPods-CivityTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4551F4FEBB8DA60033547D5 /* libPods-CivityTests.a */; };
+		8444410422F74E9C00A3453B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8444410322F74E9C00A3453B /* GoogleService-Info.plist */; };
+		8444411722F75A4800A3453B /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444410722F75A4800A3453B /* Fontisto.ttf */; };
+		8444411822F75A4800A3453B /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444410822F75A4800A3453B /* Octicons.ttf */; };
+		8444411922F75A4800A3453B /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444410922F75A4800A3453B /* Feather.ttf */; };
+		8444411A22F75A4800A3453B /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444410A22F75A4800A3453B /* Entypo.ttf */; };
+		8444411B22F75A4800A3453B /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444410B22F75A4800A3453B /* FontAwesome5_Brands.ttf */; };
+		8444411C22F75A4800A3453B /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444410C22F75A4800A3453B /* MaterialCommunityIcons.ttf */; };
+		8444411D22F75A4800A3453B /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444410D22F75A4800A3453B /* AntDesign.ttf */; };
+		8444411E22F75A4800A3453B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444410E22F75A4800A3453B /* Foundation.ttf */; };
+		8444411F22F75A4800A3453B /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444410F22F75A4800A3453B /* Ionicons.ttf */; };
+		8444412022F75A4900A3453B /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444411022F75A4800A3453B /* FontAwesome5_Solid.ttf */; };
+		8444412122F75A4900A3453B /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444411122F75A4800A3453B /* FontAwesome5_Regular.ttf */; };
+		8444412222F75A4900A3453B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444411222F75A4800A3453B /* FontAwesome.ttf */; };
+		8444412322F75A4900A3453B /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444411322F75A4800A3453B /* Zocial.ttf */; };
+		8444412422F75A4900A3453B /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444411422F75A4800A3453B /* EvilIcons.ttf */; };
+		8444412522F75A4900A3453B /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444411522F75A4800A3453B /* SimpleLineIcons.ttf */; };
+		8444412622F75A4900A3453B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8444411622F75A4800A3453B /* MaterialIcons.ttf */; };
+		CAB3AC6A6B856CB1B43C90C6 /* libPods-Civity-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64339B6007787E15EA7183CB /* libPods-Civity-tvOS.a */; };
+		CFE59B97D08127B316A39D21 /* libPods-Civity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F939F8C64CEE16FE0EDEF72D /* libPods-Civity.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +61,7 @@
 		00E356EE1AD99517003FC87E /* CivityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CivityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* CivityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CivityTests.m; sourceTree = "<group>"; };
+		03E366B1F6D849D9B0D9E99E /* Pods-CivityTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CivityTests.release.xcconfig"; path = "Target Support Files/Pods-CivityTests/Pods-CivityTests.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Civity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Civity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Civity/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Civity/AppDelegate.m; sourceTree = "<group>"; };
@@ -47,10 +69,39 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Civity/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Civity/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Civity/main.m; sourceTree = "<group>"; };
+		23EAA72E4BA906177145ABEA /* libPods-Civity-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Civity-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* Civity-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Civity-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Civity-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Civity-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		64339B6007787E15EA7183CB /* libPods-Civity-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Civity-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8444410322F74E9C00A3453B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8444410522F7522F00A3453B /* Civity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Civity.entitlements; path = Civity/Civity.entitlements; sourceTree = "<group>"; };
+		8444410722F75A4800A3453B /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
+		8444410822F75A4800A3453B /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
+		8444410922F75A4800A3453B /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
+		8444410A22F75A4800A3453B /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
+		8444410B22F75A4800A3453B /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
+		8444410C22F75A4800A3453B /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		8444410D22F75A4800A3453B /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AntDesign.ttf; sourceTree = "<group>"; };
+		8444410E22F75A4800A3453B /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Foundation.ttf; sourceTree = "<group>"; };
+		8444410F22F75A4800A3453B /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
+		8444411022F75A4800A3453B /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
+		8444411122F75A4800A3453B /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Regular.ttf; sourceTree = "<group>"; };
+		8444411222F75A4800A3453B /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		8444411322F75A4800A3453B /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		8444411422F75A4800A3453B /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
+		8444411522F75A4800A3453B /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
+		8444411622F75A4800A3453B /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		87A41680647722BF2170EF35 /* Pods-CivityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CivityTests.debug.xcconfig"; path = "Target Support Files/Pods-CivityTests/Pods-CivityTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AF3DAE2C69600EADAC4D10AF /* Pods-Civity-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Civity-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Civity-tvOS/Pods-Civity-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		B8092338307B6367899D447C /* Pods-Civity-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Civity-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Civity-tvOS/Pods-Civity-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		BC7F9DE046397251BC2083D7 /* Pods-Civity-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Civity-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Civity-tvOSTests/Pods-Civity-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		C4551F4FEBB8DA60033547D5 /* libPods-CivityTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CivityTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9C9C2E0A86A5F308E632F15 /* Pods-Civity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Civity.debug.xcconfig"; path = "Target Support Files/Pods-Civity/Pods-Civity.debug.xcconfig"; sourceTree = "<group>"; };
+		CD852BFDCE45B0DABC9E7D1C /* Pods-Civity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Civity.release.xcconfig"; path = "Target Support Files/Pods-Civity/Pods-Civity.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F3D2B085332B8DE52A8882DE /* Pods-Civity-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Civity-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Civity-tvOSTests/Pods-Civity-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F939F8C64CEE16FE0EDEF72D /* libPods-Civity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Civity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E93AD483EA66EE117BB6AB1 /* libPods-CivityTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFE59B97D08127B316A39D21 /* libPods-Civity.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAB3AC6A6B856CB1B43C90C6 /* libPods-Civity-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E4C5610F15276979937E02D /* libPods-Civity-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +160,8 @@
 		13B07FAE1A68108700A75B9A /* Civity */ = {
 			isa = PBXGroup;
 			children = (
+				8444410622F75A4800A3453B /* Fonts */,
+				8444410522F7522F00A3453B /* Civity.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -121,6 +178,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
+				F939F8C64CEE16FE0EDEF72D /* libPods-Civity.a */,
+				64339B6007787E15EA7183CB /* libPods-Civity-tvOS.a */,
+				23EAA72E4BA906177145ABEA /* libPods-Civity-tvOSTests.a */,
+				C4551F4FEBB8DA60033547D5 /* libPods-CivityTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -135,11 +196,13 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				8444410322F74E9C00A3453B /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* Civity */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* CivityTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				F75D7AB7107716EB009937E5 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -157,6 +220,44 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		8444410622F75A4800A3453B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				8444410722F75A4800A3453B /* Fontisto.ttf */,
+				8444410822F75A4800A3453B /* Octicons.ttf */,
+				8444410922F75A4800A3453B /* Feather.ttf */,
+				8444410A22F75A4800A3453B /* Entypo.ttf */,
+				8444410B22F75A4800A3453B /* FontAwesome5_Brands.ttf */,
+				8444410C22F75A4800A3453B /* MaterialCommunityIcons.ttf */,
+				8444410D22F75A4800A3453B /* AntDesign.ttf */,
+				8444410E22F75A4800A3453B /* Foundation.ttf */,
+				8444410F22F75A4800A3453B /* Ionicons.ttf */,
+				8444411022F75A4800A3453B /* FontAwesome5_Solid.ttf */,
+				8444411122F75A4800A3453B /* FontAwesome5_Regular.ttf */,
+				8444411222F75A4800A3453B /* FontAwesome.ttf */,
+				8444411322F75A4800A3453B /* Zocial.ttf */,
+				8444411422F75A4800A3453B /* EvilIcons.ttf */,
+				8444411522F75A4800A3453B /* SimpleLineIcons.ttf */,
+				8444411622F75A4800A3453B /* MaterialIcons.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		F75D7AB7107716EB009937E5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C9C9C2E0A86A5F308E632F15 /* Pods-Civity.debug.xcconfig */,
+				CD852BFDCE45B0DABC9E7D1C /* Pods-Civity.release.xcconfig */,
+				B8092338307B6367899D447C /* Pods-Civity-tvOS.debug.xcconfig */,
+				AF3DAE2C69600EADAC4D10AF /* Pods-Civity-tvOS.release.xcconfig */,
+				F3D2B085332B8DE52A8882DE /* Pods-Civity-tvOSTests.debug.xcconfig */,
+				BC7F9DE046397251BC2083D7 /* Pods-Civity-tvOSTests.release.xcconfig */,
+				87A41680647722BF2170EF35 /* Pods-CivityTests.debug.xcconfig */,
+				03E366B1F6D849D9B0D9E99E /* Pods-CivityTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -164,6 +265,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "CivityTests" */;
 			buildPhases = (
+				2D6A4E60B3661234306B09DF /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -182,6 +284,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Civity" */;
 			buildPhases = (
+				2DF3F9EF94D338221F285919 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -193,7 +296,7 @@
 			dependencies = (
 			);
 			name = Civity;
-			productName = "Civity";
+			productName = Civity;
 			productReference = 13B07F961A680F5B00A75B9A /* Civity.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -201,6 +304,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Civity-tvOS" */;
 			buildPhases = (
+				EA34436EDBEE14BD502BFE3D /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -220,6 +324,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Civity-tvOSTests" */;
 			buildPhases = (
+				9F5A5D601D92DBEA7D6BC9CD /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -240,12 +345,25 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = KL8RK5JS6P;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = KL8RK5JS6P;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -263,6 +381,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -291,8 +410,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8444412122F75A4900A3453B /* FontAwesome5_Regular.ttf in Resources */,
+				8444411822F75A4800A3453B /* Octicons.ttf in Resources */,
+				8444411B22F75A4800A3453B /* FontAwesome5_Brands.ttf in Resources */,
+				8444411F22F75A4800A3453B /* Ionicons.ttf in Resources */,
+				8444412622F75A4900A3453B /* MaterialIcons.ttf in Resources */,
+				8444412022F75A4900A3453B /* FontAwesome5_Solid.ttf in Resources */,
+				8444412522F75A4900A3453B /* SimpleLineIcons.ttf in Resources */,
+				8444411A22F75A4800A3453B /* Entypo.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				8444411D22F75A4800A3453B /* AntDesign.ttf in Resources */,
+				8444412322F75A4900A3453B /* Zocial.ttf in Resources */,
+				8444411E22F75A4800A3453B /* Foundation.ttf in Resources */,
+				8444411922F75A4800A3453B /* Feather.ttf in Resources */,
+				8444412422F75A4900A3453B /* EvilIcons.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				8444412222F75A4900A3453B /* FontAwesome.ttf in Resources */,
+				8444411722F75A4800A3453B /* Fontisto.ttf in Resources */,
+				8444411C22F75A4800A3453B /* MaterialCommunityIcons.ttf in Resources */,
+				8444410422F74E9C00A3453B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +477,94 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		2D6A4E60B3661234306B09DF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CivityTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2DF3F9EF94D338221F285919 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Civity-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9F5A5D601D92DBEA7D6BC9CD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Civity-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EA34436EDBEE14BD502BFE3D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Civity-tvOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -447,8 +671,10 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87A41680647722BF2170EF35 /* Pods-CivityTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = KL8RK5JS6P;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -469,9 +695,11 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03E366B1F6D849D9B0D9E99E /* Pods-CivityTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = KL8RK5JS6P;
 				INFOPLIST_FILE = CivityTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -488,10 +716,14 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C9C9C2E0A86A5F308E632F15 /* Pods-Civity.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = KL8RK5JS6P;
 				INFOPLIST_FILE = Civity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -501,15 +733,21 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Civity;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CD852BFDCE45B0DABC9E7D1C /* Pods-Civity.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KL8RK5JS6P;
 				INFOPLIST_FILE = Civity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -519,12 +757,15 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Civity;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B8092338307B6367899D447C /* Pods-Civity-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -552,6 +793,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AF3DAE2C69600EADAC4D10AF /* Pods-Civity-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -579,6 +821,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3D2B085332B8DE52A8882DE /* Pods-Civity-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -605,6 +848,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC7F9DE046397251BC2083D7 /* Pods-Civity-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -633,6 +877,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -686,6 +931,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
