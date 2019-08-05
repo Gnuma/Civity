@@ -64,7 +64,7 @@ export class PreviewItem extends Component {
         <ItemHeader
           handleGoBack={this.goBack}
           title={this.book.title}
-          authors={this.book.author}
+          author={this.book.author}
         />
         <View style={{ flex: 1 }}>
           {book && (

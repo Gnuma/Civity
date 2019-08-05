@@ -197,7 +197,7 @@ export class Item extends Component {
           <ItemHeader
             handleGoBack={this._handleGoBack}
             title={bookName}
-            authors={bookAuthors}
+            author={bookAuthors}
             hasNewComments={this.hasNewComments}
           />
           <View style={{ flex: 1 }}>

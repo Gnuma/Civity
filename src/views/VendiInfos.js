@@ -27,7 +27,7 @@ export class VendiInfos extends Component {
       loading,
       book
     } = this.props;
-    const { title, authors } = book || { title: "UNDEFINED" };
+    const { title, author } = book || { title: "UNDEFINED" };
 
     return (
       <View style={{ flex: 1 }}>
@@ -35,7 +35,7 @@ export class VendiInfos extends Component {
         <ItemHeader
           handleGoBack={this._handleGoBack}
           title={title}
-          authors={authors}
+          author={author}
         />
         {!loading ? (
           <MainSell

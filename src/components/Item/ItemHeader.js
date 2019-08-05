@@ -11,7 +11,7 @@ export default class ItemHeader extends Component {
   static propTypes = {
     handleGoBack: PropTypes.func,
     title: PropTypes.string,
-    authors: PropTypes.string,
+    author: PropTypes.string,
     hasNewComments: PropTypes.bool
   };
 
@@ -32,7 +32,7 @@ export default class ItemHeader extends Component {
                 {this.props.title}
               </Header2>
               <Header5 numberOfLines={1} style={styles.authors}>
-                di {this.props.authors}
+                di {this.props.author}
               </Header5>
             </View>
             {this.props.hasNewComments ? (

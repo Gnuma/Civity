@@ -1,7 +1,14 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 import { ofType } from "redux-observable";
-import { map, mergeMap, catchError, switchMap } from "rxjs/operators";
+import {
+  map,
+  mergeMap,
+  catchError,
+  switchMap,
+  debounceTime,
+  concatMap
+} from "rxjs/operators";
 import { ajax } from "rxjs/ajax";
 import { of } from "rxjs";
 
@@ -164,7 +171,8 @@ export const handleSearchQueryChange = search_query => {
 const searchChangeEpic = action$ =>
   action$.pipe(
     ofType(actionTypes.SEARCH_SET_SEARCHQUERY),
-    switchMap(action =>
+    debounceTime(200),
+    mergeMap(action =>
       ajax
         .post(___BOOK_HINTS_ENDPOINT___, {
           keyword: action.payload.search_query

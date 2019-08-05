@@ -13,23 +13,29 @@ import { GreyBar } from "../components/StatusBars";
 import { Subject, of } from "rxjs";
 import { switchMap, catchError, map } from "rxjs/operators";
 import { ajax } from "rxjs/ajax";
+import { Header3 } from "../components/Text";
 
 export class SelectBook extends Component {
   constructor(props) {
     super(props);
     this.bookQuery = new Subject().pipe(
-      switchMap(value =>
-        ajax
+      switchMap(value => {
+        this.setState({ loading: true });
+        return ajax
           .post(___BOOK_HINTS_ENDPOINT___, {
             keyword: value
           })
           .pipe(
             map(res => {
+              this.setState({ loading: false });
               return res.response;
             }),
-            catchError(error => of([]))
-          )
-      )
+            catchError(error => {
+              this.setState({ loading: false });
+              of(error);
+            })
+          );
+      })
     );
   }
 
@@ -81,37 +87,20 @@ export class SelectBook extends Component {
           resetSearchBar={this.resetSearchBar}
           handleGoBack={this.handleGoBack}
         />
-        <SBList
-          results={this.state.results}
-          handleSelection={this.handleSelection}
-          hasNoResults={hasNoResults}
-          goCreateBook={this._goCreateBook}
-          soldBooks={this.state.soldBooks}
-        />
+        <View style={{ flex: 1 }}>
+          <SBList
+            results={this.state.results}
+            handleSelection={this.handleSelection}
+            hasNoResults={hasNoResults}
+            goCreateBook={this._goCreateBook}
+            soldBooks={this.state.soldBooks}
+            loading={this.state.loading}
+          />
+        </View>
       </View>
     );
   }
 
-  /*
-  handleChange = text => {
-    this.setState({
-      searchQuery: text
-    });
-    if (text) {
-      axios
-        .post(___BOOK_HINTS_ENDPOINT___, { keyword: text })
-        .then(res => {
-          this.setState({ results: res.data.results });
-        })
-        .catch(err => {
-          //console.log(err.response);
-          this.setState({
-            results: []
-          });
-        });
-    }
-  };
-  */
 
   handleChange = text => {
     this.setState({
