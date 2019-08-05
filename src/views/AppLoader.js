@@ -11,6 +11,7 @@ import NavigatorService from "../navigator/NavigationService";
 import { HiddenBar } from "../components/StatusBars";
 import Logo from "../Header/Logo";
 import colors from "../styles/colors";
+import { SafeAreaView } from "react-navigation";
 
 let mounted = false;
 export class AppLoader extends Component {
@@ -35,12 +36,14 @@ export class AppLoader extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <SafeAreaView
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
         <HiddenBar />
         <Button onPress={() => this.props.navigation.navigate("App")}>
           <Logo color="black" />
         </Button>
-      </View>
+      </SafeAreaView>
     );
   }
 }

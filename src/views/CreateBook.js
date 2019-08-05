@@ -15,6 +15,7 @@ import update from "immutability-helper";
 import LoadingOverlay from "../components/LoadingOverlay";
 import { ___CREATE_BOOK___ } from "../store/constants";
 import { GreyBar } from "../components/StatusBars";
+import { SafeAreaView } from "react-navigation";
 
 export class CreateBook extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ export class CreateBook extends Component {
     const { fields, loading } = this.state;
 
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <GreyBar />
         <BasicHeader title="Aggiungi il  libro" />
         <View style={{ flex: 1 }}>
@@ -93,7 +94,7 @@ export class CreateBook extends Component {
             </View>
           )}
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 

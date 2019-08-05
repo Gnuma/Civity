@@ -14,6 +14,8 @@ import colors from "../styles/colors";
 import IconPlus from "../media/vectors/plus-icon";
 import { GreyBar } from "../components/StatusBars";
 import OfflineView, { OfflineNotification } from "../components/OfflineView";
+import { IS_ANDROID } from "../utils/constants";
+import { SafeAreaView } from "react-navigation";
 
 export class SalesList extends Component {
   static propTypes = {
@@ -27,7 +29,8 @@ export class SalesList extends Component {
 
   componentDidMount() {
     this._navListener = this.props.navigation.addListener("didFocus", () => {
-      StatusBar.setBackgroundColor(colors.lightGrey);
+      StatusBar.setBarStyle(IS_ANDROID ? "light-content" : "dark-content");
+      IS_ANDROID && StatusBar.setBackgroundColor(colors.lightGrey);
     });
   }
 
@@ -48,29 +51,27 @@ export class SalesList extends Component {
 
     if (delayedLogin) return <OfflineView sales />;
 
+    if (orderedData || _.isEmpty(orderedData)) return this.renderEmpty();
+
     return (
-      <View style={{ flex: 1 }}>
-        {!orderedData || _.isEmpty(orderedData) ? (
-          this.renderEmpty()
-        ) : (
-          <View style={{ flex: 1 }}>
-            <SalesTab
-              goTo={setSaleFocus}
-              isAuthenticated={isAuthenticated}
-              data={data}
-              orderedData={orderedData}
-              focus={focus}
-            />
-            <SalesChatsList
-              isAuthenticated={isAuthenticated}
-              data={data}
-              orderedData={orderedData}
-              focus={focus}
-              onGoChat={this.onGoChat}
-            />
-            {isConnected && <SellButton onPress={this.onGoSell} />}
-          </View>
-        )}
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
+          <SalesTab
+            goTo={setSaleFocus}
+            isAuthenticated={isAuthenticated}
+            data={data}
+            orderedData={orderedData}
+            focus={focus}
+          />
+          <SalesChatsList
+            isAuthenticated={isAuthenticated}
+            data={data}
+            orderedData={orderedData}
+            focus={focus}
+            onGoChat={this.onGoChat}
+          />
+          {isConnected && <SellButton onPress={this.onGoSell} />}
+        </View>
         {!isConnected && (
           <View
             style={{ position: "absolute", bottom: 0, left: 20, right: 20 }}
@@ -78,7 +79,7 @@ export class SalesList extends Component {
             <OfflineNotification />
           </View>
         )}
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -95,34 +96,42 @@ export class SalesList extends Component {
 
   renderEmpty = () => {
     return (
-      <View style={{ flex: 1, marginHorizontal: 20, marginVertical: 20 }}>
-        <Header3 color="black">
-          Sembra che tu non abbia ancora creato nessun annuncio...
-        </Header3>
-        {this.props.isConnected && (
-          <View>
-            <Button
-              style={{
-                backgroundColor: colors.white,
-                elevation: 2,
-                borderRadius: 8,
-                alignSelf: "center",
-                padding: 6,
-                marginTop: 30
-              }}
-              onPress={this.onGoSell}
-            >
-              <IconPlus />
-            </Button>
-            <Header2
-              color="primary"
-              style={{ marginTop: 10, alignSelf: "center" }}
-            >
-              Inizia ora
-            </Header2>
-          </View>
-        )}
-      </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View
+          style={{
+            flex: 1,
+            marginVertical: 20,
+            marginHorizontal: 20
+          }}
+        >
+          <Header3 color="black">
+            Sembra che tu non abbia ancora creato nessun annuncio...
+          </Header3>
+          {this.props.isConnected && (
+            <View>
+              <Button
+                style={{
+                  backgroundColor: colors.white,
+                  elevation: 2,
+                  borderRadius: 8,
+                  alignSelf: "center",
+                  padding: 6,
+                  marginTop: 30
+                }}
+                onPress={this.onGoSell}
+              >
+                <IconPlus />
+              </Button>
+              <Header2
+                color="primary"
+                style={{ marginTop: 10, alignSelf: "center" }}
+              >
+                Inizia ora
+              </Header2>
+            </View>
+          )}
+        </View>
+      </SafeAreaView>
     );
   };
 }

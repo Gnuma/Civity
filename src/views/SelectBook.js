@@ -14,6 +14,7 @@ import { Subject, of } from "rxjs";
 import { switchMap, catchError, map } from "rxjs/operators";
 import { ajax } from "rxjs/ajax";
 import { Header3 } from "../components/Text";
+import { SafeAreaView } from "react-navigation";
 
 export class SelectBook extends Component {
   constructor(props) {
@@ -79,7 +80,7 @@ export class SelectBook extends Component {
       _.isEmpty(this.state.results) && this.state.searchQuery;
 
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <GreyBar />
         <SBHeader
           onChangeText={this.handleChange}
@@ -97,10 +98,9 @@ export class SelectBook extends Component {
             loading={this.state.loading}
           />
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
-
 
   handleChange = text => {
     this.setState({

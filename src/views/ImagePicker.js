@@ -26,6 +26,7 @@ import _ from "lodash";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as sellActions from "../store/actions/sell";
 import CameraRoll from "@react-native-community/cameraroll";
+import { SafeAreaView } from "react-navigation";
 
 const BATCH_SIZE = 99;
 
@@ -126,7 +127,7 @@ export class ImagePicker extends Component {
     const totalOccupied = NUM_PREVIEWS - this.MAX_IMAGES + numSelected;
 
     return (
-      <View style={{ flex: 1, paddingTop: StatusBar.currentHeight }}>
+      <SafeAreaView style={{ flex: 1, paddingTop: StatusBar.currentHeight }}>
         <PickerHeader
           complete={this.complete}
           goBack={this.exitPicker}
@@ -158,7 +159,7 @@ export class ImagePicker extends Component {
             </Header3>
           </View>
         )}
-      </View>
+      </SafeAreaView>
     );
   }
 

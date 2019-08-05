@@ -10,6 +10,7 @@ import colors from "../styles/colors";
 import NavigationService from "../navigator/NavigationService";
 import protectedAction from "../utils/protectedAction";
 import firebase from "react-native-firebase";
+import { SafeAreaView } from "react-navigation";
 
 export class TabBar extends Component {
   static propTypes = {};
@@ -42,7 +43,7 @@ export class TabBar extends Component {
     const { navigation } = this.props;
     const focus = this._getFocused();
     return (
-      <View
+      <SafeAreaView
         style={{
           minHeight: 60,
           flexDirection: "row",
@@ -94,7 +95,7 @@ export class TabBar extends Component {
             Acquisti
           </Header4>
         </Button>
-      </View>
+      </SafeAreaView>
     );
   }
 

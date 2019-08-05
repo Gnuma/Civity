@@ -11,8 +11,8 @@ export default StyleSheet.create({
     flexDirection: "row",
     height: 60,
     backgroundColor: colors.secondary,
-    paddingVertical: 3,
-    paddingRight: 10
+    paddingRight: 10,
+    alignItems: "center"
   },
   icon: {
     color: "white"

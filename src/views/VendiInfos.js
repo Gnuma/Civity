@@ -8,6 +8,7 @@ import * as sellActions from "../store/actions/sell";
 import colors from "../styles/colors";
 import protectedAction from "../utils/protectedAction";
 import { GreyBar } from "../components/StatusBars";
+import { SafeAreaView } from "react-navigation";
 
 export class VendiInfos extends Component {
   state = {
@@ -30,7 +31,7 @@ export class VendiInfos extends Component {
     const { title, author } = book || { title: "UNDEFINED" };
 
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <GreyBar />
         <ItemHeader
           handleGoBack={this._handleGoBack}
@@ -54,7 +55,7 @@ export class VendiInfos extends Component {
             <ActivityIndicator size="large" color={colors.secondary} />
           </View>
         )}
-      </View>
+      </SafeAreaView>
     );
   }
 
