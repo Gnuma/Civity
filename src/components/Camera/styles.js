@@ -99,7 +99,7 @@ export const header = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 10 + StatusBar.currentHeight,
+    marginTop: 10 + (StatusBar.currentHeight || 0),
     marginBottom: 10
   }
 });

@@ -37,12 +37,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+		<string>Uso della fotocamera per perendere le foto dei libri</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>remote-notification</string>
-	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
