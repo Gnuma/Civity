@@ -103,7 +103,7 @@ class WS {
           return store.dispatch(
             chatReceiveMessage(
               (data.for === "sale" ? "" : "s") + data.objectID,
-              data.chatID,
+              data.chatID, //_id
               msg,
               data.for
             )

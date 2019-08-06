@@ -290,7 +290,7 @@ export const chatSettleAction = (objectID, chatID, status) => (
         chatSystemMsg(
           objectID,
           chatID,
-          SystemMessages.acceptChat(getUserTO(getState, { objectID, chatID }))
+          SystemMessages.acceptChat(getSeller(getState, { objectID, chatID }))
         )
       );
 
@@ -428,7 +428,10 @@ export const chatRequestContact = (objectID, chatID) => dispatch => {
         )
       );
     })
-    .catch(err => dispatch(chatSingleFail(objectID, chatID, err)));
+    .catch(err => {
+      console.log({ err });
+      dispatch(chatSingleFail(objectID, chatID, err));
+    });
 };
 
 export const chatLoadEarlier = (objectID, chatID) => (dispatch, getState) => {
