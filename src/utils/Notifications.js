@@ -29,9 +29,9 @@ class Notifications {
     //if (!(await this.requestPermisions())) return;
     this.removeNotificationDisplayedListener = firebase
       .notifications()
-      .onNotificationDisplayed(notification =>
-        console.log("Notification", notification)
-      );
+      .onNotificationDisplayed(notification => {
+        //console.log("Notification", notification)
+      });
 
     this.removeNotificationListener = firebase
       .notifications()

@@ -66,7 +66,7 @@ export default class SaleCard extends Component {
               <CircleValue value={data.condition} radius={35} />
             </View>
           </View>
-          {!data.enabled && <BlockedBadge />}
+          {data.enabled === false && <BlockedBadge />}
         </Button>
       </View>
     );

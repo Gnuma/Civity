@@ -115,7 +115,7 @@ export class MainItem extends Component {
             isContacted={isContacted}
           />
         </Animated.ScrollView>
-        {data.enabled && (
+        {data.enabled === false && (
           <View
             style={{
               ...StyleSheet.absoluteFill,

@@ -117,7 +117,7 @@ export class CreateBook extends Component {
         .post(___CREATE_BOOK___, {
           isbn,
           title,
-          author,
+          author: author || undefined,
           subject: 1 //To change
         })
         .then(res => {
