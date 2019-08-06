@@ -2,6 +2,8 @@ import colors from "../styles/colors";
 import { StatusBar, Platform } from "react-native";
 import Device from "react-native-device-info";
 
+export const IS_ANDROID = Platform.OS === "android";
+
 export const ___BOOK_IMG_RATIO___ = 4 / 3;
 
 export const CODE_LENGTH = 6;

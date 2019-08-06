@@ -12,6 +12,7 @@ import colors from "../../styles/colors";
 import FullButton from "../../components/FullButton";
 import axios from "axios";
 import { ___OFFICE_CHANGE___ } from "../../store/constants";
+import { SafeAreaView } from "react-navigation";
 
 export class OfficeChange extends Component {
   static propTypes = {};
@@ -99,7 +100,7 @@ export class OfficeChange extends Component {
     const canContinue = canStateContinue(this.state);
     return (
       <AndroidBackHandler onBackPress={this.goBack}>
-        <View style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }}>
           <BasicHeader
             title={"Modifica il tuo istituto o scuola"}
             goBack={this.goBack}
@@ -126,7 +127,7 @@ export class OfficeChange extends Component {
               text={status == 2 ? "Salva" : "Continua"}
             />
           </View>
-        </View>
+        </SafeAreaView>
       </AndroidBackHandler>
     );
   }

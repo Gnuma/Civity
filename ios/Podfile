@@ -33,6 +33,7 @@ target 'Civity' do
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
 
   target 'CivityTests' do
     inherit! :search_paths

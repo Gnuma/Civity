@@ -11,6 +11,8 @@ import SearchLink from "../components/Home/SearchLink";
 import _ from "lodash";
 import colors from "../styles/colors";
 import OfflineView, { OfflineNotification } from "../components/OfflineView";
+import { IS_ANDROID } from "../utils/constants";
+import { SafeAreaView } from "react-navigation";
 
 export class ShoppingList extends Component {
   static propTypes = {
@@ -23,7 +25,8 @@ export class ShoppingList extends Component {
 
   componentDidMount() {
     this._navListener = this.props.navigation.addListener("willFocus", () => {
-      StatusBar.setBackgroundColor(colors.lightGrey);
+      StatusBar.setBarStyle(IS_ANDROID ? "light-content" : "dark-content");
+      IS_ANDROID && StatusBar.setBackgroundColor(colors.lightGrey);
     });
   }
 
@@ -47,7 +50,7 @@ export class ShoppingList extends Component {
     if (!orderedData || _.isEmpty(orderedData)) return this.renderEmpty();
 
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <ShoppingTab
           goTo={setShoppingFocus}
           isAuthenticated={isAuthenticated}
@@ -69,7 +72,7 @@ export class ShoppingList extends Component {
             <OfflineNotification />
           </View>
         )}
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -82,24 +85,29 @@ export class ShoppingList extends Component {
 
   renderEmpty = () => {
     return (
-      <View style={{ flex: 1, marginVertical: 20, marginHorizontal: 20 }}>
-        <Header3 color="black">
-          Sembra che tu non abbia ancora contattato nessun venditore
-        </Header3>
-        <View style={{ flex: 1 / 3, justifyContent: "center" }}>
-          <SearchLink
-            style={{ marginHorizontal: 10 }}
-            onPress={this.goSearch}
-          />
-        </View>
-        {!this.props.isConnected && (
-          <View
-            style={{ position: "absolute", bottom: -20, left: 0, right: 0 }}
-          >
-            <OfflineNotification />
+      <SafeAreaView style={{ flex: 1 }}>
+        <View
+          style={{
+            flex: 1,
+            marginVertical: 20,
+            marginHorizontal: 20
+          }}
+        >
+          <Header3 color="black">
+            Sembra che tu non abbia ancora contattato nessun venditore
+          </Header3>
+          <View style={{ flex: 1 / 3, justifyContent: "center" }}>
+            <SearchLink onPress={this.goSearch} />
           </View>
-        )}
-      </View>
+          {!this.props.isConnected && (
+            <View
+              style={{ position: "absolute", bottom: -20, left: 0, right: 0 }}
+            >
+              <OfflineNotification />
+            </View>
+          )}
+        </View>
+      </SafeAreaView>
     );
   };
 

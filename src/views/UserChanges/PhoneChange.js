@@ -8,7 +8,11 @@ import PhonePicker, { RetrySend } from "../../components/PhonePicker";
 import SolidButton from "../../components/SolidButton";
 import { Header3 } from "../../components/Text";
 import { AndroidBackHandler } from "react-navigation-backhandler";
-import { StackActions, NavigationActions } from "react-navigation";
+import {
+  StackActions,
+  NavigationActions,
+  SafeAreaView
+} from "react-navigation";
 import ErrorMessage from "../../components/Form/ErrorMessage";
 import { getNumber, submit, isPhoneTaken } from "../../utils/validator";
 import {
@@ -153,7 +157,7 @@ export class PhoneChange extends Component {
   render() {
     const { phone, status, code, error } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <AndroidBackHandler onBackPress={this.goBack}>
           <View style={{ flex: 1 }}>
             <BasicHeader title="Modifica il numero" goBack={this.goBack} />
@@ -178,7 +182,7 @@ export class PhoneChange extends Component {
             />
           </View>
         </AndroidBackHandler>
-      </View>
+      </SafeAreaView>
     );
   }
 }

@@ -18,6 +18,7 @@ import DecisionOverlay from "../components/DecisionOverlay";
 import LoadingOverlay from "../components/LoadingOverlay";
 import { ChatStatus } from "../utils/constants";
 import BlockedItemBar from "../components/Item/BlockedItemBar";
+import { SafeAreaView } from "react-navigation";
 
 export class Item extends Component {
   constructor(props) {
@@ -191,7 +192,7 @@ export class Item extends Component {
     const isLoading = data === undefined;
 
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <GreyBar />
           <ItemHeader
@@ -228,7 +229,7 @@ export class Item extends Component {
           </View>
         </View>
         {loading && <LoadingOverlay />}
-      </View>
+      </SafeAreaView>
     );
   }
 

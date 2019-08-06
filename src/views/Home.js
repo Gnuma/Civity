@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  ScrollView,
-  TouchableWithoutFeedback,
-  SafeAreaView,
-  StatusBar
-} from "react-native";
+import { StatusBar } from "react-native";
 import { withNavigation, StackActions } from "react-navigation";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -23,6 +17,7 @@ import _ from "lodash";
 import MainHome from "../components/Home/MainHome";
 import { GreenBar } from "../components/StatusBars";
 import colors from "../styles/colors";
+import { IS_ANDROID } from "../utils/constants";
 
 export class Home extends Component {
   static propTypes = {
@@ -42,7 +37,8 @@ export class Home extends Component {
 
   componentDidMount() {
     this._navListener = this.props.navigation.addListener("willFocus", () => {
-      StatusBar.setBackgroundColor(colors.darkGreen);
+      StatusBar.setBarStyle("light-content");
+      IS_ANDROID && StatusBar.setBackgroundColor(colors.darkGreen);
     });
   }
 

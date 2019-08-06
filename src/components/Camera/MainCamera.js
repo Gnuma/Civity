@@ -3,7 +3,7 @@ import {
   View,
   ImageBackground,
   StyleSheet,
-  ActivityIndicator,
+  ActivityIndicator
 } from "react-native";
 import { RNCamera } from "react-native-camera";
 import { Header2 } from "../Text";
@@ -24,7 +24,12 @@ export default class MainCamera extends Component {
     } = this.props;
 
     return (
-      <View style={{ ...StyleSheet.absoluteFill, justifyContent: "flex-end" }}>
+      <View
+        style={{
+          ...StyleSheet.absoluteFill,
+          justifyContent: "flex-end"
+        }}
+      >
         <RNCamera
           style={StyleSheet.absoluteFill}
           type={RNCamera.Constants.Type.back}

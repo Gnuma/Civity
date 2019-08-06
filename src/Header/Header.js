@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Keyboard } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withNavigation } from "react-navigation";
+import { withNavigation, SafeAreaView } from "react-navigation";
 import styles from "./styles";
 import * as searchActions from "../store/actions/search";
 import * as authActions from "../store/actions/auth";
@@ -71,7 +71,7 @@ export class Header extends Component {
       ].routeName === "Item";
     const showSearchBar = !!(searchQuery || showResults);
     return (
-      <View style={styles.header}>
+      <SafeAreaView style={styles.header}>
         {isActive || showSearchBar ? (
           <SearchHeader
             clearSearchQuery={this.clearSearchQuery}
@@ -85,7 +85,7 @@ export class Header extends Component {
         ) : (
           <HomeHeader openSettings={this.openSettings} />
         )}
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -113,27 +113,3 @@ export default withNavigation(
     mapDispatchToProps
   )(Header)
 );
-
-/*
-        <LeftHeader
-          isActive={isActive}
-          isItem={isItem}
-          handleGoBack={this.setInactive}
-        />
-        <CenterHeader
-          isActive={isActive}
-          showSearchBar={showSearchBar}
-          searchQuery={searchQuery}
-          onChangeText={this.handleChangeText}
-          onSubmitEditing={this.search}
-          resetToHome={this.resetToHome}
-          onFocus={this.setActive}
-          setRef={this.setSearchRef}
-          //focus={this.focus}
-        />
-        <RightHeader
-          setActive={this.openSearchField}
-          openSettings={this.openSettings}
-          visible={!isActive && !showSearchBar}
-        />
-*/

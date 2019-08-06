@@ -19,6 +19,7 @@ import FeedbackOffert from "../components/BookOffert/FeedbackOffert";
 import CompletedOffert from "../components/BookOffert/CompletedOffert";
 import BlockedOffert from "../components/BookOffert/BlockedOffert";
 import InvalidOffert from "../components/BookOffert/InvalidOffert";
+import { SafeAreaView } from "react-navigation";
 
 export class BookOffert extends Component {
   constructor(props) {
@@ -187,14 +188,14 @@ export class BookOffert extends Component {
     );
 
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <BasicHeader title={title} />
         <View style={{ flex: 1 }}>
           {this.renderContent(type, data)}
           {data.loading ? <LoadingOverlay /> : null}
           {decision && <DecisionOverlay decision={decision} />}
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

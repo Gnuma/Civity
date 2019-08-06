@@ -11,6 +11,7 @@ import { Header2, Header3 } from "../components/Text";
 import colors from "../styles/colors";
 import LoadingOverlay from "../components/LoadingOverlay";
 import protectedAction from "../utils/protectedAction";
+import { SafeAreaView } from "react-navigation";
 
 export class PreviewItem extends Component {
   static propTypes = {
@@ -59,7 +60,7 @@ export class PreviewItem extends Component {
     if (book) this.book = book;
 
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <GreyBar />
         <ItemHeader
           handleGoBack={this.goBack}
@@ -87,7 +88,7 @@ export class PreviewItem extends Component {
           )}
           {loading && <LoadingOverlay />}
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

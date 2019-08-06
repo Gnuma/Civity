@@ -21,7 +21,11 @@ import * as authActions from "../../store/actions/auth";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { HiddenBar } from "../../components/StatusBars";
 import { mockOffice } from "../../mockData/MockUser";
-import { StackActions, NavigationActions } from "react-navigation";
+import {
+  StackActions,
+  NavigationActions,
+  SafeAreaView
+} from "react-navigation";
 import { NOTCH_MARGIN } from "../../utils/constants";
 
 export class Auth extends Component {
@@ -135,7 +139,7 @@ export class Auth extends Component {
           style={StyleSheet.absoluteFill}
         >
           <HiddenBar />
-          <View style={{ flex: 1, marginHorizontal: 20 }}>
+          <SafeAreaView style={{ flex: 1, marginHorizontal: 20 }}>
             <View style={{ marginBottom: 10, flex: 1 }}>
               <View
                 style={{
@@ -199,7 +203,7 @@ export class Auth extends Component {
               )}
             </View>
             {this._renderFooter()}
-          </View>
+          </SafeAreaView>
           {isPropsLoading || isStateLoading ? (
             <View style={{ ...StyleSheet.absoluteFill, elevation: 10 }}>
               <LoadingOverlay />

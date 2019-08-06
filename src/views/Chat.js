@@ -7,6 +7,7 @@ import * as chatActions from "../store/actions/chat";
 import ContactReview from "../components/Chat/ContactReview";
 import { ChatType, ChatStatus } from "../utils/constants";
 import ChatHeader from "../components/Chat/ChatHeader";
+import { SafeAreaView } from "react-navigation";
 
 export class Chat extends Component {
   constructor(props) {
@@ -78,7 +79,7 @@ export class Chat extends Component {
     const item = this.props.item;
 
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <ChatHeader
           chatData={chatData}
           item={item}
@@ -115,7 +116,7 @@ export class Chat extends Component {
             />
           )}
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 

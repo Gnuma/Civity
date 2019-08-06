@@ -19,6 +19,7 @@ import colors from "../../styles/colors";
 import axios from "axios";
 import { ___MODIFY_USER___ } from "../../store/constants";
 import LoadingOverlay from "../../components/LoadingOverlay";
+import { SafeAreaView } from "react-navigation";
 
 export class UserInfo extends Component {
   static propTypes = {};
@@ -97,7 +98,7 @@ export class UserInfo extends Component {
 
     if (completed) {
       return (
-        <View style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }}>
           <BasicHeader title="Modifica" />
           <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
             <Header2 color="primary" style={{ textAlign: "center" }}>
@@ -111,12 +112,12 @@ export class UserInfo extends Component {
               poi riavviando l'applicazione.
             </Header3>
           </View>
-        </View>
+        </SafeAreaView>
       );
     }
 
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <BasicHeader title="Modifica" />
         <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
           <UserInfoForm
@@ -131,7 +132,7 @@ export class UserInfo extends Component {
             <LoadingOverlay />
           </View>
         )}
-      </View>
+      </SafeAreaView>
     );
   }
 

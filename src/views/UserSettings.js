@@ -24,7 +24,8 @@ import Button from "../components/Button";
 import * as authActions from "../store/actions/auth";
 import Divider from "../components/Divider";
 import { getLevel } from "../utils/helper";
-import { LEVEL_DATA } from "../utils/constants";
+import { LEVEL_DATA, IS_ANDROID } from "../utils/constants";
+import { SafeAreaView } from "react-navigation";
 
 const marginHorizontal = 20;
 
@@ -36,7 +37,8 @@ export class UserSettings extends Component {
 
   componentDidMount() {
     this._navListener = this.props.navigation.addListener("willFocus", () => {
-      StatusBar.setBackgroundColor(colors.darkGreen);
+      StatusBar.setBarStyle(IS_ANDROID ? "light-content" : "dark-content");
+      IS_ANDROID && StatusBar.setBackgroundColor(colors.darkGreen);
     });
   }
 
@@ -77,7 +79,7 @@ export class UserSettings extends Component {
     const { level, exp } = getLevel(userData.xp);
 
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <BasicHeader title="Il Tuo Profilo" />
         <View style={{ flex: 1 }}>
           <ScrollView>
@@ -193,7 +195,7 @@ export class UserSettings extends Component {
             </TouchableWithoutFeedback>
           </View>
         )}
-      </View>
+      </SafeAreaView>
     );
   }
 
