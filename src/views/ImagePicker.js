@@ -9,14 +9,15 @@ import {
   FlatList,
   ToastAndroid,
   PermissionsAndroid,
-  StatusBar
+  StatusBar,
+  Image
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { GreyBar } from "../components/StatusBars";
 import BasicHeader from "../components/BasicHeader";
 import colors from "../styles/colors";
-import { ___BOOK_IMG_RATIO___ } from "../utils/constants";
+import { ___BOOK_IMG_RATIO___, IS_ANDROID } from "../utils/constants";
 import update, { extend } from "immutability-helper";
 import { Header3, Header1, Header2 } from "../components/Text";
 import FastImage from "react-native-fast-image";
@@ -27,6 +28,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import * as sellActions from "../store/actions/sell";
 import CameraRoll from "@react-native-community/cameraroll";
 import { SafeAreaView } from "react-navigation";
+import Permissions from "react-native-permissions";
+import TouchableNative from "../components/TouchableNative";
 
 const BATCH_SIZE = 99;
 
@@ -51,7 +54,8 @@ export class ImagePicker extends Component {
   }
 
   componentDidMount() {
-    this.requestPermissions();
+    if (IS_ANDROID) this.requestPermissions();
+    else this.requestIosPermission();
   }
 
   retrieveImages = numImages => {
@@ -203,6 +207,18 @@ export class ImagePicker extends Component {
       console.warn(err);
     }
   };
+
+  requestIosPermission = async () => {
+    try {
+      const response = await Permissions.request("photo");
+      if (response == "authorized") {
+        this.setState({ hasPermission: true });
+        this.retrieveImages(BATCH_SIZE);
+      } else this.setState({ hasPermission: false });
+    } catch (error) {
+      this.setState({ hasPermission: false });
+    }
+  };
 }
 
 const mapStateToProps = state => ({
@@ -223,24 +239,26 @@ export default connect(
 class ImageRoll extends PureComponent {
   render() {
     const { item, toggle, id, active } = this.props;
+
     return (
       <View style={styles.item}>
-        <TouchableNativeFeedback
-          style={styles.itemBtn}
-          onPress={() => toggle(id)}
-        >
+        <TouchableNative style={styles.itemBtn} onPress={() => toggle(id)}>
           <View style={{ flex: 1 }}>
-            <FastImage
-              style={StyleSheet.absoluteFill}
-              source={{ uri: item.image.uri }}
-            />
+            {IS_ANDROID ? (
+              <FastImage style={StyleSheet.absoluteFill} source={item.image} />
+            ) : (
+              <Image
+                style={{ flex: 1, resizeMode: "cover" }}
+                source={item.image}
+              />
+            )}
             {active && (
               <View style={[styles.overlay]}>
                 <Icon name="check" size={24} style={styles.overlayIcon} />
               </View>
             )}
           </View>
-        </TouchableNativeFeedback>
+        </TouchableNative>
       </View>
     );
   }

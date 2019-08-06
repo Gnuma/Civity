@@ -149,15 +149,15 @@ export class Camera extends Component {
             previewsOrder={previewsOrder}
             handleGoNext={this.handleGoNext}
           />
-          <View style={{ flex: 1 }}>
-            {isReviewing && (
+          {isReviewing && (
+            <View style={{ flex: 1 }}>
               <ImageReviewer
                 data={this.props.checking[0]}
                 setReviewOptions={this.setReviewOptions}
                 handleReview={this.handleReview}
               />
-            )}
-          </View>
+            </View>
+          )}
         </View>
       </SafeAreaView>
     );

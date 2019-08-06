@@ -54,10 +54,10 @@ export const cameraPreview = StyleSheet.create({
 
 export const bottomBar = StyleSheet.create({
   container: {
-    flex: 0,
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 35
+    marginBottom: 35,
+    zIndex: 1
   },
   leftBox: {
     flex: 1,
@@ -100,6 +100,7 @@ export const header = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10 + (StatusBar.currentHeight || 0),
-    marginBottom: 10
+    marginBottom: 10,
+    zIndex: 1
   }
 });
