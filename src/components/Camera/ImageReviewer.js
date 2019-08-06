@@ -64,7 +64,7 @@ export default class ImageReviewer extends Component {
     //    : data;
     let { width: imgWidth, height: imgHeight } =
       !this.props.data.width || !this.props.data.height
-        ? await ImageSize.getSize(data.uri)
+        ? await getImageSize(data.uri)
         : data;
 
     console.log(imgWidth, imgHeight);

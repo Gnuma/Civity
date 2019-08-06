@@ -16,7 +16,7 @@ export const ___COURSE_HINTS_ENDPOINT___ =
   ___SERVER_ENDPOINT___ + "search/courses/hint/";
 
 export const ___LOGIN_ENDPOINT___ = ___BASE_ENDPOINT___ + "auth/login/";
-export const ___LOGOUT_ENDPOINT___ = ___BASE_ENDPOINT___ + "auth/logout/";
+export const ___LOGOUT_ENDPOINT___ = ___BASE_ENDPOINT___ + "logout/";
 export const ___SIGNUP_ENDPOINT___ = ___BASE_ENDPOINT___ + "auth/registration/";
 export const ___WHOAMI_ENDPOINT___ = ___BASE_ENDPOINT___ + "whoami/";
 export const ___INITUSER_ENDPOINT___ = ___BASE_ENDPOINT___ + "init/";

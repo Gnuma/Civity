@@ -145,15 +145,6 @@ export const chatErrorMsg = (objectID, chatID, msgID) => ({
   }
 });
 
-export const chatNewChat = (objectID, chatID, data) => ({
-  type: actionTypes.CHAT_NEW_CHAT,
-  payload: {
-    objectID,
-    chatID,
-    data
-  }
-});
-
 export const chatStartStatusAction = (objectID, chatID) => ({
   type: actionTypes.CHAT_START_STATUS_ACTION,
   payload: {
@@ -197,6 +188,24 @@ export const chatDisableItem = (type, objectID, chatID) => ({
 // ---THUNK---
 
 // --ChatNotifications--
+
+export const chatNewChat = (objectID, chatID, data) => (dispatch, getState) => {
+  dispatch({
+    type: actionTypes.CHAT_NEW_CHAT,
+    payload: {
+      objectID,
+      chatID,
+      data
+    }
+  });
+  dispatch(
+    chatSystemMsg(
+      objectID,
+      chatID,
+      SystemMessages.newChat(getUserTO(getState, { objectID, chatID }))
+    )
+  );
+};
 
 export const chatNewOffert = (objectID, chatID, offertID, price, user) => (
   dispatch,
@@ -287,7 +296,13 @@ export const chatSettleAction = (objectID, chatID, status) => (
 
     case ChatStatus.FEEDBACK:
       return dispatch(
-        chatSystemMsg(objectID, chatID, SystemMessages.completeExchange())
+        chatSystemMsg(
+          objectID,
+          chatID,
+          SystemMessages.completeExchange(
+            getSeller(getState, { objectID, chatID })
+          )
+        )
       );
 
     case ChatStatus.BLOCKED:
@@ -403,9 +418,16 @@ export const chatRequestContact = (objectID, chatID) => dispatch => {
     .post(___REQUEST_CONTACT___, {
       chat: chatID
     })
-    .then(res =>
-      dispatch(chatSettleAction(objectID, chatID, ChatStatus.PENDING))
-    )
+    .then(res => {
+      dispatch(chatSettleAction(objectID, chatID, ChatStatus.PENDING));
+      dispatch(
+        chatSystemMsg(
+          objectID,
+          chatID,
+          SystemMessages.newChat(getUser(getState, { objectID, chatID }))
+        )
+      );
+    })
     .catch(err => dispatch(chatSingleFail(objectID, chatID, err)));
 };
 
@@ -445,9 +467,6 @@ export const chatContactUser = item => dispatch =>
       )
       .then(res => {
         console.log(res);
-        /*
-      This API returns the object ITEM but is up until now 12/07/2019 incomplete
-      */
         dispatch({
           type: actionTypes.CHAT_CONTACT_USER,
           payload: {
@@ -461,6 +480,7 @@ export const chatContactUser = item => dispatch =>
         });
       })
       .catch(err => {
+        console.log({ err });
         dispatch(chatFail(err));
         reject();
       });
@@ -569,6 +589,7 @@ export const chatCompleteExchange = (objectID, chatID) => dispatch => {
       dispatch(chatBlockItem(objectID, chatID));
     })
     .catch(err => {
+      console.log({ err });
       dispatch(chatOffertFail(objectID, chatID, err));
     });
 };
@@ -735,4 +756,11 @@ const getUser = getState => {
     console.warn(error);
     console.log(error, "for: ", { objectID, chatID });
   }
+};
+
+const getSeller = (getState, data) => {
+  console.log(data.objectID, String(data.objectID).charAt(0) === "s");
+  return String(data.objectID).charAt(0) === "s"
+    ? getUserTO(getState, data)
+    : getUser(getState);
 };
