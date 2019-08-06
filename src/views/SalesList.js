@@ -51,7 +51,7 @@ export class SalesList extends Component {
 
     if (delayedLogin) return <OfflineView sales />;
 
-    if (orderedData || _.isEmpty(orderedData)) return this.renderEmpty();
+    if (!orderedData || _.isEmpty(orderedData)) return this.renderEmpty();
 
     return (
       <SafeAreaView style={{ flex: 1 }}>

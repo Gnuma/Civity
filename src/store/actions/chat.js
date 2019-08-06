@@ -411,7 +411,10 @@ export const chatSettle = (objectID, chatID, isAccepting) => dispatch => {
   }
 };
 
-export const chatRequestContact = (objectID, chatID) => dispatch => {
+export const chatRequestContact = (objectID, chatID) => (
+  dispatch,
+  getState
+) => {
   dispatch(chatStartChatAction(objectID, chatID));
   //API
   axios
