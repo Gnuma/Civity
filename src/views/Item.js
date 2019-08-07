@@ -18,7 +18,7 @@ import DecisionOverlay from "../components/DecisionOverlay";
 import LoadingOverlay from "../components/LoadingOverlay";
 import { ChatStatus } from "../utils/constants";
 import BlockedItemBar from "../components/Item/BlockedItemBar";
-import { SafeAreaView } from "react-navigation";
+import { SafeAreaView, StackActions } from "react-navigation";
 
 export class Item extends Component {
   constructor(props) {
@@ -200,6 +200,7 @@ export class Item extends Component {
             title={bookName}
             author={bookAuthors}
             hasNewComments={this.hasNewComments}
+            goBack={this._handleGoBack}
           />
           <View style={{ flex: 1 }}>
             {isLoading ? (
@@ -234,7 +235,7 @@ export class Item extends Component {
   }
 
   _handleGoBack = () => {
-    this.props.navigation.goBack(null);
+    this.props.navigation.dispatch(StackActions.popToTop());
   };
 
   _handleContact = () => {
