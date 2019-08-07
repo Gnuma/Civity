@@ -103,7 +103,7 @@ class WS {
           return store.dispatch(
             chatReceiveMessage(
               (data.for === "sale" ? "" : "s") + data.objectID,
-              data.chatID, //_id
+              data._id, //_id
               msg,
               data.for
             )
@@ -121,8 +121,8 @@ class WS {
         case DataType.NEW_OFFERT:
           return store.dispatch(
             chatNewOffert(
-              (data.for === "sale" ? "" : "s") + data._id,
-              data.offert.chat,
+              (data.for === "sale" ? "" : "s") + data.objectID,
+              data._id,
               data.offert.id,
               data.offert.offert
             )
