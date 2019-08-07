@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as authActions from "../store/actions/auth";
@@ -10,6 +10,7 @@ import { AutoStart } from "../utils/constants";
 import NavigatorService from "../navigator/NavigationService";
 import { HiddenBar } from "../components/StatusBars";
 import Logo from "../Header/Logo";
+import IconPlus from "../media/vectors/plus-icon";
 import colors from "../styles/colors";
 import { SafeAreaView } from "react-navigation";
 
@@ -43,6 +44,9 @@ export class AppLoader extends Component {
         <Button onPress={() => this.props.navigation.navigate("App")}>
           <Logo color="black" />
         </Button>
+        <View style={styles.icon}>
+          <IconPlus width="38em" height="38em" />
+        </View>
       </SafeAreaView>
     );
   }
@@ -62,3 +66,16 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(AppLoader);
+
+const styles = StyleSheet.create({
+  icon: {
+    marginVertical: 10,
+    height: 50,
+    width: 50,
+    backgroundColor: colors.black,
+    elevation: 2,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});

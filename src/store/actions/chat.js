@@ -178,7 +178,7 @@ export const chatOnline = () => ({
 
 export const chatDisableItem = (type, objectID, chatID) => ({
   type: actionTypes.CHAT_DISABLE_ITEM,
-  paylaod: {
+  payload: {
     type,
     objectID,
     chatID

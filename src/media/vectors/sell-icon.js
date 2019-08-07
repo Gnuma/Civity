@@ -1,15 +1,26 @@
 import React from "react";
-import Svg, { Path } from "react-native-svg";
-const SvgComponent = ({ color, ...rest }) => {
-  return (
-    <Svg width={24} height={21} fill="none" {...rest}>
-      <Path
-        d="M.053 3.233C.053 1.032 2.195-.512 4.247.21l5.237 1.844c.663.234.98.998.682 1.641a1.176 1.176 0 0 1-1.44.628L4.637 2.956c-1.021-.341-2.073.43-2.073 1.52v16.836a1.6 1.6 0 0 0 1.023 1.498l9.397 3.58c1.033.393 2.135-.38 2.135-1.498V7.335c0-1.129.701-2.135 1.751-2.513L28.516.632c2.042-.734 4.192.787 4.214 2.983l.2 19.449a2.67 2.67 0 0 1-1.557 2.461l-6.24 2.83c-.552.25-1.2.033-1.495-.502a1.188 1.188 0 0 1 .522-1.645l5.37-2.559c.553-.263.906-.828.906-1.448V4.748c0-1.102-1.075-1.874-2.102-1.51l-9.648 3.433a1.599 1.599 0 0 0-1.056 1.51v18.696c0 1.864-1.84 3.153-3.56 2.495L1.755 24.665A2.666 2.666 0 0 1 .053 22.17V3.233z"
-        fill={color}
-        scale={0.7}
-      />
-    </Svg>
-  );
-};
+import Svg, { Rect } from "react-native-svg";
+
+const SvgComponent = ({ color, ...rest }) => (
+  <Svg width="20em" height="20em" viewBox="0 0 25 26" fill="none" {...rest}>
+    <Rect
+      x={25}
+      y={10.663}
+      width={3.983}
+      height={25}
+      rx={1.992}
+      transform="rotate(90 25 10.663)"
+      fill={color}
+    />
+    <Rect
+      x={10.405}
+      y={0.137}
+      width={4.186}
+      height={25}
+      rx={2.093}
+      fill={color}
+    />
+  </Svg>
+);
 
 export default SvgComponent;

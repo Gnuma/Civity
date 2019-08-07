@@ -1,13 +1,26 @@
 import React from "react";
-import Svg, { Path } from "react-native-svg";
+import Svg, { Rect } from "react-native-svg";
 
-const IconPlus = props => (
-  <Svg width={31} height={30} fill="none" {...props}>
-    <Path
-      d="M15.5 0A2.5 2.5 0 0 0 13 2.5v10H3a2.5 2.5 0 0 0 0 5h10v10a2.5 2.5 0 0 0 5 0v-10h10a2.5 2.5 0 0 0 0-5H18v-10A2.5 2.5 0 0 0 15.5 0z"
-      fill="#1EA67E"
+const SvgComponent = props => (
+  <Svg width="1em" height="1em" viewBox="0 0 138 138" fill="none" {...props}>
+    <Rect
+      x={137.255}
+      y={58.16}
+      width={21.868}
+      height={137.255}
+      rx={10.934}
+      transform="rotate(90 137.255 58.16)"
+      fill="#00BA75"
+    />
+    <Rect
+      x={57.133}
+      y={0.373}
+      width={22.983}
+      height={137.255}
+      rx={11.492}
+      fill="#4FEEA4"
     />
   </Svg>
 );
 
-export default IconPlus;
+export default SvgComponent;

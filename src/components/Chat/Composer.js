@@ -70,6 +70,7 @@ export default class Composer extends Component {
             placeholder="Scrivi un messaggio"
             onChangeText={onComposerTextChanged}
             value={text}
+            maxLength={500}
           />
           <NativeButton
             style={{

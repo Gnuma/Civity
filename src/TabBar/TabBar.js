@@ -74,6 +74,8 @@ export class TabBar extends Component {
           <SellIcon
             style={{ marginBottom: 5 }}
             color={focus === "SALES" ? colors.secondary : colors.grey}
+            width={"20em"}
+            height={"20em"}
           />
           <Header4 color={focus === "SALES" ? "secondary" : "grey"}>
             Vendi

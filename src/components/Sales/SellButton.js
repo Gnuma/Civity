@@ -10,17 +10,20 @@ export class ContactButton extends Component {
     return (
       <Button
         style={{
-          backgroundColor: colors.white,
+          height: 40,
+          width: 40,
+          backgroundColor: colors.black,
           elevation: 2,
-          borderRadius: 8,
+          borderRadius: 20,
           position: "absolute",
           bottom: 20,
           alignSelf: "center",
-          padding: 6
+          justifyContent: "center",
+          alignItems: "center"
         }}
         onPress={this.props.onPress}
       >
-        <IconPlus />
+        <IconPlus width="30em" height="30em" />
       </Button>
     );
   }
