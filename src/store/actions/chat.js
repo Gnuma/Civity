@@ -646,7 +646,11 @@ export const chatRestart = () => dispatch => {
 //newMessage inChat || open chat
 const readChatEpic = (action$, state$) =>
   action$.pipe(
-    ofType(actionTypes.CHAT_SET_CHAT_FOCUS, actionTypes.CHAT_RECEIVE_MSG),
+    ofType(
+      actionTypes.CHAT_SET_CHAT_FOCUS,
+      actionTypes.CHAT_RECEIVE_MSG,
+      actionTypes.CHAT_SYSTEM_MSG
+    ),
     filter(action => {
       const { chatID } = action.payload;
       return chatID !== null && state$.value.chat.chatFocus === chatID;
