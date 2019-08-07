@@ -189,7 +189,7 @@ class WS {
             chatSettleAction("s" + data.objectID, data._id, ChatStatus.BLOCKED)
           );
           return store.dispatch(
-            chatDisableItem(ChatType.sales, "s" + data.objectID, data._id)
+            chatDisableItem(ChatType.shopping, "s" + data.objectID, data._id)
           );
 
         default:
