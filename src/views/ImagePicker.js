@@ -242,7 +242,12 @@ class ImageRoll extends PureComponent {
 
     return (
       <View style={styles.item}>
-        <TouchableNative style={styles.itemBtn} onPress={() => toggle(id)}>
+        <TouchableNative
+          style={styles.itemBtn}
+          onPress={() => toggle(id)}
+          onLongPress={() => toggle(id)}
+          delayLongPress={200}
+        >
           <View style={{ flex: 1 }}>
             {IS_ANDROID ? (
               <FastImage style={StyleSheet.absoluteFill} source={item.image} />

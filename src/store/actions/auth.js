@@ -189,9 +189,9 @@ export const authLogout = () => {
 export const authSignup = (username, email, password1, password2, phone) => {
   return (dispatch, getState) => {
     return new Promise(function(resolve, reject) {
-      //const office = getState().auth.office;
-      const office = 1; // TEST
-      const course = "5B"; // TEST
+      const officeData = getState().auth.office;
+      const office = officeData.id;
+      const course = officeData.course.year + "" + officeData.course.name;
       dispatch(authStart());
       if (isOffline) {
         console.log(username, email, password1, password2);
@@ -210,6 +210,7 @@ export const authSignup = (username, email, password1, password2, phone) => {
             login({ dispatch, resolve, reject, token: res.data.key });
           })
           .catch(err => {
+            console.log({ err });
             dispatch(authFail(err));
             reject(err);
           });

@@ -72,7 +72,7 @@ export class SalesList extends Component {
           />
           {isConnected && (
             <View
-              style={{ position: "absolute", bottom: 20, alignItems: "center" }}
+              style={{ position: "absolute", bottom: 20, alignSelf: "center" }}
             >
               <SellButton onPress={this.onGoSell} />
             </View>
