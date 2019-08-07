@@ -15,6 +15,7 @@ import firebase from "react-native-firebase";
 class App extends Component {
   componentDidMount() {
     Notification.start();
+    console.log("Aooo");
   }
 
   componentWillUnmount() {

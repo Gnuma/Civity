@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Platform, Keyboard } from "react-native";
+import { View, Text, Platform, Keyboard, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Button from "../components/Button";
@@ -77,7 +77,10 @@ export class TabBar extends Component {
             width={"20em"}
             height={"20em"}
           />
-          <Header4 color={focus === "SALES" ? "secondary" : "grey"}>
+          <Header4
+            color={focus === "SALES" ? "secondary" : "grey"}
+            style={this.props.salesNews && styles.hasNotification}
+          >
             Vendi
           </Header4>
         </Button>
@@ -93,7 +96,10 @@ export class TabBar extends Component {
               color: focus === "SHOPPING" ? colors.secondary : colors.grey
             }}
           />
-          <Header4 color={focus === "SHOPPING" ? "secondary" : "grey"}>
+          <Header4
+            color={focus === "SHOPPING" ? "secondary" : "grey"}
+            style={this.props.shoppingNews && styles.hasNotification}
+          >
             Acquisti
           </Header4>
         </Button>
@@ -117,7 +123,27 @@ export class TabBar extends Component {
   };
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => {
+  let salesNews = false;
+  let shoppingNews = false;
+
+  /*
+  for (const objectID in state.chat.data) {
+    if (
+      state.chat.data.hasOwnProperty(objectID) &&
+      state.chat.data[objectID].newsCount > 0
+    ) {
+      if (String(objectID).charAt(0) === "s") shoppingNews = true;
+      else salesNews = true;
+    }
+  }
+  */
+
+  return {
+    salesNews,
+    shoppingNews
+  };
+};
 
 const mapDispatchToProps = {};
 
@@ -125,3 +151,10 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(TabBar);
+
+const styles = StyleSheet.create({
+  hasNotification: {
+    borderBottomWidth: 1,
+    borderColor: colors.darkRed
+  }
+});

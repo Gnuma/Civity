@@ -191,7 +191,8 @@ export const authSignup = (username, email, password1, password2, phone) => {
     return new Promise(function(resolve, reject) {
       const officeData = getState().auth.office;
       const office = officeData.id;
-      const course = officeData.course.year + "" + officeData.course.name;
+      const course = officeData.course.name;
+      const year = officeData.course.year;
       dispatch(authStart());
       if (isOffline) {
         console.log(username, email, password1, password2);
@@ -204,6 +205,7 @@ export const authSignup = (username, email, password1, password2, phone) => {
             password2: password2,
             office: office,
             course: course,
+            year: year,
             phone: phone
           })
           .then(res => {

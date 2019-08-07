@@ -42,7 +42,7 @@ export default class BookItem extends Component {
             </View>
             <View style={{ flex: 1, alignItems: "flex-start", marginLeft: 10 }}>
               <Header4>{isbn}</Header4>
-              <Header4>{subject}</Header4>
+              <Header4>{subject.title}</Header4>
             </View>
           </View>
         </View>

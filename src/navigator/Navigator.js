@@ -268,7 +268,7 @@ export const persistNavigationState = async newState => {
     console.log("Error Setting", err);
   }
 };
-export const loadNavigationState = async () => {
+export const loadNavigationState = () => {
   return navState;
 };
 

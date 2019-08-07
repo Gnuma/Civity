@@ -1,5 +1,7 @@
 import firebase from "react-native-firebase";
 import store from "../store/store";
+import NavigationService from "../navigator/NavigationService";
+import { ChatType } from "../utils/constants";
 
 class Notifications {
   constructor() {
@@ -13,16 +15,39 @@ class Notifications {
     firebase.notifications().android.createChannel(this.channel);
   }
 
+  //---START---HANDLE OPEN NOTIFICATION
+
+  openNotification = openAction => {
+    const data = openAction.notification._data;
+    if (data.objectID) {
+      console.log(data);
+      if (data.for === "sale") {
+        this.navigate("SaleChat", {
+          itemID: data.objectID,
+          chatID: data._id
+        });
+      } else {
+        this.navigate("ShoppingChat", {
+          subjectID: "s" + data.objectID,
+          chatID: data._id
+        });
+      }
+    } else {
+      this.navigate("SEARCH");
+    }
+  };
+
+  navigate = (routeName, data) =>
+    setTimeout(() => NavigationService.navigate(routeName, data), 0);
+
+  //---END---HANDLE OPEN NOTIFICATION
+
   onNotification = notificationData => {
     //Check if chat == Chatt
     console.log(store.getState().chat.chatFocus);
     if (store.getState().chat.chatFocus) return;
 
     this.displayNotification(notificationData);
-  };
-
-  openNotification = openAction => {
-    console.log(openAction);
   };
 
   start = async () => {
