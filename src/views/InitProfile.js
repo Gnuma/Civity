@@ -13,6 +13,8 @@ import { switchMap, map, catchError } from "rxjs/operators";
 import { ajax } from "rxjs/ajax";
 import { AndroidBackHandler } from "react-navigation-backhandler";
 import { SafeAreaView } from "react-navigation";
+import FullButton from "../components/FullButton";
+import colors from "../styles/colors";
 
 export class InitProfile extends Component {
   state = {
@@ -76,53 +78,54 @@ export class InitProfile extends Component {
 
   render() {
     const { office, course, year, status } = this.state;
+    const canContinue = canStateContinue(this.state);
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <AndroidBackHandler onBackPress={this.goBack}>
-          <ScrollView
-            style={{
-              flex: 1,
-              paddingVertical: 20,
-              paddingHorizontal: 18
-            }}
-          >
-            <Header1 color={"primary"} style={{ fontSize: 50 }}>
-              Ciao!
-            </Header1>
-            <Header3 color={"black"} style={{ marginBottom: 5 }}>
-              Benvenuto in Civity
-            </Header3>
-            <Header3 color={"black"}>
-              Per rendere la tua esperienza impeccabile abbiamo bisogno di
-              sapere il tuo istituto
-            </Header3>
-            <OfficePicker
-              office={office}
-              course={course}
-              year={year}
-              setOffice={office => this.setItem("office", office)}
-              setCourse={course => this.setItem("course", course)}
-              setYear={year => this.setItem("year", year)}
-              status={status}
-              goBack={this.goBack}
-            />
-            <Button
+          <View style={{ flex: 1, paddingVertical: 20, paddingHorizontal: 18 }}>
+            <ScrollView
               style={{
-                paddingVertical: 4,
-                backgroundColor: "white",
-                width: 200,
-                elevation: 4,
-                borderRadius: 6,
-                margin: 10,
-                alignSelf: "center"
+                flex: 1
               }}
-              onPress={this.continue}
+              keyboardShouldPersistTaps="always"
             >
-              <Header3 style={{ textAlign: "center" }} color={"primary"}>
-                Continua
+              <Header1 color={"primary"} style={{ fontSize: 50 }}>
+                Ciao!
+              </Header1>
+              <Header3 color={"black"} style={{ marginBottom: 5 }}>
+                Benvenuto in Civity
               </Header3>
-            </Button>
-          </ScrollView>
+              <Header3 color={"black"}>
+                Per rendere la tua esperienza impeccabile abbiamo bisogno di
+                sapere il tuo istituto
+              </Header3>
+              <OfficePicker
+                office={office}
+                course={course}
+                year={year}
+                setOffice={office => this.setItem("office", office)}
+                setCourse={course => this.setItem("course", course)}
+                setYear={year => this.setItem("year", year)}
+                status={status}
+                goBack={this.goBack}
+              />
+            </ScrollView>
+            <FullButton
+              value={"Continua"}
+              onPress={this.continue}
+              icon={canContinue == "Salva" ? "pen" : "chevron-right"}
+              iconStyle={{
+                color: canContinue ? colors.white : colors.black
+              }}
+              contentStyle={{
+                flex: 1,
+                textAlign: "center",
+                color: canContinue ? colors.white : colors.black
+              }}
+              color={canContinue ? "secondary" : "white"}
+              disabled={!canContinue}
+            />
+          </View>
         </AndroidBackHandler>
       </SafeAreaView>
     );

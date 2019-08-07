@@ -23,7 +23,7 @@ export default class BookItem extends Component {
         }}
       >
         <View style={{ flex: 1, margin: 5 }}>
-          <View>
+          <View style={{ alignItems: "center" }}>
             <Header2 color={"primary"}>{title}</Header2>
             <Header4 numberOfLines={1} style={{ marginLeft: 10 }}>
               {author}

@@ -70,7 +70,13 @@ export class SalesList extends Component {
             focus={focus}
             onGoChat={this.onGoChat}
           />
-          {isConnected && <SellButton onPress={this.onGoSell} />}
+          {isConnected && (
+            <View
+              style={{ position: "absolute", bottom: 20, alignItems: "center" }}
+            >
+              <SellButton onPress={this.onGoSell} />
+            </View>
+          )}
         </View>
         {!isConnected && (
           <View
@@ -108,24 +114,9 @@ export class SalesList extends Component {
             Sembra che tu non abbia ancora creato nessun annuncio...
           </Header3>
           {this.props.isConnected && (
-            <View>
-              <Button
-                style={{
-                  backgroundColor: colors.white,
-                  elevation: 2,
-                  borderRadius: 8,
-                  alignSelf: "center",
-                  padding: 6,
-                  marginTop: 30
-                }}
-                onPress={this.onGoSell}
-              >
-                <IconPlus />
-              </Button>
-              <Header2
-                color="primary"
-                style={{ marginTop: 10, alignSelf: "center" }}
-              >
+            <View style={{ alignItems: "center", marginTop: 10 }}>
+              <SellButton onPress={this.onGoSell} />
+              <Header2 color="primary" style={{ marginTop: 10 }}>
                 Inizia ora
               </Header2>
             </View>

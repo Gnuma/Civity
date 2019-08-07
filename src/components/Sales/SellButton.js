@@ -15,9 +15,6 @@ export class ContactButton extends Component {
           backgroundColor: colors.black,
           elevation: 2,
           borderRadius: 20,
-          position: "absolute",
-          bottom: 20,
-          alignSelf: "center",
           justifyContent: "center",
           alignItems: "center"
         }}

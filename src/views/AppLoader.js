@@ -27,8 +27,8 @@ export class AppLoader extends Component {
         if (err === AutoStart.anonymous) {
           NavigatorService.navigate("Main");
         } else if (err === AutoStart.firstTime) {
-          //NavigatorService.navigate("InitProfile");
-          NavigatorService.navigate("Home");
+          NavigatorService.navigate("InitProfile");
+          //NavigatorService.navigate("Home");
         }
       });
 
