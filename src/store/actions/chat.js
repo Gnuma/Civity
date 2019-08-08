@@ -623,12 +623,15 @@ export const chatSendFeedback = (
   comment
 ) => dispatch => {
   dispatch(chatStartStatusAction(objectID, chatID));
+  const data = {
+    chat: chatID,
+    judgment: feedback
+  };
+  if (comment) {
+    data.comment = comment;
+  }
   axios
-    .post(___SEND_FEEDBACK___, {
-      chat: chatID,
-      judgment: feedback,
-      comment: comment || undefined
-    })
+    .post(___SEND_FEEDBACK___, data)
     .then(res => {
       console.log(res);
       dispatch(chatSetFeedback(objectID, chatID, feedback, comment, false));

@@ -89,15 +89,13 @@ const authUpdateExperience = (state, { payload: { xp } }) =>
 
 const authUpdateRespect = (state, { payload: { isPositive, type } }) => {
   const total = state.userData.soldItems + state.userData.boughtItems;
-  update(state, {
+  return update(state, {
     userData: {
       respect: {
         $apply: oldRespect => {
           let positives = (total * oldRespect) / 100;
           positives = positives + (isPositive ? 1 : -1);
-          return (
-            ((total + 1) / (total * oldRespect + (isPositive ? 1 : -1))) * 100
-          );
+          return ((total + 1) / positives) * 100;
         }
       },
       soldItems: {
