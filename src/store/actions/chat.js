@@ -40,6 +40,7 @@ import {
   ChatType
 } from "../../utils/constants";
 import SystemMessages from "../../utils/SystemMessages";
+import { authUpdateRespect, authUpdateExperience } from "./auth";
 
 export const chatInit = (salesData, shoppingData) => ({
   type: actionTypes.CHAT_INIT,
@@ -295,6 +296,9 @@ export const chatSettleAction = (objectID, chatID, status) => (
       );
 
     case ChatStatus.FEEDBACK:
+      dispatch(
+        authUpdateExperience(String(objectID).charAt(0) == "s" ? 50 : 100)
+      );
       return dispatch(
         chatSystemMsg(
           objectID,
@@ -333,6 +337,7 @@ export const chatSetFeedback = (
       fromWS
     }
   });
+
   const user = fromWS
     ? getUserTO(getState, { objectID, chatID })
     : getUser(getState);
@@ -346,6 +351,17 @@ export const chatSetFeedback = (
       )
     )
   );
+
+  const feedbacks = getState().chat.data[objectID].chats[chatID].feedbacks;
+  if (feedbacks.seller && feedbacks.buyer) {
+    const type = String(objectID).charAt(0) == "s" ? "buyer" : "seller";
+    dispatch(
+      authUpdateRespect(
+        feedbacks[type].judgment == FEEDBACK_TYPES.POSITIVE,
+        type == "buyer" ? ChatType.shopping : ChatType.sales
+      )
+    );
+  }
 };
 
 // --ChatNotifications--
@@ -611,13 +627,14 @@ export const chatSendFeedback = (
     .post(___SEND_FEEDBACK___, {
       chat: chatID,
       judgment: feedback,
-      comment: comment
+      comment: comment || undefined
     })
     .then(res => {
       console.log(res);
       dispatch(chatSetFeedback(objectID, chatID, feedback, comment, false));
     })
     .catch(err => {
+      console.log({ err });
       dispatch(chatOffertFail(objectID, chatID, err));
     });
 };

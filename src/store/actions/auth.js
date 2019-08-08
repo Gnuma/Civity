@@ -91,6 +91,25 @@ export const authSetPhone = phone => ({
 
 //Action Creators
 
+export const authUpdateExperience = xp => (dispatch, getState) =>
+  getState().auth.userData &&
+  dispatch({
+    type: actionTypes.AUTH_UPDATE_EXPERIENCE,
+    payload: {
+      xp
+    }
+  });
+
+export const authUpdateRespect = (isPositive, type) => (dispatch, getState) =>
+  getState().auth.userData &&
+  dispatch({
+    type: actionTypes.AUTH_UPDATE_RESPECT,
+    payload: {
+      isPositive,
+      type
+    }
+  });
+
 export const authLogin = (username, password) => {
   return (dispatch, getState) => {
     return new Promise(function(resolve, reject) {

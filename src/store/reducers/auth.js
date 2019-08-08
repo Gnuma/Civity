@@ -1,6 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
+import { ChatType } from "../../utils/constants";
 
 const initialState = {
   token: null,
@@ -79,6 +80,38 @@ const authValidateAccount = (state, action) =>
     isActive: { $set: true }
   });
 
+const authUpdateExperience = (state, { payload: { xp } }) =>
+  update(state, {
+    userData: {
+      xp: { $apply: oldXP => oldXP + xp }
+    }
+  });
+
+const authUpdateRespect = (state, { payload: { isPositive, type } }) => {
+  const total = state.userData.soldItems + state.userData.boughtItems;
+  update(state, {
+    userData: {
+      respect: {
+        $apply: oldRespect => {
+          let positives = (total * oldRespect) / 100;
+          positives = positives + (isPositive ? 1 : -1);
+          return (
+            ((total + 1) / (total * oldRespect + (isPositive ? 1 : -1))) * 100
+          );
+        }
+      },
+      soldItems: {
+        $apply: soldItems =>
+          type == ChatType.sales ? soldItems + 1 : soldItems
+      },
+      boughtItems: {
+        $apply: boughtItems =>
+          type == ChatType.shopping ? boughtItems + 1 : boughtItems
+      }
+    }
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_APPINIT:
@@ -104,6 +137,12 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.AUTH_VALIDATE_ACCOUNT:
       return authValidateAccount(state, action);
+
+    case actionTypes.AUTH_UPDATE_EXPERIENCE:
+      return authUpdateExperience(state, action);
+
+    case actionTypes.AUTH_UPDATE_RESPECT:
+      return authUpdateRespect(state, action);
 
     default:
       return state;
