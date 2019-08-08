@@ -82,49 +82,48 @@ export class InitProfile extends Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <AndroidBackHandler onBackPress={this.goBack}>
-          <View style={{ flex: 1, paddingVertical: 20, paddingHorizontal: 18 }}>
-            <ScrollView
-              style={{
-                flex: 1
-              }}
-              keyboardShouldPersistTaps="always"
-            >
-              <Header1 color={"primary"} style={{ fontSize: 50 }}>
-                Ciao!
-              </Header1>
-              <Header3 color={"black"} style={{ marginBottom: 5 }}>
-                Benvenuto in Civity
-              </Header3>
-              <Header3 color={"black"}>
-                Per rendere la tua esperienza impeccabile abbiamo bisogno di
-                sapere il tuo istituto
-              </Header3>
-              <OfficePicker
-                office={office}
-                course={course}
-                year={year}
-                setOffice={office => this.setItem("office", office)}
-                setCourse={course => this.setItem("course", course)}
-                setYear={year => this.setItem("year", year)}
-                status={status}
-                goBack={this.goBack}
-              />
+          <View style={{ flex: 1, paddingHorizontal: 18 }}>
+            <ScrollView keyboardShouldPersistTaps="always">
+              <View style={{ flex: 1, paddingTop: 20, paddingBottom: 100 }}>
+                <Header1 color={"primary"} style={{ fontSize: 50 }}>
+                  Ciao!
+                </Header1>
+                <Header3 color={"black"} style={{ marginBottom: 5 }}>
+                  Benvenuto in Civity
+                </Header3>
+                <Header3 color={"black"}>
+                  Per rendere la tua esperienza impeccabile abbiamo bisogno di
+                  sapere il tuo istituto
+                </Header3>
+                <OfficePicker
+                  office={office}
+                  course={course}
+                  year={year}
+                  setOffice={office => this.setItem("office", office)}
+                  setCourse={course => this.setItem("course", course)}
+                  setYear={year => this.setItem("year", year)}
+                  status={status}
+                  goBack={this.goBack}
+                />
+              </View>
             </ScrollView>
-            <FullButton
-              value={"Continua"}
-              onPress={this.continue}
-              icon={canContinue == "Salva" ? "pen" : "chevron-right"}
-              iconStyle={{
-                color: canContinue ? colors.white : colors.black
-              }}
-              contentStyle={{
-                flex: 1,
-                textAlign: "center",
-                color: canContinue ? colors.white : colors.black
-              }}
-              color={canContinue ? "secondary" : "white"}
-              disabled={!canContinue}
-            />
+            <View style={{ marginVertical: 10 }}>
+              <FullButton
+                value={"Continua"}
+                onPress={this.continue}
+                icon={canContinue == "Salva" ? "pen" : "chevron-right"}
+                iconStyle={{
+                  color: canContinue ? colors.white : colors.black
+                }}
+                contentStyle={{
+                  flex: 1,
+                  textAlign: "center",
+                  color: canContinue ? colors.white : colors.black
+                }}
+                color={canContinue ? "secondary" : "white"}
+                disabled={!canContinue}
+              />
+            </View>
           </View>
         </AndroidBackHandler>
       </SafeAreaView>

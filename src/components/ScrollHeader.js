@@ -21,6 +21,7 @@ import Button from "./Button";
 import FullButton from "./FullButton";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Divider from "./Divider";
+import { STATUS_BAR_MARGIN } from "../utils/constants";
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get(
   "window"
@@ -33,7 +34,7 @@ export default class ScrollHeader extends Component {
     super(props);
 
     this.minHeight = props.minHeight;
-    this.maxHeight = viewportHeight;
+    this.maxHeight = viewportHeight - STATUS_BAR_MARGIN;
     this.deltaY = this.maxHeight - this.minHeight;
 
     this.state = {
@@ -57,7 +58,8 @@ export default class ScrollHeader extends Component {
       this.setPointerEvent("auto");
 
       const { velocityY: v, translationY } = event.nativeEvent;
-      const { height: windowHeight } = Dimensions.get("window");
+      let { height: windowHeight } = Dimensions.get("window");
+      windowHeight -= STATUS_BAR_MARGIN;
 
       if (this.state.status === HEADER_STATUS.CLOSED) {
         if (
@@ -123,7 +125,8 @@ export default class ScrollHeader extends Component {
 
   getConstraints = status => {
     let minScroll, maxScroll;
-    const { height: windowHeight } = Dimensions.get("window");
+    let { height: windowHeight } = Dimensions.get("window");
+    windowHeight -= STATUS_BAR_MARGIN;
 
     switch (status) {
       case HEADER_STATUS.CLOSED:
@@ -166,6 +169,7 @@ export default class ScrollHeader extends Component {
   render() {
     const { status, contentHeight, initialized, pointerEvent } = this.state;
     let { height: windowHeight } = Dimensions.get("window");
+    windowHeight -= STATUS_BAR_MARGIN;
 
     const { minScroll, maxScroll } = this.getConstraints(status);
 
@@ -245,7 +249,7 @@ export default class ScrollHeader extends Component {
       initialized: true,
       contentHeight: Math.max(
         event.nativeEvent.layout.height,
-        windowHeight - this.minHeight
+        windowHeight - this.minHeight - STATUS_BAR_MARGIN
       )
     });
   };

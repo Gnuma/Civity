@@ -2,6 +2,7 @@ import firebase from "react-native-firebase";
 import store from "../store/store";
 import NavigationService from "../navigator/NavigationService";
 import { ChatType } from "../utils/constants";
+import { StackActions, NavigationActions } from "react-navigation";
 
 class Notifications {
   constructor() {
@@ -22,12 +23,9 @@ class Notifications {
     if (data.objectID) {
       console.log(data);
       if (data.for === "sale") {
-        this.navigate("SaleChat", {
-          itemID: data.objectID,
-          chatID: data._id
-        });
+        this.goSalesChat({ itemID: data.objectID, chatID: data._id });
       } else {
-        this.navigate("ShoppingChat", {
+        this.goShoppingChat({
           subjectID: "s" + data.objectID,
           chatID: data._id
         });
@@ -40,12 +38,53 @@ class Notifications {
   navigate = (routeName, data) =>
     setTimeout(() => NavigationService.navigate(routeName, data), 0);
 
+  goShoppingChat = data =>
+    setTimeout(() => {
+      const resetAction = StackActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({ routeName: "ShoppingList" }),
+          NavigationActions.navigate({
+            routeName: "ShoppingChat",
+            params: data
+          })
+        ],
+        key: "SHOPPING"
+      });
+      NavigationService.dispatch(resetAction);
+    });
+
+  goSalesChat = data =>
+    setTimeout(() => {
+      const resetToNav = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: "SalesNavigator" })],
+        key: "SALES"
+      });
+      NavigationService.dispatch(resetToNav);
+      NavigationService.navigate("SaleChat", data);
+    });
+
+  replace = (routeName, data) =>
+    setTimeout(() => {
+      const replaceAction = StackActions.replace({
+        key: routeName,
+        routeName: routeName,
+        params: data
+      });
+      NavigationService.dispatch(replaceAction);
+    }, 0);
+
   //---END---HANDLE OPEN NOTIFICATION
 
   onNotification = notificationData => {
     //Check if chat == Chatt
     console.log(store.getState().chat.chatFocus);
-    if (store.getState().chat.chatFocus) return;
+    if (
+      notificationData._data._id &&
+      store.getState().chat.chatFocus == notificationData._data._id
+    )
+      return;
 
     this.displayNotification(notificationData);
   };
@@ -100,7 +139,6 @@ class Notifications {
       .android.setPriority(firebase.notifications.Android.Priority.High)
       .android.setAutoCancel(true)
       .android.setCategory(firebase.notifications.Android.Category.Alarm);
-
     firebase.notifications().displayNotification(notification);
   };
 }

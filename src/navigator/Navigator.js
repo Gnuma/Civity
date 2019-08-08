@@ -159,7 +159,7 @@ const SalesNavigator = createStackNavigator(
 
 const SalesStack = createStackNavigator(
   {
-    SalesList: SalesNavigator,
+    SalesNavigator: SalesNavigator,
     Vendi: VendiNavigator
   },
   {

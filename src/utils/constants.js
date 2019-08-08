@@ -104,6 +104,9 @@ export const AUTH_ERROR = {
 export const NOTCH_MARGIN =
   Platform.OS === "android" && Device.hasNotch() ? StatusBar.currentHeight : 0;
 
+export const STATUS_BAR_MARGIN =
+  Platform.OS === "android" && !Device.hasNotch() ? StatusBar.currentHeight : 0;
+
 export const TextOffertStatus = {
   0: "Da gestire",
   1: "Accettata",
