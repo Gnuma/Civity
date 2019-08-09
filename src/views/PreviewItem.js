@@ -12,6 +12,7 @@ import colors from "../styles/colors";
 import LoadingOverlay from "../components/LoadingOverlay";
 import protectedAction from "../utils/protectedAction";
 import { SafeAreaView } from "react-navigation";
+import Shadows from "../components/Shadows";
 
 export class PreviewItem extends Component {
   static propTypes = {
@@ -122,7 +123,7 @@ export default connect(
 const styles = StyleSheet.create({
   publishButton: {
     backgroundColor: colors.secondary,
-    elevation: 1,
+    ...Shadows[1],
     flexDirection: "row",
     padding: 8,
     justifyContent: "center",

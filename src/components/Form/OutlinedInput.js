@@ -5,6 +5,7 @@ import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon5 from "react-native-vector-icons/FontAwesome5";
 import colors from "../../styles/colors";
+import Shadows from "../Shadows";
 
 export default class OutlinedInput extends Component {
   static propTypes = {
@@ -87,14 +88,14 @@ export default class OutlinedInput extends Component {
           containerStyle
         ]}
       >
-        <View style={{ flex: 1, elevation: 0, flexDirection: "row" }}>
+        <View style={{ flex: 1, ...Shadows[0], flexDirection: "row" }}>
           <TextInput
             style={[
               {
                 flex: 1,
                 fontSize: 18,
                 padding: 8,
-                elevation: 4,
+                ...Shadows[4],
                 backgroundColor: "white",
                 justifyContent: "center",
                 borderBottomLeftRadius: 6,
@@ -115,7 +116,7 @@ export default class OutlinedInput extends Component {
             style={{
               width: 50,
               backgroundColor: "white",
-              elevation: 5,
+              ...Shadows[5],
               borderTopRightRadius: 6,
               borderBottomRightRadius: 6,
               justifyContent: "center",

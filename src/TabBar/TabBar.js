@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, Platform, Keyboard, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Platform,
+  Keyboard,
+  StyleSheet,
+  SafeAreaView
+} from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Button from "../components/Button";
@@ -10,7 +17,7 @@ import colors from "../styles/colors";
 import NavigationService from "../navigator/NavigationService";
 import protectedAction from "../utils/protectedAction";
 import firebase from "react-native-firebase";
-import { SafeAreaView } from "react-navigation";
+import Shadows from "../components/Shadows";
 
 export class TabBar extends Component {
   static propTypes = {};
@@ -45,64 +52,71 @@ export class TabBar extends Component {
     return (
       <SafeAreaView
         style={{
-          minHeight: 60,
           flexDirection: "row",
           backgroundColor: "white",
-          elevation: 2
+          ...Shadows[2]
         }}
       >
-        <Button
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          onPress={this._goHome}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            minHeight: 60
+          }}
         >
-          <Icon
-            name="search"
-            size={20}
-            style={{
-              marginBottom: 5,
-              color: focus === "SEARCH" ? colors.secondary : colors.grey
-            }}
-          />
-          <Header4 color={focus === "SEARCH" ? "secondary" : "grey"}>
-            Esplora
-          </Header4>
-        </Button>
-        <Button
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          onPress={this._goVendi}
-        >
-          <SellIcon
-            style={{ marginBottom: 5 }}
-            color={focus === "SALES" ? colors.secondary : colors.grey}
-            width={"20em"}
-            height={"20em"}
-          />
-          <Header4
-            color={focus === "SALES" ? "secondary" : "grey"}
-            style={this.props.salesNews && styles.hasNotification}
+          <Button
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            onPress={this._goHome}
           >
-            Vendi
-          </Header4>
-        </Button>
-        <Button
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          onPress={this._goShopping}
-        >
-          <Icon
-            name="tags"
-            size={20}
-            style={{
-              marginBottom: 5,
-              color: focus === "SHOPPING" ? colors.secondary : colors.grey
-            }}
-          />
-          <Header4
-            color={focus === "SHOPPING" ? "secondary" : "grey"}
-            style={this.props.shoppingNews && styles.hasNotification}
+            <Icon
+              name="search"
+              size={20}
+              style={{
+                marginBottom: 5,
+                color: focus === "SEARCH" ? colors.secondary : colors.grey
+              }}
+            />
+            <Header4 color={focus === "SEARCH" ? "secondary" : "grey"}>
+              Esplora
+            </Header4>
+          </Button>
+          <Button
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            onPress={this._goVendi}
           >
-            Acquisti
-          </Header4>
-        </Button>
+            <SellIcon
+              style={{ marginBottom: 5 }}
+              color={focus === "SALES" ? colors.secondary : colors.grey}
+              width={"20em"}
+              height={"20em"}
+            />
+            <Header4
+              color={focus === "SALES" ? "secondary" : "grey"}
+              style={this.props.salesNews && styles.hasNotification}
+            >
+              Vendi
+            </Header4>
+          </Button>
+          <Button
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            onPress={this._goShopping}
+          >
+            <Icon
+              name="tags"
+              size={20}
+              style={{
+                marginBottom: 5,
+                color: focus === "SHOPPING" ? colors.secondary : colors.grey
+              }}
+            />
+            <Header4
+              color={focus === "SHOPPING" ? "secondary" : "grey"}
+              style={this.props.shoppingNews && styles.hasNotification}
+            >
+              Acquisti
+            </Header4>
+          </Button>
+        </View>
       </SafeAreaView>
     );
   }

@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TextInput } from "react-native";
 import { Header3, Header4 } from "../Text";
 import Button from "../Button";
 import colors from "../../styles/colors";
+import Shadows from "../Shadows";
 
 export default class DescriptionInfo extends Component {
   render() {
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 6,
     backgroundColor: "white",
-    elevation: 4,
+    ...Shadows[4],
     borderRadius: 6
   }
 });

@@ -5,6 +5,7 @@ import { Header3, Header2 } from "../Text";
 import Button from "../Button";
 import _ from "lodash";
 import colors from "../../styles/colors";
+import Shadows from "../Shadows";
 
 export class ShoppingTab extends Component {
   static propTypes = {
@@ -58,7 +59,7 @@ export class ShoppingTab extends Component {
           backgroundColor: colors.white,
           //borderBottomLeftRadius: 6,
           //borderBottomRightRadius: 6,
-          elevation: 2
+          ...Shadows[2]
         }}
       >
         <ScrollView

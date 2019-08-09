@@ -6,6 +6,7 @@ import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Header2, Header5 } from "../Text";
 import colors from "../../styles/colors";
+import Shadows from "../Shadows";
 
 export default class ItemHeader extends Component {
   static propTypes = {
@@ -17,7 +18,7 @@ export default class ItemHeader extends Component {
 
   render() {
     return (
-      <View style={{ elevation: 0 }}>
+      <View style={Shadows[0]}>
         <View style={styles.container}>
           <Button onPress={this.props.handleGoBack} style={styles.goBack}>
             <Icon

@@ -5,6 +5,7 @@ import colors from "../styles/colors";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon5 from "react-native-vector-icons/FontAwesome5";
+import Shadows from "./Shadows";
 
 export default ({
   style,
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 8,
     borderRadius: 8,
-    elevation: 2
+    ...Shadows[2]
   },
 
   icon: {

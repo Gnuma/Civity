@@ -19,6 +19,7 @@ import {
   ___COURSE_HINTS_ENDPOINT___
 } from "../store/constants";
 import Icon5 from "react-native-vector-icons/FontAwesome5";
+import Shadows from "./Shadows";
 
 export default class OfficePicker extends Component {
   static propTypes = {
@@ -252,7 +253,7 @@ const YearState = ({ value, setYear, options }) => {
         return (
           <Button
             style={{
-              elevation: 3,
+              ...Shadows[3],
               backgroundColor: colors.white,
               width: yearBoxSize,
               height: yearBoxSize,

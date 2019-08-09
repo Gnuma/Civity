@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import Button from "./Button";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Shadows from "./Shadows";
 
 export default ({
   children,
@@ -25,7 +26,7 @@ export default ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    elevation: 2,
+    ...Shadows[2],
     flexDirection: "row",
     padding: 10,
     borderRadius: 8,

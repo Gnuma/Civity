@@ -4,6 +4,7 @@ import Button from "../Button";
 import { Header2 } from "../Text";
 import IconPlus from "../../media/vectors/plus-icon";
 import colors from "../../styles/colors";
+import Shadows from "../Shadows";
 
 export class ContactButton extends Component {
   render() {
@@ -13,7 +14,7 @@ export class ContactButton extends Component {
           height: 40,
           width: 40,
           backgroundColor: colors.black,
-          elevation: 2,
+          ...Shadows[2],
           borderRadius: 20,
           justifyContent: "center",
           alignItems: "center"

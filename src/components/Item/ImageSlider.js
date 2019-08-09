@@ -9,6 +9,7 @@ import {
   itemHorizontalMargin
 } from "./styles";
 import colors from "../../styles/colors";
+import Shadows from "../Shadows";
 
 const IS_IOS = Platform.OS === "ios";
 
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "white",
     margin: 10,
-    elevation: 4
+    ...Shadows[4]
   }
 });
 

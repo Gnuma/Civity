@@ -5,7 +5,7 @@ import Button from "../Button";
 import SolidButton from "../SolidButton";
 import Icon from "react-native-vector-icons/FontAwesome";
 import colors from "../../styles/colors";
-
+import Shadows from "../Shadows";
 export default props => {
   return (
     <SolidButton
@@ -13,9 +13,9 @@ export default props => {
         {
           minWidth: 320,
           padding: 8,
-          elevation: 4,
           backgroundColor: "white",
-          borderRadius: 6
+          borderRadius: 6,
+          ...Shadows[1]
         },
         props.style
       ]}

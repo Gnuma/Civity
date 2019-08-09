@@ -11,6 +11,7 @@ import Button from "../Button";
 import NavigationService from "../../navigator/NavigationService";
 import { StackActions } from "react-navigation";
 import BlockedBadge from "../Item/BlockedBadge";
+import Shadows from "../Shadows";
 
 export default class SaleCard extends Component {
   render() {
@@ -26,10 +27,9 @@ export default class SaleCard extends Component {
       >
         <Button
           style={{
-            elevation: 4,
+            ...Shadows[4],
             padding: 4,
             backgroundColor: colors.white,
-            overflow: "hidden",
             borderRadius: 6,
             flexDirection: "row"
           }}

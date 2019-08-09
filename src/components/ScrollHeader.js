@@ -22,6 +22,7 @@ import FullButton from "./FullButton";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Divider from "./Divider";
 import { STATUS_BAR_MARGIN } from "../utils/constants";
+import Shadows from "./Shadows";
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get(
   "window"
@@ -221,7 +222,7 @@ export default class ScrollHeader extends Component {
                     })
                   }
                 ],
-                elevation: 4
+                ...Shadows[4]
               }}
             >
               <View

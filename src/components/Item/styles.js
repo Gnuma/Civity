@@ -1,6 +1,7 @@
 import { StyleSheet, Dimensions } from "react-native";
 import colors from "../../styles/colors";
 import { ___BOOK_IMG_RATIO___ } from "../../utils/constants";
+import Shadows from "../Shadows";
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get(
   "window"
@@ -50,7 +51,7 @@ export const HeaderStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "white",
-    elevation: 6
+    ...Shadows[6]
   },
   goBack: {
     padding: 10
@@ -102,7 +103,7 @@ export const ItemInfoStyles = StyleSheet.create({
 export const SellerInfoStyles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    elevation: 3,
+    ...Shadows[3],
     padding: 10,
     borderRadius: 6,
     marginBottom: 8
@@ -121,7 +122,7 @@ export const SellerInfoStyles = StyleSheet.create({
   },
   button: {
     backgroundColor: "white",
-    elevation: 2,
+    ...Shadows[2],
     flexDirection: "row",
     padding: 10,
     justifyContent: "center",

@@ -15,6 +15,7 @@ import colors from "../../styles/colors";
 import Button from "../Button";
 import NavigationService from "../../navigator/NavigationService";
 import { StackActions } from "react-navigation";
+import Shadows from "../Shadows";
 
 export class MainList extends Component {
   static propTypes = {
@@ -79,7 +80,7 @@ export class MainList extends Component {
             <View
               style={{
                 paddingLeft: 10,
-                elevation: 3,
+                ...Shadows[3],
                 backgroundColor: "#fff"
               }}
             >

@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Header4, Header3, Header2 } from "../Text";
 import NativeButton from "../NativeButton";
 import { ChatStatus, ChatType } from "../../utils/constants";
+import Shadows from "../Shadows";
 
 export default class Composer extends Component {
   state = {};
@@ -106,11 +107,11 @@ export const ComposerContainer = ({ children }) => {
         flexDirection: "row",
         borderRadius: 10,
         backgroundColor: colors.white,
-        elevation: 2,
         marginBottom: 10,
         marginTop: 5,
         marginHorizontal: 20,
-        minHeight: 50
+        minHeight: 50,
+        ...Shadows[2]
       }}
     >
       {children}

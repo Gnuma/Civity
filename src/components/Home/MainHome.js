@@ -12,6 +12,7 @@ import NotificationCenter from "./NotificationCenter";
 import BookShelf from "./BookShelf";
 import _ from "lodash";
 import colors from "../../styles/colors";
+import Shadows from "../Shadows";
 
 export default class MainHome extends Component {
   constructor(props) {
@@ -60,7 +61,7 @@ export default class MainHome extends Component {
               alignItems: "center",
               paddingTop: 25,
               paddingBottom: 10,
-              elevation: 0
+              ...Shadows[0]
             }}
           >
             <SearchLink onPress={openSearchBar} />

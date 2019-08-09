@@ -8,6 +8,7 @@ import { sliderWidth, itemWidth } from "./styles";
 import SaleCard from "./SaleCard";
 import colors from "../../styles/colors";
 import SalePagination from "./SalePagination";
+import Shadows from "../Shadows";
 
 export class SalesTab extends Component {
   static propTypes = {
@@ -41,7 +42,7 @@ export class SalesTab extends Component {
           backgroundColor: colors.white,
           //borderBottomLeftRadius: 6,
           //borderBottomRightRadius: 6,
-          elevation: 2,
+          ...Shadows[2],
           paddingVertical: 5
         }}
       >

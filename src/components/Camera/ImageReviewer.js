@@ -11,6 +11,7 @@ import { ___BOOK_IMG_RATIO___ } from "../../utils/constants";
 import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ImageSize from "react-native-image-size";
+import Shadows from "../Shadows";
 
 export default class ImageReviewer extends Component {
   static propTypes = {
@@ -371,7 +372,7 @@ export default class ImageReviewer extends Component {
             style={{
               flexDirection: "row",
               backgroundColor: "white",
-              elevation: 4,
+              ...Shadows[4],
               borderRadius: 6
             }}
           >

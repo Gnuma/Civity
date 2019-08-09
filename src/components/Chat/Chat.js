@@ -22,6 +22,7 @@ import Offert from "./Offert";
 import _ from "lodash";
 import { OffertStatus } from "../../utils/constants";
 import LoadingOverlay from "../LoadingOverlay";
+import Shadows from "../Shadows";
 
 export default class Chat extends Component {
   onSend = () => {
@@ -43,10 +44,10 @@ export default class Chat extends Component {
         wrapperStyle={{
           right: {
             backgroundColor: colors.primary,
-            elevation: 1
+            ...Shadows[1]
           },
           left: {
-            elevation: 1,
+            ...Shadows[1],
             backgroundColor: colors.white
           }
         }}
@@ -147,7 +148,7 @@ export default class Chat extends Component {
             );
           }}
         />
-        <View style={{ zIndex: 0, elevation: 0 }}>
+        <View style={{ zIndex: 0, ...Shadows[0] }}>
           <Composer
             onSend={this.onSend}
             onComposerTextChanged={this.onComposerTextChanged}

@@ -5,6 +5,7 @@ import { Header3 } from "../Text";
 import SolidButton from "../SolidButton";
 import { ChatType, ChatStatus } from "../../utils/constants";
 import { ComposerContainer } from "./Composer";
+import Shadows from "../Shadows";
 
 export default class ContactReview extends Component {
   _getBuyerContent = () => {
@@ -20,7 +21,7 @@ export default class ContactReview extends Component {
       <View
         style={{
           backgroundColor: colors.white,
-          elevation: 2,
+          ...Shadows[2],
           borderRadius: 6,
           padding: 10
         }}
@@ -53,7 +54,7 @@ export default class ContactReview extends Component {
       <View
         style={{
           backgroundColor: colors.white,
-          elevation: 2,
+          ...Shadows[2],
           borderRadius: 6,
           padding: 10
         }}

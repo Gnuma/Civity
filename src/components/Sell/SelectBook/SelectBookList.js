@@ -3,6 +3,7 @@ import { Text, View, FlatList, ActivityIndicator } from "react-native";
 import BookItem from "./BookItem";
 import { Header2, Header3 } from "../../Text";
 import Button from "../../Button";
+import Shadows from "../../Shadows";
 
 export default class SelectBookList extends Component {
   render() {
@@ -33,7 +34,7 @@ export default class SelectBookList extends Component {
         style={{
           borderRadius: 10,
           backgroundColor: "white",
-          elevation: 4,
+          ...Shadows[4],
           marginVertical: 6,
           marginHorizontal: 15,
           padding: 5,

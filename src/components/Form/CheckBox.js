@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import Button from "../Button";
 import colors from "../../styles/colors";
+import Shadows from "../Shadows";
 
 export default class CheckBox extends Component {
   render() {
@@ -21,10 +22,10 @@ const styles = StyleSheet.create({
     height: 35,
     borderRadius: 4,
     backgroundColor: colors.white,
-    elevation: 3
+    ...Shadows[3]
   },
   active: {
     backgroundColor: colors.secondary,
-    elevation: 1
+    ...Shadows[1]
   }
 });

@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions, StatusBar } from "react-native";
 import colors from "../../styles/colors";
+import Shadows from "../Shadows";
 
 const sideContainer = 50;
 const numPreviews = 5;
@@ -25,9 +26,9 @@ export const cameraPreview = StyleSheet.create({
   itemContainer: {
     borderRadius: 4,
     marginHorizontal: itemMargin,
-    elevation: 4,
     borderColor: "white",
-    borderWidth: borderWidth
+    borderWidth: borderWidth,
+    ...Shadows[4]
   },
   imagePreview: {
     height: itemHeight,

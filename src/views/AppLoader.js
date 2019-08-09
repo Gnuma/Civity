@@ -13,6 +13,7 @@ import Logo from "../Header/Logo";
 import IconPlus from "../media/vectors/plus-icon";
 import colors from "../styles/colors";
 import { SafeAreaView } from "react-navigation";
+import Shadows from "../components/Shadows";
 
 let mounted = false;
 export class AppLoader extends Component {
@@ -27,8 +28,8 @@ export class AppLoader extends Component {
         if (err === AutoStart.anonymous) {
           NavigatorService.navigate("Main");
         } else if (err === AutoStart.firstTime) {
-          NavigatorService.navigate("InitProfile");
-          //NavigatorService.navigate("Home");
+          //NavigatorService.navigate("InitProfile");
+          NavigatorService.navigate("Home");
         }
       });
 
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     backgroundColor: colors.black,
-    elevation: 2,
+    ...Shadows[2],
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center"

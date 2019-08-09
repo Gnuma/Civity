@@ -6,6 +6,7 @@ import { Header1, Header2 } from "../Text";
 import colors from "../../styles/colors";
 import Button from "../Button";
 import { LabelHeight } from "./BookShelf";
+import Shadows from "../Shadows";
 
 const IS_IOS = Platform.OS === "ios";
 
@@ -53,7 +54,7 @@ export default class BookTemplate extends Component {
           style={{
             flex: 1,
             backgroundColor: "white",
-            elevation: 4,
+            ...Shadows[4],
             borderRadius: 6
           }}
           onPress={this._onBookPick}

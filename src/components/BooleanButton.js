@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 import Button from "./Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import colors from "../styles/colors";
+import Shadows from "./Shadows";
 
 export default ({
   containerStyle,
@@ -20,8 +21,8 @@ export default ({
         {
           flexDirection: "row",
           backgroundColor: "white",
-          elevation: 4,
-          borderRadius: 6
+          borderRadius: 6,
+          ...Shadows[4]
         },
         containerStyle
       ]}

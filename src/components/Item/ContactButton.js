@@ -4,6 +4,7 @@ import Button from "../Button";
 import { Header2, Header3 } from "../Text";
 import colors from "../../styles/colors";
 import FullButton from "../FullButton";
+import Shadows from "../Shadows";
 
 export class ContactButton extends Component {
   height = 0;
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
   contactButton: {
     flex: 1,
     backgroundColor: colors.secondary,
-    elevation: 1,
+    ...Shadows[1],
     flexDirection: "row",
     padding: 8,
     justifyContent: "center",
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
   modifyButton: {
     flex: 1,
     backgroundColor: colors.white,
-    elevation: 3,
+    ...Shadows[3],
     flexDirection: "row",
     padding: 8,
     justifyContent: "center",

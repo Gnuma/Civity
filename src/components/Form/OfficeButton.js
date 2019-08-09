@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Button from "../Button";
 import { Header3, Header4 } from "../Text";
 import Icon5 from "react-native-vector-icons/FontAwesome5";
+import Shadows from "../Shadows";
 
 export default class OfficeButton extends Component {
   static propTypes = {
@@ -16,13 +17,13 @@ export default class OfficeButton extends Component {
 
     return (
       <View style={{ margin: 8, flexDirection: "row" }}>
-        <View style={{ flex: 1, elevation: 0, flexDirection: "row" }}>
+        <View style={{ flex: 1, ...Shadows[0], flexDirection: "row" }}>
           <Button
             onPress={onPress}
             style={{
               flex: 1,
               padding: 8,
-              elevation: 4,
+              ...Shadows[4],
               backgroundColor: "white",
               borderBottomLeftRadius: 6,
               borderTopLeftRadius: 6,
@@ -58,7 +59,7 @@ export default class OfficeButton extends Component {
             style={{
               width: 50,
               backgroundColor: "white",
-              elevation: 5,
+              ...Shadows[5],
               borderTopRightRadius: 6,
               borderBottomRightRadius: 6
             }}

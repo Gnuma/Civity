@@ -27,6 +27,7 @@ import {
   SafeAreaView
 } from "react-navigation";
 import { NOTCH_MARGIN } from "../../utils/constants";
+import Shadows from "../../components/Shadows";
 
 export class Auth extends Component {
   constructor(props) {
@@ -239,7 +240,7 @@ export class Auth extends Component {
               width: 50,
               height: 50,
               backgroundColor: "#4285F4",
-              elevation: 2,
+              ...Shadows[2],
               justifyContent: "center",
               borderRadius: 4
             }}
@@ -255,7 +256,7 @@ export class Auth extends Component {
               width: 50,
               height: 50,
               backgroundColor: "#3B5998",
-              elevation: 2,
+              ...Shadows[2],
               justifyContent: "center",
               borderRadius: 4
             }}

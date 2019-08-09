@@ -5,6 +5,7 @@ import PriceInfo from "./PriceInfo";
 import ConditionsInfo from "./ConditionsInfo";
 import DescriptionInfo from "./DescriptionInfo";
 import Button from "../Button";
+import Shadows from "../Shadows";
 
 export default class MainSell extends Component {
   render() {
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 2,
     borderRadius: 6,
-    elevation: 4,
+    ...Shadows[4],
     flex: 0,
     flexDirection: "row"
   },

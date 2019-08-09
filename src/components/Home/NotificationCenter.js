@@ -16,6 +16,7 @@ import { ChatType } from "../../utils/constants";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { NCHeight } from "./MainHome";
 import _ from "lodash";
+import Shadows from "../Shadows";
 
 export default class NotificationCenter extends Component {
   filter = memoize(data => this.formatNotifications(data));
@@ -69,7 +70,7 @@ export default class NotificationCenter extends Component {
               borderRadius: 6,
               borderBottom: 0,
               backgroundColor: colors.white,
-              elevation: 2
+              ...Shadows[2]
             }}
             onPress={show}
           >
@@ -86,7 +87,7 @@ export default class NotificationCenter extends Component {
             >
               <View
                 style={{
-                  elevation: 2,
+                  ...Shadows[2],
                   paddingVertical: 3,
                   marginHorizontal: 20,
                   marginVertical: 4,

@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 import { Header3, Header4, Header5, Header2 } from "../../Text";
 import Button from "../../Button";
 import Image from "react-native-fast-image";
+import Shadows from "../../Shadows";
 
 export default class BookItem extends Component {
   render() {
@@ -16,10 +17,9 @@ export default class BookItem extends Component {
           flexDirection: "row",
           borderRadius: 10,
           backgroundColor: "white",
-          elevation: 4,
+          ...Shadows[4],
           marginVertical: 6,
-          marginHorizontal: 15,
-          overflow: "hidden"
+          marginHorizontal: 15
         }}
       >
         <View style={{ flex: 1, margin: 5 }}>

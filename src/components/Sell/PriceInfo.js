@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { Header2, Header3 } from "../Text";
 import PriceInput from "./PriceInput";
+import Shadows from "../Shadows";
 
 export default class PriceInfo extends Component {
   render() {
@@ -14,7 +15,7 @@ export default class PriceInfo extends Component {
           paddingHorizontal: 18,
           paddingVertical: 6,
           backgroundColor: "white",
-          elevation: 4,
+          ...Shadows[4],
           borderRadius: 6
         }}
       >

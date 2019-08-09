@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import colors from "../../styles/colors";
+import Shadows from "../Shadows";
 
 const itemHeight = 130;
 const imageWidth = 122;
@@ -13,7 +14,7 @@ export default StyleSheet.create({
 
     backgroundColor: "white",
 
-    elevation: 5,
+    ...Shadows[5],
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -50,7 +51,7 @@ export default StyleSheet.create({
   itemButton: {
     flex: 1,
     margin: 10,
-    elevation: 3,
+    ...Shadows[3],
     borderRadius: 10,
     backgroundColor: "white"
   },

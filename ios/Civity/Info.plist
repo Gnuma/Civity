@@ -41,6 +41,19 @@
 	<string>Uso della fotocamera per perendere le foto dei libri</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Accesso alle tuo foto per prendere quelle dei libri</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -51,15 +64,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>FontAwesome5_Solid.ttf</string>
-		<string>FontAwesome5_Regular.ttf</string>
-		<string>FontAwesome.ttf</string>
-		<string>FontAwesome5_Brands.ttf</string>
-	</array>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Accesso alle tuo foto per prendere quelle dei libri</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

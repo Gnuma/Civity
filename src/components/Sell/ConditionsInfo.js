@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 import { Header2, Header3 } from "../Text";
 import colors from "../../styles/colors";
 import SolidButton from "../SolidButton";
+import Shadows from "../Shadows";
 
 export default class ConditionsInfo extends Component {
   render() {
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 6,
     backgroundColor: "white",
-    elevation: 4,
+    ...Shadows[4],
     borderRadius: 6
   },
   button: {
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 2,
     borderRadius: 6,
-    elevation: 4,
+    ...Shadows[4],
     flex: 0,
     flexDirection: "row"
   },

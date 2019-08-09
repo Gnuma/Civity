@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Header1 } from "./Text";
 import colors from "./../styles/colors";
 import NavigationService from "../navigator/NavigationService";
+import Shadows from "./Shadows";
 
 class HomeHeader extends Component {
   static propTypes = {
@@ -18,7 +19,7 @@ class HomeHeader extends Component {
   render() {
     const { title, icon, textStyle } = this.props;
     return (
-      <View style={{ elevation: 0 }}>
+      <View style={Shadows[0]}>
         <View style={styles.container}>
           <Button onPress={this._local_handleGoBack} style={styles.goBackBtn}>
             <Icon name={icon} size={24} style={styles.backIcon} />
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "white",
-    elevation: 6
+    ...Shadows[6]
   },
   goBackBtn: {
     padding: 10,

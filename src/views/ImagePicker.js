@@ -30,6 +30,7 @@ import CameraRoll from "@react-native-community/cameraroll";
 import { SafeAreaView } from "react-navigation";
 import Permissions from "react-native-permissions";
 import TouchableNative from "../components/TouchableNative";
+import Shadows from "../components/Shadows";
 
 const BATCH_SIZE = 99;
 
@@ -328,7 +329,7 @@ const styles = StyleSheet.create({
   item: {
     width: itemWidth,
     height: itemHeight,
-    elevation: 2,
+    ...Shadows[2],
     backgroundColor: colors.white,
     borderRadius: 6,
     overflow: "hidden",
@@ -359,7 +360,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-    elevation: 3,
+    ...Shadows[3],
     paddingVertical: 10,
     paddingHorizontal: 5
   },
@@ -375,7 +376,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     height: 60,
     backgroundColor: "white",
-    elevation: 6
+    ...Shadows[6]
   },
   goBtn: {
     padding: 10,

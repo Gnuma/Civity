@@ -9,6 +9,7 @@ import Item from "./Item";
 import { StackActions } from "react-navigation";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import colors from "../../styles/colors";
+import Shadows from "../Shadows";
 
 export class ListMultiItem extends Component {
   static propTypes = {
@@ -73,7 +74,7 @@ const NativeButton = ({ onPress, children }) => {
         backgroundColor: colors.white,
         borderRadius: 10,
         overflow: "hidden",
-        elevation: 3
+        ...Shadows[3]
       }}
       onPress={onPress}
     >

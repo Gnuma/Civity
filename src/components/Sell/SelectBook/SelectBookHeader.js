@@ -4,6 +4,7 @@ import Button from "../../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Header2, Header5 } from "../../Text";
 import colors from "../../../styles/colors";
+import Shadows from "../../Shadows";
 
 export default class SelectBookHeader extends Component {
   render() {
@@ -19,7 +20,7 @@ export default class SelectBookHeader extends Component {
           flex: 0,
           paddingHorizontal: 15,
           paddingVertical: 10,
-          elevation: 6,
+          ...Shadows[4],
           backgroundColor: "white"
         }}
       >
@@ -46,7 +47,7 @@ export default class SelectBookHeader extends Component {
               borderRadius: 6,
               overflow: "hidden",
               backgroundColor: "white",
-              elevation: 2
+              ...Shadows[2]
             }}
           >
             <TextInput
