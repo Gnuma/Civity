@@ -6,6 +6,7 @@ import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icon5 from "react-native-vector-icons/FontAwesome5";
 import Shadows from "./Shadows";
+import TouchableNative from "./TouchableNative";
 
 export default ({
   style,
@@ -50,7 +51,7 @@ export default ({
     );
   } else {
     return (
-      <TouchableNativeFeedback
+      <TouchableNative
         {...rest}
         style={[
           {
@@ -78,7 +79,7 @@ export default ({
               style={[styles.icon, iconStyle]}
             />
           ))}
-      </TouchableNativeFeedback>
+      </TouchableNative>
     );
   }
 };

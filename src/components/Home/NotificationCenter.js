@@ -12,8 +12,6 @@ import memoize from "memoize-one";
 import SolidButton from "../SolidButton";
 import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { ChatType } from "../../utils/constants";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { NCHeight } from "./MainHome";
 import _ from "lodash";
 import Shadows from "../Shadows";

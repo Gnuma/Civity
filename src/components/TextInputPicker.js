@@ -134,7 +134,7 @@ export default class TextInputPicker extends Component {
               ...Shadows[3],
               maxHeight: 140,
               marginTop: -10,
-              overflow: "hidden",
+              zIndex: -1,
               flexDirection: "row"
             }}
           >

@@ -10,6 +10,7 @@ import { StackActions } from "react-navigation";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import colors from "../../styles/colors";
 import Shadows from "../Shadows";
+import TouchableNative from "../TouchableNative";
 
 export class ListMultiItem extends Component {
   static propTypes = {
@@ -78,14 +79,14 @@ const NativeButton = ({ onPress, children }) => {
       }}
       onPress={onPress}
     >
-      <TouchableNativeFeedback
+      <TouchableNative
         style={{
           flex: 1
         }}
         onPress={onPress}
       >
         {children}
-      </TouchableNativeFeedback>
+      </TouchableNative>
     </View>
   );
 };

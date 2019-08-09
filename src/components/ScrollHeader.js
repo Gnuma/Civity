@@ -8,12 +8,7 @@ import {
   Platform,
   Keyboard
 } from "react-native";
-import {
-  PanGestureHandler,
-  State,
-  TouchableNativeFeedback,
-  TouchableOpacity
-} from "react-native-gesture-handler";
+import { PanGestureHandler, State } from "react-native-gesture-handler";
 import colors from "../styles/colors";
 import { Header3, Header1 } from "./Text";
 import NativeButton from "./NativeButton";
