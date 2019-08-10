@@ -4,29 +4,35 @@ import {
   Text,
   TextInput,
   KeyboardAvoidingView,
-  ActivityIndicator
+  ActivityIndicator,
+  StyleSheet
 } from "react-native";
 import PropTypes from "prop-types";
-import { Header2, Header4, Header5 } from "../Text";
+import { Header2, Header4, Header5, Header3 } from "../Text";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
   GiftedChat,
   Bubble,
   Time,
-  InputToolbar
+  InputToolbar,
+  Composer,
+  Send
 } from "react-native-gifted-chat";
 import colors from "../../styles/colors";
 import Button from "../Button";
-import Composer from "./Composer";
 import Offert from "./Offert";
 import _ from "lodash";
-import { OffertStatus } from "../../utils/constants";
+import { OffertStatus, ChatStatus } from "../../utils/constants";
 import LoadingOverlay from "../LoadingOverlay";
 import Shadows from "../Shadows";
+import NativeButton from "../NativeButton";
 
 export default class Chat extends Component {
-  onSend = () => {
-    this.props.salesSend(this.props.objectID, this.props.chatID);
+  onSend = messages => {
+    const content = messages[0] && messages[0].text;
+    console.log(content);
+    content &&
+      this.props.salesSend(this.props.objectID, this.props.chatID, content);
   };
 
   onComposerTextChanged = text => {
@@ -35,6 +41,50 @@ export default class Chat extends Component {
 
   loadEarlier = () => {
     !this.props.data.loading && this.props.loadEarlier();
+  };
+
+  renderInputToolbar = props => {
+    if (this.isBlocked()) return null;
+    return (
+      <InputToolbar
+        {...props}
+        primaryStyle={styles.inputToolbarPrimary}
+        containerStyle={styles.inputToolbarContainer}
+      />
+    );
+  };
+
+  renderComposer = props => {
+    return (
+      <Composer
+        {...props}
+        textInputStyle={{
+          justifyContent: "center",
+          lineHeight: 18,
+          fontSize: 18
+        }}
+      />
+    );
+  };
+
+  renderSend = props => {
+    return (
+      <Send
+        {...props}
+        alwaysShowSend={true}
+        containerStyle={{
+          alignSelf: "center",
+          paddingHorizontal: 10,
+          justifyContent: "center"
+        }}
+      >
+        <Icon
+          name={"paper-plane"}
+          size={26}
+          style={{ color: props.disabled ? colors.black : colors.secondary }}
+        />
+      </Send>
+    );
   };
 
   renderBubble = props => {
@@ -116,12 +166,23 @@ export default class Chat extends Component {
     );
   };
 
+  isBlocked = () => {
+    const { data } = this.props;
+    return (
+      data.status == ChatStatus.BLOCKED || data.status == ChatStatus.REJECTED
+    );
+  };
+
   render() {
     const { data, type, globalLoading, userID } = this.props;
+    const isBlocked = this.isBlocked();
 
     return (
       <View style={{ flex: 1 }}>
         <GiftedChat
+          text={data.composer}
+          onInputTextChanged={this.onComposerTextChanged}
+          onSend={this.onSend}
           messages={data.messages}
           renderAvatar={null}
           user={{
@@ -129,14 +190,16 @@ export default class Chat extends Component {
           }}
           renderBubble={this.renderBubble}
           renderTime={this.renderTime}
-          renderInputToolbar={this.renderNull}
-          renderComposer={this.renderNull}
-          minInputToolbarHeight={0}
-          maxComposerHeight={0}
+          renderInputToolbar={this.renderInputToolbar}
+          minComposerHeight={30}
+          maxComposerHeight={130}
+          minInputToolbarHeight={isBlocked ? 0 : 50}
           listViewProps={this.listViewProps}
           loadEarlier={data.loading}
           extraData={{ loading: data.loading }}
+          renderSend={this.renderSend}
           renderFooter={this.renderOffert}
+          renderComposer={this.renderComposer}
           renderLoadEarlier={() => {
             return (
               <ActivityIndicator
@@ -148,15 +211,7 @@ export default class Chat extends Component {
             );
           }}
         />
-        <View style={{ zIndex: 0, ...Shadows[0] }}>
-          <Composer
-            onSend={this.onSend}
-            onComposerTextChanged={this.onComposerTextChanged}
-            text={data.composer}
-            type={type}
-            data={data}
-          />
-        </View>
+        {isBlocked && this.renderBlockedComposer()}
         {globalLoading && <LoadingOverlay />}
       </View>
     );
@@ -182,4 +237,72 @@ export default class Chat extends Component {
       AudioEncodingBitRate: 32000
     });
   }
+
+  renderBlockedComposer = () => {
+    return (
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <View style={styles.blockedContainer}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              margin: 6,
+              alignItems: "center"
+            }}
+          >
+            <Header3 color="black" style={{ flex: 1 }}>
+              La chat non è più attiva. L'inserzione è stata eliminata o venduta
+              ad un altro utente.
+            </Header3>
+            <Icon
+              name={"ban"}
+              size={40}
+              style={{ color: colors.darkRed, marginHorizontal: 10 }}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  };
 }
+
+/**
+        <View style={{ zIndex: 0, ...Shadows[0] }}>
+          <Composer
+            onSend={this.onSend}
+            onComposerTextChanged={this.onComposerTextChanged}
+            text={data.composer}
+            type={type}
+            data={data}
+          />
+        </View>
+ */
+
+const styles = StyleSheet.create({
+  inputToolbarPrimary: {
+    borderRadius: 10,
+    backgroundColor: colors.white,
+    marginHorizontal: 20,
+    ...Shadows[2],
+    alignItems: "center"
+  },
+  inputToolbarContainer: {
+    borderTopWidth: 0,
+    paddingBottom: 5
+  },
+  blockedContainer: {
+    flexDirection: "row",
+    borderRadius: 10,
+    backgroundColor: colors.white,
+    marginBottom: 10,
+    marginTop: 5,
+    marginHorizontal: 20,
+    minHeight: 50,
+    ...Shadows[2]
+  }
+});

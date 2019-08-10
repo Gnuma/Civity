@@ -366,10 +366,10 @@ export const chatSetFeedback = (
 
 // --ChatNotifications--
 
-export const chatSend = (type, objectID, chatID) => {
+export const chatSend = (type, objectID, chatID, content) => {
   return (dispatch, getState) => {
     const myID = getState().auth.id;
-    const content = getState().chat.data[objectID].chats[chatID].composer;
+    //const content = getState().chat.data[objectID].chats[chatID].composer;
     const msg = createMsg(content, myID);
 
     dispatch(chatSendMsg(objectID, chatID, msg, type));

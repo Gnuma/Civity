@@ -6,6 +6,7 @@ import SolidButton from "../SolidButton";
 import { ChatType, ChatStatus } from "../../utils/constants";
 import { ComposerContainer } from "./Composer";
 import Shadows from "../Shadows";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class ContactReview extends Component {
   _getBuyerContent = () => {
@@ -104,11 +105,16 @@ export default class ContactReview extends Component {
       <View
         style={{
           flex: 1,
-          justifyContent: "flex-end",
           marginHorizontal: 20,
-          marginBottom: 10
+          marginVertical: 10
         }}
       >
+        <View style={{ flex: 1, alignItems: "center" }}>
+          <Icon name={"arrow-up"} size={20} style={{ color: colors.black }} />
+          <Header3 color="black" style={{ textAlign: "center" }}>
+            Trascina verso il basso per avere più informazioni
+          </Header3>
+        </View>
         {type === ChatType.sales
           ? this._getSellerContent()
           : this._getBuyerContent()}

@@ -65,8 +65,8 @@ export class Chat extends Component {
     this.props.chatSetComposer(objectID, chatID, composerValue);
   };
 
-  sendMsg = (objectID, chatID) => {
-    this.props.sendMessage(this.type, objectID, chatID);
+  sendMsg = (objectID, chatID, msg) => {
+    this.props.sendMessage(this.type, objectID, chatID, msg);
   };
 
   loadEarlier = () => {
@@ -149,8 +149,8 @@ const mapStateToProps = (state, { navigation }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  sendMessage: (type, objectID, chatID) =>
-    dispatch(chatActions.chatSend(type, objectID, chatID)),
+  sendMessage: (type, objectID, chatID, content) =>
+    dispatch(chatActions.chatSend(type, objectID, chatID, content)),
   chatSetComposer: (objectID, chatID, composer) =>
     dispatch(chatActions.chatSetComposer(objectID, chatID, composer)),
   chatSettle: (objectID, chatID, isAccepting) =>
