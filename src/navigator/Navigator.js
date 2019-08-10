@@ -58,19 +58,21 @@ const SearchNavigator = createStackNavigator({
   Item: {
     screen: ItemScreen,
     path: "/item/:itemid",
-    navigationOptions: { header: null }
+    navigationOptions: { header: null, gesturesEnabled: false }
   },
   UserSettings: {
     screen: UserSettingsNavigator,
     path: "/usersettings",
-    navigationOptions: { header: null }
+    navigationOptions: { header: null, gesturesEnabled: false }
   }
 });
 
 SearchNavigator.navigationOptions = ({ navigation }) => {
   const { routeName } = navigation.state.routes[navigation.state.index];
 
-  let navigationOptions = {};
+  let navigationOptions = {
+    gesturesEnabled: false
+  };
   if (routeName === "UserSettings") {
     navigationOptions.tabBarVisible = false;
   }
@@ -213,8 +215,14 @@ ShoppingNavigator.navigationOptions = ({ navigation }) => {
 
 const AuthNavigator = createStackNavigator(
   {
-    AUTH: Auth,
-    PhoneValidation: PhoneValidationScreen,
+    AUTH: {
+      screen: Auth,
+      navigationOptions: { gesturesEnabled: false }
+    },
+    PhoneValidation: {
+      screen: PhoneValidationScreen,
+      navigationOptions: { gesturesEnabled: false }
+    },
     OfficeChangeAuth: OfficeChangeScreen
   },
   {
