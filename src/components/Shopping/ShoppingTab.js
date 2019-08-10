@@ -47,6 +47,7 @@ export class ShoppingTab extends Component {
   };
 
   switchTab = (itemID, index) => {
+    console.log(itemID, index);
     this.moveBar(itemID);
     this.props.goTo(index);
   };
@@ -66,10 +67,13 @@ export class ShoppingTab extends Component {
           horizontal
           ref={ref => (this.tabBar = ref)}
           style={{ paddingBottom: 10 }}
-          centerContent={true}
           showsHorizontalScrollIndicator={false}
         >
-          <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              flexDirection: "row"
+            }}
+          >
             {orderedData.map((item, index) =>
               this._renderItem(data[item.subjectID], index)
             )}
@@ -105,19 +109,7 @@ export class ShoppingTab extends Component {
   _renderItem = (item, index) => {
     return (
       <Button
-        onLayout={event => {
-          this.layout[item._id] = {
-            x: event.nativeEvent.layout.x,
-            width: event.nativeEvent.layout.width
-          };
-          if (
-            !this.mounted &&
-            _.size(this.layout) === _.size(this.props.orderedData)
-          ) {
-            this.initBar();
-            this.mounted = true;
-          }
-        }}
+        onLayout={event => this.onButtonLayout(event, item)}
         key={item._id}
         onPress={() => this.switchTab(item._id, index)}
         style={{
@@ -138,6 +130,20 @@ export class ShoppingTab extends Component {
         ) : null}
       </Button>
     );
+  };
+
+  onButtonLayout = (event, item) => {
+    this.layout[item._id] = {
+      x: event.nativeEvent.layout.x,
+      width: event.nativeEvent.layout.width
+    };
+    if (
+      !this.mounted &&
+      _.size(this.layout) === _.size(this.props.orderedData)
+    ) {
+      this.initBar();
+      this.mounted = true;
+    }
   };
 }
 

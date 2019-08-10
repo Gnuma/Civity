@@ -3,25 +3,19 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 export class Button extends Component {
   render() {
-    let opacity = this.props.disabled ? 1 : 0.8;
-    if (this.props.disabled) {
-      return (
-        <View
-          activeOpacity={opacity}
-          onPress={this.props.onPress}
-          style={this.props.style}
-        >
-          {this.props.children}
-        </View>
-      );
+    const { disabled, onPress, style, children, ...rest } = this.props;
+    let opacity = disabled ? 1 : 0.5;
+    if (disabled) {
+      return <View style={style}>{children}</View>;
     } else {
       return (
         <TouchableOpacity
           activeOpacity={opacity}
-          onPress={this.props.onPress}
-          style={this.props.style}
+          onPress={onPress}
+          style={style}
+          {...rest}
         >
-          {this.props.children}
+          {children}
         </TouchableOpacity>
       );
     }
