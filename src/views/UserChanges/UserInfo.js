@@ -99,18 +99,20 @@ export class UserInfo extends Component {
     if (completed) {
       return (
         <SafeAreaView style={{ flex: 1 }}>
-          <BasicHeader title="Modifica" />
-          <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
-            <Header2 color="primary" style={{ textAlign: "center" }}>
-              Email inviata!
-            </Header2>
-            <Header3
-              color="black"
-              style={{ marginTop: 10, textAlign: "center" }}
-            >
-              Conferma il cambiamento dall'email che ti abbiamo inviato. Procedi
-              poi riavviando l'applicazione.
-            </Header3>
+          <View style={{ flex: 1, overflow: "hidden" }}>
+            <BasicHeader title="Modifica" />
+            <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
+              <Header2 color="primary" style={{ textAlign: "center" }}>
+                Email inviata!
+              </Header2>
+              <Header3
+                color="black"
+                style={{ marginTop: 10, textAlign: "center" }}
+              >
+                Conferma il cambiamento dall'email che ti abbiamo inviato.
+                Procedi poi riavviando l'applicazione.
+              </Header3>
+            </View>
           </View>
         </SafeAreaView>
       );
@@ -118,20 +120,22 @@ export class UserInfo extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <BasicHeader title="Modifica" />
-        <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
-          <UserInfoForm
-            updateField={this.updateField}
-            fields={fields}
-            initialFields={this.initialFields}
-          />
-        </View>
-        <SaveButton save={this.save} active={this.canSave()} />
-        {loading && (
-          <View style={{ ...StyleSheet.absoluteFill, elevation: 10 }}>
-            <LoadingOverlay />
+        <View style={{ flex: 1, overflow: "hidden" }}>
+          <BasicHeader title="Modifica" />
+          <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
+            <UserInfoForm
+              updateField={this.updateField}
+              fields={fields}
+              initialFields={this.initialFields}
+            />
           </View>
-        )}
+          <SaveButton save={this.save} active={this.canSave()} />
+          {loading && (
+            <View style={{ ...StyleSheet.absoluteFill, elevation: 10 }}>
+              <LoadingOverlay />
+            </View>
+          )}
+        </View>
       </SafeAreaView>
     );
   }

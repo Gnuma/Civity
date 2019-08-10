@@ -103,5 +103,10 @@ export const header = StyleSheet.create({
     marginTop: 10 + (StatusBar.currentHeight || 0),
     marginBottom: 10,
     zIndex: 1
+  },
+  button: {
+    width: 50,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });

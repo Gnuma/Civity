@@ -133,37 +133,43 @@ export class ImagePicker extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1, paddingTop: StatusBar.currentHeight }}>
-        <PickerHeader
-          complete={this.complete}
-          goBack={this.exitPicker}
-          numSelected={numSelected}
-          totalOccupied={totalOccupied}
-        />
-        {hasPermission ? (
-          <View style={{ flex: 1 }}>
-            <FlatList
-              data={data}
-              renderItem={this.renderItem}
-              keyExtractor={this.keyExtractor}
-              onEndReached={() => {
-                this.state.hasMore &&
-                  !this.loading &&
-                  this.retrieveImages(BATCH_SIZE);
+        <View style={{ flex: 1, overflow: "hidden" }}>
+          <PickerHeader
+            complete={this.complete}
+            goBack={this.exitPicker}
+            numSelected={numSelected}
+            totalOccupied={totalOccupied}
+          />
+          {hasPermission ? (
+            <View style={{ flex: 1 }}>
+              <FlatList
+                data={data}
+                renderItem={this.renderItem}
+                keyExtractor={this.keyExtractor}
+                onEndReached={() => {
+                  this.state.hasMore &&
+                    !this.loading &&
+                    this.retrieveImages(BATCH_SIZE);
+                }}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={this.renderFooter}
+                numColumns={3}
+              />
+            </View>
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center"
               }}
-              onEndReachedThreshold={0.5}
-              ListFooterComponent={this.renderFooter}
-              numColumns={3}
-            />
-          </View>
-        ) : (
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <Header3 color="black">
-              Per accedere alle immagini abbiamo bisogno del tuo permesso
-            </Header3>
-          </View>
-        )}
+            >
+              <Header3 color="black">
+                Per accedere alle immagini abbiamo bisogno del tuo permesso
+              </Header3>
+            </View>
+          )}
+        </View>
       </SafeAreaView>
     );
   }
@@ -247,7 +253,7 @@ class ImageRoll extends PureComponent {
           style={styles.itemBtn}
           onPress={() => toggle(id)}
           onLongPress={() => toggle(id)}
-          delayLongPress={200}
+          delayLongPress={800}
         >
           <View style={{ flex: 1 }}>
             {IS_ANDROID ? (

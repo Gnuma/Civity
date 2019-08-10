@@ -46,53 +46,55 @@ export class CreateBook extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <GreyBar />
-        <BasicHeader title="Aggiungi il  libro" />
-        <View style={{ flex: 1 }}>
-          <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
-            <ScrollView>
-              <LabeledInput
-                placeholder={"ISBN"}
-                state={fields.isbn}
-                onTextChange={text => this.updateField("isbn", text)}
-              />
-              <Divider style={{ marginVertical: 10 }} />
-              <LabeledInput
-                placeholder={"Nome"}
-                state={fields.title}
-                onTextChange={text => this.updateField("title", text)}
-              />
-              <LabeledInput
-                placeholder={"Autori"}
-                state={fields.author}
-                onTextChange={text => this.updateField("author", text)}
-              />
-              <Divider style={{ marginVertical: 10 }} />
-              <Header3>Coming soon...</Header3>
-            </ScrollView>
-          </View>
-          <View
-            style={{
-              paddingVertical: 10,
-              paddingHorizontal: 20
-            }}
-          >
-            <FullButton
-              onPress={this.continue}
-              value="Aggiungi"
-              icon="pen"
-              contentStyle={{
-                flex: 1,
-                textAlign: "center"
-              }}
-              disabled={!this.canContinue()}
-            />
-          </View>
-          {loading && (
-            <View style={{ ...StyleSheet.absoluteFill, elevation: 10 }}>
-              <LoadingOverlay />
+        <View style={{ flex: 1, overflow: "hidden" }}>
+          <GreyBar />
+          <BasicHeader title="Aggiungi il  libro" />
+          <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
+              <ScrollView>
+                <LabeledInput
+                  placeholder={"ISBN"}
+                  state={fields.isbn}
+                  onTextChange={text => this.updateField("isbn", text)}
+                />
+                <Divider style={{ marginVertical: 10 }} />
+                <LabeledInput
+                  placeholder={"Nome"}
+                  state={fields.title}
+                  onTextChange={text => this.updateField("title", text)}
+                />
+                <LabeledInput
+                  placeholder={"Autori"}
+                  state={fields.author}
+                  onTextChange={text => this.updateField("author", text)}
+                />
+                <Divider style={{ marginVertical: 10 }} />
+                <Header3>Coming soon...</Header3>
+              </ScrollView>
             </View>
-          )}
+            <View
+              style={{
+                paddingVertical: 10,
+                paddingHorizontal: 20
+              }}
+            >
+              <FullButton
+                onPress={this.continue}
+                value="Aggiungi"
+                icon="pen"
+                contentStyle={{
+                  flex: 1,
+                  textAlign: "center"
+                }}
+                disabled={!this.canContinue()}
+              />
+            </View>
+            {loading && (
+              <View style={{ ...StyleSheet.absoluteFill, elevation: 10 }}>
+                <LoadingOverlay />
+              </View>
+            )}
+          </View>
         </View>
       </SafeAreaView>
     );

@@ -55,7 +55,7 @@ export class SalesList extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, overflow: "hidden" }}>
           <SalesTab
             goTo={setSaleFocus}
             isAuthenticated={isAuthenticated}

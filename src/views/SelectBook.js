@@ -81,22 +81,24 @@ export class SelectBook extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <GreyBar />
-        <SBHeader
-          onChangeText={this.handleChange}
-          searchQuery={this.state.searchQuery}
-          resetSearchBar={this.resetSearchBar}
-          handleGoBack={this.handleGoBack}
-        />
-        <View style={{ flex: 1 }}>
-          <SBList
-            results={this.state.results}
-            handleSelection={this.handleSelection}
-            hasNoResults={hasNoResults}
-            goCreateBook={this._goCreateBook}
-            soldBooks={this.state.soldBooks}
-            loading={this.state.loading}
+        <View style={{ flex: 1, overflow: "hidden" }}>
+          <GreyBar />
+          <SBHeader
+            onChangeText={this.handleChange}
+            searchQuery={this.state.searchQuery}
+            resetSearchBar={this.resetSearchBar}
+            handleGoBack={this.handleGoBack}
           />
+          <View style={{ flex: 1 }}>
+            <SBList
+              results={this.state.results}
+              handleSelection={this.handleSelection}
+              hasNoResults={hasNoResults}
+              goCreateBook={this._goCreateBook}
+              soldBooks={this.state.soldBooks}
+              loading={this.state.loading}
+            />
+          </View>
         </View>
       </SafeAreaView>
     );

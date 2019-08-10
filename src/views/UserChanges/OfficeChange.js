@@ -101,31 +101,33 @@ export class OfficeChange extends Component {
     return (
       <AndroidBackHandler onBackPress={this.goBack}>
         <SafeAreaView style={{ flex: 1 }}>
-          <BasicHeader
-            title={"Modifica il tuo istituto o scuola"}
-            goBack={this.goBack}
-            textStyle={{ fontSize: 24 }}
-          />
-          <View style={{ flex: 1 }}>
-            <ScrollView keyboardShouldPersistTaps="always">
-              <OfficePicker
-                containerStyle={{ margin: 20, flex: 2 / 3 }}
-                office={office}
-                course={course}
-                year={year}
-                setOffice={office => this.setItem("office", office)}
-                setCourse={course => this.setItem("course", course)}
-                setYear={year => this.setItem("year", year)}
-                status={status}
-              />
-            </ScrollView>
-          </View>
-          <View>
-            <ContinueButton
-              onPress={this.continue}
-              active={canContinue}
-              text={status == 2 ? "Salva" : "Continua"}
+          <View style={{ flex: 1, overflow: "hidden" }}>
+            <BasicHeader
+              title={"Modifica il tuo istituto o scuola"}
+              goBack={this.goBack}
+              textStyle={{ fontSize: 24 }}
             />
+            <View style={{ flex: 1 }}>
+              <ScrollView keyboardShouldPersistTaps="always">
+                <OfficePicker
+                  containerStyle={{ margin: 20, flex: 2 / 3 }}
+                  office={office}
+                  course={course}
+                  year={year}
+                  setOffice={office => this.setItem("office", office)}
+                  setCourse={course => this.setItem("course", course)}
+                  setYear={year => this.setItem("year", year)}
+                  status={status}
+                />
+              </ScrollView>
+            </View>
+            <View>
+              <ContinueButton
+                onPress={this.continue}
+                active={canContinue}
+                text={status == 2 ? "Salva" : "Continua"}
+              />
+            </View>
           </View>
         </SafeAreaView>
       </AndroidBackHandler>

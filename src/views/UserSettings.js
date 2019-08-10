@@ -80,121 +80,127 @@ export class UserSettings extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <BasicHeader title="Il Tuo Profilo" />
-        <View style={{ flex: 1 }}>
-          <ScrollView>
-            <UserInfoPanel
-              onPress={this.goUserInfo}
-              username={userData.username}
-              email={userData.email}
-            />
-            <Divider
-              style={{
-                marginHorizontal: marginHorizontal
-              }}
-            />
-            <UserOfficePanel
-              onPress={this.goChangeOffice}
-              address={office.address}
-              office={office.name}
-            />
-            <Divider
-              style={{
-                marginHorizontal: marginHorizontal
-              }}
-            />
-            <UserPhonePanel
-              onPress={this.goChangePhone}
-              phone={userData.phone}
-              isActive={isActive}
-            />
-            <Divider
-              style={{
-                marginHorizontal: marginHorizontal
-              }}
-            />
-            <View style={{ marginHorizontal: marginHorizontal, marginTop: 5 }}>
-              <View style={{ flexDirection: "row" }}>
-                <Header1 color="black" style={{ flex: 1 }} numberOfLines={1}>
-                  Livello
-                </Header1>
-                <Button
-                  style={{
-                    width: 40,
-                    height: 40,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 20
-                  }}
-                  onPress={() => this.setState({ showLevelInfo: true })}
-                >
-                  <Icon
-                    name={"question-circle"}
-                    size={30}
-                    style={{ color: colors.primary }}
-                  />
-                </Button>
-              </View>
-            </View>
-            <View style={{ marginVertical: 10 }}>
-              <LevelList level={level} exp={exp} />
-              <Header2 style={{ alignSelf: "center", marginTop: 5 }}>
-                <Header2
-                  color="secondary"
-                  style={{ fontWeight: "800", fontSize: 30 }}
-                >
-                  {exp}
-                </Header2>
-                /{LEVEL_DATA[level]}
-              </Header2>
-            </View>
-            <View style={{ marginHorizontal: marginHorizontal, marginTop: 15 }}>
-              <View style={{ flexDirection: "row" }}>
-                <Header2 style={{ flex: 1 }} numberOfLines={1} color="black">
-                  Libri Acquistati
-                </Header2>
-                <Header1 color="black" style={{ fontWeight: "800" }}>
-                  0
-                </Header1>
-              </View>
-              <View style={{ flexDirection: "row" }}>
-                <Header2 style={{ flex: 1 }} numberOfLines={1} color="black">
-                  Libri Venduti
-                </Header2>
-                <Header1 color="black" style={{ fontWeight: "800" }}>
-                  0
-                </Header1>
-              </View>
-            </View>
-            <Divider
-              style={{
-                marginHorizontal: 20,
-                marginVertical: 15
-              }}
-            />
-            <ActionsList logout={this.logout} />
-          </ScrollView>
-        </View>
-        {this.state.showLevelInfo && (
-          <View
-            style={{
-              ...StyleSheet.absoluteFill,
-              backgroundColor: "rgba(0,0,0,0.8)"
-            }}
-          >
-            <TouchableWithoutFeedback onPress={this.dismissLevelInfo}>
-              <View
+        <View style={{ flex: 1, overflow: "hidden" }}>
+          <BasicHeader title="Il Tuo Profilo" />
+          <View style={{ flex: 1 }}>
+            <ScrollView>
+              <UserInfoPanel
+                onPress={this.goUserInfo}
+                username={userData.username}
+                email={userData.email}
+              />
+              <Divider
                 style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center"
+                  marginHorizontal: marginHorizontal
                 }}
+              />
+              <UserOfficePanel
+                onPress={this.goChangeOffice}
+                address={office.address}
+                office={office.name}
+              />
+              <Divider
+                style={{
+                  marginHorizontal: marginHorizontal
+                }}
+              />
+              <UserPhonePanel
+                onPress={this.goChangePhone}
+                phone={userData.phone}
+                isActive={isActive}
+              />
+              <Divider
+                style={{
+                  marginHorizontal: marginHorizontal
+                }}
+              />
+              <View
+                style={{ marginHorizontal: marginHorizontal, marginTop: 5 }}
               >
-                <LevelInfo dismiss={this.dismissLevelInfo} />
+                <View style={{ flexDirection: "row" }}>
+                  <Header1 color="black" style={{ flex: 1 }} numberOfLines={1}>
+                    Livello
+                  </Header1>
+                  <Button
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 20
+                    }}
+                    onPress={() => this.setState({ showLevelInfo: true })}
+                  >
+                    <Icon
+                      name={"question-circle"}
+                      size={30}
+                      style={{ color: colors.primary }}
+                    />
+                  </Button>
+                </View>
               </View>
-            </TouchableWithoutFeedback>
+              <View style={{ marginVertical: 10 }}>
+                <LevelList level={level} exp={exp} />
+                <Header2 style={{ alignSelf: "center", marginTop: 5 }}>
+                  <Header2
+                    color="secondary"
+                    style={{ fontWeight: "800", fontSize: 30 }}
+                  >
+                    {exp}
+                  </Header2>
+                  /{LEVEL_DATA[level]}
+                </Header2>
+              </View>
+              <View
+                style={{ marginHorizontal: marginHorizontal, marginTop: 15 }}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <Header2 style={{ flex: 1 }} numberOfLines={1} color="black">
+                    Libri Acquistati
+                  </Header2>
+                  <Header1 color="black" style={{ fontWeight: "800" }}>
+                    0
+                  </Header1>
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Header2 style={{ flex: 1 }} numberOfLines={1} color="black">
+                    Libri Venduti
+                  </Header2>
+                  <Header1 color="black" style={{ fontWeight: "800" }}>
+                    0
+                  </Header1>
+                </View>
+              </View>
+              <Divider
+                style={{
+                  marginHorizontal: 20,
+                  marginVertical: 15
+                }}
+              />
+              <ActionsList logout={this.logout} />
+            </ScrollView>
           </View>
-        )}
+          {this.state.showLevelInfo && (
+            <View
+              style={{
+                ...StyleSheet.absoluteFill,
+                backgroundColor: "rgba(0,0,0,0.8)"
+              }}
+            >
+              <TouchableWithoutFeedback onPress={this.dismissLevelInfo}>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <LevelInfo dismiss={this.dismissLevelInfo} />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          )}
+        </View>
       </SafeAreaView>
     );
   }

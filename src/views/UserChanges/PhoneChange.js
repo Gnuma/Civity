@@ -159,7 +159,7 @@ export class PhoneChange extends Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <AndroidBackHandler onBackPress={this.goBack}>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, overflow: "hidden" }}>
             <BasicHeader title="Modifica il numero" goBack={this.goBack} />
             <View style={{ flex: 1, marginHorizontal: 20 }}>
               <ScrollView keyboardShouldPersistTaps="always">

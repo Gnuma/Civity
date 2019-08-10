@@ -32,29 +32,35 @@ export class VendiInfos extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <GreyBar />
-        <ItemHeader
-          handleGoBack={this._handleGoBack}
-          title={title}
-          author={author}
-        />
-        {!loading ? (
-          <MainSell
-            price={price}
-            conditions={conditions}
-            description={description}
-            setPrice={setPriceRedux}
-            setDescription={setDescriptionRedux}
-            setConditions={setConditionsRedux}
-            handleComplete={this._handleComplete}
+        <View style={{ flex: 1, overflow: "hidden" }}>
+          <GreyBar />
+          <ItemHeader
+            handleGoBack={this._handleGoBack}
+            title={title}
+            author={author}
           />
-        ) : (
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <ActivityIndicator size="large" color={colors.secondary} />
-          </View>
-        )}
+          {!loading ? (
+            <MainSell
+              price={price}
+              conditions={conditions}
+              description={description}
+              setPrice={setPriceRedux}
+              setDescription={setDescriptionRedux}
+              setConditions={setConditionsRedux}
+              handleComplete={this._handleComplete}
+            />
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <ActivityIndicator size="large" color={colors.secondary} />
+            </View>
+          )}
+        </View>
       </SafeAreaView>
     );
   }

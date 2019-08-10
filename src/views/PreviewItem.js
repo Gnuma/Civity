@@ -62,32 +62,34 @@ export class PreviewItem extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <GreyBar />
-        <ItemHeader
-          handleGoBack={this.goBack}
-          title={this.book.title}
-          author={this.book.author}
-        />
-        <View style={{ flex: 1 }}>
-          {book && (
-            <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, overflow: "hidden" }}>
+          <GreyBar />
+          <ItemHeader
+            handleGoBack={this.goBack}
+            title={this.book.title}
+            author={this.book.author}
+          />
+          <View style={{ flex: 1 }}>
+            {book && (
               <View style={{ flex: 1 }}>
-                <MainItemPreview data={data} />
+                <View style={{ flex: 1 }}>
+                  <MainItemPreview data={data} />
+                </View>
+                <View
+                  style={{
+                    paddingVertical: 10,
+                    paddingHorizontal: 30,
+                    backgroundColor: colors.white
+                  }}
+                >
+                  <Button style={styles.publishButton} onPress={this.publish}>
+                    <Header3 color={"white"}>Pubblica inserzione</Header3>
+                  </Button>
+                </View>
               </View>
-              <View
-                style={{
-                  paddingVertical: 10,
-                  paddingHorizontal: 30,
-                  backgroundColor: colors.white
-                }}
-              >
-                <Button style={styles.publishButton} onPress={this.publish}>
-                  <Header3 color={"white"}>Pubblica inserzione</Header3>
-                </Button>
-              </View>
-            </View>
-          )}
-          {loading && <LoadingOverlay />}
+            )}
+            {loading && <LoadingOverlay />}
+          </View>
         </View>
       </SafeAreaView>
     );

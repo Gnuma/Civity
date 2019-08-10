@@ -189,11 +189,13 @@ export class BookOffert extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <BasicHeader title={title} />
-        <View style={{ flex: 1 }}>
-          {this.renderContent(type, data)}
-          {data.loading ? <LoadingOverlay /> : null}
-          {decision && <DecisionOverlay decision={decision} />}
+        <View style={{ flex: 1, overflow: "hidden" }}>
+          <BasicHeader title={title} />
+          <View style={{ flex: 1 }}>
+            {this.renderContent(type, data)}
+            {data.loading ? <LoadingOverlay /> : null}
+            {decision && <DecisionOverlay decision={decision} />}
+          </View>
         </View>
       </SafeAreaView>
     );

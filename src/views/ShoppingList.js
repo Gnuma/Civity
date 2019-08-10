@@ -51,27 +51,29 @@ export class ShoppingList extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <ShoppingTab
-          goTo={setShoppingFocus}
-          isAuthenticated={isAuthenticated}
-          data={data}
-          orderedData={orderedData}
-          focus={focus}
-        />
-        <ShoppingChatsList
-          isAuthenticated={isAuthenticated}
-          data={data}
-          orderedData={orderedData}
-          focus={focus}
-          onGoChat={this.onGoChat}
-        />
-        {!isConnected && (
-          <View
-            style={{ position: "absolute", bottom: 0, left: 20, right: 20 }}
-          >
-            <OfflineNotification />
-          </View>
-        )}
+        <View style={{ flex: 1, overflow: "hidden" }}>
+          <ShoppingTab
+            goTo={setShoppingFocus}
+            isAuthenticated={isAuthenticated}
+            data={data}
+            orderedData={orderedData}
+            focus={focus}
+          />
+          <ShoppingChatsList
+            isAuthenticated={isAuthenticated}
+            data={data}
+            orderedData={orderedData}
+            focus={focus}
+            onGoChat={this.onGoChat}
+          />
+          {!isConnected && (
+            <View
+              style={{ position: "absolute", bottom: 0, left: 20, right: 20 }}
+            >
+              <OfflineNotification />
+            </View>
+          )}
+        </View>
       </SafeAreaView>
     );
   }

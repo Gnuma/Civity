@@ -30,11 +30,9 @@ export class CameraHeader extends Component {
 
     return (
       <View style={headerStyle.container}>
-        <View style={{ width: 50 }}>
-          <Button onPress={handleGoBack} style={generalStyle.p10}>
-            <Icon name="chevron-left" size={30} style={generalStyle.w} />
-          </Button>
-        </View>
+        <Button onPress={handleGoBack} style={headerStyle.button}>
+          <Icon name="chevron-left" size={30} style={generalStyle.w} />
+        </Button>
         <View style={{ flex: 1 }}>
           <CameraPreviews
             previews={previews}
@@ -43,21 +41,19 @@ export class CameraHeader extends Component {
             previewsOrder={previewsOrder}
           />
         </View>
-        <View style={{ width: 50 }}>
-          <Button
-            style={generalStyle.p10}
-            onPress={handleGoNext}
-            disabled={!hasPreviews}
-          >
-            <Icon
-              name="arrow-circle-right"
-              size={30}
-              style={{
-                color: !hasPreviews ? colors.lightGrey : colors.secondary
-              }}
-            />
-          </Button>
-        </View>
+        <Button
+          style={headerStyle.button}
+          onPress={handleGoNext}
+          disabled={!hasPreviews}
+        >
+          <Icon
+            name="arrow-circle-right"
+            size={30}
+            style={{
+              color: !hasPreviews ? colors.lightGrey : colors.secondary
+            }}
+          />
+        </Button>
       </View>
     );
   }
