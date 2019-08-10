@@ -42,6 +42,24 @@ export default class ChatHeader extends Component {
             pk={item._id}
             native={true}
           />
+          <ListMultiItem
+            data={item}
+            isSingle={false}
+            pk={item._id}
+            native={true}
+          />
+          <ListMultiItem
+            data={item}
+            isSingle={false}
+            pk={item._id}
+            native={true}
+          />
+          <ListMultiItem
+            data={item}
+            isSingle={false}
+            pk={item._id}
+            native={true}
+          />
         </View>
       </View>
     );

@@ -122,3 +122,13 @@ export const TextFeedbackTypes = {
   1: "Positivo",
   0: "Negativo"
 };
+
+const bottomInsetDevices = {
+  "iPhone10,6": true,
+  "iPhone11,2": true,
+  "iPhone11,4": true,
+  "iPhone11,6": true,
+  "iPhone11,8": true
+};
+
+export const BOTTOM_INSET = bottomInsetDevices[Device.getDeviceId()] ? 34 : 0;

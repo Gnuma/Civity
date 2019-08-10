@@ -10,13 +10,8 @@ import {
 } from "react-native";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
 import colors from "../styles/colors";
-import { Header3, Header1 } from "./Text";
-import NativeButton from "./NativeButton";
-import Button from "./Button";
-import FullButton from "./FullButton";
-import Icon from "react-native-vector-icons/FontAwesome";
 import Divider from "./Divider";
-import { STATUS_BAR_MARGIN } from "../utils/constants";
+import { STATUS_BAR_MARGIN, BOTTOM_INSET } from "../utils/constants";
 import Shadows from "./Shadows";
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get(
@@ -30,11 +25,10 @@ export default class ScrollHeader extends Component {
     super(props);
 
     this.minHeight = props.minHeight;
-    this.maxHeight = viewportHeight - STATUS_BAR_MARGIN;
-    this.deltaY = this.maxHeight - this.minHeight;
 
     this.state = {
       status: HEADER_STATUS.CLOSED,
+      containerHeight: viewportHeight - STATUS_BAR_MARGIN,
       contentHeight: viewportHeight,
       initialized: false,
       pointerEvent: "box-none"
@@ -54,18 +48,17 @@ export default class ScrollHeader extends Component {
       this.setPointerEvent("auto");
 
       const { velocityY: v, translationY } = event.nativeEvent;
-      let { height: windowHeight } = Dimensions.get("window");
-      windowHeight -= STATUS_BAR_MARGIN;
+      const containerHeight = this.state.containerHeight;
 
       if (this.state.status === HEADER_STATUS.CLOSED) {
         if (
-          (translationY < windowHeight / 2 && v < THRESHOLD_VELOCITY) ||
-          (translationY >= windowHeight / 2 && v < -THRESHOLD_VELOCITY)
+          (translationY < containerHeight / 2 && v < THRESHOLD_VELOCITY) ||
+          (translationY >= containerHeight / 2 && v < -THRESHOLD_VELOCITY)
         ) {
           this.scrollTo(0, HEADER_STATUS.CLOSED, v);
         } else {
           this.scrollTo(
-            windowHeight - this.minHeight,
+            containerHeight - this.minHeight,
             HEADER_STATUS.PENDING,
             v
           );
@@ -73,7 +66,7 @@ export default class ScrollHeader extends Component {
       } else if (this.state.status === HEADER_STATUS.PENDING) {
         if (translationY <= 0 && v <= -THRESHOLD_VELOCITY) {
           this.scrollTo(
-            -(windowHeight - this.minHeight),
+            -(containerHeight - this.minHeight),
             HEADER_STATUS.CLOSED,
             v
           );
@@ -100,11 +93,11 @@ export default class ScrollHeader extends Component {
         this.lastScrollY += translationY;
         this.lastScrollY = Math.min(
           this.state.contentHeight,
-          Math.max(windowHeight - this.minHeight, this.lastScrollY)
+          Math.max(containerHeight - this.minHeight, this.lastScrollY)
         );
         this.scrollY.setOffset(this.lastScrollY);
         this.scrollY.setValue(0);
-        if (this.lastScrollY === windowHeight - this.minHeight) {
+        if (this.lastScrollY === containerHeight - this.minHeight) {
           setTimeout(() => {
             this.setState({
               status: HEADER_STATUS.PENDING
@@ -121,13 +114,12 @@ export default class ScrollHeader extends Component {
 
   getConstraints = status => {
     let minScroll, maxScroll;
-    let { height: windowHeight } = Dimensions.get("window");
-    windowHeight -= STATUS_BAR_MARGIN;
+    const containerHeight = this.state.containerHeight;
 
     switch (status) {
       case HEADER_STATUS.CLOSED:
         minScroll = 0;
-        maxScroll = windowHeight - this.minHeight;
+        maxScroll = containerHeight - this.minHeight;
         break;
 
       case HEADER_STATUS.PENDING:
@@ -136,7 +128,7 @@ export default class ScrollHeader extends Component {
         break;
 
       case HEADER_STATUS.OPEN:
-        minScroll = windowHeight - this.minHeight;
+        minScroll = containerHeight - this.minHeight;
         maxScroll = this.state.contentHeight;
     }
     return { minScroll, maxScroll };
@@ -163,9 +155,13 @@ export default class ScrollHeader extends Component {
   };
 
   render() {
-    const { status, contentHeight, initialized, pointerEvent } = this.state;
-    let { height: windowHeight } = Dimensions.get("window");
-    windowHeight -= STATUS_BAR_MARGIN;
+    const {
+      status,
+      contentHeight,
+      initialized,
+      pointerEvent,
+      containerHeight
+    } = this.state;
 
     const { minScroll, maxScroll } = this.getConstraints(status);
 
@@ -174,9 +170,11 @@ export default class ScrollHeader extends Component {
         style={{
           ...StyleSheet.absoluteFill,
           elevation: 10,
-          zIndex: 10
+          zIndex: 10,
+          overflow: "hidden"
         }}
         pointerEvents={pointerEvent}
+        onLayout={this.onContainerLayout}
       >
         <Animated.View
           style={{
@@ -193,7 +191,9 @@ export default class ScrollHeader extends Component {
           style={{
             position: "absolute",
             top: initialized ? -contentHeight : undefined,
-            bottom: initialized ? undefined : windowHeight - this.minHeight,
+            bottom: initialized
+              ? undefined
+              : containerHeight - this.minHeight + BOTTOM_INSET,
             right: 0,
             left: 0,
             elevation: 10,
@@ -207,7 +207,7 @@ export default class ScrollHeader extends Component {
             <Animated.View
               style={{
                 backgroundColor: colors.white,
-                minHeight: windowHeight,
+                minHeight: containerHeight,
                 transform: [
                   {
                     translateY: this.scrollY.interpolate({
@@ -240,13 +240,18 @@ export default class ScrollHeader extends Component {
   }
 
   onContentLayout = event => {
-    const { height: windowHeight } = Dimensions.get("window");
     this.setState({
       initialized: true,
       contentHeight: Math.max(
         event.nativeEvent.layout.height,
-        windowHeight - this.minHeight - STATUS_BAR_MARGIN
+        this.state.containerHeight - this.minHeight
       )
+    });
+  };
+
+  onContainerLayout = event => {
+    this.setState({
+      containerHeight: event.nativeEvent.layout.height + 1
     });
   };
 

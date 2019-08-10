@@ -80,41 +80,43 @@ export class Chat extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <ChatHeader
-          chatData={chatData}
-          item={item}
-          goBack={this._goBack}
-          goBookOffert={this.goBookOffert}
-          userID={this.props.userID}
-        />
-        <View style={{ flex: 1, marginTop: 60, zIndex: 0 }}>
-          {chatData.status === ChatStatus.LOCAL ||
-          chatData.status === ChatStatus.PENDING ? (
-            <ContactReview
-              objectID={objectID}
-              chatID={chatID}
-              status={chatData.status}
-              isLoading={chatData.loading}
-              onSettle={this.props.chatSettle}
-              onContactRequest={this.props.chatRequestContact}
-              username={chatData.UserTO.user.username}
-              type={this.type}
-            />
-          ) : (
-            <ChatView
-              objectID={objectID}
-              chatID={chatID}
-              data={chatData}
-              globalLoading={this.props.loading}
-              salesSend={this.sendMsg}
-              salesSetComposer={this.setComposer}
-              type={this.type}
-              loadEarlier={this.loadEarlier}
-              userID={this.props.userID}
-              item={item}
-              goBookOffert={this.goBookOffert}
-            />
-          )}
+        <View style={{ flex: 1 }}>
+          <ChatHeader
+            chatData={chatData}
+            item={item}
+            goBack={this._goBack}
+            goBookOffert={this.goBookOffert}
+            userID={this.props.userID}
+          />
+          <View style={{ flex: 1, marginTop: 60, zIndex: 0 }}>
+            {chatData.status === ChatStatus.LOCAL ||
+            chatData.status === ChatStatus.PENDING ? (
+              <ContactReview
+                objectID={objectID}
+                chatID={chatID}
+                status={chatData.status}
+                isLoading={chatData.loading}
+                onSettle={this.props.chatSettle}
+                onContactRequest={this.props.chatRequestContact}
+                username={chatData.UserTO.user.username}
+                type={this.type}
+              />
+            ) : (
+              <ChatView
+                objectID={objectID}
+                chatID={chatID}
+                data={chatData}
+                globalLoading={this.props.loading}
+                salesSend={this.sendMsg}
+                salesSetComposer={this.setComposer}
+                type={this.type}
+                loadEarlier={this.loadEarlier}
+                userID={this.props.userID}
+                item={item}
+                goBookOffert={this.goBookOffert}
+              />
+            )}
+          </View>
         </View>
       </SafeAreaView>
     );
