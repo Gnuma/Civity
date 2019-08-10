@@ -25,7 +25,7 @@ export default class OfficePicker extends Component {
   static propTypes = {
     office: PropTypes.any,
     course: PropTypes.any,
-    yeart: PropTypes.any,
+    year: PropTypes.any,
     setOffice: PropTypes.func,
     setCourse: PropTypes.func,
     setYear: PropTypes.func,

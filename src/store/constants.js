@@ -14,6 +14,8 @@ export const ___OFFICE_HINTS_ENDPOINT___ =
   ___SERVER_ENDPOINT___ + "search/offices/hint/";
 export const ___COURSE_HINTS_ENDPOINT___ =
   ___SERVER_ENDPOINT___ + "search/courses/hint/";
+export const ___SUBJECT_HINTS_ENDPOINT___ =
+  ___SERVER_ENDPOINT___ + "search/subjects/hint/";
 
 export const ___LOGIN_ENDPOINT___ = ___BASE_ENDPOINT___ + "auth/login/";
 export const ___LOGOUT_ENDPOINT___ = ___BASE_ENDPOINT___ + "logout/";
