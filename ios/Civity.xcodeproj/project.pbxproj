@@ -767,7 +767,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C9C9C2E0A86A5F308E632F15 /* Pods-Civity.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = Civity/Civity.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -793,7 +793,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CD852BFDCE45B0DABC9E7D1C /* Pods-Civity.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = Civity/Civity.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;

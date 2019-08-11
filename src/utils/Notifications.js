@@ -91,6 +91,14 @@ class Notifications {
 
   start = async () => {
     //if (!(await this.requestPermisions())) return;
+    try {
+      const permissions = await firebase.messaging().hasPermission();
+      if (!permissions) {
+        await firebase.messaging().requestPermission();
+      }
+    } catch (error) {
+      console.log("Permissions rejected", error);
+    }
     this.removeNotificationDisplayedListener = firebase
       .notifications()
       .onNotificationDisplayed(notification => {

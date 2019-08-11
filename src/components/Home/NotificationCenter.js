@@ -54,7 +54,7 @@ export default class NotificationCenter extends Component {
     if (!orderedData || _.isEmpty(orderedData)) return null;
 
     return (
-      <View>
+      <View style={{ zIndex: 2 }}>
         <View
           style={{
             alignItems: "center",

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, NativeModules } from "react-native";
 import { withNavigation, StackActions } from "react-navigation";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -113,6 +113,7 @@ export class Home extends Component {
 
   _openSearchBar = () => {
     this.props.setActiveRedux(true);
+    //NativeModules.DevMenu.show();
   };
 
   _searchOption = search_query => {
