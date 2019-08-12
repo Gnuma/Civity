@@ -236,7 +236,7 @@ export class Auth extends Component {
 
 const mapStateToProps = state => ({
   isLoading: state.auth.loading,
-  office: state.auth.office //Test
+  office: state.auth.office //Test,
 });
 
 const mapDispatchToProps = dispatch => ({

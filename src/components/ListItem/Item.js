@@ -56,8 +56,12 @@ export default class Item extends Component {
             </View>
           </View>
           <View style={styles.itemBottomContent}>
-            <Header4 color="black">{office.name}</Header4>
-            <Header5 style={styles.ml15}>{office.address}</Header5>
+            <Header4 color="black" numberOfLines={1}>
+              {office.name}
+            </Header4>
+            <Header5 style={styles.ml15} numberOfLines={1}>
+              {office.address}
+            </Header5>
           </View>
         </View>
       </View>

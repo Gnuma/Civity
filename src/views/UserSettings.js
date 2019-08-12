@@ -72,7 +72,7 @@ export class UserSettings extends Component {
   };
 
   render() {
-    const { office, userData, isActive } = this.props;
+    const { office, userData, isActive, id } = this.props;
     if (!office || !userData) {
       return null;
     }
@@ -177,7 +177,7 @@ export class UserSettings extends Component {
                   marginVertical: 15
                 }}
               />
-              <ActionsList logout={this.logout} />
+              <ActionsList logout={this.logout} userData={userData} id={id} />
             </ScrollView>
           </View>
           {this.state.showLevelInfo && (
@@ -213,7 +213,8 @@ export class UserSettings extends Component {
 const mapStateToProps = state => ({
   userData: state.auth.userData,
   office: state.auth.office,
-  isActive: state.auth.isActive
+  isActive: state.auth.isActive,
+  id: state.auth.id
 });
 
 const mapDispatchToProps = dispatch => ({

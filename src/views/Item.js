@@ -113,8 +113,9 @@ export class Item extends Component {
         "Sei sicuro di voler eliminare questa inserzione? Non potrai tornare indietro!"
       );
       this.setState({ decision: null, loading: true });
-      //const res = await axios.get(___DELTE_AD___ + id + "/");
-      await this.delay();
+      const res = await axios.get(___GET_AD___ + id + "/delete/");
+      console.log(res);
+      //await this.delay();
       this.props.blockItem(id);
       this.props.navigation.pop();
     } catch (error) {

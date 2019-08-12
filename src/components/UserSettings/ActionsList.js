@@ -5,6 +5,9 @@ import SolidButton from "../SolidButton";
 import Card from "../Card";
 import styles from "./styles";
 import Share from "react-native-share";
+import FullButton from "../FullButton";
+import colors from "../../styles/colors";
+import email from "react-native-email";
 
 export default class ActionsList extends Component {
   render() {
@@ -13,11 +16,17 @@ export default class ActionsList extends Component {
     return (
       <View
         style={{
-          marginHorizontal: 20,
-          justifyContent: "center",
-          alignItems: "center"
+          marginHorizontal: 20
         }}
       >
+        <FullButton
+          value={"Segnala"}
+          onPress={this.bugReport}
+          style={{ marginBottom: 20 }}
+          contentStyle={{ flex: 1, textAlign: "center" }}
+          icon={"bug"}
+          color={"darkRed"}
+        />
         <SolidButton style={styles.actionButton} onPress={this.share}>
           <Header3 color="black" style={styles.actionText}>
             Invita un amico
@@ -34,6 +43,24 @@ export default class ActionsList extends Component {
 
   share = () => {
     Share.open(shareOptions);
+  };
+
+  bugReport = () => {
+    const userData = this.props.userData;
+    const to = ["civityapp@gmail.com"];
+    const body =
+      "Bug report di " +
+      userData.username +
+      ", " +
+      this.props.id +
+      " - " +
+      new Date() +
+      "\n\n" +
+      "Specifica il tipo di segnalazione ('Malfunzionamento' o 'Miglioramento')\n";
+    email(to, {
+      subject: "Bug Report",
+      body
+    }).catch(console.log);
   };
 }
 
