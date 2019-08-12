@@ -15,13 +15,15 @@ export default props => {
         <View>
           <Header2 color={"black"}>{username}</Header2>
         </View>
-        <View style={styles.exploreIconContainer}>
-          <Button>
-            <Icon name="chevron-right" size={22} />
-          </Button>
-        </View>
       </View>
-      <View style={styles.buttonListContainer}>
+    </View>
+  );
+};
+
+/**
+ * BETA COPIES
+ * 
+    <View style={styles.buttonListContainer}>
         <SolidButton icon="heart" iconSize={20}>
           <Header4 color={"primary"}>Salva Venditore</Header4>
         </SolidButton>
@@ -32,6 +34,10 @@ export default props => {
           <Header4 color={"primary"}>Segnala Inserzione</Header4>
         </SolidButton>
       </View>
-    </View>
-  );
-};
+
+      <View style={styles.exploreIconContainer}>
+          <Button>
+            <Icon name="chevron-right" size={22} />
+          </Button>
+        </View>
+ */

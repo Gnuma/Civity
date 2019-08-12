@@ -109,8 +109,7 @@ export const SellerInfoStyles = StyleSheet.create({
     marginBottom: 8
   },
   headerContainer: {
-    flexDirection: "row",
-    justifyContent: "center"
+    flexDirection: "row"
   },
   exploreIconContainer: {
     flex: 1,

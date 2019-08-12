@@ -12,9 +12,6 @@ export const PrimaryInfo = props => {
         <View>
           <Header1 color={"primary"}>EUR {price}</Header1>
         </View>
-        <View style={styles.rightAlign}>
-          <Header3>invece di EUR 30</Header3>
-        </View>
       </View>
       <View style={styles.conditionOfficeContainer}>
         <View>
