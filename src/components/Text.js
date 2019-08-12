@@ -45,19 +45,19 @@ export function Header5({ children, style, color, ...rest }) {
 
 const styles = StyleSheet.create({
   h1: {
-    fontSize: 27,
+    fontSize: 27
     //fontWeight: "700"
   },
   h2: {
-    fontSize: 22,
+    fontSize: 22
     //fontWeight: "500"
   },
   h3: {
-    fontSize: 18,
+    fontSize: 18
     //fontWeight: "400"
   },
   h4: {
-    fontSize: 14,
+    fontSize: 14
     //fontWeight: "300"
   },
   h5: {

@@ -1,27 +1,27 @@
 import React, { Component } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as authActions from "../store/actions/auth";
-import Button from "../components/Button";
-import { Header1, Header3 } from "../components/Text";
+import { Header1, Header3, Header2 } from "../components/Text";
 import OfficePicker, { canStateContinue } from "../components/OfficePicker";
-import axios from "axios";
 import { ___OFFICE_HINTS_ENDPOINT___ } from "../store/constants";
-import { Subject, of } from "rxjs";
-import { switchMap, map, catchError } from "rxjs/operators";
-import { ajax } from "rxjs/ajax";
 import { AndroidBackHandler } from "react-navigation-backhandler";
 import { SafeAreaView } from "react-navigation";
 import FullButton from "../components/FullButton";
 import colors from "../styles/colors";
+import Icon from "react-native-vector-icons/FontAwesome";
+import BetaInfos from "../components/BetaInfos";
 
 export class InitProfile extends Component {
   state = {
     status: 0, //0: office, 1: course | class, 2: year,
     office: {},
     course: {},
-    year: undefined
+    year: undefined,
+
+    //BETA
+    showBetaInfo: true
   };
 
   setItem = (key, value) => {
@@ -77,7 +77,9 @@ export class InitProfile extends Component {
   };
 
   render() {
-    const { office, course, year, status } = this.state;
+    const { office, course, year, status, showBetaInfo } = this.state;
+    if (showBetaInfo) return this.showBetaInfo();
+
     const canContinue = canStateContinue(this.state);
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -129,6 +131,16 @@ export class InitProfile extends Component {
       </SafeAreaView>
     );
   }
+
+  showBetaInfo = () => {
+    return <BetaInfos onPress={this.goApp} />;
+  };
+
+  goApp = () => {
+    this.setState({
+      showBetaInfo: false
+    });
+  };
 }
 
 const mapStateToProps = state => ({});
