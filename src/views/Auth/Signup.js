@@ -102,7 +102,8 @@ export default class Signup extends Component {
             this.props.goValidation();
           })
           .catch(err =>
-            this.setState({ error: "Signup Error: " + err.response.status })
+            //this.setState({ error: "Signup Error: " + err.response.status })
+            this.setState({ error: "Impossibile registrare account" })
           );
       }
     } else {
