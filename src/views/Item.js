@@ -19,6 +19,7 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import { ChatStatus } from "../utils/constants";
 import BlockedItemBar from "../components/Item/BlockedItemBar";
 import { SafeAreaView, StackActions } from "react-navigation";
+import update from "immutability-helper";
 
 export class Item extends Component {
   constructor(props) {
@@ -32,18 +33,9 @@ export class Item extends Component {
       isOwner: false,
       refreshing: false,
       decision: null,
-      loading: false
+      loading: false,
+      chatSnapshot: 0
     };
-
-    this.newComments =
-      props.commentsData[props.navigation.getParam("itemID", "Undefined")];
-    if (this.newComments) {
-      this.newComments = this.newComments.commentsList;
-      this.hasNewComments = true;
-    } else {
-      this.newComments = {};
-      this.hasNewComments = false;
-    }
 
     this.viewHeight = 1000;
   }
@@ -64,15 +56,19 @@ export class Item extends Component {
   loadData = () => {
     const { navigation } = this.props;
     const id = navigation.getParam("itemID", "Undefined");
+    this.checkNewMessages(id);
     axios
       .get(___GET_AD___ + `${id}/`)
       .then(res => {
         console.log(res.data);
-        this.setState({
-          data: this.formatData(res.data),
-          isOwner: this.props.user.id == res.data.seller._id,
-          refreshing: false
-        });
+        this.setState(state =>
+          update(state, {
+            data: { $set: this.formatData(res.data) },
+            isOwner: { $set: this.props.user.id == res.data.seller._id },
+            refreshing: { $set: false },
+            chatSnapshot: { $apply: chatSnapshot => chatSnapshot + 1 }
+          })
+        );
         //console.log(res.data);
         console.log(this.formatData(res.data));
         this.props.readComments(id);
@@ -80,6 +76,17 @@ export class Item extends Component {
       .catch(err => {
         console.log("ERROR", err);
       });
+  };
+
+  checkNewMessages = id => {
+    this.newComments = this.props.commentsData[id];
+    if (this.newComments) {
+      this.newComments = this.newComments.commentsList;
+      this.hasNewComments = true;
+    } else {
+      this.newComments = {};
+      this.hasNewComments = false;
+    }
   };
 
   takeAction = text =>
@@ -186,7 +193,8 @@ export class Item extends Component {
       isOwner,
       refreshing,
       decision,
-      loading
+      loading,
+      chatSnapshot
     } = this.state;
     const { navigation, isContacted } = this.props;
     const isLoading = data === undefined;
@@ -224,6 +232,7 @@ export class Item extends Component {
                 refreshing={refreshing}
                 deleteItem={this.deleteItem}
                 isContacted={isContacted}
+                chatSnapshot={chatSnapshot}
               />
             )}
             {decision && <DecisionOverlay decision={decision} />}

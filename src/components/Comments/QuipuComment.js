@@ -18,7 +18,8 @@ class QuipuComment extends Component {
     data: PropTypes.array,
     sellerPK: PropTypes.number,
     scrollTo: PropTypes.func,
-    newComments: PropTypes.object
+    newComments: PropTypes.object,
+    chatSnapshot: PropTypes.number
   };
 
   constructor(props) {
@@ -35,6 +36,16 @@ class QuipuComment extends Component {
       answeringValue: "",
       data: props.data ? props.data : []
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.chatSnapshot !== this.props.chatSnapshot)
+      this.setState({
+        value: "",
+        answeringComment: null,
+        answeringValue: "",
+        data: this.props.data ? this.props.data : []
+      });
   }
 
   render() {

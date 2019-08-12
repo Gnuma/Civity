@@ -15,6 +15,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { NCHeight } from "./MainHome";
 import _ from "lodash";
 import Shadows from "../Shadows";
+import { IS_ANDROID } from "../../utils/constants";
 
 export default class NotificationCenter extends Component {
   filter = memoize(data => this.formatNotifications(data));
@@ -54,7 +55,7 @@ export default class NotificationCenter extends Component {
     if (!orderedData || _.isEmpty(orderedData)) return null;
 
     return (
-      <View style={{ zIndex: 2 }}>
+      <View style={IS_ANDROID ? {} : { zIndex: 2 }}>
         <View
           style={{
             alignItems: "center",

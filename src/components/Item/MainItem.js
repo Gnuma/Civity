@@ -40,7 +40,8 @@ export class MainItem extends Component {
       refreshing,
       onRefresh,
       deleteItem,
-      isContacted
+      isContacted,
+      chatSnapshot
     } = this.props;
     const primaryData = {
       price: data.price,
@@ -102,6 +103,7 @@ export class MainItem extends Component {
                 user={user}
                 itemPK={data.pk}
                 newComments={newComments}
+                chatSnapshot={chatSnapshot}
               />
             ) : null}
           </View>
