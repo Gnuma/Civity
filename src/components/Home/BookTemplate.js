@@ -18,7 +18,7 @@ export default class BookTemplate extends Component {
     } = this.props;
     return (
       <ParallaxImage
-        source={require("../../media/imgs/mockHomeBook.png")}
+        source={img}
         containerStyle={{
           flex: 1,
           backgroundColor: "white"
@@ -38,7 +38,7 @@ export default class BookTemplate extends Component {
 
   render() {
     const {
-      data: { title, startingPrice: price },
+      data: { title, subject },
       itemWidth,
       itemHeight
     } = this.props;
@@ -87,7 +87,7 @@ export default class BookTemplate extends Component {
           >
             {title}
           </Header1>
-          <Header2>da €{price},00</Header2>
+          <Header2>{subject}</Header2>
         </View>
       </View>
     );
@@ -96,7 +96,8 @@ export default class BookTemplate extends Component {
   _onBookPick = () => {
     this.props.onPress({
       isbn: this.props.data.isbn,
-      title: this.props.data.title
+      title: this.props.data.title,
+      author: this.props.data.author
     });
   };
 }

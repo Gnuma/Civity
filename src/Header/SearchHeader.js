@@ -5,6 +5,11 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Button from "../components/Button";
 
 export default class SearchHeader extends Component {
+  onFocus = event => {
+    this.props.onChangeText("");
+    this.props.onFocus(event);
+  };
+
   render() {
     const {
       clearSearchQuery,
@@ -28,8 +33,8 @@ export default class SearchHeader extends Component {
             style={styles.searchInput}
             onSubmitEditing={onSubmitEditing}
             blurOnSubmit={true}
-            autoFocus={true}
-            onFocus={onFocus}
+            //autoFocus
+            onFocus={this.onFocus}
             placeholder={"Cerca un libro"}
             ref={setSearchRef}
           />

@@ -231,9 +231,9 @@ const CourseState = ({
           {...props}
           placeholder="Sezione (es: A)"
           onTextChange={changeScCourseText}
-          containerStyle={{ width: 200 }}
           autoCapitalize="characters"
           inputStyle={{ textAlign: "center" }}
+          maxLength={3}
         />
       </View>
     );

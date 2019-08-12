@@ -88,9 +88,21 @@ export class OfficeChange extends Component {
       };
       this.props.appInitRedux(office);
       if (this.props.isAuthenticated) {
-        axios.post(___OFFICE_CHANGE___, {
-          office: this.state.office.id
-        });
+        const officeID = this.state.office.id;
+        const course = this.state.course.name;
+        const year = this.state.year;
+        axios
+          .post(___OFFICE_CHANGE___, {
+            office: officeID,
+            year,
+            course
+          })
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            console.log({ err });
+          });
       }
       this.props.navigation.goBack(null);
     }

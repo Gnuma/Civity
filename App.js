@@ -11,6 +11,7 @@ import WS from "./src/utils/WebSocket";
 import axios from "axios";
 import Notification from "./src/utils/Notifications";
 import firebase from "react-native-firebase";
+import { Header2 } from "./src/components/Text";
 
 class App extends Component {
   componentDidMount() {

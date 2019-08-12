@@ -55,17 +55,16 @@ export default class MainHome extends Component {
         onPress={this.hideNC}
       >
         <View style={{ flex: 1 }}>
-          <View
-            style={{
+          <SearchLink
+            containerStyle={{
               justifyContent: "center",
               alignItems: "center",
-              paddingTop: 25,
-              paddingBottom: 10,
+              paddingVertical: 15,
+              paddingHorizontal: 20,
               ...Shadows[0]
             }}
-          >
-            <SearchLink onPress={openSearchBar} />
-          </View>
+            onPress={openSearchBar}
+          />
           <View
             style={{ flex: 1, marginBottom: 10 }}
             onLayout={this.props.setContainerLayout}

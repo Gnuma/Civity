@@ -24,6 +24,11 @@ export class Header extends Component {
     showResults: PropTypes.bool
   };
 
+  componentDidUpdate = prevProps => {
+    if (!prevProps.isActive && this.props.isActive)
+      this.searchField && this.searchField.focus();
+  };
+
   setSearchRef = input => {
     this.searchField = input;
   };

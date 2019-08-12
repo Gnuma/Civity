@@ -79,7 +79,7 @@ export class Home extends Component {
           commentsOrdered={this.props.commentsOrder}
           commentsData={this.props.commentsData}
           goComment={this._onCommentNotificationPress}
-          searchOption={this._searchOption}
+          searchOption={this.props.searchRedux}
           setContainerLayout={this.setContainerLayout}
           containerLayout={this.state.containerLayout}
         />
@@ -114,10 +114,6 @@ export class Home extends Component {
   _openSearchBar = () => {
     this.props.setActiveRedux(true);
     //NativeModules.DevMenu.show();
-  };
-
-  _searchOption = search_query => {
-    this.props.searchRedux(search_query);
   };
 }
 

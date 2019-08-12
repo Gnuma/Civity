@@ -13,7 +13,7 @@ import colors from "../../styles/colors";
 import { NCHeight } from "./MainHome";
 import BookShelfPagination from "./BookShelfPagination";
 import { ___BOOK_IMG_RATIO___ } from "../../utils/constants";
-import { Header3 } from "../Text";
+import { Header3, Header2 } from "../Text";
 
 export default class BookShelf extends Component {
   state = {
@@ -83,24 +83,31 @@ export const LabelHeight = 60;
 
 const data = [
   {
-    title: "Matematica Verde 3",
-    startingPrice: 13,
-    img: "../../media/imgs/mockHomeBook.png",
-    isbn: 3123
+    title: "Matematica blu 1",
+    subject: "Matematica",
+    img: require("../../media/imgs/MatematicaBlu.jpg"),
+    isbn: 978880822085,
+    author: "Massimo Bergamini, Graziella Barozzi, Anna Trifone"
   },
   {
-    title: "Il Blu e il Rosso",
-    startingPrice: 15,
-    img: "../../media/imgs/mockHomeBook.png"
+    title: "Il piacere dei testi 3",
+    subject: "Letteratura",
+    img: require("../../media/imgs/IlPiacereDeiTesti.jpg"),
+    isbn: 978883953224,
+    author: "Guido Baldi, Silvia Giusso, Mario Razetti"
   },
   {
-    title: "Un passo in dietro nella storia",
-    startingPrice: 12,
-    img: "../../media/imgs/mockHomeBook.png"
+    title: "Performer heritage 1",
+    subject: "Inglese",
+    img: require("../../media/imgs/PerformerHeritage.jpg"),
+    isbn: 978880873744,
+    author: "Marina Spiazzi, Marina Tavella, Margaret Layton"
   },
   {
-    title: "Cloud",
-    startingPrice: 16,
-    img: "../../media/imgs/mockHomeBook.png"
+    title: "La parola alla storia 2",
+    subject: "Storia",
+    img: require("../../media/imgs/LaParolaAllaStoria.jpg"),
+    isbn: 978889152023,
+    author: "Barbara Biggio"
   }
 ];
