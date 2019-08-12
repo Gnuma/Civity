@@ -226,7 +226,33 @@ export class Auth extends Component {
           justifyContent: "center"
         }}
       >
-        <Header3>Oppure</Header3>
+        <Button onPress={this._switchAuthType}>
+          <Header3 color={"primary"}>Hai già un account?</Header3>
+        </Button>
+      </View>
+    );
+  };
+}
+
+const mapStateToProps = state => ({
+  isLoading: state.auth.loading,
+  office: state.auth.office //Test
+});
+
+const mapDispatchToProps = dispatch => ({
+  loginRedux: (uid, pwd, resolve) =>
+    dispatch(authActions.authLogin(uid, pwd, resolve)),
+  signupRedux: (uid, email, pwd1, pwd2, resolve) =>
+    dispatch(authActions.authSignup(uid, email, pwd1, pwd2, resolve))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Auth);
+
+/**
+ * <Header3>Oppure</Header3>
         <View
           style={{
             flexDirection: "row",
@@ -268,27 +294,4 @@ export class Auth extends Component {
             />
           </Button>
         </View>
-        <Button onPress={this._switchAuthType}>
-          <Header3 color={"primary"}>Hai già un account?</Header3>
-        </Button>
-      </View>
-    );
-  };
-}
-
-const mapStateToProps = state => ({
-  isLoading: state.auth.loading,
-  office: state.auth.office //Test
-});
-
-const mapDispatchToProps = dispatch => ({
-  loginRedux: (uid, pwd, resolve) =>
-    dispatch(authActions.authLogin(uid, pwd, resolve)),
-  signupRedux: (uid, email, pwd1, pwd2, resolve) =>
-    dispatch(authActions.authSignup(uid, email, pwd1, pwd2, resolve))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Auth);
+ */
