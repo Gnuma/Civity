@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -37,12 +37,30 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Accesso alle funzioni musicali per notifiche personalizzate</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Accesso alle funzioni bluetooth per scambio di informazioni tra venditori</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Accesso al calendario per favorire le date di organizzazione piu' adeguate</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Uso della fotocamera per perendere le foto dei libri</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Accesso ai tuoi contatti per favorire le chat piu' adatte a te</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Accesso alla posizione per ricerche personalizzate</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Accesso alla posizione per ricerche personalizzate</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Uso della posizione per migliori ricerche</string>
+	<key>NSMainNibFile</key>
+	<string>LaunchScreen</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Accesso alle funzioni di ricezione movimento per "gesture" ottimizzati</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Accesso alle tuo foto per prendere quelle dei libri</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Accesso alle funzioni di riconoscimento vocale per ricerca vocale</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome5_Solid.ttf</string>
@@ -61,6 +79,10 @@
 		<string>armv7</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
