@@ -114,7 +114,7 @@ export default ({ onPress }) => {
             </Header2>
             <Header3 color="black">
               In alcuni casi non riuscirai a trovare il libro o l’istituto che
-              stavi cercando. Questo perchè in questo momento i dati a nostra
+              stavi cercando. Questo perchè in ad oggi i dati a nostra
               disposizione non sono ancora completi.
             </Header3>
             <Header3 color="black">
