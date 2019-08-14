@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Header2, Header5 } from "../../Text";
 import colors from "../../../styles/colors";
 import Shadows from "../../Shadows";
+import OutlinedInput from "../../Form/OutlinedInput";
 
 export default class SelectBookHeader extends Component {
   render() {
@@ -20,8 +21,9 @@ export default class SelectBookHeader extends Component {
           flex: 0,
           paddingHorizontal: 15,
           paddingVertical: 10,
-          ...Shadows[4],
-          backgroundColor: "white"
+          ...Shadows[2],
+          backgroundColor: "white",
+          zIndex: 2
         }}
       >
         <Header2 color={"primary"}>Seleziona il libro che vuoi vendere</Header2>
@@ -40,41 +42,19 @@ export default class SelectBookHeader extends Component {
               style={{ color: colors.black }}
             />
           </Button>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              borderRadius: 6,
-              overflow: "hidden",
-              backgroundColor: "white",
-              ...Shadows[2]
+          <OutlinedInput
+            onTextChange={onChangeText}
+            value={searchQuery}
+            containerStyle={{
+              marginLeft: 6,
+              marginRight: 30
             }}
-          >
-            <TextInput
-              onChangeText={onChangeText}
-              value={searchQuery}
-              style={{
-                flex: 1,
-                fontSize: 22,
-                marginLeft: 6,
-                marginRight: 30,
-                padding: 8
-              }}
-              blurOnSubmit={true}
-              autoFocus={true}
-              placeholder={"eg: Matematica Verde 3"}
-            />
-            <Button
-              onPress={resetSearchBar}
-              style={{ right: 10, alignSelf: "center" }}
-            >
-              <Icon
-                name="times"
-                size={24}
-                style={{ color: "black", alignSelf: "center" }}
-              />
-            </Button>
-          </View>
+            icon={searchQuery ? "times" : "search"}
+            inputStyle={{ fontSize: 22 }}
+            blurOnSubmit={true}
+            autoFocus={true}
+            placeholder={"eg: Matematica Verde 3"}
+          />
         </View>
       </View>
     );

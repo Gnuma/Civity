@@ -132,3 +132,5 @@ const bottomInsetDevices = {
 };
 
 export const BOTTOM_INSET = bottomInsetDevices[Device.getDeviceId()] ? 34 : 0;
+
+export const KAV_BEHAVIOR = IS_ANDROID ? "" : "padding";

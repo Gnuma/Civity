@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { StatusBar, NativeModules } from "react-native";
+import {
+  StatusBar,
+  NativeModules,
+  KeyboardAvoidingView,
+  View
+} from "react-native";
 import { withNavigation, StackActions } from "react-navigation";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -17,7 +22,7 @@ import _ from "lodash";
 import MainHome from "../components/Home/MainHome";
 import { GreenBar } from "../components/StatusBars";
 import colors from "../styles/colors";
-import { IS_ANDROID } from "../utils/constants";
+import { IS_ANDROID, KAV_BEHAVIOR } from "../utils/constants";
 
 export class Home extends Component {
   static propTypes = {

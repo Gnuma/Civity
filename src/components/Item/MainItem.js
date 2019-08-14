@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Animated, RefreshControl, StyleSheet } from "react-native";
+import {
+  View,
+  Animated,
+  RefreshControl,
+  StyleSheet,
+  KeyboardAvoidingView
+} from "react-native";
 import { MainItemStyles as styles } from "./styles";
 import { PrimaryInfo, DescriptionInfo, SecondaryInfo } from "./ItemInfos";
 import SellerInfo from "./SellerInfo";
@@ -9,6 +15,7 @@ import QuipuComment from "../Comments/QuipuComment";
 import ContactButton from "./ContactButton";
 import FullButton from "../FullButton";
 import BlockedItemBar from "./BlockedItemBar";
+import { KAV_BEHAVIOR } from "../../utils/constants";
 
 export class MainItem extends Component {
   state = {
@@ -55,7 +62,7 @@ export class MainItem extends Component {
     console.log(data.seller);
 
     return (
-      <View style={{ flex: 1 }}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={KAV_BEHAVIOR}>
         <Animated.ScrollView
           style={styles.scrollView}
           keyboardShouldPersistTaps={"handled"}
@@ -130,7 +137,7 @@ export class MainItem extends Component {
             <BlockedItemBar />
           </View>
         )}
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 

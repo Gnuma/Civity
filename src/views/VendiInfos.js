@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, ScrollView, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+  KeyboardAvoidingView
+} from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ItemHeader from "../components/Item/ItemHeader";
@@ -9,6 +15,7 @@ import colors from "../styles/colors";
 import protectedAction from "../utils/protectedAction";
 import { GreyBar } from "../components/StatusBars";
 import { SafeAreaView } from "react-navigation";
+import { KAV_BEHAVIOR } from "../utils/constants";
 
 export class VendiInfos extends Component {
   state = {
@@ -32,7 +39,10 @@ export class VendiInfos extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flex: 1, overflow: "hidden" }}>
+        <KeyboardAvoidingView
+          style={{ flex: 1, overflow: "hidden" }}
+          behavior={KAV_BEHAVIOR}
+        >
           <GreyBar />
           <ItemHeader
             handleGoBack={this._handleGoBack}
@@ -60,7 +70,7 @@ export class VendiInfos extends Component {
               <ActivityIndicator size="large" color={colors.secondary} />
             </View>
           )}
-        </View>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     );
   }

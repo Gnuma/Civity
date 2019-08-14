@@ -1,9 +1,14 @@
 import React, { Component } from "react";
-import { View, ToastAndroid } from "react-native";
+import { View, KeyboardAvoidingView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import BasicHeader from "../components/BasicHeader";
-import { ChatType, ChatStatus, OffertStatus } from "../utils/constants";
+import {
+  ChatType,
+  ChatStatus,
+  OffertStatus,
+  KAV_BEHAVIOR
+} from "../utils/constants";
 import * as chatActions from "../store/actions/chat";
 import LoadingOverlay from "../components/LoadingOverlay";
 import { OffertType } from "../utils/constants";
@@ -202,14 +207,17 @@ export class BookOffert extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flex: 1, overflow: "hidden" }}>
+        <KeyboardAvoidingView
+          style={{ flex: 1, overflow: "hidden" }}
+          behavior={KAV_BEHAVIOR}
+        >
           <BasicHeader title={title} />
           <View style={{ flex: 1 }}>
             {this.renderContent(type, data)}
             {data.loading ? <LoadingOverlay /> : null}
             {decision && <DecisionOverlay decision={decision} />}
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     );
   }

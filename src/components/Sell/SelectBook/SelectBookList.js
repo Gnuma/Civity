@@ -35,11 +35,12 @@ export default class SelectBookList extends Component {
           borderRadius: 10,
           backgroundColor: "white",
           ...Shadows[4],
-          marginVertical: 6,
+          marginTop: 6,
           marginHorizontal: 15,
           padding: 5,
           justifyContent: "center",
-          alignItems: "center"
+          alignItems: "center",
+          marginBottom: 20
         }}
         onPress={this.props.goCreateBook}
       >

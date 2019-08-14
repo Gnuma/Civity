@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, ScrollView, Keyboard, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Keyboard,
+  StyleSheet,
+  KeyboardAvoidingView
+} from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as sellActions from "../store/actions/sell";
@@ -24,6 +31,7 @@ import { Subject, of } from "rxjs";
 import { ajax } from "rxjs/ajax";
 import { switchMap, map, catchError } from "rxjs/operators";
 import protectedAction from "../utils/protectedAction";
+import { KAV_BEHAVIOR } from "../utils/constants";
 
 export class CreateBook extends Component {
   constructor(props) {
@@ -108,7 +116,10 @@ export class CreateBook extends Component {
       : subjectOptions;
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flex: 1, overflow: "hidden" }}>
+        <KeyboardAvoidingView
+          style={{ flex: 1, overflow: "hidden" }}
+          behavior={KAV_BEHAVIOR}
+        >
           <GreyBar />
           <BasicHeader title="Aggiungi il  libro" />
           <View style={{ flex: 1 }}>
@@ -171,7 +182,7 @@ export class CreateBook extends Component {
               </View>
             )}
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     );
   }

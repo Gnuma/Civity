@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, KeyboardAvoidingView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import SBHeader from "../components/Sell/SelectBook/SelectBookHeader";
@@ -15,6 +15,7 @@ import { switchMap, catchError, map } from "rxjs/operators";
 import { ajax } from "rxjs/ajax";
 import { Header3 } from "../components/Text";
 import { SafeAreaView } from "react-navigation";
+import { KAV_BEHAVIOR } from "../utils/constants";
 
 export class SelectBook extends Component {
   constructor(props) {
@@ -96,7 +97,7 @@ export class SelectBook extends Component {
             resetSearchBar={this.resetSearchBar}
             handleGoBack={this.handleGoBack}
           />
-          <View style={{ flex: 1 }}>
+          <KeyboardAvoidingView style={{ flex: 1 }} behavior={KAV_BEHAVIOR}>
             <SBList
               results={this.state.results}
               handleSelection={this.handleSelection}
@@ -105,7 +106,7 @@ export class SelectBook extends Component {
               soldBooks={this.state.soldBooks}
               loading={this.state.loading}
             />
-          </View>
+          </KeyboardAvoidingView>
         </View>
       </SafeAreaView>
     );

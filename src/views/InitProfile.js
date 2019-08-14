@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  KeyboardAvoidingView
+} from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as authActions from "../store/actions/auth";
@@ -12,6 +17,7 @@ import FullButton from "../components/FullButton";
 import colors from "../styles/colors";
 import Icon from "react-native-vector-icons/FontAwesome";
 import BetaInfos from "../components/BetaInfos";
+import { KAV_BEHAVIOR } from "../utils/constants";
 
 export class InitProfile extends Component {
   state = {
@@ -84,7 +90,10 @@ export class InitProfile extends Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <AndroidBackHandler onBackPress={this.goBack}>
-          <View style={{ flex: 1, paddingHorizontal: 18 }}>
+          <KeyboardAvoidingView
+            style={{ flex: 1, paddingHorizontal: 18 }}
+            behavior={KAV_BEHAVIOR}
+          >
             <ScrollView keyboardShouldPersistTaps="always">
               <View style={{ flex: 1, paddingTop: 20, paddingBottom: 100 }}>
                 <Header1 color={"primary"} style={{ fontSize: 50 }}>
@@ -126,7 +135,7 @@ export class InitProfile extends Component {
                 disabled={!canContinue}
               />
             </View>
-          </View>
+          </KeyboardAvoidingView>
         </AndroidBackHandler>
       </SafeAreaView>
     );
