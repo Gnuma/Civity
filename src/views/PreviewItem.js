@@ -3,7 +3,7 @@ import { View, StyleSheet, ActivityIndicator } from "react-native";
 import * as sellActions from "../store/actions/sell";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { GreyBar } from "../components/StatusBars";
+import { GreyBar, setGreyBar } from "../components/StatusBars";
 import ItemHeader from "../components/Item/ItemHeader";
 import MainItemPreview from "../components/Item/MainItemPreview";
 import Button from "../components/Button";
@@ -24,6 +24,18 @@ export class PreviewItem extends Component {
     seller: PropTypes.object,
     loading: PropTypes.bool
   };
+
+  componentDidMount() {
+    this._navListener = this.props.navigation.addListener(
+      "willFocus",
+      setGreyBar
+    );
+    setGreyBar();
+  }
+
+  componentWillUnmount() {
+    this._navListener.remove();
+  }
 
   state = { loading: false };
 

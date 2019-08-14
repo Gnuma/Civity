@@ -117,7 +117,7 @@ export class MainList extends Component {
   };
 
   _renderSingleItem = ({ item }) => {
-    return <ListSingleItem data={item} />;
+    return <ListSingleItem data={item} isSingle={true} />;
   };
 }
 

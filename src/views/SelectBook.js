@@ -9,7 +9,7 @@ import * as sellActions from "../store/actions/sell";
 import axios from "axios";
 import { ___BOOK_HINTS_ENDPOINT___ } from "../store/constants";
 import _ from "lodash";
-import { GreyBar } from "../components/StatusBars";
+import { GreyBar, setGreyBar } from "../components/StatusBars";
 import { Subject, of } from "rxjs";
 import { switchMap, catchError, map } from "rxjs/operators";
 import { ajax } from "rxjs/ajax";
@@ -41,6 +41,12 @@ export class SelectBook extends Component {
   }
 
   componentDidMount() {
+    this._navListener = this.props.navigation.addListener(
+      "willFocus",
+      setGreyBar
+    );
+    setGreyBar();
+
     this.querySubscription = this.bookQuery.subscribe({
       next: results => {
         console.log(results);
@@ -67,6 +73,7 @@ export class SelectBook extends Component {
 
   componentWillUnmount() {
     this.querySubscription && this.querySubscription.unsubscribe();
+    this._navListener.remove();
   }
 
   state = {

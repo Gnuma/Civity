@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ActivityIndicator, Keyboard } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  Keyboard,
+  StatusBar
+} from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ItemHeader from "../components/Item/ItemHeader";
@@ -12,11 +18,11 @@ import * as commentActions from "../store/actions/comments";
 import * as chatActions from "../store/actions/chat";
 import * as sellActions from "../store/actions/sell";
 import { notificationsViewItem } from "../store/actions/notifications";
-import { GreyBar } from "../components/StatusBars";
+import { GreyBar, setGreyBar } from "../components/StatusBars";
 import { formatOffice } from "../utils/helper";
 import DecisionOverlay from "../components/DecisionOverlay";
 import LoadingOverlay from "../components/LoadingOverlay";
-import { ChatStatus } from "../utils/constants";
+import { ChatStatus, IS_ANDROID } from "../utils/constants";
 import BlockedItemBar from "../components/Item/BlockedItemBar";
 import { SafeAreaView, StackActions } from "react-navigation";
 import update from "immutability-helper";
@@ -41,10 +47,12 @@ export class Item extends Component {
   }
 
   componentDidMount() {
-    this.keyboardEventListeners = [
+    this.viewListeners = [
       Keyboard.addListener("keyboardDidShow", this.setKeyboardOpen(true)),
-      Keyboard.addListener("keyboardDidHide", this.setKeyboardOpen(false))
+      Keyboard.addListener("keyboardDidHide", this.setKeyboardOpen(false)),
+      this.props.navigation.addListener("willFocus", setGreyBar)
     ];
+    setGreyBar();
 
     this.loadData();
 
@@ -168,10 +176,8 @@ export class Item extends Component {
   };
 
   componentWillUnmount() {
-    this.keyboardEventListeners &&
-      this.keyboardEventListeners.forEach(eventListener =>
-        eventListener.remove()
-      );
+    this.viewListeners &&
+      this.viewListeners.forEach(eventListener => eventListener.remove());
 
     //this.didFocusSubscription && this.didFocusSubscription.remove();
     console.log("Unmounting");
@@ -203,7 +209,6 @@ export class Item extends Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1, overflow: "hidden" }}>
-          <GreyBar />
           <ItemHeader
             handleGoBack={this._handleGoBack}
             title={bookName}

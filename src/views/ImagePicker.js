@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { GreyBar } from "../components/StatusBars";
+import { DarkContent } from "../components/StatusBars";
 import BasicHeader from "../components/BasicHeader";
 import colors from "../styles/colors";
 import { ___BOOK_IMG_RATIO___, IS_ANDROID } from "../utils/constants";
@@ -57,6 +57,7 @@ export class ImagePicker extends Component {
   componentDidMount() {
     if (IS_ANDROID) this.requestPermissions();
     else this.requestIosPermission();
+    !IS_ANDROID && StatusBar.setBarStyle("dark-content");
   }
 
   retrieveImages = numImages => {

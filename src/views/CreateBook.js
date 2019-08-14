@@ -17,7 +17,7 @@ import {
   ___CREATE_BOOK___,
   ___SUBJECT_HINTS_ENDPOINT___
 } from "../store/constants";
-import { GreyBar } from "../components/StatusBars";
+import { GreyBar, setGreyBar } from "../components/StatusBars";
 import { SafeAreaView } from "react-navigation";
 import Picker from "../components/TextInputPicker";
 import { Subject, of } from "rxjs";
@@ -51,11 +51,17 @@ export class CreateBook extends Component {
         this.setState({ officeOptions: [] });
       }
     });
+    this._navListener = this.props.navigation.addListener(
+      "willFocus",
+      setGreyBar
+    );
+    setGreyBar();
   }
 
   componentWillUnmount() {
     this.subjectQuerySubscription &&
       this.subjectQuerySubscription.unsubscribe();
+    this._navListener.remove();
   }
 
   updateField = (key, value) => {

@@ -20,6 +20,7 @@ import CompletedOffert from "../components/BookOffert/CompletedOffert";
 import BlockedOffert from "../components/BookOffert/BlockedOffert";
 import InvalidOffert from "../components/BookOffert/InvalidOffert";
 import { SafeAreaView } from "react-navigation";
+import { setGreyBar } from "../components/StatusBars";
 
 export class BookOffert extends Component {
   constructor(props) {
@@ -38,6 +39,18 @@ export class BookOffert extends Component {
   static propTypes = {
     //type: PropTypes.string,
   };
+
+  componentDidMount() {
+    this._navListener = this.props.navigation.addListener(
+      "willFocus",
+      setGreyBar
+    );
+    setGreyBar();
+  }
+
+  componentWillUnmount() {
+    this._navListener.remove();
+  }
 
   takeAction = text =>
     new Promise((resolve, reject) => {

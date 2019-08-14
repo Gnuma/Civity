@@ -35,7 +35,7 @@ export default class ChatHeader extends Component {
       <View>
         {offert && <OffertCard offert={offert} />}
         {user && <UserCard userData={user} />}
-        <View style={{ marginTop: -10 }}>
+        <View style={{}}>
           <ListMultiItem
             data={item}
             isSingle={false}

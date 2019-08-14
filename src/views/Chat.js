@@ -8,6 +8,7 @@ import ContactReview from "../components/Chat/ContactReview";
 import { ChatType, ChatStatus } from "../utils/constants";
 import ChatHeader from "../components/Chat/ChatHeader";
 import { SafeAreaView } from "react-navigation";
+import { setGreyBar } from "../components/StatusBars";
 
 export class Chat extends Component {
   constructor(props) {
@@ -36,9 +37,11 @@ export class Chat extends Component {
       navigation.addListener("didFocus", () => {
         this.firstFocus && this.setChatFocus(true);
         this.firstFocus = true;
+        setGreyBar();
       }),
       navigation.addListener("didBlur", () => this.setChatFocus(false))
     ];
+    setGreyBar();
   }
 
   componentWillUnmount() {

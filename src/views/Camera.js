@@ -13,6 +13,7 @@ import { TransparentBar } from "../components/StatusBars";
 import { SafeAreaView } from "react-navigation";
 import ImageReviewer from "../components/Camera/ImageReviewer";
 import { ___BOOK_IMG_RATIO___, SellType } from "../utils/constants";
+import { setLightContent } from "../components/StatusBars";
 
 export class Camera extends Component {
   imgCounter = 5;
@@ -24,6 +25,18 @@ export class Camera extends Component {
     cameraStatus: null,
     loading: 0
   };
+
+  componentDidMount() {
+    this._navListener = this.props.navigation.addListener(
+      "willFocus",
+      setLightContent
+    );
+    setLightContent();
+  }
+
+  componentWillUnmount() {
+    this._navListener.remove();
+  }
 
   openImagePicker = () => {
     let busyPreviews = 0;

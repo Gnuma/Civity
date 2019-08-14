@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StatusBar } from "react-native";
 import colors from "../styles/colors";
+import { IS_ANDROID } from "../utils/constants";
 
 export const GreenBar = ({ ...rest }) => {
   return (
@@ -52,3 +53,19 @@ export const WhiteBar = ({ ...rest }) => {
     />
   );
 };
+
+export const setGreyBar = () => {
+  if (IS_ANDROID) {
+    StatusBar.setBarStyle("light-content");
+    StatusBar.setBackgroundColor(colors.lightGrey);
+  } else StatusBar.setBarStyle("dark-content");
+};
+
+export const DarkContent = () => {
+  return <StatusBar barStyle="dark-content" />;
+};
+export const LightContent = () => {
+  return <StatusBar barStyle="light-content" />;
+};
+
+export const setLightContent = () => StatusBar.setBarStyle("light-content");

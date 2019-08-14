@@ -10,23 +10,24 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     height: itemHeight,
-    borderRadius: 10,
+    borderRadius: 5,
 
     backgroundColor: "white",
 
-    ...Shadows[5],
+    ...Shadows[4],
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2
     },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84
+    shadowRadius: 3.84,
+    overflow: "hidden"
   },
   image: {
     height: itemHeight,
     width: imageWidth,
-    borderBottomLeftRadius: 10
+    borderBottomLeftRadius: 5
   },
   itemContent: {
     flex: 1,
@@ -50,9 +51,10 @@ export default StyleSheet.create({
   },
   itemButton: {
     flex: 1,
-    margin: 10,
-    ...Shadows[3],
-    borderRadius: 10,
+    marginTop: 10,
+    marginHorizontal: 10,
+    ...Shadows[2],
+    borderRadius: 5,
     backgroundColor: "white"
   },
   multiHeader: {
@@ -60,7 +62,9 @@ export default StyleSheet.create({
     flexGrow: 1,
     paddingLeft: 5,
     paddingBottom: 5,
-    borderTopEndRadius: 10,
+    borderTopEndRadius: 5,
     backgroundColor: "white"
   }
 });
+
+export const ITEM_BORDER_RADIUS = 5;

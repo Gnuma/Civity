@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import PropTypes from "prop-types";
-import styles from "./styles";
+import styles, { ITEM_BORDER_RADIUS } from "./styles";
 import { Header1, Header3, Header4, Header5 } from "../../components/Text";
 import CircleValue from "../CircleValue";
 import Image from "react-native-fast-image";
@@ -29,8 +29,8 @@ export default class Item extends Component {
         style={[
           styles.itemContainer,
           {
-            borderTopLeftRadius: isSingle ? 10 : 0,
-            borderTopRightRadius: isSingle ? 10 : 0
+            borderTopLeftRadius: isSingle ? ITEM_BORDER_RADIUS : 0,
+            borderTopRightRadius: isSingle ? ITEM_BORDER_RADIUS : 0
           }
         ]}
       >
@@ -38,7 +38,7 @@ export default class Item extends Component {
           style={[
             styles.image,
             {
-              borderTopLeftRadius: isSingle ? 10 : 0
+              borderTopLeftRadius: isSingle ? ITEM_BORDER_RADIUS : 0
             }
           ]}
           source={{
