@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Keyboard, ToastAndroid, StyleSheet } from "react-native";
+import { View, Keyboard, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import CommentComposer from "./CommentComposer";
 import { Header2 } from "../Text";
@@ -12,6 +12,7 @@ import axios from "axios";
 import { ___CREATE_COMMENT___ } from "../../store/constants";
 import protectedAction from "../../utils/protectedAction";
 import NetInfo from "@react-native-community/netinfo";
+import IOSToast from "../IOSToast";
 
 class QuipuComment extends Component {
   static propTypes = {
@@ -116,16 +117,14 @@ class QuipuComment extends Component {
           if (type === "question") this._onSend();
           else this._onSendAnswer();
         } else {
-          ToastAndroid.show(
-            "Nessuna connessione ad internet... Riporva più tardi",
-            ToastAndroid.SHORT
+          IOSToast.dispatchToast(
+            "Nessuna connessione ad internet... Riporva più tardi"
           );
         }
       })
       .catch(err => {
-        ToastAndroid.show(
-          "Nessuna connessione ad internet... Riporva più tardi",
-          ToastAndroid.SHORT
+        IOSToast.dispatchToast(
+          "Nessuna connessione ad internet... Riporva più tardi"
         );
       });
   };
@@ -222,9 +221,8 @@ class QuipuComment extends Component {
     protectedAction()
       .then(() => {
         if (this.props.user.id === this.props.sellerPK) {
-          ToastAndroid.show(
-            "Non puoi creare delle domande alle tue inserzioni",
-            ToastAndroid.SHORT
+          IOSToast.dispatchToast(
+            "Non puoi creare delle domande alle tue inserzioni"
           );
         } else {
           this.mainCommentQueue++;

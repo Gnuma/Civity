@@ -31,6 +31,13 @@ export const saveNavState = () => navState => ({
   }
 });
 
+export const createToast = toast => ({
+  type: actionTypes.CREATE_TOAST,
+  payload: {
+    toast
+  }
+});
+
 export const updateFCMToken = token => async dispatch => {
   let oldToken;
   try {

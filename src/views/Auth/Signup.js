@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ToastAndroid, StyleSheet, Keyboard } from "react-native";
+import { View, StyleSheet, Keyboard } from "react-native";
 import OutlinedInput from "../../components/Form/OutlinedInput";
 import {
   submit,

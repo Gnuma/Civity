@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, ToastAndroid } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 import { OffertInfo, DecisionBox } from "./General";
 import Card from "../Card";
 import { Header3, Header2, Header1 } from "../Text";
@@ -10,6 +10,7 @@ import { TextInput } from "react-native-gesture-handler";
 import colors from "../../styles/colors";
 import Button from "../Button";
 import { FEEDBACK_TYPES } from "../../utils/constants";
+import IOSToast from "../IOSToast";
 
 export default class FeedbackOffert extends Component {
   state = {
@@ -33,12 +34,11 @@ export default class FeedbackOffert extends Component {
   sendFeedback = () => {
     const { feedback, positiveComment, negativeComment } = this.state;
     if (feedback == null) {
-      return ToastAndroid.show("Seleziona il feedback", ToastAndroid.LONG);
+      return IOSToast.dispatchToast("Seleziona il feedback");
     }
     if (feedback == FEEDBACK_TYPES.NEGATIVE && !negativeComment) {
-      return ToastAndroid.show(
-        "Devi scrivere un commento per lasciare un feedback negativo",
-        ToastAndroid.LONG
+      return IOSToast.dispatchToast(
+        "Devi scrivere un commento per lasciare un feedback negativo"
       );
     }
     this.props.sendFeedback(

@@ -7,7 +7,6 @@ import {
   Text,
   Dimensions,
   FlatList,
-  ToastAndroid,
   PermissionsAndroid,
   StatusBar,
   Image
@@ -31,6 +30,7 @@ import { SafeAreaView } from "react-navigation";
 import Permissions from "react-native-permissions";
 import TouchableNative from "../components/TouchableNative";
 import Shadows from "../components/Shadows";
+import IOSToast from "../components/IOSToast";
 
 const BATCH_SIZE = 99;
 
@@ -92,9 +92,8 @@ export class ImagePicker extends Component {
               if (Object.keys(selected).length < this.MAX_IMAGES)
                 selected[index] = true;
               else
-                ToastAndroid.show(
-                  "Hai raggiunto il limite di foto caricabili",
-                  ToastAndroid.SHORT
+                IOSToast.dispatchToast(
+                  "Hai raggiunto il limite di foto caricabili"
                 );
             }
             return selected;
@@ -135,41 +134,43 @@ export class ImagePicker extends Component {
     return (
       <SafeAreaView style={{ flex: 1, paddingTop: StatusBar.currentHeight }}>
         <View style={{ flex: 1, overflow: "hidden" }}>
-          <PickerHeader
-            complete={this.complete}
-            goBack={this.exitPicker}
-            numSelected={numSelected}
-            totalOccupied={totalOccupied}
-          />
-          {hasPermission ? (
-            <View style={{ flex: 1 }}>
-              <FlatList
-                data={data}
-                renderItem={this.renderItem}
-                keyExtractor={this.keyExtractor}
-                onEndReached={() => {
-                  this.state.hasMore &&
-                    !this.loading &&
-                    this.retrieveImages(BATCH_SIZE);
+          <IOSToast>
+            <PickerHeader
+              complete={this.complete}
+              goBack={this.exitPicker}
+              numSelected={numSelected}
+              totalOccupied={totalOccupied}
+            />
+            {hasPermission ? (
+              <View style={{ flex: 1 }}>
+                <FlatList
+                  data={data}
+                  renderItem={this.renderItem}
+                  keyExtractor={this.keyExtractor}
+                  onEndReached={() => {
+                    this.state.hasMore &&
+                      !this.loading &&
+                      this.retrieveImages(BATCH_SIZE);
+                  }}
+                  onEndReachedThreshold={0.5}
+                  ListFooterComponent={this.renderFooter}
+                  numColumns={3}
+                />
+              </View>
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center"
                 }}
-                onEndReachedThreshold={0.5}
-                ListFooterComponent={this.renderFooter}
-                numColumns={3}
-              />
-            </View>
-          ) : (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Header3 color="black">
-                Per accedere alle immagini abbiamo bisogno del tuo permesso
-              </Header3>
-            </View>
-          )}
+              >
+                <Header3 color="black">
+                  Per accedere alle immagini abbiamo bisogno del tuo permesso
+                </Header3>
+              </View>
+            )}
+          </IOSToast>
         </View>
       </SafeAreaView>
     );

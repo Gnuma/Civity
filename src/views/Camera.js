@@ -9,10 +9,10 @@ import * as sellActions from "../store/actions/sell";
 import colors from "../styles/colors";
 import _ from "lodash";
 import MainCamera from "../components/Camera/MainCamera";
-import { TransparentBar } from "../components/StatusBars";
+import { TransparentBar, HiddenBar } from "../components/StatusBars";
 import { SafeAreaView } from "react-navigation";
 import ImageReviewer from "../components/Camera/ImageReviewer";
-import { ___BOOK_IMG_RATIO___, SellType } from "../utils/constants";
+import { ___BOOK_IMG_RATIO___, SellType, IS_ANDROID } from "../utils/constants";
 import { setLightContent } from "../components/StatusBars";
 
 export class Camera extends Component {
@@ -141,7 +141,7 @@ export class Camera extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.fullBlack }}>
         <View style={{ flex: 1 }}>
-          <TransparentBar />
+          {IS_ANDROID ? <TransparentBar /> : <HiddenBar />}
           {!isReviewing && (
             <MainCamera
               flashMode={flashMode}

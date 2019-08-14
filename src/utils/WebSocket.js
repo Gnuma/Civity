@@ -3,7 +3,6 @@ import {
   ___WS_TEST_ENDPOINT,
   ___RETRIEVE_CHATS___
 } from "../store/constants";
-import { ToastAndroid } from "react-native";
 //import "./MockWS";
 import store from "../store/store";
 import { authCompleted, authFail } from "../store/actions/auth";
@@ -37,6 +36,7 @@ import {
   chatBlockChat,
   chatDisableItem
 } from "../store/actions/chat";
+import IOSToast from "../components/IOSToast";
 
 class WS {
   ws = null;
@@ -235,7 +235,7 @@ class WS {
   onOpen = () => {
     this.retries = 5;
     console.log("Connected");
-    ToastAndroid.show("Connected", ToastAndroid.SHORT);
+    IOSToast.dispatchToast("Connected");
   };
 
   onClose = code => {
@@ -248,10 +248,10 @@ class WS {
     } else if (this.retries == 0) {
       console.log("Restarting in 5 sec");
       setTimeout(this.startConnection, 5000);
-      ToastAndroid.show("Disconnected", ToastAndroid.SHORT);
+      IOSToast.dispatchToast("Disconnected");
     } else {
       console.log("Closed");
-      ToastAndroid.show("Logout", ToastAndroid.SHORT);
+      IOSToast.dispatchToast("Logout");
     }
   };
 

@@ -26,6 +26,7 @@ import BlockedOffert from "../components/BookOffert/BlockedOffert";
 import InvalidOffert from "../components/BookOffert/InvalidOffert";
 import { SafeAreaView } from "react-navigation";
 import { setGreyBar } from "../components/StatusBars";
+import IOSToast from "../components/IOSToast";
 
 export class BookOffert extends Component {
   constructor(props) {
@@ -84,7 +85,6 @@ export class BookOffert extends Component {
   };
 
   removeOffert = async () => {
-    //return ToastAndroid.show("Coming soon...", ToastAndroid.SHORT);
     const { objectID, chatID } = this.state;
     try {
       await this.takeAction("Sei sicuro di voler cancellare questa offerta?");
@@ -211,12 +211,14 @@ export class BookOffert extends Component {
           style={{ flex: 1, overflow: "hidden" }}
           behavior={KAV_BEHAVIOR}
         >
-          <BasicHeader title={title} />
-          <View style={{ flex: 1 }}>
-            {this.renderContent(type, data)}
-            {data.loading ? <LoadingOverlay /> : null}
-            {decision && <DecisionOverlay decision={decision} />}
-          </View>
+          <IOSToast>
+            <BasicHeader title={title} />
+            <View style={{ flex: 1 }}>
+              {this.renderContent(type, data)}
+              {data.loading ? <LoadingOverlay /> : null}
+              {decision && <DecisionOverlay decision={decision} />}
+            </View>
+          </IOSToast>
         </KeyboardAvoidingView>
       </SafeAreaView>
     );

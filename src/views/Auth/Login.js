@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ToastAndroid, Keyboard } from "react-native";
+import { View, Keyboard } from "react-native";
 import { Header1, Header3 } from "../../components/Text";
 import SolidButton from "../../components/SolidButton";
 import OutlinedInput from "../../components/Form/OutlinedInput";
@@ -71,13 +71,6 @@ export default class Login extends Component {
           }
         }
       }
-      /*
-      ToastAndroid.showWithGravity(
-        errorList,
-        ToastAndroid.LONG,
-        ToastAndroid.CENTER
-      );
-      */
       this.setState({ error: errorList });
     }
   };

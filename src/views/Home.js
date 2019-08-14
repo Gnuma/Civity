@@ -23,6 +23,7 @@ import MainHome from "../components/Home/MainHome";
 import { GreenBar } from "../components/StatusBars";
 import colors from "../styles/colors";
 import { IS_ANDROID, KAV_BEHAVIOR } from "../utils/constants";
+import IOSToast from "../components/IOSToast";
 
 export class Home extends Component {
   static propTypes = {
@@ -57,7 +58,9 @@ export class Home extends Component {
   render() {
     return (
       <AndroidBackHandler onBackPress={this._onBackButtonPressAndroid}>
+       <IOSToast>
         {this.getContent()}
+        </IOSToast>
       </AndroidBackHandler>
     );
   }

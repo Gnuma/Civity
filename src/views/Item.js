@@ -26,6 +26,7 @@ import { ChatStatus, IS_ANDROID } from "../utils/constants";
 import BlockedItemBar from "../components/Item/BlockedItemBar";
 import { SafeAreaView, StackActions } from "react-navigation";
 import update from "immutability-helper";
+import IOSToast from "../components/IOSToast";
 
 export class Item extends Component {
   constructor(props) {
@@ -209,40 +210,42 @@ export class Item extends Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1, overflow: "hidden" }}>
-          <ItemHeader
-            handleGoBack={this._handleGoBack}
-            title={bookName}
-            author={bookAuthors}
-            hasNewComments={this.hasNewComments}
-            goBack={this._handleGoBack}
-          />
-          <View style={{ flex: 1 }}>
-            {isLoading ? (
-              <View
-                style={styles.container}
-                onLayout={event =>
-                  (this.viewHeight = event.nativeEvent.layout.height)
-                }
-              >
-                <ActivityIndicator size="large" color={colors.secondary} />
-              </View>
-            ) : (
-              <MainItem
-                data={data}
-                user={this.props.user}
-                newComments={this.newComments}
-                onContact={this._handleContact}
-                viewHeight={this.viewHeight}
-                isOwner={isOwner}
-                onRefresh={this.onRefresh}
-                refreshing={refreshing}
-                deleteItem={this.deleteItem}
-                isContacted={isContacted}
-                chatSnapshot={chatSnapshot}
-              />
-            )}
-            {decision && <DecisionOverlay decision={decision} />}
-          </View>
+          <IOSToast>
+            <ItemHeader
+              handleGoBack={this._handleGoBack}
+              title={bookName}
+              author={bookAuthors}
+              hasNewComments={this.hasNewComments}
+              goBack={this._handleGoBack}
+            />
+            <View style={{ flex: 1 }}>
+              {isLoading ? (
+                <View
+                  style={styles.container}
+                  onLayout={event =>
+                    (this.viewHeight = event.nativeEvent.layout.height)
+                  }
+                >
+                  <ActivityIndicator size="large" color={colors.secondary} />
+                </View>
+              ) : (
+                <MainItem
+                  data={data}
+                  user={this.props.user}
+                  newComments={this.newComments}
+                  onContact={this._handleContact}
+                  viewHeight={this.viewHeight}
+                  isOwner={isOwner}
+                  onRefresh={this.onRefresh}
+                  refreshing={refreshing}
+                  deleteItem={this.deleteItem}
+                  isContacted={isContacted}
+                  chatSnapshot={chatSnapshot}
+                />
+              )}
+              {decision && <DecisionOverlay decision={decision} />}
+            </View>
+          </IOSToast>
         </View>
         {loading && <LoadingOverlay />}
       </SafeAreaView>
