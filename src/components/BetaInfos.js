@@ -7,10 +7,13 @@ import FullButton from "./FullButton";
 import colors from "../styles/colors";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-export default ({ onPress }) => {
+import BasicHeader from "./BasicHeader";
+
+export default ({ onPress, goBack }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
+        {goBack && <BasicHeader title={"Info Beta"} goBack={goBack} />}
         <ScrollView>
           <View style={styles.firstSection}>
             <Header1 style={styles.title}>
@@ -153,12 +156,14 @@ export default ({ onPress }) => {
               </View>
             </List>
           </View>
-          <FullButton
-            value="Inizia"
-            style={{ marginHorizontal: 15, marginVertical: 20 }}
-            contentStyle={{ textAlign: "center", flex: 1 }}
-            onPress={onPress}
-          />
+          {!goBack && (
+            <FullButton
+              value="Inizia"
+              style={{ marginHorizontal: 15, marginVertical: 20 }}
+              contentStyle={{ textAlign: "center", flex: 1 }}
+              onPress={onPress}
+            />
+          )}
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -167,7 +172,8 @@ export default ({ onPress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    overflow: "hidden"
   },
   title: {
     fontSize: 36,

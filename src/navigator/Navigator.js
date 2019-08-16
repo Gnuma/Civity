@@ -28,6 +28,7 @@ import OfficeChangeScreen from "../views/UserChanges/OfficeChange";
 import PhoneChangeScreen from "../views/UserChanges/PhoneChange";
 import PreviewItemScreen from "../views/PreviewItem";
 import PhoneValidationScreen from "../views/Auth/PhoneValidation";
+import BetaInfosView from "../views/BetaInfosView";
 
 import Header from "../Header/Header";
 import TabBar from "../TabBar/TabBar";
@@ -38,7 +39,8 @@ const UserSettingsNavigator = createStackNavigator(
     UserSettings: UserSettingsScreen,
     UserInfo: UserInfoScreen,
     OfficeChange: OfficeChangeScreen,
-    PhoneChange: PhoneChangeScreen
+    PhoneChange: PhoneChangeScreen,
+    BetaInfos: BetaInfosView
   },
   {
     defaultNavigationOptions: {

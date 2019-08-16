@@ -27,6 +27,11 @@ export default class ActionsList extends Component {
           icon={"bug"}
           color={"darkRed"}
         />
+        <SolidButton style={styles.actionButton} onPress={this.goBetaInfos}>
+          <Header3 color="black" style={styles.actionText}>
+            Informazioni Beta
+          </Header3>
+        </SolidButton>
         <SolidButton style={styles.actionButton} onPress={this.share}>
           <Header3 color="black" style={styles.actionText}>
             Invita un amico
@@ -43,6 +48,10 @@ export default class ActionsList extends Component {
 
   share = () => {
     Share.open(shareOptions);
+  };
+
+  goBetaInfos = () => {
+    this.props.navigation.navigate("BetaInfos");
   };
 
   bugReport = () => {

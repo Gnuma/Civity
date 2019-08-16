@@ -177,7 +177,12 @@ export class UserSettings extends Component {
                   marginVertical: 15
                 }}
               />
-              <ActionsList logout={this.logout} userData={userData} id={id} />
+              <ActionsList
+                navigation={this.props.navigation}
+                logout={this.logout}
+                userData={userData}
+                id={id}
+              />
             </ScrollView>
           </View>
           {this.state.showLevelInfo && (
