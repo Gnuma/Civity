@@ -14,10 +14,12 @@ import { SafeAreaView } from "react-navigation";
 import ImageReviewer from "../components/Camera/ImageReviewer";
 import { ___BOOK_IMG_RATIO___, SellType, IS_ANDROID } from "../utils/constants";
 import { setLightContent } from "../components/StatusBars";
+import ImagePicker from "react-native-image-crop-picker";
 
 export class Camera extends Component {
   imgCounter = 5;
   camera = null;
+  isImagePickerOpen = false;
 
   state = {
     flashMode: RNCamera.Constants.FlashMode.off,
@@ -42,9 +44,28 @@ export class Camera extends Component {
     let busyPreviews = 0;
     for (let key in this.props.previews)
       if (this.props.previews[key] !== null) busyPreviews++;
-    this.props.navigation.navigate("ImagePicker", {
-      occupied: busyPreviews
-    });
+    if (busyPreviews !== 5) {
+      if (IS_ANDROID)
+        this.props.navigation.navigate("ImagePicker", {
+          occupied: busyPreviews
+        });
+      else if (!this.isImagePickerOpen) {
+        this.isImagePickerOpen = true;
+        ImagePicker.openPicker({
+          ...PICKER_CONFIG,
+          maxFiles: 5 - busyPreviews
+        })
+          .then(data => {
+            for (let i = 0; i < data.length; i++) {
+              data[i].uri = data[i].path;
+              delete data[i].path;
+            }
+            this.props.addReview(data);
+            this.isImagePickerOpen = false;
+          })
+          .catch(err => (this.isImagePickerOpen = false));
+      }
+    }
   };
 
   takePicture = async () => {
@@ -140,38 +161,36 @@ export class Camera extends Component {
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.fullBlack }}>
-        <View style={{ flex: 1 }}>
-          {IS_ANDROID ? <TransparentBar /> : <HiddenBar />}
-          {!isReviewing && (
-            <MainCamera
-              flashMode={flashMode}
-              initCamera={this.initCamera}
-              cameraStatusChange={this.cameraStatusChange}
-              takePicture={this.takePicture}
-              changeFlashMode={this.changeFlashMode}
-              openImagePicker={this.openImagePicker}
-              loading={loading}
-            />
-          )}
-          <CameraHeader
-            previews={previews}
-            previewsOrder={previewsOrder}
-            handleGoBack={this.handleGoBack}
-            _reorderPreviews={this._reorderPreviews}
-            deleteItem={this.deleteItem}
-            previewsOrder={previewsOrder}
-            handleGoNext={this.handleGoNext}
+        {IS_ANDROID ? <TransparentBar /> : <HiddenBar />}
+        {!isReviewing && (
+          <MainCamera
+            flashMode={flashMode}
+            initCamera={this.initCamera}
+            cameraStatusChange={this.cameraStatusChange}
+            takePicture={this.takePicture}
+            changeFlashMode={this.changeFlashMode}
+            openImagePicker={this.openImagePicker}
+            loading={loading}
           />
-          {isReviewing && (
-            <View style={{ flex: 1 }}>
-              <ImageReviewer
-                data={this.props.checking[0]}
-                setReviewOptions={this.setReviewOptions}
-                handleReview={this.handleReview}
-              />
-            </View>
-          )}
-        </View>
+        )}
+        <CameraHeader
+          previews={previews}
+          previewsOrder={previewsOrder}
+          handleGoBack={this.handleGoBack}
+          _reorderPreviews={this._reorderPreviews}
+          deleteItem={this.deleteItem}
+          previewsOrder={previewsOrder}
+          handleGoNext={this.handleGoNext}
+        />
+        {isReviewing && (
+          <View style={{ flex: 1 }}>
+            <ImageReviewer
+              data={this.props.checking[0]}
+              setReviewOptions={this.setReviewOptions}
+              handleReview={this.handleReview}
+            />
+          </View>
+        )}
       </SafeAreaView>
     );
   }
@@ -242,3 +261,11 @@ const options = {
 
 const IMAGE_MAX_HEIGHT = 1280;
 const IMAGE_MAX_WIDTH = 960;
+
+const PICKER_CONFIG = {
+  cropping: false,
+  multiple: true,
+  includeExif: true,
+  mediaType: "photo",
+  showsSelectedCount: true
+};

@@ -98,41 +98,40 @@ const InitProfileNavigator = {
   )
 };
 
-const VendiNavigator = {
-  screen: createStackNavigator(
-    {
-      Camera: {
-        screen: CameraScreen,
-        path: "/vendi/camera"
-      },
-      ImagePicker: {
-        screen: ImagePickerScreen,
-        path: "/vendi/imagepicker"
-      },
-      SelectBook: {
-        screen: SelectBookScreen,
-        path: "/vendi/selectbook"
-      },
-      VendiInfos: {
-        screen: VendiInfosScreen,
-        path: "/vendi/vendiinfos"
-      },
-      CreateBook: {
-        screen: CreateBookScreen,
-        path: "/vendi/createbook"
-      },
-      PreviewItem: {
-        screen: PreviewItemScreen,
-        path: "/vendi/previewitem"
-      }
+const VendiNavigator = createStackNavigator(
+  {
+    Camera: {
+      screen: CameraScreen,
+      path: "/vendi/camera",
+      navigationOptions: { gesturesEnabled: false }
     },
-    {
-      defaultNavigationOptions: {
-        header: null
-      }
+    ImagePicker: {
+      screen: ImagePickerScreen,
+      path: "/vendi/imagepicker"
+    },
+    SelectBook: {
+      screen: SelectBookScreen,
+      path: "/vendi/selectbook"
+    },
+    VendiInfos: {
+      screen: VendiInfosScreen,
+      path: "/vendi/vendiinfos"
+    },
+    CreateBook: {
+      screen: CreateBookScreen,
+      path: "/vendi/createbook"
+    },
+    PreviewItem: {
+      screen: PreviewItemScreen,
+      path: "/vendi/previewitem"
     }
-  )
-};
+  },
+  {
+    defaultNavigationOptions: {
+      header: null
+    }
+  }
+);
 
 const ChatNavigator = createStackNavigator(
   {
@@ -164,7 +163,10 @@ const SalesNavigator = createStackNavigator(
 const SalesStack = createStackNavigator(
   {
     SalesNavigator: SalesNavigator,
-    Vendi: VendiNavigator
+    Vendi: {
+      screen: VendiNavigator,
+      navigationOptions: { gesturesEnabled: false }
+    }
   },
   {
     backBehavior: "order",

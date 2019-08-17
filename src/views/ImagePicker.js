@@ -60,6 +60,16 @@ export class ImagePicker extends Component {
     !IS_ANDROID && StatusBar.setBarStyle("dark-content");
   }
 
+  renderIOS = () => {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Header3 color="black">
+          Ci dispiace ma questa funzione non e' al momemnto utilizzabile.
+        </Header3>
+      </View>
+    );
+  };
+
   retrieveImages = numImages => {
     this.loading = true;
     CameraRoll.getPhotos({
@@ -143,19 +153,23 @@ export class ImagePicker extends Component {
             />
             {hasPermission ? (
               <View style={{ flex: 1 }}>
-                <FlatList
-                  data={data}
-                  renderItem={this.renderItem}
-                  keyExtractor={this.keyExtractor}
-                  onEndReached={() => {
-                    this.state.hasMore &&
-                      !this.loading &&
-                      this.retrieveImages(BATCH_SIZE);
-                  }}
-                  onEndReachedThreshold={0.5}
-                  ListFooterComponent={this.renderFooter}
-                  numColumns={3}
-                />
+                {IS_ANDROID ? (
+                  <FlatList
+                    data={data}
+                    renderItem={this.renderItem}
+                    keyExtractor={this.keyExtractor}
+                    onEndReached={() => {
+                      this.state.hasMore &&
+                        !this.loading &&
+                        this.retrieveImages(BATCH_SIZE);
+                    }}
+                    onEndReachedThreshold={0.5}
+                    ListFooterComponent={this.renderFooter}
+                    numColumns={3}
+                  />
+                ) : (
+                  this.renderIOS()
+                )}
               </View>
             ) : (
               <View
