@@ -20,6 +20,7 @@ import {
 } from "../store/constants";
 import Icon5 from "react-native-vector-icons/FontAwesome5";
 import Shadows from "./Shadows";
+import Axios from "axios";
 
 export default class OfficePicker extends Component {
   static propTypes = {
@@ -53,6 +54,10 @@ export default class OfficePicker extends Component {
     this.courseQuerySubscription = this.courseQuery.subscribe(
       this.courseQuerySubscriber
     );
+
+    Axios.post(___OFFICE_HINTS_ENDPOINT___, { keyword: "Ao" })
+      .then(console.log)
+      .catch(console.log);
   }
 
   componentWillUnmount() {
