@@ -28,11 +28,11 @@ export default ({ onPress, goBack }) => {
             </Header3>
             <Header3 color="black">
               <Header3 color="primary" style={styles.bold}>
-                13/08/2019{" "}
+                19/08/2019{" "}
               </Header3>
               al{" "}
               <Header3 color="primary" style={styles.bold}>
-                20/08/2019
+                26/08/2019
               </Header3>
             </Header3>
             <Header3 color="black" style={[styles.center, styles.top15]}>
