@@ -26,11 +26,11 @@ import { OffertStatus, ChatStatus } from "../../utils/constants";
 import LoadingOverlay from "../LoadingOverlay";
 import Shadows from "../Shadows";
 import NativeButton from "../NativeButton";
+import RNChat from "../RNChat";
 
 export default class Chat extends Component {
-  onSend = messages => {
-    const content = messages[0] && messages[0].text;
-    console.log(content);
+  onSend = message => {
+    const content = message.text;
     content &&
       this.props.salesSend(this.props.objectID, this.props.chatID, content);
   };
@@ -179,36 +179,25 @@ export default class Chat extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <GiftedChat
+        <RNChat
           text={data.composer}
-          onInputTextChanged={this.onComposerTextChanged}
+          onChangeText={this.onComposerTextChanged}
           onSend={this.onSend}
-          messages={data.messages}
-          renderAvatar={null}
+          data={data.messages}
           user={{
             _id: userID
           }}
-          renderBubble={this.renderBubble}
-          renderTime={this.renderTime}
-          renderInputToolbar={this.renderInputToolbar}
-          minComposerHeight={30}
-          maxComposerHeight={130}
-          minInputToolbarHeight={isBlocked ? 0 : 50}
-          listViewProps={this.listViewProps}
-          loadEarlier={data.loading}
-          extraData={{ loading: data.loading }}
-          renderSend={this.renderSend}
+          loadEarlier={this.loadEarlier}
+          loading={data.loading}
           renderFooter={this.renderOffert}
-          renderComposer={this.renderComposer}
-          renderLoadEarlier={() => {
-            return (
-              <ActivityIndicator
-                style={{
-                  alignSelf: "center"
-                }}
-                size="large"
-              />
-            );
+          syntax={{
+            user: {
+              id: "_id"
+            },
+            message: {
+              id: "_id",
+              timestamp: "createdAt"
+            }
           }}
         />
         {isBlocked && this.renderBlockedComposer()}
@@ -306,3 +295,38 @@ const styles = StyleSheet.create({
     ...Shadows[2]
   }
 });
+
+/**
+ *         <GiftedChat
+          text={data.composer}
+          onInputTextChanged={this.onComposerTextChanged}
+          onSend={this.onSend}
+          messages={data.messages}
+          renderAvatar={null}
+          user={{
+            _id: userID
+          }}
+          renderBubble={this.renderBubble}
+          renderTime={this.renderTime}
+          renderInputToolbar={this.renderInputToolbar}
+          minComposerHeight={30}
+          maxComposerHeight={130}
+          minInputToolbarHeight={isBlocked ? 0 : 50}
+          listViewProps={this.listViewProps}
+          loadEarlier={data.loading}
+          extraData={{ loading: data.loading }}
+          renderSend={this.renderSend}
+          renderFooter={this.renderOffert}
+          renderComposer={this.renderComposer}
+          renderLoadEarlier={() => {
+            return (
+              <ActivityIndicator
+                style={{
+                  alignSelf: "center"
+                }}
+                size="large"
+              />
+            );
+          }}
+        />
+ */
