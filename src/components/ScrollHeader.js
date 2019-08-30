@@ -37,11 +37,25 @@ export default class ScrollHeader extends Component {
 
   scrollY = new Animated.Value(0);
   lastScrollY = 0;
+  isKeyboardOpen = false;
 
   onPanGestureEvent = Animated.event(
     [{ nativeEvent: { translationY: this.scrollY } }],
     { useNativeDriver: true }
   );
+
+  componentDidMount() {
+    this.keyboardEventListeners = [
+      Keyboard.addListener("keyboardDidShow", this.setKeyboardState(true)),
+      Keyboard.addListener("keyboardDidHide", this.setKeyboardState(false))
+    ];
+  }
+
+  setKeyboardState = open => () => (this.isKeyboardOpen = open);
+
+  componentWillUnmount() {
+    this.keyboardEventListeners.forEach(ls => ls.remove());
+  }
 
   onHandlerStateChange = event => {
     if (event.nativeEvent.oldState === State.ACTIVE) {
@@ -250,9 +264,10 @@ export default class ScrollHeader extends Component {
   };
 
   onContainerLayout = event => {
-    this.setState({
-      containerHeight: event.nativeEvent.layout.height + 1
-    });
+    !this.isKeyboardOpen &&
+      this.setState({
+        containerHeight: event.nativeEvent.layout.height + 1
+      });
   };
 
   setPointerEvent = pointerEvent => {
