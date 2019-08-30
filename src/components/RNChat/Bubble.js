@@ -1,20 +1,25 @@
-import React, {Fragment} from 'react';
-import {StyleSheet, View, Alert, TouchableOpacity} from 'react-native';
-import {Text} from './Text';
-import ParsedText from 'react-native-parsed-text';
-import Settings from './Settings';
-import {dispalyTime} from './Timestamp';
+import React, { Fragment } from "react";
+import { StyleSheet, View, Alert, TouchableOpacity } from "react-native";
+import { Text } from "./Text";
+import ParsedText from "react-native-parsed-text";
+import Settings from "./Settings";
+import { dispalyTime } from "./Timestamp";
 
-export default ({
-  item,
-  styleMessageContainer,
-  userMade,
-  styleMessageContent,
-  newMessage,
-  pressed,
-  renderTime: overideRenderTime,
-  onLongPress,
-}) => {
+export default props => {
+  const {
+    item,
+    userMade,
+    newMessage,
+    pressed,
+    renderTime: overideRenderTime,
+    onLongPress,
+    styleBubble = {}
+  } = props;
+  const {
+    container: containerStyle,
+    text: textStyle,
+    time: timeStyle
+  } = styleBubble;
   return (
     <TouchableOpacity
       style={[
@@ -22,14 +27,19 @@ export default ({
         userMade ? styles.right : styles.left,
         newMessage ? styles.newMessage : null,
         pressed ? styles.pressed : null,
-        styleMessageContainer,
+        containerStyle
       ]}
-      onLongPress={onLongPress}>
+      onLongPress={onLongPress}
+    >
       <Fragment>
-        <MessageText style={[styles.content, styleMessageContent]}>
+        <MessageText style={[styles.content, textStyle]}>
           {item[Settings.TEXT]}
         </MessageText>
-        {overideRenderTime ? overideRenderTime(item) : <TimeSpan item={item} />}
+        {overideRenderTime ? (
+          overideRenderTime(props)
+        ) : (
+          <TimeSpan {...props} style={timeStyle} />
+        )}
       </Fragment>
     </TouchableOpacity>
   );
@@ -39,7 +49,7 @@ export const TimeSpan = props => {
   return <Text style={[styles.time]}>{dispalyTime(props.item.timestamp)}</Text>;
 };
 
-export const MessageText = ({children, ...rest}) => {
+export const MessageText = ({ children, ...rest }) => {
   return (
     <ParsedText {...rest} parse={MESSAGE_PARSER}>
       {children}
@@ -47,8 +57,8 @@ export const MessageText = ({children, ...rest}) => {
   );
 };
 
-const OTHER_BACKGROUND_COLOR = '#FFFFFF';
-const USER_BACKGROUND_COLOR = '#B2F195';
+const OTHER_BACKGROUND_COLOR = "#FFFFFF";
+const USER_BACKGROUND_COLOR = "#B2F195";
 
 const styles = StyleSheet.create({
   container: {
@@ -57,42 +67,42 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 4,
     marginTop: 4,
-    borderRadius: 4,
+    borderRadius: 4
   },
   left: {
-    alignSelf: 'flex-start',
-    backgroundColor: OTHER_BACKGROUND_COLOR,
+    alignSelf: "flex-start",
+    backgroundColor: OTHER_BACKGROUND_COLOR
   },
   right: {
-    alignSelf: 'flex-end',
-    backgroundColor: USER_BACKGROUND_COLOR,
+    alignSelf: "flex-end",
+    backgroundColor: USER_BACKGROUND_COLOR
   },
   pressed: {
-    backgroundColor: '#D1FCFF',
+    backgroundColor: "#D1FCFF"
   },
   content: {
     fontSize: 15,
-    paddingBottom: 4,
+    paddingBottom: 4
   },
   time: {
-    alignSelf: 'flex-end',
-    fontSize: 12,
+    alignSelf: "flex-end",
+    fontSize: 12
   },
   newMessage: {
-    marginTop: 5,
+    marginTop: 5
   },
 
   link: {
-    color: '#0645AD',
-    textDecorationLine: 'underline',
-  },
+    color: "#0645AD",
+    textDecorationLine: "underline"
+  }
 });
 
 const handleLinkPress = link => Alert.alert(`${link} pressed!`);
 
 const MESSAGE_PARSER = [
-  {type: 'url', style: styles.link, onPress: handleLinkPress},
-  {type: 'phone', style: styles.link, onPress: handleLinkPress},
-  {type: 'email', style: styles.link, onPress: handleLinkPress},
-  {pattern: /#(\w+)/, style: styles.link, onPress: handleLinkPress},
+  { type: "url", style: styles.link, onPress: handleLinkPress },
+  { type: "phone", style: styles.link, onPress: handleLinkPress },
+  { type: "email", style: styles.link, onPress: handleLinkPress },
+  { pattern: /#(\w+)/, style: styles.link, onPress: handleLinkPress }
 ];

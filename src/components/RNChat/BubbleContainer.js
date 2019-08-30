@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, TouchableWithoutFeedback, Text} from 'react-native';
-import PropTypes from 'prop-types';
-import Timestamp from './Timestamp';
-import Bubble from './Bubble';
-import Settings from './Settings';
+import React, { Component } from "react";
+import { StyleSheet, View, TouchableWithoutFeedback, Text } from "react-native";
+import PropTypes from "prop-types";
+import Timestamp from "./Timestamp";
+import Bubble from "./Bubble";
+import Settings from "./Settings";
 
 export default class BubbleContainer extends Component {
   static propTypes = {
@@ -13,17 +13,21 @@ export default class BubbleContainer extends Component {
     userMade: PropTypes.bool,
 
     renderBubble: PropTypes.func,
-    renderTime: PropTypes.func,
+    renderTime: PropTypes.func
   };
 
   state = {
-    pressed: false,
+    pressed: false
   };
 
   shouldComponentUpdate = (_, prevState) =>
     prevState.pressed !== this.state.pressed;
 
   renderBubble = props => {
+    props = {
+      ...props,
+      styleBubble: props.styleBubble[props.userMade ? "right" : "left"]
+    };
     if (this.props.renderBubble) return this.props.renderBubble(props);
     else return <Bubble {...props} />;
   };
@@ -34,20 +38,21 @@ export default class BubbleContainer extends Component {
   };
 
   render() {
-    const {item, showDate, newMessage, userMade, onLongPress} = this.props;
-    const {pressed} = this.state;
+    const { item, showDate, newMessage, userMade, onLongPress } = this.props;
+    const { pressed } = this.state;
 
     return (
       <View>
         {showDate && this.renderDate()}
         <View>
           {this.renderBubble({
+            ...this.props,
             item: item,
             userMade: userMade,
             newMessage: newMessage,
             pressed: pressed,
             renderTime: this.props.renderTime,
-            onLongPress: onLongPress,
+            onLongPress: onLongPress
           })}
         </View>
       </View>
@@ -56,3 +61,7 @@ export default class BubbleContainer extends Component {
 }
 
 const styles = StyleSheet.create({});
+
+BubbleContainer.defaultProps = {
+  styleBubble: {}
+};

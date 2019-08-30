@@ -1,18 +1,18 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from "react";
 import {
   FlatList,
   StyleSheet,
   View,
   ActivityIndicator,
-  Alert,
-} from 'react-native';
-import PropTypes from 'prop-types';
-import SystemMessage from './SystemMessage';
-import Settings from './Settings';
-import BubbleContainer from './BubbleContainer';
-import update from 'immutability-helper';
-import {Text} from './Text';
-import {getFullDate} from './Timestamp';
+  Alert
+} from "react-native";
+import PropTypes from "prop-types";
+import SystemMessage from "./SystemMessage";
+import Settings from "./Settings";
+import BubbleContainer from "./BubbleContainer";
+import update from "immutability-helper";
+import { Text } from "./Text";
+import { getFullDate } from "./Timestamp";
 
 export default class MessagesBoard extends PureComponent {
   static propTypes = {
@@ -24,11 +24,11 @@ export default class MessagesBoard extends PureComponent {
 
     renderBubble: PropTypes.func,
     renderBubbleContainer: PropTypes.func,
-    renderSystemMessages: PropTypes.func,
+    renderSystemMessages: PropTypes.func
   };
 
-  renderItem = ({item, index}) => {
-    const {user: owner, data} = this.props;
+  renderItem = ({ item, index }) => {
+    const { user: owner, data } = this.props;
 
     let timestamp = item[Settings.TIMESTAMP];
     const user = item[Settings.USER];
@@ -51,13 +51,13 @@ export default class MessagesBoard extends PureComponent {
 
     const itemRefactored = update(item, {
       $merge: {
-        timestamp,
-      },
+        timestamp
+      }
     });
 
     if (system)
       return this.renderSystemMessage({
-        item,
+        item
       });
 
     const continuation =
@@ -68,19 +68,17 @@ export default class MessagesBoard extends PureComponent {
         user[Settings.USER_ID];
 
     return this.renderBubbleContainer({
+      ...this.props,
       refresh: showDate,
       item: itemRefactored,
       showDate,
       newMessage: !continuation,
-      userMade: owner[Settings.USER_ID] === user[Settings.USER_ID],
-      onLongPress: this.onLongPress,
-      renderTime: this.props.renderTime,
-      renderDate: this.props.renderDate,
+      userMade: owner[Settings.USER_ID] === user[Settings.USER_ID]
     });
   };
 
   render() {
-    const {data, loadEarlier, loading, renderFooter} = this.props;
+    const { data, loadEarlier, loading, renderFooter } = this.props;
 
     return (
       <View style={styles.container}>
@@ -91,7 +89,7 @@ export default class MessagesBoard extends PureComponent {
           keyExtractor={this.keyExtractor}
           inverted
           removeClippedSubviews={true}
-          keyboardShouldPersistTaps={'always'}
+          keyboardShouldPersistTaps={"always"}
           onEndReachedThreshold={0.25}
           onEndReached={!loading && loadEarlier}
           ListFooterComponent={loading && this.renderLoadingEarlier}
@@ -118,28 +116,26 @@ export default class MessagesBoard extends PureComponent {
   renderLoadingEarlier = () => {
     if (this.props.renderLoadingEarlier) this.props.renderLoadingEarlier();
     else
-      return <ActivityIndicator style={styles.loadingEarlier} size={'large'} />;
+      return <ActivityIndicator style={styles.loadingEarlier} size={"large"} />;
   };
 
   onLongPress = () => {
     if (this.props.onBubbleLongPress) this.props.onBubbleLongPress();
-    else Alert.alert('Pressed');
+    else Alert.alert("Pressed");
   };
 
-  keyExtractor = item => item[Settings.MESSAGE_ID];
+  keyExtractor = item => item[Settings.MESSAGE_ID].toString();
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
+    flex: 1
   },
   list: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 15
   },
   loadingEarlier: {
     marginVertical: 10,
-    color: '#F5F5F5',
-    alignSelf: 'center',
-  },
+    alignSelf: "center"
+  }
 });

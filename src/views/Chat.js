@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, SafeAreaView, KeyboardAvoidingView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ChatView from "../components/Chat/Chat";
 import * as chatActions from "../store/actions/chat";
 import ContactReview from "../components/Chat/ContactReview";
-import { ChatType, ChatStatus } from "../utils/constants";
+import { ChatType, ChatStatus, IS_ANDROID } from "../utils/constants";
 import ChatHeader from "../components/Chat/ChatHeader";
-import { SafeAreaView } from "react-navigation";
 import { setGreyBar } from "../components/StatusBars";
 
 export class Chat extends Component {
@@ -82,46 +81,51 @@ export class Chat extends Component {
     const item = this.props.item;
 
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flex: 1 }}>
-          <ChatHeader
-            chatData={chatData}
-            item={item}
-            goBack={this._goBack}
-            goBookOffert={this.goBookOffert}
-            userID={this.props.userID}
-          />
-          <View style={{ flex: 1, marginTop: 60, zIndex: 0 }}>
-            {chatData.status === ChatStatus.LOCAL ||
-            chatData.status === ChatStatus.PENDING ? (
-              <ContactReview
-                objectID={objectID}
-                chatID={chatID}
-                status={chatData.status}
-                isLoading={chatData.loading}
-                onSettle={this.props.chatSettle}
-                onContactRequest={this.props.chatRequestContact}
-                username={chatData.UserTO.user.username}
-                type={this.type}
-              />
-            ) : (
-              <ChatView
-                objectID={objectID}
-                chatID={chatID}
-                data={chatData}
-                globalLoading={this.props.loading}
-                salesSend={this.sendMsg}
-                salesSetComposer={this.setComposer}
-                type={this.type}
-                loadEarlier={this.loadEarlier}
-                userID={this.props.userID}
-                item={item}
-                goBookOffert={this.goBookOffert}
-              />
-            )}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={IS_ANDROID ? null : "padding"}
+      >
+        <SafeAreaView style={{ flex: 1 }}>
+          <View style={{ flex: 1 }}>
+            <ChatHeader
+              chatData={chatData}
+              item={item}
+              goBack={this._goBack}
+              goBookOffert={this.goBookOffert}
+              userID={this.props.userID}
+            />
+            <View style={{ flex: 1, marginTop: 60, zIndex: 0 }}>
+              {chatData.status === ChatStatus.LOCAL ||
+              chatData.status === ChatStatus.PENDING ? (
+                <ContactReview
+                  objectID={objectID}
+                  chatID={chatID}
+                  status={chatData.status}
+                  isLoading={chatData.loading}
+                  onSettle={this.props.chatSettle}
+                  onContactRequest={this.props.chatRequestContact}
+                  username={chatData.UserTO.user.username}
+                  type={this.type}
+                />
+              ) : (
+                <ChatView
+                  objectID={objectID}
+                  chatID={chatID}
+                  data={chatData}
+                  globalLoading={this.props.loading}
+                  salesSend={this.sendMsg}
+                  salesSetComposer={this.setComposer}
+                  type={this.type}
+                  loadEarlier={this.loadEarlier}
+                  userID={this.props.userID}
+                  item={item}
+                  goBookOffert={this.goBookOffert}
+                />
+              )}
+            </View>
           </View>
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 
@@ -173,12 +177,12 @@ export default connect(
   mapDispatchToProps
 )(Chat);
 
-/*
-        <ChatHeader
-          data={chatData}
-          item={item}
-          goBack={this._goBack}
-          goBookOffert={this.goBookOffert}
-          userID={this.props.userID}
-        />
-        */
+const ChatKeyboardAvoidingView = ({ children }) => {
+  if (!IS_ANDROID)
+    return (
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={"padding"}>
+        {children}
+      </KeyboardAvoidingView>
+    );
+  else return <View style={{ flex: 1 }}>{children}</View>;
+};

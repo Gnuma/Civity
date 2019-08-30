@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
   TextInput,
   StyleSheet,
@@ -6,12 +6,12 @@ import {
   TouchableOpacity,
   Keyboard,
   SafeAreaView,
-  ScrollView,
-} from 'react-native';
-import PropTypes from 'prop-types';
-import {Text} from './Text';
-import uuid from 'uuid';
-import Settings from './Settings';
+  ScrollView
+} from "react-native";
+import PropTypes from "prop-types";
+import { Text } from "./Text";
+import uuid from "uuid";
+import Settings from "./Settings";
 
 export default class Input extends Component {
   static propTypes = {
@@ -20,11 +20,11 @@ export default class Input extends Component {
     onChangeText: PropTypes.func,
 
     user: PropTypes.object,
-    persistTextOnSubmit: PropTypes.bool,
+    persistTextOnSubmit: PropTypes.bool
   };
 
   state = {
-    value: '',
+    value: ""
   };
 
   onSend = () => {
@@ -34,12 +34,12 @@ export default class Input extends Component {
         [Settings.USER]: this.props.user,
         [Settings.MESSAGE_ID]: uuid.v4(),
         [Settings.TEXT]: value,
-        [Settings.TIMESTAMP]: new Date(),
+        [Settings.TIMESTAMP]: new Date()
       });
     if (!this.props.persistKeyboardOnSubmit) {
       Keyboard.dismiss();
       this.setState({
-        value: '',
+        value: ""
       });
     }
   };
@@ -47,11 +47,11 @@ export default class Input extends Component {
   onChangeText = value =>
     this.props.onChangeText
       ? this.props.onChangeText(value)
-      : this.setState({value});
+      : this.setState({ value });
 
   render() {
-    const {value} = this.state;
-    const {text} = this.props;
+    const { value } = this.state;
+    const { text } = this.props;
 
     return (
       <View style={styles.container}>
@@ -60,7 +60,7 @@ export default class Input extends Component {
             <TextInput
               style={styles.input}
               multiline
-              placeholder={'Send a message'}
+              placeholder={"Send a message"}
               value={text || value}
               onChangeText={this.onChangeText}
             />
@@ -76,32 +76,32 @@ export default class Input extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F5F5F5',
+    backgroundColor: "#F5F5F5"
   },
   toolbar: {
     marginVertical: 8,
     marginHorizontal: 8,
     padding: 6,
-    flexDirection: 'row',
+    flexDirection: "row",
     borderRadius: 6,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF"
   },
   btnText: {
     fontSize: 14,
-    color: '#0645AD',
+    color: "#0645AD"
   },
   btn: {
-    justifyContent: 'center',
-    alignSelf: 'center',
-    padding: 4,
+    justifyContent: "center",
+    alignSelf: "center",
+    padding: 4
   },
   inputContainer: {
     maxHeight: 200,
-    padding: 4,
+    padding: 4
   },
   input: {
     flex: 1,
     fontSize: 17,
-    padding: 0,
-  },
+    padding: 0
+  }
 });

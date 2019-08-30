@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import {
   View,
-  Text,
   TextInput,
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
   KeyboardAvoidingView,
-  ActivityIndicator,
-  StyleSheet
+  SafeAreaView
 } from "react-native";
 import PropTypes from "prop-types";
-import { Header2, Header4, Header5, Header3 } from "../Text";
+import { Header5, Header3 } from "../Text";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {
   GiftedChat,
@@ -27,10 +29,11 @@ import LoadingOverlay from "../LoadingOverlay";
 import Shadows from "../Shadows";
 import NativeButton from "../NativeButton";
 import RNChat from "../RNChat";
+import { dispalyTime } from "../RNChat/Timestamp";
 
 export default class Chat extends Component {
-  onSend = message => {
-    const content = message.text;
+  onSend = () => {
+    const content = String(this.props.data.composer).trim();
     content &&
       this.props.salesSend(this.props.objectID, this.props.chatID, content);
   };
@@ -124,37 +127,15 @@ export default class Chat extends Component {
   };
 
   renderTime = props => {
-    const { currentMessage } = props;
-    if (currentMessage.isSending)
-      return (
-        <Header5
-          style={{
-            color: props.position === "left" ? colors.grey : colors.white,
-            justifyContent: "center",
-            textAlign: "center",
-            paddingHorizontal: 15,
-            lineHeight: 11
-          }}
-        >
-          Inviando...
-        </Header5>
-      );
-    else if (currentMessage.error)
-      return (
-        <Header5
-          style={{
-            color: props.position === "left" ? colors.grey : colors.white,
-            justifyContent: "center",
-            textAlign: "center",
-            paddingHorizontal: 15,
-            lineHeight: 11,
-            color: colors.red
-          }}
-        >
-          Errore
-        </Header5>
-      );
-    else return <Time {...props} />;
+    const { item, userMade } = props;
+    let style = userMade
+      ? { ...styles.time, ...styles.timeRight }
+      : { ...styles.time, ...styles.timeLeft };
+
+    if (item.isSending) return <Header5 style={style}>Inviando...</Header5>;
+    else if (item.error)
+      return <Header5 style={[style, styles.timeError]}>Non inviato</Header5>;
+    return <Header5 style={style}>{dispalyTime(item.createdAt)}</Header5>;
   };
 
   isCloseToTop = ({ layoutMeasurement, contentOffset, contentSize }) => {
@@ -173,12 +154,38 @@ export default class Chat extends Component {
     );
   };
 
+  renderInput = () => {
+    const { data, type, globalLoading, userID } = this.props;
+
+    if (this.isBlocked()) return this.renderBlockedComposer();
+    else
+      return (
+        <View style={styles.inputToolbarContainer} behavior="padding">
+          <ScrollView style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              multiline
+              placeholder={"Invia un messaggio"}
+              value={data.composer}
+              onChangeText={this.onComposerTextChanged}
+            />
+          </ScrollView>
+          <TouchableOpacity style={styles.btn} onPress={this.onSend}>
+            <Icon
+              name={"paper-plane"}
+              size={26}
+              style={{ color: colors.secondary }}
+            />
+          </TouchableOpacity>
+        </View>
+      );
+  };
+
   render() {
     const { data, type, globalLoading, userID } = this.props;
-    const isBlocked = this.isBlocked();
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }} behavior="padding">
         <RNChat
           text={data.composer}
           onChangeText={this.onComposerTextChanged}
@@ -199,8 +206,10 @@ export default class Chat extends Component {
               timestamp: "createdAt"
             }
           }}
+          renderInput={this.renderInput}
+          styleBubble={styleBubble}
+          renderTime={this.renderTime}
         />
-        {isBlocked && this.renderBlockedComposer()}
         {globalLoading && <LoadingOverlay />}
       </View>
     );
@@ -260,30 +269,32 @@ export default class Chat extends Component {
   };
 }
 
-/**
-        <View style={{ zIndex: 0, ...Shadows[0] }}>
-          <Composer
-            onSend={this.onSend}
-            onComposerTextChanged={this.onComposerTextChanged}
-            text={data.composer}
-            type={type}
-            data={data}
-          />
-        </View>
- */
-
 const styles = StyleSheet.create({
-  inputToolbarPrimary: {
+  inputToolbarContainer: {
     borderRadius: 10,
     backgroundColor: colors.white,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
+    marginVertical: 10,
     ...Shadows[2],
-    alignItems: "center"
+    alignItems: "center",
+    flexDirection: "row"
   },
-  inputToolbarContainer: {
-    borderTopWidth: 0,
-    paddingBottom: 5
+  inputContainer: {
+    maxHeight: 200,
+    padding: 10
   },
+  btn: {
+    justifyContent: "center",
+    alignSelf: "center",
+    paddingVertical: 4,
+    paddingHorizontal: 12
+  },
+  input: {
+    flex: 1,
+    fontSize: 17,
+    padding: 0
+  },
+
   blockedContainer: {
     flexDirection: "row",
     borderRadius: 10,
@@ -293,8 +304,47 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     minHeight: 50,
     ...Shadows[2]
+  },
+
+  bubbleContainerLeft: {
+    backgroundColor: colors.white,
+    ...Shadows[1]
+  },
+  bubbleContainerRight: {
+    backgroundColor: colors.primary,
+    ...Shadows[1]
+  },
+  bubbleTextLeft: {
+    color: colors.black
+  },
+  bubbleTextRight: {
+    color: colors.white
+  },
+  time: {
+    alignSelf: "flex-end",
+    fontSize: 12
+  },
+  timeRight: {
+    color: colors.white
+  },
+  timeLeft: {
+    color: colors.black
+  },
+  timeError: {
+    color: colors.darkRed
   }
 });
+
+const styleBubble = {
+  left: {
+    container: styles.bubbleContainerLeft,
+    text: styles.bubbleTextLeft
+  },
+  right: {
+    container: styles.bubbleContainerRight,
+    text: styles.bubbleTextRight
+  }
+};
 
 /**
  *         <GiftedChat
