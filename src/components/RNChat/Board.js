@@ -69,7 +69,7 @@ export default class MessagesBoard extends PureComponent {
 
     return this.renderBubbleContainer({
       ...this.props,
-      refresh: showDate,
+      refresh: !!showDate,
       item: itemRefactored,
       showDate,
       newMessage: !continuation,

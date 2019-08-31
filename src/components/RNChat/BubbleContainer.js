@@ -16,12 +16,16 @@ export default class BubbleContainer extends Component {
     renderTime: PropTypes.func
   };
 
+  constructor(props) {
+    super(props);
+    this.shouldRefresh = props.refresh;
+  }
+
   state = {
     pressed: false
   };
 
-  shouldComponentUpdate = (_, prevState) =>
-    prevState.pressed !== this.state.pressed;
+  shouldComponentUpdate = (_, prevState) => this.shouldRefresh;
 
   renderBubble = props => {
     props = {

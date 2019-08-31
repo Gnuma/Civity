@@ -3,12 +3,17 @@ class Settings {
     this.syntaxData = defaultSyntax;
   }
 
-  set syntax({user, message}) {
-    if (!user) user = {};
-    if (!message) message = {};
+  set syntax({
+    user = {},
+    message = {},
+    months = DEFAULT_MONTHS,
+    days = DEFAULT_DAYS
+  }) {
     this.syntaxData = {
-      user: {...this.syntaxData.user, ...user},
-      message: {...this.syntaxData.message, ...message},
+      user: { ...this.syntaxData.user, ...user },
+      message: { ...this.syntaxData.message, ...message },
+      months,
+      days
     };
   }
 
@@ -37,20 +42,45 @@ class Settings {
   get USER_NAME() {
     return this.syntaxData.user.name;
   }
+  get MONTHS() {
+    return this.syntaxData.months;
+  }
+  get DAYS() {
+    return this.syntaxData.days;
+  }
 }
 
 export const DEFAULT_SYNTAX = {
   user: {
-    id: 'id',
-    name: 'name',
+    id: "id",
+    name: "name"
   },
   message: {
-    id: 'id',
-    timestamp: 'timestamp',
-    text: 'text',
-    system: 'system',
-    user: 'user',
+    id: "id",
+    timestamp: "timestamp",
+    text: "text",
+    system: "system",
+    user: "user"
   },
+  months: DEFAULT_MONTHS,
+  days: DEFAULT_DAYS
 };
 
 export default new Settings(DEFAULT_SYNTAX);
+
+export const DEFAULT_MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
+
+export const DEFAULT_DAYS = ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"];

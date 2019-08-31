@@ -712,8 +712,8 @@ const formatSalesData = (arrayData, focus = 0) => {
       buyer.office = formatOffice(buyer.course);
       buyer.course = null;
 
-      for (let m = 0; m < chat.messages.length; m++)
-        chat.messages[m].createdAt = new Date(chat.messages[m].createdAt);
+      //for (let m = 0; m < chat.messages.length; m++)
+      //  chat.messages[m].createdAt = new Date(chat.messages[m].createdAt);
 
       data[itemID].chats[chat._id] = {
         UserTO: buyer,
@@ -765,8 +765,8 @@ const formatShoppingData = (arrayData, focus = 0) => {
 
       contactedItems[restItem._id] = true;
 
-      for (let m = 0; m < chat.messages.length; m++)
-        chat.messages[m].createdAt = new Date(chat.messages[m].createdAt);
+      //for (let m = 0; m < chat.messages.length; m++)
+      //  chat.messages[m].createdAt = new Date(chat.messages[m].createdAt);
 
       data["s" + subject._id].chats[chat._id] = {
         UserTO: seller,

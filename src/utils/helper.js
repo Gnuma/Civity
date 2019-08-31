@@ -3,6 +3,7 @@ import { LEVEL_DATA } from "./constants";
 const dayInMilliseconds = 1000 * 60 * 60 * 24;
 
 export const dateDisplay = date => {
+  if (!(date instanceof Date)) date = new Date(date);
   if (Math.abs(new Date() - date) < dayInMilliseconds)
     return (
       date.getHours() +

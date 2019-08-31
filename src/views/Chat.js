@@ -176,13 +176,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Chat);
-
-const ChatKeyboardAvoidingView = ({ children }) => {
-  if (!IS_ANDROID)
-    return (
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior={"padding"}>
-        {children}
-      </KeyboardAvoidingView>
-    );
-  else return <View style={{ flex: 1 }}>{children}</View>;
-};
