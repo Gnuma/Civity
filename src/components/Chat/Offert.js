@@ -13,7 +13,7 @@ export default ({ offert, item, goBookOffert }) => {
     <SolidButton
       style={{
         flexDirection: "row",
-        marginHorizontal: 20
+        marginHorizontal: 10
       }}
       onPress={goBookOffert}
     >
