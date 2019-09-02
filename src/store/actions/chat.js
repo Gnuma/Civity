@@ -459,6 +459,7 @@ export const chatLoadEarlier = (objectID, chatID) => (dispatch, getState) => {
   if (messages.length > 0 && !chat.loading && chat.toload) {
     dispatch(chatStartChatAction(objectID, chatID));
     const last = messages[messages.length - 1]._id;
+    console.log("Loading earlier: ", chatID, last);
     axios
       .post(___LOAD_EARLIER_CHAT___, {
         chat: chatID,
@@ -474,6 +475,7 @@ export const chatLoadEarlier = (objectID, chatID) => (dispatch, getState) => {
             toload: res.data.toload
           }
         });
+        console.log("Loading earlier results: ", res);
       })
       .catch(err => console.log({ err }));
   }

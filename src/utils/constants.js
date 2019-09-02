@@ -134,3 +134,18 @@ const bottomInsetDevices = {
 export const BOTTOM_INSET = bottomInsetDevices[Device.getDeviceId()] ? 34 : 0;
 
 export const KAV_BEHAVIOR = IS_ANDROID ? "" : "padding";
+
+export const IT_MONTHS = [
+  "gennaio",
+  "febbraio",
+  "marzo",
+  "aprile",
+  "maggio",
+  "giugno",
+  "luglio",
+  "agosto",
+  "settembre",
+  "ottobre",
+  "novembre",
+  "dicembre"
+];

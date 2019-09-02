@@ -24,7 +24,7 @@ import colors from "../../styles/colors";
 import Button from "../Button";
 import Offert from "./Offert";
 import _ from "lodash";
-import { OffertStatus, ChatStatus } from "../../utils/constants";
+import { OffertStatus, ChatStatus, IT_MONTHS } from "../../utils/constants";
 import LoadingOverlay from "../LoadingOverlay";
 import Shadows from "../Shadows";
 import NativeButton from "../NativeButton";
@@ -135,7 +135,7 @@ export default class Chat extends Component {
     if (item.isSending) return <Header5 style={style}>Inviando...</Header5>;
     else if (item.error)
       return <Header5 style={[style, styles.timeError]}>Non inviato</Header5>;
-    return <Header5 style={style}>{dispalyTime(item.createdAt)}</Header5>;
+    return <Header5 style={style}>{dispalyTime(item.timestamp)}</Header5>;
   };
 
   isCloseToTop = ({ layoutMeasurement, contentOffset, contentSize }) => {
@@ -157,6 +157,7 @@ export default class Chat extends Component {
   renderInput = () => {
     const { data, type, globalLoading, userID } = this.props;
 
+    const canSend = !!data.composer;
     if (this.isBlocked()) return this.renderBlockedComposer();
     else
       return (
@@ -170,11 +171,15 @@ export default class Chat extends Component {
               onChangeText={this.onComposerTextChanged}
             />
           </ScrollView>
-          <TouchableOpacity style={styles.btn} onPress={this.onSend}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={this.onSend}
+            disabled={!canSend}
+          >
             <Icon
               name={"paper-plane"}
               size={26}
-              style={{ color: colors.secondary }}
+              style={{ color: canSend ? colors.secondary : colors.black }}
             />
           </TouchableOpacity>
         </View>
@@ -204,7 +209,8 @@ export default class Chat extends Component {
             message: {
               id: "_id",
               timestamp: "createdAt"
-            }
+            },
+            months: IT_MONTHS
           }}
           renderInput={this.renderInput}
           styleBubble={styleBubble}
