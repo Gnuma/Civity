@@ -82,32 +82,14 @@ export const createBook = (isbn, title, author = "Sconosciuto", subject) => {
   };
 };
 
-export const setPrice = price => {
-  return {
-    type: actionTypes.SELL_SET_PRICE,
-    payload: {
-      price
-    }
-  };
-};
-
-export const setConditions = conditions => {
-  return {
-    type: actionTypes.SELL_SET_CONDITIONS,
-    payload: {
-      conditions
-    }
-  };
-};
-
-export const setDescription = description => {
-  return {
-    type: actionTypes.SELL_SET_DESCRIPTION,
-    payload: {
-      description
-    }
-  };
-};
+export const sellSetInfos = ({ conditions, price, description }) => ({
+  type: actionTypes.SELL_SET_INFOS,
+  payload: {
+    conditions,
+    price,
+    description
+  }
+});
 
 export const sellAddReview = data => ({
   type: actionTypes.SELL_ADD_REVIEW,

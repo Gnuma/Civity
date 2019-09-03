@@ -6,6 +6,7 @@ import ConditionsInfo from "./ConditionsInfo";
 import DescriptionInfo from "./DescriptionInfo";
 import Button from "../Button";
 import Shadows from "../Shadows";
+import FieldContainer from "../Form/FieldContainer";
 
 export default class MainSell extends Component {
   render() {
@@ -13,23 +14,30 @@ export default class MainSell extends Component {
       conditions,
       price,
       description,
-      setPrice,
-      setDescription,
-      setConditions,
+      setField,
       handleComplete
     } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1, marginTop: 18 }}>
-          <PriceInfo price={price} handleChange={setPrice} />
-          <ConditionsInfo
-            conditions={conditions}
-            handleChange={setConditions}
-          />
-          <DescriptionInfo
-            description={description}
-            handleChange={setDescription}
-          />
+          <FieldContainer error={price.errorMessage}>
+            <PriceInfo
+              price={price.value}
+              handleChange={v => setField("price", v)}
+            />
+          </FieldContainer>
+          <FieldContainer error={conditions.errorMessage}>
+            <ConditionsInfo
+              conditions={conditions.value}
+              handleChange={v => setField("conditions", v)}
+            />
+          </FieldContainer>
+          <FieldContainer error={description.errorMessage}>
+            <DescriptionInfo
+              description={description.value}
+              handleChange={v => setField("description", v)}
+            />
+          </FieldContainer>
         </ScrollView>
         <Button style={[styles.button]} onPress={handleComplete}>
           <Header3 style={styles.buttonText} color={"primary"}>

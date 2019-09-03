@@ -16,25 +16,37 @@ import protectedAction from "../utils/protectedAction";
 import { GreyBar } from "../components/StatusBars";
 import { SafeAreaView } from "react-navigation";
 import { KAV_BEHAVIOR } from "../utils/constants";
+import update from "immutability-helper";
+import { submit, isEmpty } from "../utils/validator";
 
 export class VendiInfos extends Component {
-  state = {
-    price: "",
-    conditions: -1,
-    description: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      fields: {
+        price: { value: props.price, errorMessage: "" },
+        conditions: { value: props.conditions, errorMessage: "" },
+        description: { value: props.description, errorMessage: "" }
+      },
+      error: ""
+    };
+  }
+
+  setInfoField = (key, value) =>
+    this.setState(state =>
+      update(state, {
+        fields: {
+          [key]: { value: { $set: value } }
+        }
+      })
+    );
 
   render() {
+    const { loading, book } = this.props;
     const {
-      price,
-      conditions,
-      description,
-      setPriceRedux,
-      setDescriptionRedux,
-      setConditionsRedux,
-      loading,
-      book
-    } = this.props;
+      fields: { price, conditions, description },
+      error
+    } = this.state;
     const { title, author } = book || { title: "UNDEFINED" };
 
     return (
@@ -54,9 +66,7 @@ export class VendiInfos extends Component {
               price={price}
               conditions={conditions}
               description={description}
-              setPrice={setPriceRedux}
-              setDescription={setDescriptionRedux}
-              setConditions={setConditionsRedux}
+              setField={this.setInfoField}
               handleComplete={this._handleComplete}
             />
           ) : (
@@ -76,20 +86,49 @@ export class VendiInfos extends Component {
   }
 
   _handleGoBack = () => {
+    const {
+      price: { value: price },
+      conditions: { value: conditions },
+      description: { value: description }
+    } = this.state.fields;
+    this.props.sellSetInfos({ price, conditions, description });
     this.props.navigation.goBack(null);
   };
 
-  _handleComplete = () => {
-    if (
-      this.props.price &&
-      this.props.description &&
-      this.props.conditions !== undefined
-    ) {
+  _handleComplete = async () => {
+    const result = await submit(this.state.fields, this.validators);
+    if (result === true) {
+      const {
+        price: { value: price },
+        conditions: { value: conditions },
+        description: { value: description }
+      } = this.state.fields;
+      this.props.sellSetInfos({ price, conditions, description });
       protectedAction()
         .then(() => {
           this.props.navigation.navigate("PreviewItem");
         })
         .catch(() => console.log("Need to be logged in"));
+    } else {
+      this.setState({ fields: result });
+    }
+  };
+
+  validators = {
+    price: {
+      functions: [isEmpty, isNegative],
+      warnings: [
+        "Inserisci il prezzo del libro",
+        "Il prezzo deve essere un numero positivo"
+      ]
+    },
+    conditions: {
+      functions: [isEmpty],
+      warnings: ["Inserisci le condizioni del libro"]
+    },
+    description: {
+      functions: [isEmpty],
+      warnings: ["Inserisci una piccola descrizione"]
     }
   };
 }
@@ -104,12 +143,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPriceRedux: price => dispatch(sellActions.setPrice(price)),
-    setDescriptionRedux: description =>
-      dispatch(sellActions.setDescription(description)),
-    setConditionsRedux: conditions =>
-      dispatch(sellActions.setConditions(conditions)),
-    submitRedux: () => dispatch(sellActions.submit())
+    sellSetInfos: infos => dispatch(sellActions.sellSetInfos(infos))
   };
 };
 
@@ -117,3 +151,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(VendiInfos);
+
+const isNegative = n => n <= 0;

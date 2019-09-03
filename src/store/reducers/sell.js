@@ -159,6 +159,11 @@ const sellStartModifying = (state, { payload: { item } }) => {
   });
 };
 
+const sellSetInfos = (state, { payload: { conditions, price, description } }) =>
+  update(state, {
+    $merge: { conditions, price, description }
+  });
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SELL_START:
@@ -185,14 +190,8 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SELL_CREATEBOOK:
       return createBook(state, action);
 
-    case actionTypes.SELL_SET_PRICE:
-      return setPrice(state, action);
-
-    case actionTypes.SELL_SET_CONDITIONS:
-      return setConditions(state, action);
-
-    case actionTypes.SELL_SET_DESCRIPTION:
-      return setDescription(state, action);
+    case actionTypes.SELL_SET_INFOS:
+      return sellSetInfos(state, action);
 
     case actionTypes.SELL_ADD_REVIEW:
       return sellAddReview(state, action);
