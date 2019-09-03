@@ -10,8 +10,6 @@ import firebase from "react-native-firebase";
 import axios from "axios";
 import { ___UPDATE_FCM___ } from "../constants";
 
-const fcmToken = "@settings:fcmToken";
-
 export const settingsStart = () => dispatch => {
   dispatch({
     type: actionTypes.SETTINGS_START
@@ -39,14 +37,11 @@ export const createToast = toast => ({
 });
 
 export const updateFCMToken = token => async dispatch => {
-  let oldToken;
   try {
     if (!token) token = await firebase.messaging().getToken();
-    oldToken = await getItem(fcmToken);
   } catch (error) {
     console.log(error);
   }
-
   if (token) {
     dispatch({
       type: actionTypes.SETTINGS_UPDATE_FCM_TOKEN,
@@ -54,8 +49,6 @@ export const updateFCMToken = token => async dispatch => {
         token
       }
     });
-    setItem(fcmToken, token);
-
     axios
       .post(___UPDATE_FCM___, {
         id: token

@@ -50,6 +50,10 @@ export const cameraPreview = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: itemMargin,
     borderRadius: 4
+  },
+  overlay: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: "rgba(0,0,0,0.2)"
   }
 });
 
