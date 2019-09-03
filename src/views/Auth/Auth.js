@@ -7,7 +7,8 @@ import {
   Keyboard,
   Animated,
   StyleSheet,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  TouchableOpacity
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -221,14 +222,26 @@ export class Auth extends Component {
     return (
       <View
         style={{
-          flex: 1 / 2,
-          alignItems: "center",
-          justifyContent: "center"
+          flex: 1 / 5
         }}
       >
-        <Button onPress={this._switchAuthType}>
-          <Header3 color={"primary"}>Hai già un account?</Header3>
-        </Button>
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Header3 color="black">oppure</Header3>
+        </View>
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity
+            onPress={this._switchAuthType}
+            style={{ alignItems: "center" }}
+          >
+            <Header3 color={"primary"} style={{ textAlign: "center" }}>
+              {this.state.authType === "signup"
+                ? "Hai già un account? Accedi!"
+                : "Ancora non hai un account? Crealo!"}
+            </Header3>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
