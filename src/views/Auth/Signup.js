@@ -19,6 +19,7 @@ import ErrorMessage from "../../components/Form/ErrorMessage";
 import PhonePicker from "../../components/PhonePicker";
 import { StatusBar } from "../../components/StatusBar";
 import OfficeButton from "../../components/Form/OfficeButton";
+import FullButton from "../../components/FullButton";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -252,21 +253,23 @@ export default class Signup extends Component {
         <View
           style={{
             flex: 1,
-            justifyContent: "center",
-            alignItems: "center"
+            justifyContent: "center"
           }}
         >
           {this._getContent()}
           {!!error && <ErrorMessage message={error} />}
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <SolidButton onPress={this.continue} style={{ width: 180 }}>
-              <Header3
-                color={"primary"}
-                style={{ textAlign: "center", flex: 1 }}
-              >
-                {status === LASTSTEP ? "Registrati" : "Continua"}
-              </Header3>
-            </SolidButton>
+            <FullButton
+              onPress={this.continue}
+              value={status === LASTSTEP ? "Registrati" : "Continua"}
+              contentStyle={{
+                flex: 1,
+                textAlign: "center",
+                color: status === LASTSTEP ? colors.white : colors.primary
+              }}
+              style={{ marginHorizontal: 8 }}
+              color={status === LASTSTEP ? "secondary" : "white"}
+            />
           </View>
         </View>
       </View>

@@ -90,7 +90,7 @@ export class MainList extends Component {
               </Header4>
             </View>
             <FlatList
-              style={{ flex: 1 }}
+              contentContainerStyle={{ paddingBottom: 10 }}
               data={results}
               renderItem={this._renderSingleItem}
               keyExtractor={this._keyExtractor}
@@ -98,7 +98,7 @@ export class MainList extends Component {
           </View>
         ) : (
           <FlatList
-            style={{ flex: 1 }}
+            contentContainerStyle={{ paddingBottom: 10 }}
             data={results}
             renderItem={this._renderMultiItem}
             keyExtractor={this._keyExtractor}

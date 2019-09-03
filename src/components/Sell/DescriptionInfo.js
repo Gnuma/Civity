@@ -4,12 +4,13 @@ import { Header3, Header4 } from "../Text";
 import Button from "../Button";
 import colors from "../../styles/colors";
 import Shadows from "../Shadows";
+import Card from "../Card";
 
 export default class DescriptionInfo extends Component {
   render() {
     const { description } = this.props;
     return (
-      <View style={styles.container}>
+      <Card>
         <Header3 color={"primary"}>Aggiungi una piccola descrizione</Header3>
         <View>
           <Header4 color={"primary"}>
@@ -55,7 +56,7 @@ export default class DescriptionInfo extends Component {
             {description.length}/280
           </Header4>
         </View>
-      </View>
+      </Card>
     );
   }
 

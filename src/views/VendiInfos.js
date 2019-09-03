@@ -17,7 +17,7 @@ import { GreyBar } from "../components/StatusBars";
 import { SafeAreaView } from "react-navigation";
 import { KAV_BEHAVIOR } from "../utils/constants";
 import update from "immutability-helper";
-import { submit, isEmpty } from "../utils/validator";
+import { submit, isEmpty, isUndefined } from "../utils/validator";
 
 export class VendiInfos extends Component {
   constructor(props) {
@@ -123,7 +123,7 @@ export class VendiInfos extends Component {
       ]
     },
     conditions: {
-      functions: [isEmpty],
+      functions: [isUndefined],
       warnings: ["Inserisci le condizioni del libro"]
     },
     description: {

@@ -4,9 +4,18 @@ import ErrorMessage from "./ErrorMessage";
 
 export default ({ error, children }) => {
   return (
-    <Fragment>
+    <View style={{ marginTop: 10, marginHorizontal: 10, marginBottom: 5 }}>
+      {!!error && (
+        <ErrorMessage
+          message={error}
+          containerStyle={{
+            padding: 8,
+            marginVertical: 4,
+            marginHorizontal: 0
+          }}
+        />
+      )}
       {children}
-      {!!error && <ErrorMessage message={error} />}
-    </Fragment>
+    </View>
   );
 };

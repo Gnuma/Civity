@@ -70,8 +70,8 @@ export default class ActionsList extends Component {
 }
 
 const shareOptions = {
-  url: "www.civity.it",
-  message: "Entra in Civity!\n La 1ª app di annunci per libri scolastici.\n",
+  url: "www.civityapp.it",
+  message: "Entra in Civity!\n Compra e vendi i tuoi libri scolastici.\n",
   title: "Civity"
 };
 

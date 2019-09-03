@@ -149,3 +149,5 @@ export const IT_MONTHS = [
   "novembre",
   "dicembre"
 ];
+
+export const MAX_ADS_FREE_ACCOUNT = 5;

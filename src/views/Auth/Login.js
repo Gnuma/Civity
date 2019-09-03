@@ -5,6 +5,8 @@ import SolidButton from "../../components/SolidButton";
 import OutlinedInput from "../../components/Form/OutlinedInput";
 import { submit, isEmpty, fieldCheck } from "../../utils/validator.js";
 import ErrorMessage from "../../components/Form/ErrorMessage";
+import FullButton from "../../components/FullButton";
+import colors from "../../styles/colors";
 
 export default class Login extends Component {
   state = {
@@ -144,21 +146,23 @@ export default class Login extends Component {
       <View style={{ flex: 1 }}>
         <View
           style={{
-            flex: 1,
-            alignItems: "center"
+            flex: 1
           }}
         >
           {this._getContent()}
           {!!error && <ErrorMessage message={error} />}
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <SolidButton onPress={this.continue} style={{ width: 180 }} center>
-              <Header3
-                color={"primary"}
-                style={{ textAlign: "center", flex: 1 }}
-              >
-                {status === 0 ? "Accedi" : "Continua"}
-              </Header3>
-            </SolidButton>
+            <FullButton
+              onPress={this.continue}
+              value={status === 0 ? "Accedi" : "Continua"}
+              contentStyle={{
+                flex: 1,
+                textAlign: "center",
+                color: colors.primary
+              }}
+              style={{ marginHorizontal: 8 }}
+              color={"white"}
+            />
           </View>
         </View>
       </View>
