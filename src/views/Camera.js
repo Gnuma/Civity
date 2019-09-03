@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity
+} from "react-native";
 import ImageEditor from "@react-native-community/image-editor";
 import RNFS from "react-native-fs";
 import { connect } from "react-redux";
@@ -15,6 +20,8 @@ import ImageReviewer from "../components/Camera/ImageReviewer";
 import { ___BOOK_IMG_RATIO___, SellType, IS_ANDROID } from "../utils/constants";
 import { setLightContent } from "../components/StatusBars";
 import ImagePicker from "react-native-image-crop-picker";
+import Permissions from "react-native-permissions";
+import { Header3 } from "../components/Text";
 
 export class Camera extends Component {
   imgCounter = 5;
@@ -25,7 +32,7 @@ export class Camera extends Component {
     flashMode: RNCamera.Constants.FlashMode.off,
     loading: false,
     cameraStatus: null,
-    loading: 0
+    hasPermission: null
   };
 
   componentDidMount() {
@@ -34,6 +41,7 @@ export class Camera extends Component {
       setLightContent
     );
     setLightContent();
+    this.requestPermissions();
   }
 
   componentWillUnmount() {
@@ -154,25 +162,49 @@ export class Camera extends Component {
     this.props.setPreviewsOrderRedux(nextOrder);
   };
 
+  renderMainCamera = () => {
+    const { flashMode, loading, hasPermission } = this.state;
+    if (hasPermission === null) return null;
+    else if (hasPermission)
+      return (
+        <MainCamera
+          flashMode={flashMode}
+          initCamera={this.initCamera}
+          cameraStatusChange={this.cameraStatusChange}
+          takePicture={this.takePicture}
+          changeFlashMode={this.changeFlashMode}
+          openImagePicker={this.openImagePicker}
+          loading={loading}
+        />
+      );
+    else
+      return (
+        <View
+          style={{
+            ...StyleSheet.absoluteFill,
+            justifyContent: "center"
+          }}
+        >
+          <TouchableOpacity onPress={this.requestPermissions}>
+            <Header3
+              color="white"
+              style={{ textAlign: "center", margin: 20, alignSelft: "center" }}
+            >
+              Per accedere alla fotocamera abbiamo bisogno del tuo permesso
+            </Header3>
+          </TouchableOpacity>
+        </View>
+      );
+  };
+
   render() {
     const isReviewing = !_.isEmpty(this.props.checking);
-    const { flashMode, loading } = this.state;
     const { previews, previewsOrder } = this.props;
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.fullBlack }}>
         {IS_ANDROID ? <TransparentBar /> : <HiddenBar />}
-        {!isReviewing && (
-          <MainCamera
-            flashMode={flashMode}
-            initCamera={this.initCamera}
-            cameraStatusChange={this.cameraStatusChange}
-            takePicture={this.takePicture}
-            changeFlashMode={this.changeFlashMode}
-            openImagePicker={this.openImagePicker}
-            loading={loading}
-          />
-        )}
+        {!isReviewing && this.renderMainCamera()}
         <CameraHeader
           previews={previews}
           previewsOrder={previewsOrder}
@@ -223,6 +255,18 @@ export class Camera extends Component {
     this.setState({
       cameraStatus
     });
+  };
+
+  requestPermissions = async () => {
+    try {
+      const response = await Permissions.request("camera");
+      console.log(response);
+      if (response == "authorized") {
+        this.setState({ hasPermission: true });
+      } else this.setState({ hasPermission: false });
+    } catch (error) {
+      this.setState({ hasPermission: false });
+    }
   };
 }
 
