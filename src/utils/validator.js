@@ -105,3 +105,5 @@ export const isPhoneTaken = phone =>
   axios.post(___CHECK_PHONE___, {
     phone
   });
+
+export const isUndefined = x => x == undefined;

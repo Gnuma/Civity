@@ -3,22 +3,13 @@ import { Text, View } from "react-native";
 import { Header2, Header3 } from "../Text";
 import PriceInput from "./PriceInput";
 import Shadows from "../Shadows";
+import Card from "../Card";
 
 export default class PriceInfo extends Component {
   render() {
     const { price } = this.props;
     return (
-      <View
-        style={{
-          marginVertical: 5,
-          marginHorizontal: 35,
-          paddingHorizontal: 18,
-          paddingVertical: 6,
-          backgroundColor: "white",
-          ...Shadows[4],
-          borderRadius: 6
-        }}
-      >
+      <Card>
         <Header3 color={"primary"}>Dai un prezzo al tuo libro</Header3>
         <View
           style={{
@@ -30,7 +21,7 @@ export default class PriceInfo extends Component {
         >
           <PriceInput onChangeText={this._local_handleChange} value={price} />
         </View>
-      </View>
+      </Card>
     );
   }
 

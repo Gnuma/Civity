@@ -19,7 +19,7 @@ export default class MainSell extends Component {
     } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        <ScrollView style={{ flex: 1, marginTop: 18 }}>
+        <ScrollView style={{ marginTop: 5, paddingBottom: 10 }}>
           <FieldContainer error={price.errorMessage}>
             <PriceInfo
               price={price.value}

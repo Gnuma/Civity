@@ -4,12 +4,13 @@ import { Header2, Header3 } from "../Text";
 import colors from "../../styles/colors";
 import SolidButton from "../SolidButton";
 import Shadows from "../Shadows";
+import Card from "../Card";
 
 export default class ConditionsInfo extends Component {
   render() {
     const { conditions } = this.props;
     return (
-      <View style={styles.container}>
+      <Card>
         <Header3 color={"primary"}>
           Seleziona le condizioni del tuo libro
         </Header3>
@@ -54,7 +55,7 @@ export default class ConditionsInfo extends Component {
             </Header3>
           </SolidButton>
         </View>
-      </View>
+      </Card>
     );
   }
 
