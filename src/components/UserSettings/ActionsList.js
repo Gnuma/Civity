@@ -27,11 +27,7 @@ export default class ActionsList extends Component {
           icon={"bug"}
           color={"darkRed"}
         />
-        <SolidButton style={styles.actionButton} onPress={this.goBetaInfos}>
-          <Header3 color="black" style={styles.actionText}>
-            Informazioni Beta
-          </Header3>
-        </SolidButton>
+
         <SolidButton style={styles.actionButton} onPress={this.share}>
           <Header3 color="black" style={styles.actionText}>
             Invita un amico
@@ -78,3 +74,11 @@ const shareOptions = {
   message: "Entra in Civity!\n La 1ª app di annunci per libri scolastici.\n",
   title: "Civity"
 };
+
+/**
+ *         <SolidButton style={styles.actionButton} onPress={this.goBetaInfos}>
+          <Header3 color="black" style={styles.actionText}>
+            Informazioni Beta
+          </Header3>
+        </SolidButton>
+ */

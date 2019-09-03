@@ -84,7 +84,7 @@ export class InitProfile extends Component {
 
   render() {
     const { office, course, year, status, showBetaInfo } = this.state;
-    if (showBetaInfo) return this.showBetaInfo();
+    //if (showBetaInfo) return this.showBetaInfo();
 
     const canContinue = canStateContinue(this.state);
     return (
