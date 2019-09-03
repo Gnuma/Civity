@@ -48,7 +48,9 @@ export default class Item extends Component {
         <View style={styles.itemContent}>
           <View style={styles.itemTopContent}>
             <View style={styles.leftColTopContent}>
-              <Header3 color="black">{seller.user.username}</Header3>
+              <Header3 color="black" numberOfLines={1}>
+                {seller.user.username}
+              </Header3>
               <Header1 color="primary">EUR {price}</Header1>
             </View>
             <View style={styles.m10}>
