@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, StatusBar } from "react-native";
+import { View, Text, StatusBar, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import SalesTab from "../components/Sales/SalesTab";
 import * as chatActions from "../store/actions/chat";
 import * as sellActions from "../store/actions/sell";
-import { Header3, Header2 } from "../components/Text";
+import { Header3, Header2, Header4 } from "../components/Text";
 import SalesChatsList from "../components/Sales/SalesChatsList";
 import SellButton from "../components/Sales/SellButton";
 import _ from "lodash";
@@ -14,8 +14,11 @@ import colors from "../styles/colors";
 import IconPlus from "../media/vectors/plus-icon";
 import { GreyBar } from "../components/StatusBars";
 import OfflineView, { OfflineNotification } from "../components/OfflineView";
-import { IS_ANDROID } from "../utils/constants";
+import { IS_ANDROID, MAX_ADS_FREE_ACCOUNT } from "../utils/constants";
 import { SafeAreaView } from "react-navigation";
+import ErrorMessage from "../components/Form/ErrorMessage";
+import InfoOverlay from "../components/InfoOverlay";
+import Card from "../components/Card";
 
 export class SalesList extends Component {
   static propTypes = {
@@ -25,6 +28,10 @@ export class SalesList extends Component {
     startSelling: PropTypes.func,
     data: PropTypes.object,
     orderedData: PropTypes.array
+  };
+
+  state = {
+    isInfoNumAdsVisible: false
   };
 
   componentDidMount() {
@@ -38,6 +45,28 @@ export class SalesList extends Component {
     this._navListener.remove();
   }
 
+  dismissInfoNumAds = () => this.setState({ isInfoNumAdsVisible: false });
+
+  renderInfoNumAds = () => {
+    const adsCreated =
+      MAX_ADS_FREE_ACCOUNT - (this.props.orderedData.length || 0);
+    return (
+      <Card style={{ margin: 20 }}>
+        <Header3 style={{ textAlign: "center" }}>
+          Hai a disposizione{" "}
+          <Header3 style={{ fontWeight: "bold" }}>
+            {adsCreated} su {MAX_ADS_FREE_ACCOUNT}{" "}
+          </Header3>
+          inserzioni da publicare.
+        </Header3>
+        <Header3 style={{ textAlign: "center" }}>
+          Se desideri pubblicare infinite inserzioni passa a{" "}
+          <Header3 style={{ fontWeight: "bold" }}>Civity PRO</Header3>
+        </Header3>
+      </Card>
+    );
+  };
+
   render() {
     const {
       data,
@@ -48,6 +77,8 @@ export class SalesList extends Component {
       delayedLogin,
       isConnected
     } = this.props;
+
+    const adsCreated = MAX_ADS_FREE_ACCOUNT - (orderedData.length || 0);
 
     if (delayedLogin) return <OfflineView sales />;
 
@@ -72,9 +103,29 @@ export class SalesList extends Component {
           />
           {isConnected && (
             <View
-              style={{ position: "absolute", bottom: 20, alignSelf: "center" }}
+              style={{
+                borderTopWidth: 0.5,
+                borderColor: colors.divider,
+                paddingVertical: 10,
+                paddingHorizontal: 20,
+                flexDirection: "row"
+              }}
             >
+              <View style={{ flex: 1 }} />
               <SellButton onPress={this.onGoSell} />
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "flex-end"
+                }}
+                onPress={() => this.setState({ isInfoNumAdsVisible: true })}
+              >
+                <Header4 style={{ fontWeight: "bold" }}>
+                  {adsCreated}/{MAX_ADS_FREE_ACCOUNT}
+                </Header4>
+                <Header4>Inserzioni rimaste</Header4>
+              </TouchableOpacity>
             </View>
           )}
         </View>
@@ -85,12 +136,19 @@ export class SalesList extends Component {
             <OfflineNotification />
           </View>
         )}
+        {this.state.isInfoNumAdsVisible && (
+          <InfoOverlay dismiss={this.dismissInfoNumAds}>
+            {this.renderInfoNumAds()}
+          </InfoOverlay>
+        )}
       </SafeAreaView>
     );
   }
 
   onGoSell = () => {
-    this.props.startSelling();
+    if (MAX_ADS_FREE_ACCOUNT - (this.props.orderedData.length || 0) > 0)
+      this.props.startSelling();
+    else this.setState({ isInfoNumAdsVisible: true });
   };
 
   onGoChat = (itemID, chatID) => {
@@ -113,12 +171,16 @@ export class SalesList extends Component {
           <Header3 color="black">
             Sembra che tu non abbia ancora creato nessun annuncio...
           </Header3>
-          {this.props.isConnected && (
+          {this.props.isConnected ? (
             <View style={{ alignItems: "center", marginTop: 10 }}>
               <SellButton onPress={this.onGoSell} />
               <Header2 color="primary" style={{ marginTop: 10 }}>
                 Inizia ora
               </Header2>
+            </View>
+          ) : (
+            <View style={{ alignItems: "center", marginTop: 10 }}>
+              <ErrorMessage error="Non sei connesso ad internet"></ErrorMessage>
             </View>
           )}
         </View>

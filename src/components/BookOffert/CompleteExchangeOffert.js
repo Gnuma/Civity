@@ -5,7 +5,7 @@ import Card from "../Card";
 import { Header3, Header2, Header1 } from "../Text";
 import FullButton from "../FullButton";
 
-export default (CompleteExchangeOffert = ({
+export default CompleteExchangeOffert = ({
   item,
   offert,
   UserTO,
@@ -31,4 +31,4 @@ export default (CompleteExchangeOffert = ({
       </DecisionBox>
     </View>
   );
-});
+};
