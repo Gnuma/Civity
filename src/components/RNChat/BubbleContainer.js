@@ -46,7 +46,7 @@ export default class BubbleContainer extends Component {
     const { pressed } = this.state;
 
     return (
-      <View>
+      <View style={styles.container}>
         {showDate && this.renderDate()}
         <View>
           {this.renderBubble({
@@ -64,7 +64,11 @@ export default class BubbleContainer extends Component {
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 15
+  }
+});
 
 BubbleContainer.defaultProps = {
   styleBubble: {}
