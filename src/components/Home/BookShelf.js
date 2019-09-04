@@ -52,6 +52,24 @@ export default class BookShelf extends Component {
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1, justifyContent: "center" }}>
           <View>
+            <Header3
+              style={{
+                marginHorizontal: 20,
+                marginBottom: 20,
+                alignSelf: "center",
+                textAlign: "center"
+              }}
+              color="black"
+            >
+              Alcuni{" "}
+              <Header2 style={{ fontWeight: "bold" }} color="primary">
+                Titoli
+              </Header2>{" "}
+              che potrebbero{" "}
+              <Header2 style={{ fontWeight: "bold" }} color="primary">
+                Interessarti
+              </Header2>
+            </Header3>
             <Carousel
               data={data}
               renderItem={this._renderItem}
