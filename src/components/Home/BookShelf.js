@@ -62,13 +62,13 @@ export default class BookShelf extends Component {
               color="black"
             >
               Alcuni{" "}
-              <Header2 style={{ fontWeight: "bold" }} color="primary">
+              <Header3 style={{ fontWeight: "bold" }} color="primary">
                 Titoli
-              </Header2>{" "}
+              </Header3>{" "}
               che potrebbero{" "}
-              <Header2 style={{ fontWeight: "bold" }} color="primary">
+              <Header3 style={{ fontWeight: "bold" }} color="primary">
                 Interessarti
-              </Header2>
+              </Header3>
             </Header3>
             <Carousel
               data={data}
