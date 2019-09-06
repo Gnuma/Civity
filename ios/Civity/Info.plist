@@ -44,7 +44,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Accesso al calendario per favorire le date di organizzazione piu' adeguate</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Uso della fotocamera per perendere le foto dei libri</string>
+	<string>Uso della fotocamera per il caricamento delle immagini di inserzioni</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Accesso ai tuoi contatti per favorire le chat piu' adatte a te</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -58,7 +58,7 @@
 	<key>NSMotionUsageDescription</key>
 	<string>Accesso alle funzioni di ricezione movimento per "gesture" ottimizzati</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Accesso alle tuo foto per prendere quelle dei libri</string>
+	<string>Uso della tua libreria di immagini per il caricamento delle immagini di inserzioni</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Accesso alle funzioni di riconoscimento vocale per ricerca vocale</string>
 	<key>UIAppFonts</key>

@@ -13,7 +13,11 @@ import { itemData } from "../mockData/Item";
 import MainItem from "../components/Item/MainItem";
 import colors from "../styles/colors";
 import axios from "axios";
-import { ___GET_AD___, ___DELTE_AD___ } from "../store/constants";
+import {
+  ___GET_AD___,
+  ___DELTE_AD___,
+  ___REPORT_AD___
+} from "../store/constants";
 import * as commentActions from "../store/actions/comments";
 import * as chatActions from "../store/actions/chat";
 import * as sellActions from "../store/actions/sell";
@@ -176,6 +180,22 @@ export class Item extends Component {
     return formattedComment;
   };
 
+  reportItem = async () => {
+    const id = this.state.data.pk;
+    try {
+      await this.takeAction("Sei sicuro di voler segnalare questa inserzione?");
+      this.setState({ decision: null, loading: true });
+      const res = await axios.post(___REPORT_AD___, { id });
+      console.log(res);
+    } catch (error) {
+      console.log({ error });
+    }
+    this.setState({
+      decision: null,
+      loading: false
+    });
+  };
+
   componentWillUnmount() {
     this.viewListeners &&
       this.viewListeners.forEach(eventListener => eventListener.remove());
@@ -241,6 +261,7 @@ export class Item extends Component {
                   deleteItem={this.deleteItem}
                   isContacted={isContacted}
                   chatSnapshot={chatSnapshot}
+                  reportItem={this.reportItem}
                 />
               )}
               {decision && <DecisionOverlay decision={decision} />}

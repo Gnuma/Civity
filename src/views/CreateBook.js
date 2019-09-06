@@ -198,7 +198,8 @@ export class CreateBook extends Component {
       this.setState({
         loading: true
       });
-      const { author: authorField, ...fields } = this.state.fields;
+      let { author: authorField, ...fields } = this.state.fields;
+      if (authorField.value) fields = { ...fields, author: authorField };
       const result = await submit(fields, this.validators);
       console.log(fields, this.validators);
       if (result == true) {
@@ -248,12 +249,22 @@ export class CreateBook extends Component {
       ]
     },
     title: {
-      functions: [isEmpty],
-      warnings: ["Inserisci il titolo"]
+      functions: [isEmpty, lengthMoreThan50],
+      warnings: [
+        "Inserisci il titolo",
+        "Il titolo può avere al massimo 50 caratteri"
+      ]
+    },
+    author: {
+      functions: [lengthMoreThan50],
+      warnings: ["Gli autori possono avere al massimo 50 caratteri"]
     },
     subject: {
-      functions: [isEmpty],
-      warnings: ["Inserisci la materia di appartenenza"]
+      functions: [isEmpty, lengthMoreThan50],
+      warnings: [
+        "Inserisci la materia di appartenenza",
+        "La materia può avere al massimo 50 caratteri"
+      ]
     }
   };
 
@@ -280,6 +291,8 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(CreateBook);
+
+const lengthMoreThan50 = str => str.length > 50;
 
 const createQuerySubject = () =>
   new Subject().pipe(

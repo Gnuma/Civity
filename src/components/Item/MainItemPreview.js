@@ -28,7 +28,7 @@ export default class MainItemPreview extends Component {
         <ImageSlider style={styles.imageSlider} data={data.image_ad} />
         <View style={styles.content}>
           <PrimaryInfo data={primaryData} />
-          <SellerInfo data={sellerData} />
+          <SellerInfo data={sellerData} isPreview />
           <DescriptionInfo data={data.description} />
           <Divider style={styles.smallDivider} />
           <SecondaryInfo data={secondaryData} />

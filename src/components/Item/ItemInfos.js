@@ -18,8 +18,10 @@ export const PrimaryInfo = props => {
           <CircleValue value={conditions} radius={45} />
         </View>
         <View style={styles.rightAlign}>
-          <Header2 color={"secondary"}>{office.name}</Header2>
-          <Header3>{office.address}</Header3>
+          <Header2 color={"secondary"} numberOfLines={2}>
+            {office.name}
+          </Header2>
+          <Header3 numberOfLines={1}>{office.address}</Header3>
         </View>
       </View>
     </View>
