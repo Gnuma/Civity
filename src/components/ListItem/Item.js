@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import PropTypes from "prop-types";
-import styles, { ITEM_BORDER_RADIUS } from "./styles";
+import styles, { ITEM_BORDER_RADIUS, IS_SMALL_DEVICE } from "./styles";
 import { Header1, Header3, Header4, Header5 } from "../../components/Text";
 import CircleValue from "../CircleValue";
 import Image from "react-native-fast-image";
@@ -51,10 +51,18 @@ export default class Item extends Component {
               <Header3 color="black" numberOfLines={1}>
                 {seller.user.username}
               </Header3>
-              <Header1 color="primary">EUR {price}</Header1>
+              <Header1
+                color="primary"
+                style={{ fontSize: IS_SMALL_DEVICE ? 23 : 27 }}
+              >
+                EUR {price}
+              </Header1>
             </View>
             <View style={styles.m10}>
-              <CircleValue value={condition} radius={40} />
+              <CircleValue
+                value={condition}
+                radius={IS_SMALL_DEVICE ? 36 : 40}
+              />
             </View>
           </View>
           <View style={styles.itemBottomContent}>
