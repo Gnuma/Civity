@@ -48,7 +48,8 @@ export class MainItem extends Component {
       onRefresh,
       deleteItem,
       isContacted,
-      chatSnapshot
+      chatSnapshot,
+      reportItem
     } = this.props;
     const primaryData = {
       price: data.price,
@@ -76,7 +77,7 @@ export class MainItem extends Component {
           <ImageSlider style={styles.imageSlider} data={data.image_ad} />
           <View style={styles.content} onLayout={this._setContainerOffset}>
             <PrimaryInfo data={primaryData} />
-            <SellerInfo data={sellerData} />
+            <SellerInfo data={sellerData} reportItem={reportItem} />
             <View
               style={{
                 height: this.state.contactButtonHeight

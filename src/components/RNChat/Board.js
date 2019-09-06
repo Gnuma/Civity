@@ -131,7 +131,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  list: {},
+  list: {
+    paddingTop: 3
+  },
   loadingEarlier: {
     marginVertical: 10,
     alignSelf: "center"

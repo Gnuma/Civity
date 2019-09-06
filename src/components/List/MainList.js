@@ -84,8 +84,13 @@ export class MainList extends Component {
                 backgroundColor: "#fff"
               }}
             >
-              <Header2 color={"primary"}>{results[0].book.title}</Header2>
-              <Header4 style={{ paddingBottom: 5, paddingLeft: 10 }}>
+              <Header2 color={"primary"} numberOfLines={2}>
+                {results[0].book.title}
+              </Header2>
+              <Header4
+                style={{ paddingBottom: 5, paddingLeft: 10 }}
+                numberOfLines={1}
+              >
                 {results[0].book.author}
               </Header4>
             </View>

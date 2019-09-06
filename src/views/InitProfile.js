@@ -17,6 +17,7 @@ import FullButton from "../components/FullButton";
 import colors from "../styles/colors";
 import Icon from "react-native-vector-icons/FontAwesome";
 import BetaInfos from "../components/BetaInfos";
+import TermsInfos from "../components/TermsInfos";
 import { KAV_BEHAVIOR } from "../utils/constants";
 
 export class InitProfile extends Component {
@@ -26,8 +27,7 @@ export class InitProfile extends Component {
     course: {},
     year: undefined,
 
-    //BETA
-    showBetaInfo: true
+    showInfo: true
   };
 
   setItem = (key, value) => {
@@ -83,8 +83,8 @@ export class InitProfile extends Component {
   };
 
   render() {
-    const { office, course, year, status, showBetaInfo } = this.state;
-    //if (showBetaInfo) return this.showBetaInfo();
+    const { office, course, year, status, showInfo } = this.state;
+    if (showInfo) return this.renderTerms();
 
     const canContinue = canStateContinue(this.state);
     return (
@@ -141,13 +141,17 @@ export class InitProfile extends Component {
     );
   }
 
+  renderTerms = () => {
+    return <TermsInfos onPress={this.goApp} />;
+  };
+
   showBetaInfo = () => {
     return <BetaInfos onPress={this.goApp} />;
   };
 
   goApp = () => {
     this.setState({
-      showBetaInfo: false
+      showInfo: false
     });
   };
 }

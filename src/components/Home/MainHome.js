@@ -13,6 +13,7 @@ import BookShelf from "./BookShelf";
 import _ from "lodash";
 import colors from "../../styles/colors";
 import Shadows from "../Shadows";
+import { Header3 } from "../Text";
 
 export default class MainHome extends Component {
   constructor(props) {

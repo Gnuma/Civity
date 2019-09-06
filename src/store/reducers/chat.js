@@ -135,7 +135,7 @@ const chatReceiveMessage = (
           }
         },
         newsCount: {
-          $apply: oldNewsCount => (hadNews ? oldNewsCount + 1 : oldNewsCount)
+          $apply: oldNewsCount => (!hadNews ? oldNewsCount + 1 : oldNewsCount)
         }
       }
     },

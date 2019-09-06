@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { SellerInfoStyles as styles } from "./styles";
-import { Header2, Header4 } from "../Text";
+import { Header2, Header4, Header3 } from "../Text";
 import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import colors from "../../styles/colors";
 import SolidButton from "../SolidButton";
+import Divider from "../Divider";
 
 export default props => {
   const { username } = props.data;
@@ -16,6 +17,22 @@ export default props => {
           <Header2 color={"black"}>{username}</Header2>
         </View>
       </View>
+      {!props.isPreview && (
+        <View>
+          <Divider style={{ marginVertical: 8 }}></Divider>
+          <SolidButton
+            icon="flag"
+            iconSize={20}
+            style={{ paddingVertical: 6 }}
+            iconStyle={{ color: colors.darkRed }}
+            onPress={props.reportItem}
+          >
+            <Header3 color="primary" numberOfLines={1}>
+              Segnala
+            </Header3>
+          </SolidButton>
+        </View>
+      )}
     </View>
   );
 };
