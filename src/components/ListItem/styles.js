@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import colors from "../../styles/colors";
 import Shadows from "../Shadows";
 
@@ -68,3 +68,4 @@ export default StyleSheet.create({
 });
 
 export const ITEM_BORDER_RADIUS = 5;
+export const IS_SMALL_DEVICE = Dimensions.get("window").width < 350;
