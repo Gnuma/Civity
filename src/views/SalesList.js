@@ -180,7 +180,7 @@ export class SalesList extends Component {
             </View>
           ) : (
             <View style={{ alignItems: "center", marginTop: 10 }}>
-              <ErrorMessage error="Non sei connesso ad internet"></ErrorMessage>
+              <ErrorMessage error="Non sei connesso ad internet" />
             </View>
           )}
         </View>
