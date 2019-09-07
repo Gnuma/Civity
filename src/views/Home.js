@@ -14,7 +14,11 @@ import * as searchActions from "../store/actions/search";
 import BookShelf from "../components/Home/BookShelf";
 import SearchLink from "../components/Home/SearchLink";
 import { AndroidBackHandler } from "react-navigation-backhandler";
-import { singleResults, multiResults } from "../mockData/SearchResults";
+import {
+  singleResults,
+  multiResults,
+  generateResults
+} from "../mockData/SearchResults";
 import Button from "../components/Button";
 import protectedAction from "../utils/protectedAction";
 import NotificationCenter from "../components/Home/NotificationCenter";
@@ -27,14 +31,17 @@ import IOSToast from "../components/IOSToast";
 
 export class Home extends Component {
   static propTypes = {
-    results: PropTypes.object,
+    results: PropTypes.array,
+    resultType: PropTypes.string,
+    isLoadingMore: PropTypes.bool,
     isSearchActive: PropTypes.bool,
     suggestions: PropTypes.array, // take out
     commentsData: PropTypes.object,
     commentsOrder: PropTypes.array,
     searchRedux: PropTypes.func,
     showResults: PropTypes.bool,
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    loadMore: PropTypes.func
   };
 
   state = {
@@ -55,17 +62,21 @@ export class Home extends Component {
   setContainerLayout = event =>
     this.setState({ containerLayout: event.nativeEvent.layout });
 
+  loadMore = () => {
+    if (!this.props.isLast && !this.props.isLoadingMore) this.props.loadMore();
+  };
+
   render() {
     return (
       <AndroidBackHandler onBackPress={this._onBackButtonPressAndroid}>
-       <IOSToast>
-        {this.getContent()}
-        </IOSToast>
+        <IOSToast>{this.getContent()}</IOSToast>
       </AndroidBackHandler>
     );
   }
 
   getContent = () => {
+    const { results, resultType } = this.props;
+
     if (this.props.isSearchActive) {
       return (
         <SearchResults
@@ -77,8 +88,19 @@ export class Home extends Component {
       );
     } else if (this.props.showResults) {
       return (
-        <MainList data={this.props.results} isLoading={this.props.isLoading} />
-        //<MainList data={singleResults} isLoading={this.props.isLoading} />
+        <MainList
+          results={results}
+          resultType={resultType}
+          isLoading={this.props.isLoading}
+          loadMore={this.loadMore}
+          isLast={this.props.isLast}
+        />
+        /*<MainList
+          data={generateResults(30)}
+          isLoading={this.props.isLoading}
+          loadMore={this.loadMore
+          loadingMore={this.state.loadingMore}
+        />*/
       );
     } else {
       return (
@@ -128,6 +150,10 @@ export class Home extends Component {
 const mapStateToProps = state => ({
   isSearchActive: state.search.isActive,
   results: state.search.results,
+  resultType: state.search.resultType,
+  page: state.search.page,
+  isLast: state.search.isLast,
+  isLoadingMore: state.search.isLoadingMore,
   suggestions: state.search.suggestions,
   searchHistory: state.search.recent,
   showResults: state.search.showResults,
@@ -143,7 +169,8 @@ const mapDispatchToProps = dispatch => {
     searchRedux: searchOptions => dispatch(searchActions.search(searchOptions)),
     setActiveRedux: isActive =>
       dispatch(searchActions.searchSetActive(isActive)),
-    goHomeRedux: () => dispatch(searchActions.searchGoHome())
+    goHomeRedux: () => dispatch(searchActions.searchGoHome()),
+    loadMore: () => dispatch(searchActions.searchLoadMore())
   };
 };
 

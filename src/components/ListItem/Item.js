@@ -15,7 +15,7 @@ export default class Item extends Component {
   };
   render() {
     const { isSingle, data } = this.props;
-    console.log(data);
+    //console.log(data);
     const { price, seller, condition, book, image_ad } = data;
     const office = seller.office || formatOffice(seller.course);
     let mainImage;

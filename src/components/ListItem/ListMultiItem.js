@@ -23,7 +23,6 @@ export class ListMultiItem extends Component {
     const { data, isSingle, native } = this.props;
     const { book } = data;
 
-    console.log(native);
     if (native) return this.renderNative(data, book, isSingle);
 
     return (

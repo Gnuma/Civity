@@ -1,3 +1,5 @@
+import uuid from "uuid";
+
 export const multiResults = {
   object: "Matematica Verde",
   resultType: "multi",
@@ -103,8 +105,59 @@ export const multiResults = {
   ]
 };
 
+export const generateResults = (length, last = true) => {
+  let results = [];
+  for (let i = 0; i < length; i++) {
+    results.push({
+      book: {
+        author: "autore",
+        isbn: "9788808182296",
+        subject: {
+          _id: 19,
+          title: "Fisica"
+        },
+        title: "Titolo"
+      },
+      condition: 0,
+      description: "Descrizione",
+      image_ad: ["http://17029.l.time4vps.cloud/items/4680ccee-5bd.jpg"],
+      pk: uuid.v4(),
+      price: 10,
+      seller: {
+        _id: 75,
+        adsCreated: 2,
+        course: {
+          name: "B",
+          office: {
+            address: "VIA POLLENZA, 115",
+            id: 7268,
+            name: "J.VON NEUMANN",
+            officetype: "SP",
+            course: {
+              name: "B",
+              year: "5"
+            }
+          },
+          year: "5"
+        },
+        respect: 0,
+        usertype: "Free",
+        xp: 0,
+        user: {
+          username: "Username"
+        }
+      }
+    });
+  }
+  return {
+    results,
+    resultType: "single",
+    last
+  };
+};
+
 export const singleResults = {
-  resultType: "multi",
+  resultType: "single",
   results: [
     {
       book: {

@@ -1,9 +1,14 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
+import { generateResults } from "../../mockData/SearchResults";
 
 const initialState = {
   results: null, //search items results
+  resultType: "",
+  page: 1,
+  isLast: false,
+  isLoadingMore: false,
   error: null, //errors
   loading: false, //is loading results
   searchQuery: "", //search query,
@@ -13,7 +18,8 @@ const initialState = {
   recent: {
     order: [],
     keys: {}
-  }
+  },
+  bookIsbn: null
 };
 
 const searchSetSearchQuery = (state, action) => {
@@ -29,13 +35,22 @@ const searchStart = (state, action) => {
     searchQuery: action.payload.search_query,
     isActive: false,
     showResults: true,
-    results: null
+    results: null,
+    resultType: "",
+    page: 1,
+    isLast: false,
+    isLoadingMore: false,
+    bookIsbn: action.payload.isbn
   });
 };
 
-const searchSuccess = (state, action) => {
+const searchSuccess = (state, { payload: { results, resultType, last } }) => {
   return updateObject(state, {
-    results: action.payload.results,
+    results: results, //generateResults(10).results, //test
+    resultType,
+    isLast: last, //test false
+    page: 1,
+
     error: null,
     loading: false
   });
@@ -76,6 +91,26 @@ const searchUpdateHistory = (state, { payload: { recent } }) =>
     }
   });
 
+const searchLoadMoreStart = (state, action) =>
+  updateObject(state, {
+    isLoadingMore: true
+  });
+
+const searchLoadMoreSuccess = (state, { payload: { data, page, isLast } }) =>
+  update(state, {
+    results: { $push: data }, //test data generateResults(10).results
+    page: { $set: page },
+    isLast: { $set: isLast }, //test isLast,
+    isLoadingMore: { $set: false }
+  });
+
+const searchLoadMoreFail = (state, { payload: { error } }) =>
+  updateObject(state, {
+    error,
+    isLast: true,
+    isLoadingMore: { $set: false }
+  });
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SEARCH_START:
@@ -101,6 +136,15 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.SEARCH_UPDATE_HISTORY:
       return searchUpdateHistory(state, action);
+
+    case actionTypes.SEARCH_LOAD_MORE_SUCCESS:
+      return searchLoadMoreSuccess(state, action);
+
+    case actionTypes.SEARCH_LOAD_MORE_FAIL:
+      return searchLoadMoreFail(state, action);
+
+    case actionTypes.SEARCH_LOAD_MORE_START:
+      return searchLoadMoreStart(state, action);
 
     default:
       return state;

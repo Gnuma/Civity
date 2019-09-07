@@ -33,20 +33,21 @@ export const searchSetSearchQuery = search_query => {
   };
 };
 
-export const searchStart = search_query => {
+export const searchStart = (search_query, isbn) => {
   return {
     type: actionTypes.SEARCH_START,
     payload: {
-      search_query: search_query
+      search_query: search_query,
+      isbn
     }
   };
 };
 
-export const searchSuccess = results => {
+export const searchSuccess = data => {
   return {
     type: actionTypes.SEARCH_SUCCESS,
     payload: {
-      results: results
+      ...data
     }
   };
 };
@@ -94,6 +95,26 @@ export const searchUpdateHistory = recent => {
   };
 };
 
+export const searchLoadMoreSuccess = (data, page, isLast) => ({
+  type: actionTypes.SEARCH_LOAD_MORE_SUCCESS,
+  payload: {
+    data,
+    page,
+    isLast
+  }
+});
+
+export const searchLoadMoreFail = error => ({
+  type: actionTypes.SEARCH_LOAD_MORE_FAIL,
+  payload: {
+    error
+  }
+});
+
+export const searchLoadMoreStart = () => ({
+  type: actionTypes.SEARCH_LOAD_MORE_START
+});
+
 /**
  * searchOptions: {
  *    //Single
@@ -129,7 +150,7 @@ export const search = searchOptions => {
 
       keyName = "book";
       value = searchOptions.isbn;
-      dispatch(searchStart(searchOptions.title));
+      dispatch(searchStart(searchOptions.title, value));
     } else {
       keyName = "keyword";
       value = searchOptions.keyword;
@@ -137,16 +158,40 @@ export const search = searchOptions => {
     }
     axios
       .post(___AD_SEARCH_ENDPOINT___, {
-        [keyName]: value
+        [keyName]: value,
+        page: 1
       })
       .then(res => {
         console.log(res);
         dispatch(searchSuccess(res.data));
       })
       .catch(err => {
+        console.log({ err });
         dispatch(searchFail(err));
       });
   };
+};
+
+export const searchLoadMore = () => (dispatch, getState) => {
+  const { page, resultType, searchQuery, bookIsbn } = getState().search;
+  const keyName = resultType === "single" ? "book" : "keyword";
+  const value = resultType === "single" ? bookIsbn : searchQuery;
+  dispatch(searchLoadMoreStart());
+  axios
+    .post(___AD_SEARCH_ENDPOINT___, {
+      [keyName]: value,
+      page: page + 1
+    })
+    .then(res => {
+      console.log(res);
+      dispatch(
+        searchLoadMoreSuccess(res.data.results, page + 1, res.data.isLast)
+      );
+    })
+    .catch(err => {
+      console.log({ err });
+      dispatch(searchLoadMoreFail(err));
+    });
 };
 
 /*

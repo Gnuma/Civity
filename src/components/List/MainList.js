@@ -19,12 +19,15 @@ import Shadows from "../Shadows";
 
 export class MainList extends Component {
   static propTypes = {
-    data: PropTypes.object,
-    isLoading: PropTypes.bool
+    results: PropTypes.array,
+    resultType: PropTypes.string,
+    isLoading: PropTypes.bool,
+    loadMore: PropTypes.func,
+    loadingMore: PropTypes.bool
   };
 
   render() {
-    const { data, isLoading } = this.props;
+    const { results, resultType, isLoading, loadMore, isLast } = this.props;
 
     if (isLoading) {
       return (
@@ -35,7 +38,7 @@ export class MainList extends Component {
         </View>
       );
     }
-    if (!data || data.results.length <= 0) {
+    if (!results || results.length <= 0) {
       return (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -48,7 +51,7 @@ export class MainList extends Component {
     }
     //TEST
     /*
-    if (!data || data.results.length <= 0) {
+    if (!results || results.length <= 0) {
       return (
         <Button
           onPress={() => {
@@ -70,45 +73,38 @@ export class MainList extends Component {
     */
     //TEST
 
-    const isSingle = data.resultType === "single";
-    const results = data.results;
+    const isSingle = resultType === "single";
 
     return (
       <View style={{ flex: 1 }}>
-        {isSingle ? (
-          <View style={{ flex: 1 }}>
-            <View
-              style={{
-                paddingLeft: 10,
-                ...Shadows[3],
-                backgroundColor: "#fff"
-              }}
+        {isSingle && (
+          <View
+            style={{
+              paddingLeft: 10,
+              ...Shadows[3],
+              backgroundColor: "#fff"
+            }}
+          >
+            <Header2 color={"primary"} numberOfLines={2}>
+              {results[0].book.title}
+            </Header2>
+            <Header4
+              style={{ paddingBottom: 5, paddingLeft: 10 }}
+              numberOfLines={1}
             >
-              <Header2 color={"primary"} numberOfLines={2}>
-                {results[0].book.title}
-              </Header2>
-              <Header4
-                style={{ paddingBottom: 5, paddingLeft: 10 }}
-                numberOfLines={1}
-              >
-                {results[0].book.author}
-              </Header4>
-            </View>
-            <FlatList
-              contentContainerStyle={{ paddingBottom: 10 }}
-              data={results}
-              renderItem={this._renderSingleItem}
-              keyExtractor={this._keyExtractor}
-            />
+              {results[0].book.author}
+            </Header4>
           </View>
-        ) : (
-          <FlatList
-            contentContainerStyle={{ paddingBottom: 10 }}
-            data={results}
-            renderItem={this._renderMultiItem}
-            keyExtractor={this._keyExtractor}
-          />
         )}
+        <FlatList
+          contentContainerStyle={{ paddingBottom: 10 }}
+          data={results}
+          renderItem={isSingle ? this._renderSingleItem : this._renderMultiItem}
+          keyExtractor={this._keyExtractor}
+          onEndReached={loadMore}
+          onEndReachedThreshold={0.4}
+          ListFooterComponent={!isLast && this.renderLoadingMore}
+        />
       </View>
     );
   }
@@ -123,6 +119,14 @@ export class MainList extends Component {
 
   _renderSingleItem = ({ item }) => {
     return <ListSingleItem data={item} isSingle={true} />;
+  };
+
+  renderLoadingMore = () => {
+    return (
+      <View style={{ margin: 15, alignItems: "center" }}>
+        <ActivityIndicator size="large"></ActivityIndicator>
+      </View>
+    );
   };
 }
 
