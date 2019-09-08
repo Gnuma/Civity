@@ -13,6 +13,8 @@ import CircleValue from "../CircleValue";
 import Image from "react-native-fast-image";
 import { ___BASE_ENDPOINT___ } from "../../store/constants";
 import { formatOffice } from "../../utils/helper";
+import { ProBadge } from "../Badge";
+import { UserType } from "../../utils/constants";
 
 export default class Item extends Component {
   static propTypes = {
@@ -40,17 +42,26 @@ export default class Item extends Component {
           }
         ]}
       >
-        <Image
-          style={[
-            styles.image,
-            {
-              borderTopLeftRadius: isSingle ? ITEM_BORDER_RADIUS : 0
-            }
-          ]}
-          source={{
-            uri: mainImage
-          }}
-        />
+        <View>
+          <Image
+            style={[
+              styles.image,
+              {
+                borderTopLeftRadius: isSingle ? ITEM_BORDER_RADIUS : 0
+              }
+            ]}
+            source={{
+              uri: mainImage
+            }}
+          />
+          <View style={styles.imageOverlay}>
+            {seller.usertype === UserType.PRO && (
+              <ProBadge
+                style={{ borderBottomRightRadius: ITEM_BORDER_RADIUS }}
+              ></ProBadge>
+            )}
+          </View>
+        </View>
         <View style={styles.itemContent}>
           <View style={styles.itemTopContent}>
             <View style={styles.leftColTopContent}>

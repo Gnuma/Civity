@@ -122,7 +122,8 @@ const mapStateToProps = state => ({
       username: state.auth.userData.username
     },
     xp: state.auth.userData.xp,
-    respect: state.auth.userData.respect
+    respect: state.auth.userData.respect,
+    usertype: state.auth.userData.usertype
   },
   loading: state.sell.loading
 });

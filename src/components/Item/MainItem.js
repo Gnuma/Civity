@@ -54,7 +54,8 @@ export class MainItem extends Component {
     const primaryData = {
       price: data.price,
       conditions: data.condition,
-      office: data.seller.office
+      office: data.seller.office,
+      usertype: data.seller.usertype
     };
     const sellerData = data.seller;
     const secondaryData = {

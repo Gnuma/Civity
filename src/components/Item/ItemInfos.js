@@ -3,14 +3,30 @@ import { View } from "react-native";
 import { ItemInfoStyles as styles } from "./styles";
 import { Header1, Header3, Header2 } from "../Text";
 import CircleValue from "../CircleValue";
+import { UserType } from "../../utils/constants";
+import { ProBadge } from "../Badge";
+import { ITEM_BORDER_RADIUS } from "../ListItem/styles";
 
 export const PrimaryInfo = props => {
-  const { price, conditions, office } = props.data;
+  const { price, conditions, office, usertype } = props.data;
   return (
     <View>
       <View style={styles.row}>
-        <View>
+        <View style={{ flex: 1 }}>
           <Header1 color={"primary"}>EUR {price}</Header1>
+        </View>
+        <View>
+          {usertype == UserType.PRO && (
+            <ProBadge
+              style={{
+                marginRight: 10,
+                paddingHorizontal: 20,
+                borderTopLeftRadius: ITEM_BORDER_RADIUS,
+                borderBottomRightRadius: ITEM_BORDER_RADIUS
+              }}
+              size={18}
+            />
+          )}
         </View>
       </View>
       <View style={styles.conditionOfficeContainer}>
@@ -45,12 +61,10 @@ export const SecondaryInfo = props => {
       <View>
         <Header3>ISBN</Header3>
         <Header3>Materia</Header3>
-        <Header3>Anno</Header3>
       </View>
       <View style={styles.rightAlign}>
         <Header3 color={"black"}>{book.isbn}</Header3>
         <Header3 color={"black"}>{book.subject && book.subject.title}</Header3>
-        <Header3 color={"black"}>{book.year}</Header3>
       </View>
     </View>
   );

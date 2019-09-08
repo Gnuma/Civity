@@ -29,6 +29,11 @@ export default StyleSheet.create({
     width: imageWidth,
     borderBottomLeftRadius: 5
   },
+  imageOverlay: {
+    ...StyleSheet.absoluteFill,
+    alignItems: "flex-start",
+    backgroundColor: "rgba(0,0,0,0.1)"
+  },
   itemContent: {
     flex: 1,
     marginLeft: 5

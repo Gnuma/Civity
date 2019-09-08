@@ -9,18 +9,34 @@ import SolidButton from "../SolidButton";
 import Divider from "../Divider";
 import UsernameInfo from "../UsernameInfo";
 import { getLevel } from "../../utils/helper";
+import { ProBadge } from "../Badge";
+import { ITEM_BORDER_RADIUS } from "../ListItem/styles";
+import { UserType } from "../../utils/constants";
 
 export default ({ data, isPreview, reportItem }) => {
   const { user } = data;
   return (
     <View style={styles.container}>
       <View>
-        <Username
-          username={user.username}
-          userInfo={data}
-          size={22}
-          containerStyle={{ marginRight: 10 }}
-        />
+        <View style={styles.firstRow}>
+          <Username
+            username={user.username}
+            userInfo={data}
+            size={22}
+            containerStyle={{ marginRight: 10, flex: 1 }}
+          />
+          <View>
+            {data.usertype === UserType.PRO && (
+              <ProBadge
+                style={{
+                  marginLeft: 10,
+                  borderTopLeftRadius: ITEM_BORDER_RADIUS,
+                  borderBottomRightRadius: ITEM_BORDER_RADIUS
+                }}
+              />
+            )}
+          </View>
+        </View>
         <View>
           <View style={styles.sellerInfoContainer}>
             <View style={styles.sellerInfoBox}>

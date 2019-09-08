@@ -78,7 +78,8 @@ export const HeaderStyles = StyleSheet.create({
 
 export const ItemInfoStyles = StyleSheet.create({
   row: {
-    flexDirection: "row"
+    flexDirection: "row",
+    alignItems: "center"
   },
   rightAlign: {
     flex: 1,
@@ -108,7 +109,7 @@ export const SellerInfoStyles = StyleSheet.create({
     borderRadius: 6,
     marginBottom: 8
   },
-  headerContainer: {
+  firstRow: {
     flexDirection: "row"
   },
   exploreIconContainer: {

@@ -92,9 +92,9 @@ export const OffertType = {
 };
 
 export const UserType = {
-  FREE: "FREE",
-  PRO: "PRO",
-  BUSINESS: "BUSINESS"
+  FREE: "Free",
+  PRO: "Pro",
+  BUSINESS: "Business"
 };
 
 export const AUTH_ERROR = {
