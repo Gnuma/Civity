@@ -120,7 +120,9 @@ const mapStateToProps = state => ({
     office: state.auth.office,
     user: {
       username: state.auth.userData.username
-    }
+    },
+    xp: state.auth.userData.xp,
+    respect: state.auth.userData.respect
   },
   loading: state.sell.loading
 });

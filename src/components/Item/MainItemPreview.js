@@ -14,12 +14,12 @@ export default class MainItemPreview extends Component {
       conditions: data.condition,
       office: data.seller.office
     };
-    const sellerData = data.seller.user;
+    const sellerData = data.seller;
     const secondaryData = {
       book: data.book
     };
     console.log(data);
-
+  
     return (
       <ScrollView
         style={styles.scrollView}
