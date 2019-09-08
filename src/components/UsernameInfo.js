@@ -10,7 +10,7 @@ export default ({ style, size, userInfo = {}, hideLevel, hideFeedback }) => {
   const { respect, xp } = userInfo;
   const level = getLevel(xp).level;
   const radius = size / 2;
-  const stroke = radius * 0.15;
+  const stroke = Math.min(5, radius * 0.15);
   const circleRadius = radius - stroke;
   const angle = Math.max(0, Math.min(360 * (respect / 100), 359.99));
   const d = describeArc(radius, radius, circleRadius, 0, angle);
@@ -86,6 +86,6 @@ const styles = StyleSheet.create({
   },
   levelText: {
     color: colors.secondary,
-    fontWeight: "bold"
+    fontWeight: "600"
   }
 });

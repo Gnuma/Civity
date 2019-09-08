@@ -10,6 +10,7 @@ import {
   TextFeedbackTypes,
   FEEDBACK_TYPES
 } from "../../utils/constants";
+import UsernameInfo from "../UsernameInfo";
 
 export const OffertInfo = ({ item, user, offert, children }) => {
   console.log(item);
@@ -34,7 +35,6 @@ export const DecisionBox = ({ children }) => {
 };
 
 export const UserCard = ({ userData }) => {
-  const { level, exp } = getLevel(userData.xp);
   const { office, user } = userData;
   return (
     <Card
@@ -49,19 +49,18 @@ export const UserCard = ({ userData }) => {
         <Header2 color="primary" numberOfLines={1}>
           {user.username}
         </Header2>
-        <Header3 color="black" numberOfLines={1}>
+        <Header3 color="black" numberOfLines={2}>
           {office.name}
         </Header3>
         <Header4 color="black" numberOfLines={1}>
           {office.address}
         </Header4>
       </View>
-      <CircleValue
-        type={CircleValue.CircleValueType.LEVEL}
-        value={level}
-        experience={exp}
-        radius={40}
-      />
+      <UsernameInfo
+        size={80}
+        userInfo={userData}
+        style={{ marginLeft: 10 }}
+      ></UsernameInfo>
     </Card>
   );
 };
