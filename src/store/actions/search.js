@@ -137,7 +137,8 @@ export const search = searchOptions => {
     }
     axios
       .post(___AD_SEARCH_ENDPOINT___, {
-        [keyName]: value
+        [keyName]: value,
+        page: 1
       })
       .then(res => {
         console.log(res);
