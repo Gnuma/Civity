@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import PropTypes from "prop-types";
 import styles, { ITEM_BORDER_RADIUS, IS_SMALL_DEVICE } from "./styles";
-import { Header1, Header3, Header4, Header5 } from "../../components/Text";
+import {
+  Header1,
+  Header3,
+  Header4,
+  Header5,
+  Username
+} from "../../components/Text";
 import CircleValue from "../CircleValue";
 import Image from "react-native-fast-image";
 import { ___BASE_ENDPOINT___ } from "../../store/constants";
@@ -48,15 +54,22 @@ export default class Item extends Component {
         <View style={styles.itemContent}>
           <View style={styles.itemTopContent}>
             <View style={styles.leftColTopContent}>
-              <Header3 color="black" numberOfLines={1}>
-                {seller.user.username}
-              </Header3>
-              <Header1
-                color="primary"
-                style={{ fontSize: IS_SMALL_DEVICE ? 23 : 27 }}
-              >
-                EUR {price}
-              </Header1>
+              <Username
+                username={seller.user.username}
+                userInfo={seller}
+                containerStyle={{ marginTop: 5 }}
+                style={{ marginRight: 25 }}
+                infoStyle={{ marginLeft: -20 }}
+                size={20}
+              />
+              <View style={{ flex: 1, justifyContent: "center" }}>
+                <Header1
+                  color="primary"
+                  style={{ fontSize: IS_SMALL_DEVICE ? 23 : 27 }}
+                >
+                  EUR {price}
+                </Header1>
+              </View>
             </View>
             <View style={styles.m10}>
               <CircleValue

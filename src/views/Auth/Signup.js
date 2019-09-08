@@ -288,24 +288,37 @@ export default class Signup extends Component {
   validators = {
     [SignupStatus.USERNAME]: {
       uid: {
-        functions: [isEmpty, isUsernameTaken],
-        warnings: ["Inserisci il nome", "L'Username è già preso"]
+        functions: [isEmpty, isUsernameTaken, usernameLengthValidator],
+        warnings: [
+          "Inserisci il nome",
+          "L'username è già preso",
+          "L'username deve contenere dai 4 ai 13 caratteri"
+        ]
       }
     },
     [SignupStatus.EMAIL]: {
       email: {
-        functions: [isEmpty, isInvalidEmail, isEmailTaken],
+        functions: [
+          isEmpty,
+          isInvalidEmail,
+          isEmailTaken,
+          emailLengthValidator
+        ],
         warnings: [
           "Inserisci l'email",
           "L'email non è valida",
-          "L'email è già utilizzata per un altro account"
+          "L'email è già utilizzata per un altro account",
+          "L'email deve contenere massimo 254 caratteri"
         ]
       }
     },
     [SignupStatus.PASSWORD]: {
       pwd: {
-        functions: [isEmpty],
-        warnings: ["Inserisci la password"]
+        functions: [isEmpty, passwordLengthValidator],
+        warnings: [
+          "Inserisci la password",
+          "La password deve contenere minimo 8 caratteri"
+        ]
       },
       confirmPwd: {
         functions: [isEmpty],
@@ -320,15 +333,21 @@ export default class Signup extends Component {
     },
     [SignupStatus.PHONE]: {
       phone: {
-        functions: [isEmpty, isPhoneTaken],
+        functions: [isEmpty, isPhoneTaken, phoneLengthValidator],
         warnings: [
           "Inserisci il tuo numero di telefono",
-          "Il telefono è già utilizzato per un altro account"
+          "Il telefono è già utilizzato per un altro account",
+          "Il numero inserito non sembra valido"
         ]
       }
     }
   };
 }
+
+const usernameLengthValidator = str => str.length < 4 || str.length > 13;
+const passwordLengthValidator = str => str.length < 8 || str.length > 128;
+const phoneLengthValidator = str => str.length < 9 || str.length > 11;
+const emailLengthValidator = str => str.length > 254;
 
 const LASTSTEP = 4;
 

@@ -21,7 +21,8 @@ class CircleValue extends Component {
 
   static CircleValueType = {
     LEVEL: "LEVEL",
-    STATUS: "STATUS"
+    STATUS: "STATUS",
+    USERNAME: "USERNAME"
   };
 
   render() {

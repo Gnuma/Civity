@@ -1,7 +1,8 @@
 import React from "react";
-import { Text as RText } from "react-native";
+import { Text as RText, View } from "react-native";
 import { StyleSheet } from "react-native";
 import colors from "../styles/colors";
+import UsernameInfo from "./UsernameInfo";
 
 export function Header1({ children, style, color, ...rest }) {
   return (
@@ -43,6 +44,36 @@ export function Header5({ children, style, color, ...rest }) {
   );
 }
 
+export function Username({
+  size = 18,
+  username,
+  style,
+  containerStyle,
+  infoStyle,
+  textProps,
+  userInfo
+}) {
+  return (
+    <View style={[styles.usernameContainer, containerStyle]}>
+      <Header3
+        style={[styles.usernameText, { fontSize: size }, style]}
+        numberOfLines={1}
+        {...textProps}
+      >
+        {username}
+      </Header3>
+      {userInfo && (
+        <UsernameInfo
+          size={size + size * 0.6}
+          userInfo={userInfo}
+          containerStyle={styles.usernameInfoContainer}
+          style={infoStyle}
+        />
+      )}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   h1: {
     fontSize: 27
@@ -63,5 +94,12 @@ const styles = StyleSheet.create({
   h5: {
     fontSize: 11,
     fontWeight: "300"
+  },
+  usernameContainer: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  usernameText: {
+    marginRight: 5
   }
 });
