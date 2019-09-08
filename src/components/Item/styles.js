@@ -132,5 +132,15 @@ export const SellerInfoStyles = StyleSheet.create({
     position: "absolute",
     right: 10,
     alignSelf: "center"
+  },
+  sellerInfoContainer: { flexDirection: "row", alignItems: "center" },
+  sellerInfoBox: {
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  sellerInfoArrow: {
+    marginHorizontal: 15
   }
 });

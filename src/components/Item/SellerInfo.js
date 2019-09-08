@@ -1,23 +1,44 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { SellerInfoStyles as styles } from "./styles";
-import { Header2, Header4, Header3 } from "../Text";
+import { Header2, Header4, Header3, Username } from "../Text";
 import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import colors from "../../styles/colors";
 import SolidButton from "../SolidButton";
 import Divider from "../Divider";
+import UsernameInfo from "../UsernameInfo";
+import { getLevel } from "../../utils/helper";
 
-export default props => {
-  const { username } = props.data;
+export default ({ data, isPreview, reportItem }) => {
+  const { user } = data;
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
+      <View>
+        <Username
+          username={user.username}
+          userInfo={data}
+          size={22}
+          containerStyle={{ marginRight: 10 }}
+        />
         <View>
-          <Header2 color={"black"}>{username}</Header2>
+          <View style={styles.sellerInfoContainer}>
+            <View style={styles.sellerInfoBox}>
+              <UsernameInfo userInfo={data} size={45} hideLevel />
+            </View>
+            <Icon size={20} name="arrow-right" style={styles.sellerInfoArrow} />
+            <Header3>{data.respect}% feedback positivi</Header3>
+          </View>
+          <View style={styles.sellerInfoContainer}>
+            <View style={styles.sellerInfoBox}>
+              <UsernameInfo userInfo={data} size={45} hideFeedback />
+            </View>
+            <Icon size={20} name="arrow-right" style={styles.sellerInfoArrow} />
+            <Header3>{getLevel(data.xp).level}° livello</Header3>
+          </View>
         </View>
       </View>
-      {!props.isPreview && (
+      {!isPreview && (
         <View>
           <Divider style={{ marginVertical: 8 }}></Divider>
           <SolidButton
@@ -25,7 +46,7 @@ export default props => {
             iconSize={20}
             style={{ paddingVertical: 6 }}
             iconStyle={{ color: colors.darkRed }}
-            onPress={props.reportItem}
+            onPress={reportItem}
           >
             <Header3 color="primary" numberOfLines={1}>
               Segnala

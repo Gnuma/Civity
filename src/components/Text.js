@@ -49,7 +49,7 @@ export function Username({
   username,
   style,
   containerStyle,
-  infoStyle,
+  infoStyle = { marginLeft: -20 },
   textProps,
   userInfo
 }) {
@@ -100,6 +100,6 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   usernameText: {
-    marginRight: 5
+    marginRight: 25
   }
 });

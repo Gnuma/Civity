@@ -6,7 +6,7 @@ import { Svg, Circle, Path } from "react-native-svg";
 import { LEVEL_DATA } from "../utils/constants";
 import { getLevel } from "../utils/helper";
 
-export default ({ style, size, userInfo = {} }) => {
+export default ({ style, size, userInfo = {}, hideLevel, hideFeedback }) => {
   const { respect, xp } = userInfo;
   const level = getLevel(xp).level;
   const radius = size / 2;
@@ -17,27 +17,31 @@ export default ({ style, size, userInfo = {} }) => {
 
   return (
     <View style={[{ width: size, height: size }, style]}>
-      <Svg height={size} width={size}>
-        <Circle
-          cx={radius}
-          cy={radius}
-          r={circleRadius}
-          fillOpacity={0}
-          strokeWidth={stroke}
-          stroke={colors.lightGrey}
-        />
-        <Path
-          d={d}
-          stroke={colors.secondary}
-          strokeWidth={stroke}
-          fill="none"
-        />
-      </Svg>
-      <View style={styles.levelContainer}>
-        <Header4 style={[styles.levelText, { fontSize: size * 0.5 }]}>
-          {level}
-        </Header4>
-      </View>
+      {!hideFeedback && (
+        <Svg height={size} width={size}>
+          <Circle
+            cx={radius}
+            cy={radius}
+            r={circleRadius}
+            fillOpacity={0}
+            strokeWidth={stroke}
+            stroke={colors.lightGrey}
+          />
+          <Path
+            d={d}
+            stroke={colors.secondary}
+            strokeWidth={stroke}
+            fill="none"
+          />
+        </Svg>
+      )}
+      {!hideLevel && (
+        <View style={styles.levelContainer}>
+          <Header4 style={[styles.levelText, { fontSize: size * 0.5 }]}>
+            {level}
+          </Header4>
+        </View>
+      )}
     </View>
   );
 };

@@ -58,8 +58,6 @@ export default class Item extends Component {
                 username={seller.user.username}
                 userInfo={seller}
                 containerStyle={{ marginTop: 5 }}
-                style={{ marginRight: 25 }}
-                infoStyle={{ marginLeft: -20 }}
                 size={20}
               />
               <View style={{ flex: 1, justifyContent: "center" }}>
