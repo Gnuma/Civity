@@ -8,6 +8,7 @@ import Share from "react-native-share";
 import FullButton from "../FullButton";
 import colors from "../../styles/colors";
 import email from "react-native-email";
+import Divider from "../Divider";
 
 export default class ActionsList extends Component {
   render() {
@@ -19,25 +20,39 @@ export default class ActionsList extends Component {
           marginHorizontal: 20
         }}
       >
-        <FullButton
-          value={"Segnala"}
-          onPress={this.bugReport}
-          style={{ marginBottom: 20 }}
-          contentStyle={{ flex: 1, textAlign: "center" }}
-          icon={"bug"}
-          color={"darkRed"}
-        />
-
-        <SolidButton style={styles.actionButton} onPress={this.share}>
-          <Header3 color="black" style={styles.actionText}>
-            Invita un amico
-          </Header3>
-        </SolidButton>
-        <SolidButton style={styles.actionButton} onPress={logout}>
-          <Header3 color="black" style={styles.actionText}>
-            Logout
-          </Header3>
-        </SolidButton>
+        <Section>
+          <FullButton
+            value={"Segnala"}
+            onPress={this.bugReport}
+            contentStyle={{ flex: 1, textAlign: "center" }}
+            icon={"bug"}
+            color={"darkRed"}
+          />
+        </Section>
+        <Section>
+          <FullButton
+            value={"Passa a Civity PRO"}
+            onPress={this.goCivityProInfo}
+            contentStyle={{ flex: 1, textAlign: "center" }}
+            style={{ marginBottom: 10 }}
+            icon={"chevron-right"}
+            color={"secondary"}
+          />
+          <FullButton
+            value={"Invita un amico"}
+            onPress={this.share}
+            contentStyle={{ flex: 1, textAlign: "center", color: colors.black }}
+            style={{ marginBottom: 10 }}
+            color={"white"}
+          />
+          <FullButton
+            value={"Logout"}
+            onPress={logout}
+            contentStyle={{ flex: 1, textAlign: "center", color: colors.black }}
+            style={{ marginBottom: 10 }}
+            color={"white"}
+          />
+        </Section>
       </View>
     );
   }
@@ -48,6 +63,10 @@ export default class ActionsList extends Component {
 
   goBetaInfos = () => {
     this.props.navigation.navigate("BetaInfos");
+  };
+
+  goCivityProInfo = () => {
+    this.props.navigation.navigate("CivityProInfo");
   };
 
   bugReport = () => {
@@ -82,3 +101,7 @@ const shareOptions = {
           </Header3>
         </SolidButton>
  */
+
+const Section = ({ style, children }) => {
+  return <View style={[{ marginBottom: 20 }, style]}>{children}</View>;
+};

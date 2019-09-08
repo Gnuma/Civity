@@ -29,6 +29,7 @@ import PhoneChangeScreen from "../views/UserChanges/PhoneChange";
 import PreviewItemScreen from "../views/PreviewItem";
 import PhoneValidationScreen from "../views/Auth/PhoneValidation";
 import BetaInfosView from "../views/BetaInfosView";
+import CivityProInfoScreen from "../views/CivityProInfoScreen";
 
 import Header from "../Header/Header";
 import TabBar from "../TabBar/TabBar";
@@ -40,7 +41,8 @@ const UserSettingsNavigator = createStackNavigator(
     UserInfo: UserInfoScreen,
     OfficeChange: OfficeChangeScreen,
     PhoneChange: PhoneChangeScreen,
-    BetaInfos: BetaInfosView
+    BetaInfos: BetaInfosView,
+    CivityProInfo: CivityProInfoScreen
   },
   {
     defaultNavigationOptions: {
