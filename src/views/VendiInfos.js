@@ -127,8 +127,11 @@ export class VendiInfos extends Component {
       warnings: ["Inserisci le condizioni del libro"]
     },
     description: {
-      functions: [isEmpty],
-      warnings: ["Inserisci una piccola descrizione"]
+      functions: [isEmpty, descriptionLengthValidator],
+      warnings: [
+        "Inserisci una piccola descrizione",
+        "La descrizione deve essere compresa tra i 16 e i 280 caratteri"
+      ]
     }
   };
 }
@@ -153,3 +156,4 @@ export default connect(
 )(VendiInfos);
 
 const isNegative = n => n <= 0;
+const descriptionLengthValidator = str => str.length < 16 || str.length > 280;
