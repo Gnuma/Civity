@@ -14,7 +14,7 @@ import colors from "../styles/colors";
 import IconPlus from "../media/vectors/plus-icon";
 import { GreyBar } from "../components/StatusBars";
 import OfflineView, { OfflineNotification } from "../components/OfflineView";
-import { IS_ANDROID, MAX_ADS_FREE_ACCOUNT } from "../utils/constants";
+import { IS_ANDROID, MAX_ADS_FREE_ACCOUNT, UserType } from "../utils/constants";
 import { SafeAreaView } from "react-navigation";
 import ErrorMessage from "../components/Form/ErrorMessage";
 import InfoOverlay from "../components/InfoOverlay";
@@ -75,10 +75,12 @@ export class SalesList extends Component {
       setSaleFocus,
       isAuthenticated,
       delayedLogin,
-      isConnected
+      isConnected,
+      userData
     } = this.props;
 
     const adsCreated = MAX_ADS_FREE_ACCOUNT - (orderedData.length || 0);
+    const isPro = userData && userData.usertype === UserType.PRO;
 
     if (delayedLogin) return <OfflineView sales />;
 
@@ -122,7 +124,9 @@ export class SalesList extends Component {
                 onPress={() => this.setState({ isInfoNumAdsVisible: true })}
               >
                 <Header4 style={{ fontWeight: "bold" }}>
-                  {adsCreated}/{MAX_ADS_FREE_ACCOUNT}
+                  {isPro
+                    ? "Illimitate"
+                    : adsCreated + "/" + MAX_ADS_FREE_ACCOUNT}
                 </Header4>
                 <Header4>Inserzioni rimaste</Header4>
               </TouchableOpacity>
@@ -195,7 +199,8 @@ const mapStateToProps = state => ({
   data: state.chat.data,
   orderedData: state.chat.salesOrderedData,
   delayedLogin: state.auth.delayedLogin,
-  isConnected: state.settings.isConnected
+  isConnected: state.settings.isConnected,
+  userData: state.auth.userData
 });
 
 const mapDispatchToProps = dispatch => ({

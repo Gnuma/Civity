@@ -24,7 +24,7 @@ import Button from "../components/Button";
 import * as authActions from "../store/actions/auth";
 import Divider from "../components/Divider";
 import { getLevel } from "../utils/helper";
-import { LEVEL_DATA, IS_ANDROID } from "../utils/constants";
+import { LEVEL_DATA, IS_ANDROID, UserType } from "../utils/constants";
 import { SafeAreaView } from "react-navigation";
 import { ProBadge } from "../components/Badge";
 
@@ -89,6 +89,7 @@ export class UserSettings extends Component {
                 onPress={this.goUserInfo}
                 username={userData.username}
                 email={userData.email}
+                isPro={userData.usertype === UserType.PRO}
               />
               <Divider
                 style={{
@@ -268,7 +269,8 @@ const UserInfoPanel = ({
   onPress,
   username = "Francesco",
   email = "Francesco@test.com",
-  emailStatus = "Non Validata"
+  emailStatus = "Non Validata",
+  isPro
 }) => {
   return (
     <Button
@@ -288,14 +290,16 @@ const UserInfoPanel = ({
           <Header1 color="black" numberOfLines={1}>
             {username}
           </Header1>
-          <ProBadge
-            style={{
-              borderTopLeftRadius: 5,
-              borderBottomRightRadius: 5,
-              marginLeft: 10
-            }}
-            size={14}
-          />
+          {isPro && (
+            <ProBadge
+              style={{
+                borderTopLeftRadius: 5,
+                borderBottomRightRadius: 5,
+                marginLeft: 10
+              }}
+              size={14}
+            />
+          )}
         </View>
         <Icon5 name={"pen"} size={25} style={{ color: colors.primary }} />
       </View>
