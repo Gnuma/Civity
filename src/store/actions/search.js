@@ -185,7 +185,7 @@ export const searchLoadMore = () => (dispatch, getState) => {
     .then(res => {
       console.log(res);
       dispatch(
-        searchLoadMoreSuccess(res.data.results, page + 1, res.data.isLast)
+        searchLoadMoreSuccess(res.data.results, page + 1, res.data.last)
       );
     })
     .catch(err => {

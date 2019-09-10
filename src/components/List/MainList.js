@@ -102,7 +102,7 @@ export class MainList extends Component {
           renderItem={isSingle ? this._renderSingleItem : this._renderMultiItem}
           keyExtractor={this._keyExtractor}
           onEndReached={loadMore}
-          onEndReachedThreshold={0.4}
+          onEndReachedThreshold={0.5}
           ListFooterComponent={!isLast && this.renderLoadingMore}
         />
       </View>

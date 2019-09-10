@@ -111,7 +111,7 @@ export default class Login extends Component {
   _renderLogin = () => (
     <View style={{ alignItems: "center" }}>
       <OutlinedInput
-        placeholder="Username o Email"
+        placeholder="Username"
         value={this.state.fields[0].uid.value}
         onTextChange={text => this.handleChange("uid", text)}
         onSubmitEditing={() => this.checkField("uid")}

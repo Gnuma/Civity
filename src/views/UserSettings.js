@@ -26,6 +26,7 @@ import Divider from "../components/Divider";
 import { getLevel } from "../utils/helper";
 import { LEVEL_DATA, IS_ANDROID } from "../utils/constants";
 import { SafeAreaView } from "react-navigation";
+import { ProBadge } from "../components/Badge";
 
 const marginHorizontal = 20;
 
@@ -276,13 +277,26 @@ const UserInfoPanel = ({
     >
       <View style={styles.panelHeader}>
         <Icon name={"user"} size={27} style={{ color: colors.secondary }} />
-        <Header1
-          style={{ flex: 1, marginLeft: 10 }}
-          color="black"
-          numberOfLines={1}
+        <View
+          style={{
+            flexDirection: "row",
+            flex: 1,
+            marginLeft: 10,
+            alignItems: "center"
+          }}
         >
-          {username}
-        </Header1>
+          <Header1 color="black" numberOfLines={1}>
+            {username}
+          </Header1>
+          <ProBadge
+            style={{
+              borderTopLeftRadius: 5,
+              borderBottomRightRadius: 5,
+              marginLeft: 10
+            }}
+            size={14}
+          />
+        </View>
         <Icon5 name={"pen"} size={25} style={{ color: colors.primary }} />
       </View>
       <View
