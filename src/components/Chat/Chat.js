@@ -12,14 +12,6 @@ import {
 import PropTypes from "prop-types";
 import { Header5, Header3 } from "../Text";
 import Icon from "react-native-vector-icons/FontAwesome";
-import {
-  GiftedChat,
-  Bubble,
-  Time,
-  InputToolbar,
-  Composer,
-  Send
-} from "react-native-gifted-chat";
 import colors from "../../styles/colors";
 import Button from "../Button";
 import Offert from "./Offert";
@@ -44,68 +36,6 @@ export default class Chat extends Component {
 
   loadEarlier = () => {
     !this.props.data.loading && this.props.loadEarlier();
-  };
-
-  renderInputToolbar = props => {
-    if (this.isBlocked()) return null;
-    return (
-      <InputToolbar
-        {...props}
-        primaryStyle={styles.inputToolbarPrimary}
-        containerStyle={styles.inputToolbarContainer}
-      />
-    );
-  };
-
-  renderComposer = props => {
-    return (
-      <Composer
-        {...props}
-        textInputStyle={{
-          justifyContent: "center",
-          lineHeight: 18,
-          fontSize: 18
-        }}
-      />
-    );
-  };
-
-  renderSend = props => {
-    return (
-      <Send
-        {...props}
-        alwaysShowSend={true}
-        containerStyle={{
-          alignSelf: "center",
-          paddingHorizontal: 10,
-          justifyContent: "center"
-        }}
-      >
-        <Icon
-          name={"paper-plane"}
-          size={26}
-          style={{ color: props.disabled ? colors.black : colors.secondary }}
-        />
-      </Send>
-    );
-  };
-
-  renderBubble = props => {
-    return (
-      <Bubble
-        {...props}
-        wrapperStyle={{
-          right: {
-            backgroundColor: colors.primary,
-            ...Shadows[1]
-          },
-          left: {
-            ...Shadows[1],
-            backgroundColor: colors.white
-          }
-        }}
-      />
-    );
   };
 
   renderOffert = () => {
@@ -232,15 +162,6 @@ export default class Chat extends Component {
     onScroll: this.onScroll
   };
 
-  prepareRecordingPath(audioPath) {
-    AudioRecorder.prepareRecordingAtPath(audioPath, {
-      SampleRate: 22050,
-      Channels: 1,
-      AudioQuality: "Low",
-      AudioEncoding: "aac",
-      AudioEncodingBitRate: 32000
-    });
-  }
 
   renderBlockedComposer = () => {
     return (
@@ -351,38 +272,3 @@ const styleBubble = {
     text: styles.bubbleTextRight
   }
 };
-
-/**
- *         <GiftedChat
-          text={data.composer}
-          onInputTextChanged={this.onComposerTextChanged}
-          onSend={this.onSend}
-          messages={data.messages}
-          renderAvatar={null}
-          user={{
-            _id: userID
-          }}
-          renderBubble={this.renderBubble}
-          renderTime={this.renderTime}
-          renderInputToolbar={this.renderInputToolbar}
-          minComposerHeight={30}
-          maxComposerHeight={130}
-          minInputToolbarHeight={isBlocked ? 0 : 50}
-          listViewProps={this.listViewProps}
-          loadEarlier={data.loading}
-          extraData={{ loading: data.loading }}
-          renderSend={this.renderSend}
-          renderFooter={this.renderOffert}
-          renderComposer={this.renderComposer}
-          renderLoadEarlier={() => {
-            return (
-              <ActivityIndicator
-                style={{
-                  alignSelf: "center"
-                }}
-                size="large"
-              />
-            );
-          }}
-        />
- */

@@ -259,9 +259,13 @@ export class Camera extends Component {
 
   requestPermissions = async () => {
     try {
-      const response = await Permissions.request("camera");
+      const response = await Permissions.request(
+        IS_ANDROID
+          ? Permissions.PERMISSIONS.ANDROID.CAMERA
+          : Permissions.PERMISSIONS.IOS.CAMERA
+      );
       console.log(response);
-      if (response == "authorized") {
+      if (response == "granted") {
         this.setState({ hasPermission: true });
       } else this.setState({ hasPermission: false });
     } catch (error) {

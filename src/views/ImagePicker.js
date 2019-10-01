@@ -233,8 +233,10 @@ export class ImagePicker extends Component {
 
   requestIosPermission = async () => {
     try {
-      const response = await Permissions.request("photo");
-      if (response == "authorized") {
+      const response = await Permissions.request(
+        Permissions.PERMISSIONS.IOS.PHOTO_LIBRARY
+      );
+      if (response == "granted") {
         this.setState({ hasPermission: true });
         this.retrieveImages(BATCH_SIZE);
       } else this.setState({ hasPermission: false });

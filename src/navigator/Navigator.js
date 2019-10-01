@@ -1,10 +1,8 @@
-import React, { Component } from "react";
-import {
-  createAppContainer,
-  createStackNavigator,
-  createBottomTabNavigator,
-  createSwitchNavigator
-} from "react-navigation";
+import React from "react";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createStackNavigator } from "react-navigation-stack";
+
 import store from "../store/store";
 
 import HomeScreen from "../views/Home";
