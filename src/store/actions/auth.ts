@@ -1,6 +1,7 @@
+import { ThunkAction } from "redux-thunk";
+import { Action } from "redux";
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
-import NavigatorService from "../../navigator/NavigationService";
 import { setItem, removeItem, multiGet } from "../utility";
 import {
   ___LOGIN_ENDPOINT___,
@@ -14,12 +15,14 @@ import WS from "../../utils/WebSocket";
 import { AutoStart } from "../../utils/constants";
 import CookieManager from "react-native-cookies";
 import { commentsClear } from "./comments";
-import { messagingClear } from "../actions/messaging";
+import { messagingClear } from "./messaging";
 import { chatClear } from "./chat";
 import { mockWHOAMI } from "../../mockData/MockUser";
 import NetInfo from "@react-native-community/netinfo";
 import { formatUserData } from "../../utils/helper";
 import { updateFCMToken } from "./settings";
+import { OfficeType, UserData, FullUserData } from "../types/profile";
+import StoreType from "../types/storeType";
 
 const isOffline = false;
 
@@ -27,7 +30,7 @@ const tokenKey = "@auth:token";
 const officeKey = "@auth:office";
 const userDataKey = "@auth:userData";
 
-export const authAppInit = (office, isSaving) => {
+export const authAppInit = (office: OfficeType, isSaving: boolean) => {
   if (isSaving) setItem(officeKey, office);
   return {
     type: actionTypes.AUTH_APPINIT,
@@ -49,7 +52,11 @@ export const authCompleted = () => {
   };
 };
 
-export const loginSuccess = (token, userData, isDelayed) => {
+export const loginSuccess = (
+  token: string,
+  userData: FullUserData,
+  isDelayed: boolean
+) => {
   axios.defaults.headers.common["Authorization"] = "Token " + token; // for all requests
   setItem(tokenKey, token);
   setItem(userDataKey, userData);
@@ -73,7 +80,7 @@ export const logoutSuccess = () => {
   };
 };
 
-export const authFail = error => {
+export const authFail = (error: Object) => {
   return {
     type: actionTypes.AUTH_FAIL,
     payload: {
@@ -82,23 +89,26 @@ export const authFail = error => {
   };
 };
 
-export const authSetPhone = phone => ({
+export const authSetPhone = (phone: string) => ({
   type: actionTypes.AUTH_SET_PHONE,
   payload: {
     phone
   }
 });
 
+const authSetUpdatedExperience = (xp: number) => ({
+  type: actionTypes.AUTH_UPDATE_EXPERIENCE,
+  payload: {
+    xp
+  }
+});
+
 //Action Creators
 
-export const authUpdateExperience = xp => (dispatch, getState) =>
-  getState().auth.userData &&
-  dispatch({
-    type: actionTypes.AUTH_UPDATE_EXPERIENCE,
-    payload: {
-      xp
-    }
-  });
+export const authUpdateExperience = (
+  xp: number
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) =>
+  getState().auth.userData && dispatch(authSetUpdatedExperience(xp));
 
 export const authUpdateRespect = (isPositive, type) => (dispatch, getState) =>
   getState().auth.userData &&

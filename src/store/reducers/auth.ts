@@ -2,8 +2,9 @@ import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
 import { ChatType } from "../../utils/constants";
+import { AuthType } from "../types/storeType";
 
-const initialState = {
+const initialState: AuthType = {
   token: null,
   office: null,
   userData: null,
@@ -15,7 +16,7 @@ const initialState = {
   delayedLogin: false
 };
 
-export const authAppInit = (state, action) => {
+export const authAppInit = (state: AuthType, action) => {
   return updateObject(state, {
     office: action.payload.office
   });

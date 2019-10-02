@@ -14,9 +14,6 @@ export const rootReducer = combineReducers({
   search: searchReducer,
   auth: authReducer,
   sell: sellReducer,
-  notifications: notificationsReducer,
-  sales: salesReducer,
-  shopping: shoppingReducer,
   comments: commentsReducer,
   chat: chatReducer,
   settings: settingsReducer
@@ -25,6 +22,7 @@ export const rootReducer = combineReducers({
 import { searchEpics } from "../actions/search";
 import { chatEpics } from "../actions/chat";
 import { settingsEpics } from "../actions/settings";
+import StoreType from "../types/storeType";
 
 export const rootEpic = combineEpics(
   ...searchEpics,

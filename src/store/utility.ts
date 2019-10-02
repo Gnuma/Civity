@@ -1,13 +1,16 @@
 import AsyncStorage from "@react-native-community/async-storage";
 
-export const updateObject = (oldObject, updatedProprieties) => {
+export const updateObject = (
+  oldObject: Object,
+  updatedProprieties: Object
+): Object => {
   return {
     ...oldObject,
     ...updatedProprieties
   };
 };
 
-export const setItem = async (key, item) => {
+export const setItem = async (key: string, item: Object) => {
   try {
     const jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
     return jsonOfItem;
