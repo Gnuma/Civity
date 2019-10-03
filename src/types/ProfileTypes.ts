@@ -1,15 +1,15 @@
-export type OfficeType = "SP" | "UN";
+export type OfficeIdentifierType = "SP" | "UN";
 export type UserType = "Pro" | "Free" | "Business";
 
-export interface Office {
+export interface OfficeType {
   id: number;
   name: string;
   address: string;
-  officeType: OfficeType;
-  course: Course;
+  officeType: OfficeIdentifierType;
+  course: CourseType;
 }
 
-export interface Course {
+export interface CourseType {
   year: string;
   name: string;
 }
@@ -26,5 +26,7 @@ export interface UserData {
 }
 
 export interface FullUserData extends UserData {
-  office: Office;
+  pk: number;
+  isActive: boolean;
+  office: OfficeType;
 }

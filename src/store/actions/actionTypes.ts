@@ -1,14 +1,3 @@
-export const AUTH_APPINIT: string = "AUTH_APPINIT";
-export const AUTH_START: string = "AUTH_START";
-export const LOGIN_SUCCESS: string = "LOGIN_SUCCESS";
-export const AUTH_FAIL: string = "AUTH_FAIL";
-export const LOGOUT_SUCCESS: string = "LOGOUT_SUCCESS";
-export const AUTH_COMPLETED: string = "AUTH_COMPLETED";
-export const AUTH_SET_PHONE: string = "AUTH_SET_PHONE";
-export const AUTH_VALIDATE_ACCOUNT: string = "AUTH_VALIDATE_ACCOUNT";
-export const AUTH_UPDATE_EXPERIENCE: string = "AUTH_UPDATE_EXPERIENCE";
-export const AUTH_UPDATE_RESPECT: string = "AUTH_UPDATE_RESPECT";
-
 export const SEARCH_START: string = "SEARCH_START";
 export const SEARCH_SUCCESS: string = "SEARCH_SUCCESS";
 export const SEARCH_FAIL: string = "SEARCH_FAIL";

@@ -1,6 +1,19 @@
-import { ThunkAction } from "redux-thunk";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
-import * as actionTypes from "./actionTypes";
+import {
+  AUTH_APPINIT,
+  AUTH_START,
+  LOGIN_SUCCESS,
+  AUTH_FAIL,
+  LOGOUT_SUCCESS,
+  AUTH_COMPLETED,
+  AUTH_SET_PHONE,
+  AUTH_VALIDATE_ACCOUNT,
+  AUTH_UPDATE_EXPERIENCE,
+  AUTH_UPDATE_RESPECT,
+  ResolveLogin,
+  TAuthActions
+} from "./types";
 import axios from "axios";
 import { setItem, removeItem, multiGet } from "../utility";
 import {
@@ -10,10 +23,8 @@ import {
   ___SIGNUP_ENDPOINT___,
   ___INITUSER_ENDPOINT___
 } from "../constants";
-import { notificationsUnsubscribe } from "./notifications";
 import WS from "../../utils/WebSocket";
 import { AutoStart } from "../../utils/constants";
-import CookieManager from "react-native-cookies";
 import { commentsClear } from "./comments";
 import { messagingClear } from "./messaging";
 import { chatClear } from "./chat";
@@ -21,48 +32,51 @@ import { mockWHOAMI } from "../../mockData/MockUser";
 import NetInfo from "@react-native-community/netinfo";
 import { formatUserData } from "../../utils/helper";
 import { updateFCMToken } from "./settings";
-import { OfficeType, UserData, FullUserData } from "../types/profile";
-import StoreType from "../types/storeType";
+import StoreType from "../../types/storeType";
+import { OfficeType } from "../../types/ProfileTypes";
 
-const isOffline = false;
+const CookieManager = require("react-native-cookies");
 
 const tokenKey = "@auth:token";
 const officeKey = "@auth:office";
 const userDataKey = "@auth:userData";
 
-export const authAppInit = (office: OfficeType, isSaving: boolean) => {
+export const authAppInit = (
+  office: OfficeType,
+  isSaving: boolean
+): TAuthActions => {
   if (isSaving) setItem(officeKey, office);
   return {
-    type: actionTypes.AUTH_APPINIT,
+    type: AUTH_APPINIT,
     payload: {
       office
     }
   };
 };
 
-export const authStart = () => {
+export const authStart = (): TAuthActions => {
   return {
-    type: actionTypes.AUTH_START
+    type: AUTH_START
   };
 };
 
-export const authCompleted = () => {
+export const authCompleted = (): TAuthActions => {
   return {
-    type: actionTypes.AUTH_COMPLETED
+    type: AUTH_COMPLETED
   };
 };
 
 export const loginSuccess = (
   token: string,
   userData: FullUserData,
-  isDelayed: boolean
-) => {
+  isDelayed?: boolean
+): TAuthActions => {
   axios.defaults.headers.common["Authorization"] = "Token " + token; // for all requests
   setItem(tokenKey, token);
   setItem(userDataKey, userData);
   setItem(officeKey, userData.office);
   return {
-    type: actionTypes.LOGIN_SUCCESS,
+    type: LOGIN_SUCCESS,
     payload: {
       token,
       userData,
@@ -71,36 +85,51 @@ export const loginSuccess = (
   };
 };
 
-export const logoutSuccess = () => {
+export const logoutSuccess = (): TAuthActions => {
   removeItem(tokenKey);
   removeItem(userDataKey);
   axios.defaults.headers.common["Authorization"] = undefined; // for all requests
   return {
-    type: actionTypes.LOGOUT_SUCCESS
+    type: LOGOUT_SUCCESS
   };
 };
 
-export const authFail = (error: Object) => {
+export const authFail = (error: Object): TAuthActions => {
   return {
-    type: actionTypes.AUTH_FAIL,
+    type: AUTH_FAIL,
     payload: {
       error: error
     }
   };
 };
 
-export const authSetPhone = (phone: string) => ({
-  type: actionTypes.AUTH_SET_PHONE,
+export const authSetPhone = (phone: string): TAuthActions => ({
+  type: AUTH_SET_PHONE,
   payload: {
     phone
   }
 });
 
-const authSetUpdatedExperience = (xp: number) => ({
-  type: actionTypes.AUTH_UPDATE_EXPERIENCE,
+const authSetUpdatedExperience = (xp: number): TAuthActions => ({
+  type: AUTH_UPDATE_EXPERIENCE,
   payload: {
     xp
   }
+});
+
+const authSetUpdatedRespect = (
+  isPositive: boolean,
+  type: number
+): TAuthActions => ({
+  type: AUTH_UPDATE_RESPECT,
+  payload: {
+    isPositive,
+    type
+  }
+});
+
+const authSetValidatedAccount = (): TAuthActions => ({
+  type: AUTH_VALIDATE_ACCOUNT
 });
 
 //Action Creators
@@ -110,19 +139,18 @@ export const authUpdateExperience = (
 ): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) =>
   getState().auth.userData && dispatch(authSetUpdatedExperience(xp));
 
-export const authUpdateRespect = (isPositive, type) => (dispatch, getState) =>
-  getState().auth.userData &&
-  dispatch({
-    type: actionTypes.AUTH_UPDATE_RESPECT,
-    payload: {
-      isPositive,
-      type
-    }
-  });
+export const authUpdateRespect = (
+  isPositive: boolean,
+  type: number
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) =>
+  getState().auth.userData && dispatch(authSetUpdatedRespect(isPositive, type));
 
-export const authLogin = (username, password) => {
-  return (dispatch, getState) => {
-    return new Promise(function(resolve, reject) {
+export const authLogin = (
+  username: string,
+  password: string
+): ThunkAction<void, StoreType, null, Action> => {
+  return (dispatch, getState): Promise<ResolveLogin> => {
+    return new Promise<ResolveLogin>((resolve, reject) => {
       dispatch(authStart());
       axios
         .post(___LOGIN_ENDPOINT___, {
@@ -142,15 +170,15 @@ export const authLogin = (username, password) => {
   };
 };
 
-export const autoLogin = () => {
-  return (dispatch, getState) => {
-    return new Promise(function(resolve, reject) {
+export const autoLogin = (): ThunkAction<void, StoreType, null, Action> => {
+  return (dispatch, getState): Promise<ResolveLogin> => {
+    return new Promise<ResolveLogin>((resolve, reject) => {
       //return reject(AutoStart.firstTime); //Testing
       if (getState().auth.token) return resolve(AutoStart.logged);
       dispatch(authStart());
       multiGet([tokenKey, officeKey, userDataKey])
         .then(async userInfos => {
-          //console.log(userInfos);
+          if (userInfos === undefined) return reject(AutoStart.anonymous);
           const token = userInfos[0][1];
           const office = userInfos[1][1];
           const userData = userInfos[2][1];
@@ -164,7 +192,6 @@ export const autoLogin = () => {
                 reject: () => reject(AutoStart.anonymous)
               });
             } else {
-              console.log("Offline login");
               if (userData) {
                 dispatch(loginSuccess(token, userData, true));
                 resolve(AutoStart.logged);
@@ -195,7 +222,7 @@ export const autoLogin = () => {
   };
 };
 
-export const authLogout = () => {
+export const authLogout = (): ThunkAction<void, StoreType, null, Action> => {
   return dispatch => {
     //dispatch(authStart());
     axios
@@ -215,50 +242,62 @@ export const authLogout = () => {
   };
 };
 
-export const authSignup = (username, email, password1, password2, phone) => {
-  return (dispatch, getState) => {
-    return new Promise(function(resolve, reject) {
+export const authSignup = (
+  username: string,
+  email: string,
+  password1: string,
+  password2: string,
+  phone: string
+): ThunkAction<void, StoreType, null, Action> => {
+  return (dispatch, getState): Promise<ResolveLogin> => {
+    return new Promise<ResolveLogin>((resolve, reject) => {
       const officeData = getState().auth.office;
       const office = officeData.id;
       const course = officeData.course.name;
       const year = officeData.course.year;
       dispatch(authStart());
-      if (isOffline) {
-        console.log(username, email, password1, password2);
-      } else {
-        axios
-          .post(___SIGNUP_ENDPOINT___, {
-            username: username,
-            email: email,
-            password1: password1,
-            password2: password2,
-            office: office,
-            course: course,
-            year: year,
-            phone: phone
-          })
-          .then(res => {
-            login({ dispatch, resolve, reject, token: res.data.key });
-          })
-          .catch(err => {
-            console.log({ err });
-            dispatch(authFail(err));
-            reject(err);
-          });
-      }
+      axios
+        .post(___SIGNUP_ENDPOINT___, {
+          username: username,
+          email: email,
+          password1: password1,
+          password2: password2,
+          office: office,
+          course: course,
+          year: year,
+          phone: phone
+        })
+        .then(res => {
+          login({ dispatch, resolve, reject, token: res.data.key });
+        })
+        .catch(err => {
+          console.log({ err });
+          dispatch(authFail(err));
+          reject(err);
+        });
     });
   };
 };
 
-export const authValidateAccount = () => (dispatch, getState) =>
-  new Promise((resolve, reject) => {
+export const authValidateAccount = (): ThunkAction<
+  void,
+  StoreType,
+  null,
+  Action
+> => (dispatch, getState) =>
+  new Promise<ResolveLogin>(resolve => {
     const token = getState().auth.token;
-    dispatch({ type: actionTypes.AUTH_VALIDATE_ACCOUNT });
+    dispatch(authSetValidatedAccount());
     WS.init(token, resolve);
   });
 
-export const authDelayedLogin = () => (dispatch, getState) =>
-  new Promise((resolve, reject) => {
+export const authDelayedLogin = (): ThunkAction<
+  void,
+  StoreType,
+  null,
+  Action
+> => (dispatch, getState) =>
+  new Promise<ResolveLogin>((resolve, reject) => {
     if (getState().auth.delayedLogin) {
       login({ dispatch, resolve, reject, token: getState().auth.token });
     } else {
@@ -266,7 +305,14 @@ export const authDelayedLogin = () => (dispatch, getState) =>
     }
   });
 
-const login = async ({ dispatch, resolve, reject, token }) => {
+interface LoginType {
+  dispatch: (value?: Action) => void;
+  resolve: (value?: ResolveLogin | PromiseLike<ResolveLogin>) => void;
+  reject: (value?: string) => void;
+  token: string;
+}
+
+const login = async ({ dispatch, resolve, reject, token }: LoginType) => {
   await CookieManager.clearAll();
 
   console.log("Logging in...", token);
@@ -274,7 +320,6 @@ const login = async ({ dispatch, resolve, reject, token }) => {
     console.log("ERROR NOT SET IN LOGIN");
     throw "Error not set in login";
   }
-
   let userData;
 
   try {

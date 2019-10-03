@@ -1,28 +1,48 @@
-import * as actionTypes from "../actions/actionTypes";
+import {
+  AuthType,
+  AUTH_APPINIT,
+  AUTH_START,
+  LOGIN_SUCCESS,
+  AUTH_FAIL,
+  LOGOUT_SUCCESS,
+  AUTH_COMPLETED,
+  AUTH_SET_PHONE,
+  AUTH_VALIDATE_ACCOUNT,
+  AUTH_UPDATE_EXPERIENCE,
+  AUTH_UPDATE_RESPECT,
+  TAuthActions,
+  AuthAppInitAction,
+  AuthStartAction,
+  LoginSuccessAction,
+  AuthCompletedAction,
+  AuthFailAction,
+  AuthSetPhoneAction,
+  LogoutSuccessAction,
+  AuthSetUpdatedRespect,
+  AuthSetValidatedAccount,
+  AuthSetUpdatedExperience
+} from "./types";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
-import { ChatType } from "../../utils/constants";
-import { AuthType } from "../types/storeType";
 
 const initialState: AuthType = {
-  token: null,
-  office: null,
-  userData: null,
+  token: undefined,
+  office: undefined,
+  userData: undefined,
   isActive: false,
-  id: null,
-
-  error: null,
+  id: undefined,
+  error: undefined,
   loading: false,
   delayedLogin: false
 };
 
-export const authAppInit = (state: AuthType, action) => {
+const authAppInit = (state: AuthType, action: AuthAppInitAction): AuthType => {
   return updateObject(state, {
     office: action.payload.office
   });
 };
 
-const authStart = (state, action) => {
+const authStart = (state: AuthType, action: AuthStartAction) => {
   return updateObject(state, {
     error: null,
     loading: true
@@ -30,14 +50,14 @@ const authStart = (state, action) => {
 };
 
 const loginSuccess = (
-  state,
+  state: AuthType,
   {
     payload: {
       token,
       userData: { pk, office, isActive, ...restUserData },
       isDelayed
     }
-  }
+  }: LoginSuccessAction
 ) => {
   return updateObject(state, {
     token,
@@ -50,20 +70,23 @@ const loginSuccess = (
   });
 };
 
-const authCompleted = (state, action) => {
+const authCompleted = (state: AuthType, action: AuthCompletedAction) => {
   return updateObject(state, {
     loading: false
   });
 };
 
-const authFail = (state, action) => {
+const authFail = (state: AuthType, action: AuthFailAction) => {
   return updateObject(state, {
     error: action.payload.error,
     loading: false
   });
 };
 
-const authSetPhone = (state, { payload: { phone } }) =>
+const authSetPhone = (
+  state: AuthType,
+  { payload: { phone } }: AuthSetPhoneAction
+) =>
   update(state, {
     userData: {
       phone: { $set: phone }
@@ -71,24 +94,34 @@ const authSetPhone = (state, { payload: { phone } }) =>
     isActive: { $set: false }
   });
 
-const logoutSuccess = (state, action) => {
+const logoutSuccess = (state: AuthType, action: LogoutSuccessAction) => {
   const { office } = state;
   return update(initialState, { $merge: { office } });
 };
 
-const authValidateAccount = (state, action) =>
+const authValidateAccount = (
+  state: AuthType,
+  action: AuthSetValidatedAccount
+) =>
   update(state, {
     isActive: { $set: true }
   });
 
-const authUpdateExperience = (state, { payload: { xp } }) =>
+const authUpdateExperience = (
+  state: AuthType,
+  { payload: { xp } }: AuthSetUpdatedExperience
+) =>
   update(state, {
     userData: {
       xp: { $apply: oldXP => oldXP + xp }
     }
   });
 
-const authUpdateRespect = (state, { payload: { isPositive, type } }) => {
+const authUpdateRespect = (
+  state: AuthType,
+  { payload: { isPositive, type } }: AuthSetUpdatedRespect
+) => {
+  if (!state.userData) return state;
   const total = state.userData.soldItems + state.userData.boughtItems;
   return update(state, {
     userData: {
@@ -111,41 +144,42 @@ const authUpdateRespect = (state, { payload: { isPositive, type } }) => {
   });
 };
 
-const reducer = (state = initialState, action) => {
+export function chatReducer(
+  state = initialState,
+  action: TAuthActions
+): AuthType {
   switch (action.type) {
-    case actionTypes.AUTH_APPINIT:
+    case AUTH_APPINIT:
       return authAppInit(state, action);
 
-    case actionTypes.AUTH_START:
+    case AUTH_START:
       return authStart(state, action);
 
-    case actionTypes.AUTH_COMPLETED:
+    case AUTH_COMPLETED:
       return authCompleted(state, action);
 
-    case actionTypes.LOGIN_SUCCESS:
+    case LOGIN_SUCCESS:
       return loginSuccess(state, action);
 
-    case actionTypes.AUTH_FAIL:
+    case AUTH_FAIL:
       return authFail(state, action);
 
-    case actionTypes.LOGOUT_SUCCESS:
+    case LOGOUT_SUCCESS:
       return logoutSuccess(state, action);
 
-    case actionTypes.AUTH_SET_PHONE:
+    case AUTH_SET_PHONE:
       return authSetPhone(state, action);
 
-    case actionTypes.AUTH_VALIDATE_ACCOUNT:
+    case AUTH_VALIDATE_ACCOUNT:
       return authValidateAccount(state, action);
 
-    case actionTypes.AUTH_UPDATE_EXPERIENCE:
+    case AUTH_UPDATE_EXPERIENCE:
       return authUpdateExperience(state, action);
 
-    case actionTypes.AUTH_UPDATE_RESPECT:
+    case AUTH_UPDATE_RESPECT:
       return authUpdateRespect(state, action);
 
     default:
       return state;
   }
-};
-
-export default reducer;
+}

@@ -2,7 +2,13 @@ import { applyMiddleware, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import { createEpicMiddleware } from "redux-observable";
 import promise from "redux-promise-middleware";
-import { rootReducer, rootEpic } from "./reducers/root";
+import { rootReducer, rootEpic } from "./root";
+
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
+  }
+}
 
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
