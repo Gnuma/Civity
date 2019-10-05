@@ -1,4 +1,4 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
 import {
   AUTH_APPINIT,
@@ -32,8 +32,9 @@ import { mockWHOAMI } from "../../mockData/MockUser";
 import NetInfo from "@react-native-community/netinfo";
 import { formatUserData } from "../../utils/helper";
 import { updateFCMToken } from "./settings";
-import StoreType from "../../types/storeType";
-import { OfficeType } from "../../types/ProfileTypes";
+import { StoreType } from "../root";
+import { GeneralOffice, FullUserData } from "../../types/ProfileTypes";
+import { any } from "prop-types";
 
 const CookieManager = require("react-native-cookies");
 
@@ -42,7 +43,7 @@ const officeKey = "@auth:office";
 const userDataKey = "@auth:userData";
 
 export const authAppInit = (
-  office: OfficeType,
+  office: GeneralOffice,
   isSaving: boolean
 ): TAuthActions => {
   if (isSaving) setItem(officeKey, office);
@@ -177,7 +178,7 @@ export const autoLogin = (): ThunkAction<void, StoreType, null, Action> => {
       if (getState().auth.token) return resolve(AutoStart.logged);
       dispatch(authStart());
       multiGet([tokenKey, officeKey, userDataKey])
-        .then(async userInfos => {
+        .then(async (userInfos: any) => {
           if (userInfos === undefined) return reject(AutoStart.anonymous);
           const token = userInfos[0][1];
           const office = userInfos[1][1];
@@ -252,6 +253,7 @@ export const authSignup = (
   return (dispatch, getState): Promise<ResolveLogin> => {
     return new Promise<ResolveLogin>((resolve, reject) => {
       const officeData = getState().auth.office;
+      if (!officeData) throw "Office has not beign set";
       const office = officeData.id;
       const course = officeData.course.name;
       const year = officeData.course.year;
@@ -299,7 +301,9 @@ export const authDelayedLogin = (): ThunkAction<
 > => (dispatch, getState) =>
   new Promise<ResolveLogin>((resolve, reject) => {
     if (getState().auth.delayedLogin) {
-      login({ dispatch, resolve, reject, token: getState().auth.token });
+      const token = getState().auth.token;
+      if (!token) throw "Token is not set";
+      login({ dispatch, resolve, reject, token });
     } else {
       reject("No Delayed Login");
     }

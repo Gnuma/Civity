@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 export const updateObject = (
   oldObject: Object,
   updatedProprieties: Object
-): Object => {
+): any => {
   return {
     ...oldObject,
     ...updatedProprieties

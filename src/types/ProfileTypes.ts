@@ -1,17 +1,24 @@
 export type OfficeIdentifierType = "SP" | "UN";
 export type UserType = "Pro" | "Free" | "Business";
 
-export interface OfficeType {
+export interface GeneralOffice extends OfficeSerializer {
+  course: GeneralCourse;
+}
+
+export interface GeneralCourse {
+  year: string;
+  name: string;
+}
+
+export interface OfficeSerializer {
   id: number;
   name: string;
   address: string;
   officeType: OfficeIdentifierType;
-  course: CourseType;
 }
 
-export interface CourseType {
-  year: string;
-  name: string;
+export interface CourseSerializer extends GeneralCourse {
+  office: OfficeSerializer;
 }
 
 export interface UserData {
@@ -28,5 +35,26 @@ export interface UserData {
 export interface FullUserData extends UserData {
   pk: number;
   isActive: boolean;
-  office: OfficeType;
+  office: GeneralOffice;
+}
+
+export interface UsernameSerializer {
+  username: string;
+}
+
+export interface BasicUser {
+  _id: number;
+  user: UsernameSerializer;
+  xp: number;
+  respect: number;
+  usertype: UserType;
+  adsCreated?: number;
+}
+
+export interface UserSerializer extends BasicUser {
+  course: CourseSerializer;
+}
+
+export interface GeneralUser extends BasicUser {
+  office: GeneralOffice;
 }

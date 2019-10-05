@@ -8,21 +8,21 @@ import { SettingsType } from "./settings/types";
 /** Reducers */
 import { combineReducers } from "redux";
 import { combineEpics } from "redux-observable";
-import searchReducer from "./reducers/search";
-import authReducer from "./reducers/auth";
+
+import authReducer from "./auth/reducer";
+import searchReducer from "./search/reducer";
+
 import sellReducer from "./reducers/sell";
-import notificationsReducer from "./reducers/notifications";
-import salesReducer from "./reducers/sales";
-import shoppingReducer from "./reducers/shopping";
 import commentsReducer from "./reducers/comments";
 import chatReducer from "./reducers/chat";
 import settingsReducer from "./reducers/settings";
+
 /** Epics */
 import { searchEpics } from "./actions/search";
 import { chatEpics } from "../actions/auth";
 import { settingsEpics } from "./actions/settings";
 
-export default interface StoreType {
+export interface StoreType {
   search: SearchType;
   auth: AuthType;
   sell: SellType;

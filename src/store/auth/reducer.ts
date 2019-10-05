@@ -37,8 +37,9 @@ const initialState: AuthType = {
 };
 
 const authAppInit = (state: AuthType, action: AuthAppInitAction): AuthType => {
+  const office = action.payload.office;
   return updateObject(state, {
-    office: action.payload.office
+    office
   });
 };
 
@@ -144,10 +145,7 @@ const authUpdateRespect = (
   });
 };
 
-export function chatReducer(
-  state = initialState,
-  action: TAuthActions
-): AuthType {
+const reducer = (state = initialState, action: TAuthActions): AuthType => {
   switch (action.type) {
     case AUTH_APPINIT:
       return authAppInit(state, action);
@@ -182,4 +180,6 @@ export function chatReducer(
     default:
       return state;
   }
-}
+};
+
+export default reducer;

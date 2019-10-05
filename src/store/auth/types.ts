@@ -1,4 +1,8 @@
-import { OfficeType, UserData, FullUserData } from "../../types/ProfileTypes";
+import {
+  GeneralOffice,
+  UserData,
+  FullUserData
+} from "../../types/ProfileTypes";
 
 export const AUTH_APPINIT = "AUTH_APPINIT";
 export const AUTH_START = "AUTH_START";
@@ -13,13 +17,13 @@ export const AUTH_UPDATE_RESPECT = "AUTH_UPDATE_RESPECT";
 
 export interface AuthType {
   token?: string;
-  office?: OfficeType;
+  office?: GeneralOffice;
   userData?: UserData;
-  isActive?: boolean;
+  isActive: boolean;
   id?: number;
   error?: unknown;
-  loading?: boolean;
-  delayedLogin?: boolean;
+  loading: boolean;
+  delayedLogin: boolean;
 }
 
 interface ResolveObject {
@@ -32,7 +36,7 @@ export type ResolveLogin = string | ResolveObject;
 export interface AuthAppInitAction {
   type: typeof AUTH_APPINIT;
   payload: {
-    office: OfficeType;
+    office: GeneralOffice;
   };
 }
 
