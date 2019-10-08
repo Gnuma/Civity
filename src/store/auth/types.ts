@@ -18,7 +18,7 @@ export const AUTH_UPDATE_RESPECT = "AUTH_UPDATE_RESPECT";
 export interface AuthType {
   token?: string;
   office?: GeneralOffice;
-  userData?: UserData;
+  userData: UserData;
   isActive: boolean;
   id?: number;
   error?: unknown;
@@ -86,7 +86,7 @@ export interface AuthSetUpdatedRespect {
   type: typeof AUTH_UPDATE_RESPECT;
   payload: {
     isPositive: boolean;
-    type: number;
+    type: string;
   };
 }
 

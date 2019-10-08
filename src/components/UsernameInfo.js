@@ -3,7 +3,6 @@ import { View, StyleSheet } from "react-native";
 import colors from "../styles/colors";
 import { Header5, Header4 } from "./Text";
 import { Svg, Circle, Path } from "react-native-svg";
-import { LEVEL_DATA } from "../utils/constants";
 import { getLevel } from "../utils/helper";
 
 export default ({ style, size, userInfo = {}, hideLevel, hideFeedback }) => {

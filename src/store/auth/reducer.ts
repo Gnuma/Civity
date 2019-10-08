@@ -24,11 +24,22 @@ import {
 } from "./types";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
+import { ChatCategoryType } from "../chat/types";
 
 const initialState: AuthType = {
   token: undefined,
   office: undefined,
-  userData: undefined,
+  userData: {
+    username: "",
+    email: "",
+    phone: "",
+    xp: 0,
+    respect: 0,
+    adsCreated: 0,
+    boughtItems: 0,
+    soldItems: 0,
+    usertype: "Free"
+  },
   isActive: false,
   id: undefined,
   error: undefined,
@@ -135,11 +146,11 @@ const authUpdateRespect = (
       },
       soldItems: {
         $apply: soldItems =>
-          type == ChatType.sales ? soldItems + 1 : soldItems
+          type == ChatCategoryType.sales ? soldItems + 1 : soldItems
       },
       boughtItems: {
         $apply: boughtItems =>
-          type == ChatType.shopping ? boughtItems + 1 : boughtItems
+          type == ChatCategoryType.shopping ? boughtItems + 1 : boughtItems
       }
     }
   });

@@ -1,4 +1,25 @@
-import * as actionTypes from "./actionTypes";
+import { ActionsObservable } from "redux-observable";
+import { ThunkAction } from "redux-thunk";
+import { Action } from "redux";
+
+import {
+  SELL_START,
+  SELL_SUCCESS,
+  SELL_FAIL,
+  SELL_TAKEPREVIEW,
+  SELL_ADD_REVIEW,
+  SELL_REMOVE_REVIEW,
+  SELL_SELECTBOOK,
+  SELL_SET_PREVIEWSORDER,
+  SELL_DELETE_PREVIEW,
+  SELL_CREATEBOOK,
+  SELL_START_SELLING,
+  SELL_START_MODIFYING,
+  SELL_SET_INFOS,
+  TSellActions,
+  PreviewImage,
+  CheckingImage
+} from "./types";
 import NavigatorService from "../../navigator/NavigationService";
 import { setItem, getItem, removeItem } from "../utility";
 import axios from "axios";
@@ -9,81 +30,77 @@ import {
   ___BASE_UPLOAD_PICTURE___,
   ___CREATE_AD___,
   ___MODIFY_AD___
-} from "../constants";
+} from "../endpoints";
 import { ___BOOK_IMG_RATIO___, SellType } from "../../utils/constants";
 import { chatNewItem, chatModifyItem } from "./chat";
+import { GeneralBook, GeneralSubject, ItemCondition } from "../../types/asdas";
+import { StoreType } from "../root";
+import { GeneralItem } from "../../types/ItemTypes";
 
-export const sellStart = () => {
-  return {
-    type: actionTypes.SELL_START
-  };
-};
+export const sellStart = (): TSellActions => ({
+  type: SELL_START
+});
 
-export const sellSuccess = () => {
-  return {
-    type: actionTypes.SELL_SUCCESS
-  };
-};
+export const sellSuccess = (): TSellActions => ({
+  type: SELL_SUCCESS
+});
 
-export const sellFail = error => {
-  return {
-    type: actionTypes.SELL_FAIL,
-    payload: {
-      error
-    }
-  };
-};
+export const sellFail = (error: unknown): TSellActions => ({
+  type: SELL_FAIL,
+  payload: {
+    error
+  }
+});
 
-export const takePreview = data => {
-  return {
-    type: actionTypes.SELL_TAKEPREVIEW,
-    payload: {
-      data
-    }
-  };
-};
+export const takePreview = (data: PreviewImage): TSellActions => ({
+  type: SELL_TAKEPREVIEW,
+  payload: {
+    data
+  }
+});
 
-export const setPreviewsOrder = order => {
-  return {
-    type: actionTypes.SELL_SET_PREVIEWSORDER,
-    payload: {
-      order
-    }
-  };
-};
+export const setPreviewsOrder = (order: number[]): TSellActions => ({
+  type: SELL_SET_PREVIEWSORDER,
+  payload: {
+    order
+  }
+});
 
-export const deletePreview = index => {
-  return {
-    type: actionTypes.SELL_DELETE_PREVIEW,
-    payload: {
-      index
-    }
-  };
-};
+export const deletePreview = (index: number): TSellActions => ({
+  type: SELL_DELETE_PREVIEW,
+  payload: {
+    index
+  }
+});
 
-export const selectBook = book => {
-  return {
-    type: actionTypes.SELL_SELECTBOOK,
-    payload: {
-      book
-    }
-  };
-};
+export const selectBook = (book: GeneralBook): TSellActions => ({
+  type: SELL_SELECTBOOK,
+  payload: {
+    book
+  }
+});
 
-export const createBook = (isbn, title, author = "Sconosciuto", subject) => {
-  return {
-    type: actionTypes.SELL_CREATEBOOK,
-    payload: {
-      isbn,
-      title,
-      author,
-      subject
-    }
-  };
-};
+export const createBook = (
+  isbn: string,
+  title: string,
+  author: string = "Sconosciuto",
+  subject: GeneralSubject
+): TSellActions => ({
+  type: SELL_CREATEBOOK,
+  payload: {
+    isbn,
+    title,
+    author,
+    subject
+  }
+});
 
-export const sellSetInfos = ({ conditions, price, description }) => ({
-  type: actionTypes.SELL_SET_INFOS,
+export const sellSetInfos = (
+  conditions: ItemCondition,
+  price: string,
+  description: string
+): TSellActions => ({
+  type: SELL_SET_INFOS,
   payload: {
     conditions,
     price,
@@ -91,19 +108,30 @@ export const sellSetInfos = ({ conditions, price, description }) => ({
   }
 });
 
-export const sellAddReview = data => ({
-  type: actionTypes.SELL_ADD_REVIEW,
+export const sellAddReview = (data: CheckingImage): TSellActions => ({
+  type: SELL_ADD_REVIEW,
   payload: {
     data
   }
 });
 
-export const sellRemoveReview = () => ({
-  type: actionTypes.SELL_REMOVE_REVIEW
+export const sellRemoveReview = (): TSellActions => ({
+  type: SELL_REMOVE_REVIEW
 });
 
-export const submit = () => {
-  return (dispatch, getState) => {
+export const sellSetStartSelling = (): TSellActions => ({
+  type: SELL_START_SELLING
+});
+
+export const sellSetStartModifying = (item: GeneralItem): TSellActions => ({
+  type: SELL_START_MODIFYING,
+  payload: {
+    item
+  }
+});
+
+export const submit = (): ThunkAction<void, StoreType, null, Action> => {
+  return (dispatch, getState): Promise<void> => {
     return new Promise(async function(resolve, reject) {
       const {
         previews,
@@ -125,6 +153,7 @@ export const submit = () => {
         if (img !== null) {
           if (!img.base64) {
             try {
+              if (!img.uri) throw "Image Uri not found";
               img.base64 = await getBase64IP(img.uri);
             } catch (err) {
               console.log(err);
@@ -135,6 +164,7 @@ export const submit = () => {
         }
       }
 
+      if (!book) throw "Book undefined error";
       data.append("isbn", book.isbn);
       data.append("price", price);
       data.append("condition", conditions);
@@ -178,40 +208,37 @@ export const submit = () => {
   };
 };
 
-export const sellStartSelling = () => dispatch => {
-  dispatch({
-    type: actionTypes.SELL_START_SELLING
-  });
+export const sellStartSelling = (): ThunkAction<
+  void,
+  StoreType,
+  null,
+  Action
+> => dispatch => {
+  dispatch(sellSetStartSelling());
   NavigatorService.navigate("Camera");
 };
 
-export const sellStartModifying = item => dispatch => {
-  dispatch({
-    type: actionTypes.SELL_START_MODIFYING,
-    payload: {
-      item
-    }
-  });
+export const sellStartModifying = (
+  item: GeneralItem
+): ThunkAction<void, StoreType, null, Action> => dispatch => {
+  dispatch(sellSetStartModifying(item));
   NavigatorService.navigate("Camera");
 };
 
-const getBase64IP = uri =>
+const getBase64IP = (uri: string): Promise<string> =>
   new Promise((resolve, reject) => {
+    let imagePath = "";
     RNFetchBlob.config({
       fileCache: true
     })
       .fetch("GET", uri)
-      // the image is now dowloaded to device's storage
       .then(resp => {
-        // the image path you can use it directly with Image component
         imagePath = resp.path();
         return resp.readFile("base64");
       })
       .then(base64Data => {
-        // here's base64 encoded image
         RNFetchBlob.fs.unlink(imagePath);
         resolve(base64Data);
-        // remove the file from storage
       })
       .catch(err => reject(err));
   });

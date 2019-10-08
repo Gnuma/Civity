@@ -1,41 +1,60 @@
-import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
+import {
+  COMMENTS_INIT,
+  COMMENTS_RECEIVE_COMMENT,
+  COMMENTS_RECEIVE_ANSWER,
+  COMMENTS_READ,
+  COMMENTS_CLEAR,
+  CommentsType,
+  TCommentsAction,
+  ItemCommentData,
+  CommentNotification,
+  CommentsInitAction,
+  CommentsReceiveCommentAction,
+  CommentsReceiveAnswerAction,
+  CommentsReadAction,
+  CommentsClearAction,
+  CommentsDataType,
+  CommentNotificationTypeEnum
+} from "./types";
 
-const initialState = {
+const initialState: CommentsType = {
   data: {},
   orderedData: [],
-  error: null,
+  error: undefined,
   loading: false
 };
 
-const commentsInit = (state, action) => {
+const commentsInit = (
+  state: CommentsType,
+  action: CommentsInitAction
+): CommentsType => {
   const { data } = action.payload;
 
-  let orderedData = [];
-  let formattedData = {};
+  let orderedData: number[] = [];
+  let formattedData: CommentsDataType = {};
 
   for (let i = 0; i < data.length; i++) {
-    const type = data[i].type;
-
-    if (type == "newComment") {
-      let itemID = data[i].comment.item.pk;
+    const node = data[i];
+    if (node.type === CommentNotificationTypeEnum.NEW_COMMENT) {
+      let itemID = node.comment.item.pk;
       if (!formattedData[itemID]) orderedData.push(itemID);
       formattedData = update(formattedData, {
         [itemID]: item =>
-          update(item || getEmptyItem(data[i].comment), {
-            commentsList: { [data[i].comment.pk]: { $set: true } },
-            [type]: { $set: true }
+          update(item || getEmptyItem(node.comment), {
+            commentsList: { [node.comment.pk]: { $set: true } },
+            newComment: { $set: true }
           })
       });
     } else {
-      let itemID = data[i].answer.parent.item.pk;
+      let itemID = node.answer.parent.item.pk;
       if (!formattedData[itemID]) orderedData.push(itemID);
       formattedData = update(formattedData, {
         [itemID]: item =>
-          update(item || getEmptyItem(data[i].answer.parent), {
-            commentsList: { [data[i].answer.parent.pk]: { $set: true } },
-            [type]: { $set: true }
+          update(item || getEmptyItem(node.answer.parent), {
+            commentsList: { [node.answer.parent.pk]: { $set: true } },
+            newAnswer: { $set: true }
           })
       });
     }
@@ -47,7 +66,10 @@ const commentsInit = (state, action) => {
   });
 };
 
-const commentsReceiveComment = (state, action) => {
+const commentsReceiveComment = (
+  state: CommentsType,
+  action: CommentsReceiveCommentAction
+): CommentsType => {
   const comment = action.payload.comment;
   const itemID = comment.item.pk;
   const newItems = !state.data[itemID] ? [itemID] : [];
@@ -66,7 +88,10 @@ const commentsReceiveComment = (state, action) => {
   });
 };
 
-const commentsReceiveAnswer = (state, action) => {
+const commentsReceiveAnswer = (
+  state: CommentsType,
+  action: CommentsReceiveAnswerAction
+): CommentsType => {
   const comment = action.payload.answer.parent;
   const itemID = comment.item.pk;
   const newItems = !state.data[itemID] ? [itemID] : [];
@@ -85,7 +110,10 @@ const commentsReceiveAnswer = (state, action) => {
   });
 };
 
-const commentsRead = (state, action) => {
+const commentsRead = (
+  state: CommentsType,
+  action: CommentsReadAction
+): CommentsType => {
   const { itemID } = action.payload;
 
   for (var i = 0; i < state.orderedData.length; i++) {
@@ -100,19 +128,25 @@ const commentsRead = (state, action) => {
   });
 };
 
-const commentsClear = () => initialState;
+const commentsClear = (
+  state: CommentsType,
+  action: CommentsClearAction
+): CommentsType => initialState;
 
-const reducer = (state = initialState, action) => {
+const reducer = (
+  state = initialState,
+  action: TCommentsAction
+): CommentsType => {
   switch (action.type) {
-    case actionTypes.COMMENTS_INIT:
+    case COMMENTS_INIT:
       return commentsInit(state, action);
-    case actionTypes.COMMENTS_RECEIVE_COMMENT:
+    case COMMENTS_RECEIVE_COMMENT:
       return commentsReceiveComment(state, action);
-    case actionTypes.COMMENTS_RECEIVE_ANSWER:
+    case COMMENTS_RECEIVE_ANSWER:
       return commentsReceiveAnswer(state, action);
-    case actionTypes.COMMENTS_READ:
+    case COMMENTS_READ:
       return commentsRead(state, action);
-    case actionTypes.COMMENTS_CLEAR:
+    case COMMENTS_CLEAR:
       return commentsClear(state, action);
 
     default:
@@ -122,9 +156,11 @@ const reducer = (state = initialState, action) => {
 
 export default reducer;
 
-const getEmptyItem = comment => {
+const getEmptyItem = (comment: CommentNotification): ItemCommentData => {
   return {
     commentsList: {},
-    item: comment.item
+    item: comment.item,
+    newComment: false,
+    newAnswer: false
   };
 };

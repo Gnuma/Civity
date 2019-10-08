@@ -44,7 +44,7 @@ export const sellerChatList = [
             _id: uuid.v4(),
             text: "Messsaggio 1",
             createdAt: new Date(2019, 2, 4, 12, 0),
-            isRead: false,
+            is_read: false,
             user: {
               _id: item1Chat1UserToID
             }
@@ -56,7 +56,7 @@ export const sellerChatList = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -65,7 +65,7 @@ export const sellerChatList = [
             user: {
               _id: item1Chat1UserToID
             },
-            isRead: true
+            is_read: true
           }
         ]
       },
@@ -86,7 +86,7 @@ export const sellerChatList = [
             user: {
               _id: item1Chat2UserToID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -95,7 +95,7 @@ export const sellerChatList = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -104,7 +104,7 @@ export const sellerChatList = [
             user: {
               _id: item1Chat2UserToID
             },
-            isRead: true
+            is_read: true
           }
         ]
       }
@@ -137,7 +137,7 @@ export const sellerChatList = [
             user: {
               _id: item2Chat1UserToID
             },
-            isRead: false
+            is_read: false
           },
           {
             _id: uuid.v4(),
@@ -146,7 +146,7 @@ export const sellerChatList = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -155,7 +155,7 @@ export const sellerChatList = [
             user: {
               _id: item2Chat1UserToID
             },
-            isRead: true
+            is_read: true
           }
         ]
       }
@@ -212,7 +212,7 @@ export const sellerChatList = [
             user: {
               _id: item4Chat1UserToID
             },
-            isRead: false
+            is_read: false
           },
           {
             _id: uuid.v4(),
@@ -221,7 +221,7 @@ export const sellerChatList = [
             user: {
               _id: item4Chat1UserToID
             },
-            isRead: false
+            is_read: false
           }
         ]
       }
@@ -255,7 +255,7 @@ export const single = {
       text: "Messsaggio 1",
       createdAt: new Date(2019, 2, 4, 12, 0),
       author: item1Chat1UserToID,
-      isRead: false,
+      is_read: false,
       user: {
         _id: item1Chat1UserToID
       }
@@ -265,7 +265,7 @@ export const single = {
       text: "Messsaggio 2",
       createdAt: new Date(2019, 2, 4, 11, 0),
       author: myID,
-      isRead: true,
+      is_read: true,
       user: {
         _id: myID
       }
@@ -275,7 +275,7 @@ export const single = {
       text: "Messsaggio 3",
       createdAt: new Date(2019, 2, 4, 10, 0),
       author: item1Chat1UserToID,
-      isRead: true,
+      is_read: true,
       user: {
         _id: item1Chat1UserToID
       }
@@ -334,7 +334,7 @@ export const buyerChatList = [
             user: {
               _id: subject1Chat1UserToID
             },
-            isRead: false
+            is_read: false
           },
           {
             _id: uuid.v4(),
@@ -343,7 +343,7 @@ export const buyerChatList = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -352,7 +352,7 @@ export const buyerChatList = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           }
         ]
       },
@@ -383,7 +383,7 @@ export const buyerChatList = [
             user: {
               _id: subject1Chat2UserToID
             },
-            isRead: false
+            is_read: false
           },
           {
             _id: uuid.v4(),
@@ -392,7 +392,7 @@ export const buyerChatList = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -401,7 +401,7 @@ export const buyerChatList = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           }
         ]
       },
@@ -432,7 +432,7 @@ export const buyerChatList = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -441,7 +441,7 @@ export const buyerChatList = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           }
         ]
       }
@@ -479,7 +479,7 @@ export const buyerChatList = [
             user: {
               _id: subject2Chat1UserToID
             },
-            isRead: false
+            is_read: false
           },
           {
             _id: uuid.v4(),
@@ -488,7 +488,7 @@ export const buyerChatList = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -497,7 +497,7 @@ export const buyerChatList = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           }
         ]
       }
@@ -548,7 +548,7 @@ export const loadMockNew = () => {
       user: {
         _id: myID
       },
-      isRead: true
+      is_read: true
     },
     {
       _id: uuid.v4(),
@@ -557,7 +557,7 @@ export const loadMockNew = () => {
       user: {
         _id: myID
       },
-      isRead: true
+      is_read: true
     },
     {
       _id: uuid.v4(),
@@ -566,7 +566,7 @@ export const loadMockNew = () => {
       user: {
         _id: myID
       },
-      isRead: true
+      is_read: true
     },
     {
       _id: uuid.v4(),
@@ -575,7 +575,7 @@ export const loadMockNew = () => {
       user: {
         _id: myID
       },
-      isRead: true
+      is_read: true
     },
     {
       _id: uuid.v4(),
@@ -584,7 +584,7 @@ export const loadMockNew = () => {
       user: {
         _id: myID
       },
-      isRead: true
+      is_read: true
     },
     {
       _id: uuid.v4(),
@@ -593,7 +593,7 @@ export const loadMockNew = () => {
       user: {
         _id: myID
       },
-      isRead: true
+      is_read: true
     }
   ];
 };
@@ -634,7 +634,7 @@ export const newSellerMsg = {
       user: {
         _id: item1Chat2UserToID
       },
-      isRead: false
+      is_read: false
     },
     chatID: item1Chat2ID,
     itemID: item1ID
@@ -652,7 +652,7 @@ export const newBuyerMsg = {
       user: {
         _id: subject1Chat3UserToID
       },
-      isRead: false
+      is_read: false
     },
     chatID: subject1Chat3ID,
     subjectID: subject1ID
@@ -758,7 +758,7 @@ export const buyerChatList2 = [
             user: {
               _id: subject2Chat1UserToID
             },
-            isRead: false
+            is_read: false
           },
           {
             _id: uuid.v4(),
@@ -767,7 +767,7 @@ export const buyerChatList2 = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -776,7 +776,7 @@ export const buyerChatList2 = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           }
         ]
       }
@@ -814,7 +814,7 @@ export const buyerChatList2 = [
             user: {
               _id: subject1Chat2UserToID
             },
-            isRead: false
+            is_read: false
           },
           {
             _id: uuid.v4(),
@@ -823,7 +823,7 @@ export const buyerChatList2 = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -832,7 +832,7 @@ export const buyerChatList2 = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           }
         ]
       },
@@ -863,7 +863,7 @@ export const buyerChatList2 = [
             user: {
               _id: subject1Chat1UserToID
             },
-            isRead: false
+            is_read: false
           },
           {
             _id: uuid.v4(),
@@ -872,7 +872,7 @@ export const buyerChatList2 = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -881,7 +881,7 @@ export const buyerChatList2 = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           }
         ]
       },
@@ -912,7 +912,7 @@ export const buyerChatList2 = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           },
           {
             _id: uuid.v4(),
@@ -921,7 +921,7 @@ export const buyerChatList2 = [
             user: {
               _id: myID
             },
-            isRead: true
+            is_read: true
           }
         ]
       }

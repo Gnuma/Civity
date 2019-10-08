@@ -225,7 +225,7 @@ const createMsg = (content, userID) => {
     user: {
       _id: userID
     },
-    isRead: true,
+    is_read: true,
     isSending: true
   };
 };

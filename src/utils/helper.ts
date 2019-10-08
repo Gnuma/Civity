@@ -1,23 +1,35 @@
-import { LEVEL_DATA } from "./constants";
+import {
+  LEVEL_DATA,
+  CourseSerializer,
+  GeneralOffice,
+  FullUserData,
+  WHOAMIInterface,
+  UserSerializer,
+  GeneralUser
+} from "../types/ProfileTypes";
 
 const dayInMilliseconds = 1000 * 60 * 60 * 24;
 
-export const dateDisplay = date => {
+export const dateDisplay = (date: Date | string): string => {
   if (!(date instanceof Date)) date = new Date(date);
-  if (Math.abs(new Date() - date) < dayInMilliseconds)
+  if (Math.abs(new Date().getTime() - date.getTime()) < dayInMilliseconds)
     return (
       date.getHours() +
       ":" +
       (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes())
     );
-  else if (Math.abs(new Date() - date) < dayInMilliseconds * 2) return "Ieri";
+  else if (
+    Math.abs(new Date().getTime() - date.getTime()) <
+    dayInMilliseconds * 2
+  )
+    return "Ieri";
   else
     return (
       date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
     );
 };
 
-export const dateHourDisplay = date => {
+export const dateHourDisplay = (date: Date): string => {
   if (!(date instanceof Date)) date = new Date(date);
   return (
     date.getHours() +
@@ -32,18 +44,21 @@ export const dateHourDisplay = date => {
   );
 };
 
-export const formatOffice = course => {
+export const formatOffice = (course: CourseSerializer): GeneralOffice => {
   try {
     const { office, ...courseData } = course;
-    office.course = courseData;
-    return office;
+    const fOffice: GeneralOffice = {
+      ...office,
+      course: courseData
+    };
+    return fOffice;
   } catch (error) {
     console.log("COURSE FORMAT ERROR ->" + course);
     throw "COURSE FORMAT ERROR ->" + course;
   }
 };
 
-export const formatUserData = userData => {
+export const formatUserData = (userData: WHOAMIInterface): FullUserData => {
   try {
     const {
       quipu_user: { course, ...restUserData },
@@ -60,7 +75,7 @@ export const formatUserData = userData => {
   }
 };
 
-export const formatUser = user => {
+export const formatUser = (user: UserSerializer): GeneralUser => {
   try {
     const { course, ...restUser } = user;
     return {
@@ -68,12 +83,12 @@ export const formatUser = user => {
       office: formatOffice(course)
     };
   } catch (error) {
-    console.log("USER FORMAT ERROR ->" + userData);
-    throw "USER FORMAT ERROR ->" + userData;
+    console.log("USER FORMAT ERROR ->" + user);
+    throw "USER FORMAT ERROR ->" + user;
   }
 };
 
-export const getLevel = xp => {
+export const getLevel = (xp: number): { level: number; exp: number } => {
   let exp = 0;
   const levelLength = Object.keys(LEVEL_DATA).length;
 

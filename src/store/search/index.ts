@@ -1,4 +1,4 @@
-import { Epic, ActionsObservable } from "redux-observable";
+import { ActionsObservable } from "redux-observable";
 import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
 import {
@@ -38,10 +38,10 @@ import { Keyboard } from "react-native";
 import {
   ___BOOK_HINTS_ENDPOINT___,
   ___AD_SEARCH_ENDPOINT___
-} from "../constants";
+} from "../endpoints";
 import { isIsbn, setItem } from "../utility";
 import update from "immutability-helper";
-import { GeneralBook, SearchResultObject } from "../../types/itemTypes";
+import { GeneralBook, SearchResultObject } from "../../types/ItemTypes";
 import { StoreType } from "../root";
 
 export const searchRecentKey = "@auth:searchRecent";

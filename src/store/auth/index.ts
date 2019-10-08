@@ -22,7 +22,7 @@ import {
   ___LOGOUT_ENDPOINT___,
   ___SIGNUP_ENDPOINT___,
   ___INITUSER_ENDPOINT___
-} from "../constants";
+} from "../endpoints";
 import WS from "../../utils/WebSocket";
 import { AutoStart } from "../../utils/constants";
 import { commentsClear } from "./comments";
@@ -120,7 +120,7 @@ const authSetUpdatedExperience = (xp: number): TAuthActions => ({
 
 const authSetUpdatedRespect = (
   isPositive: boolean,
-  type: number
+  type: string
 ): TAuthActions => ({
   type: AUTH_UPDATE_RESPECT,
   payload: {
@@ -142,7 +142,7 @@ export const authUpdateExperience = (
 
 export const authUpdateRespect = (
   isPositive: boolean,
-  type: number
+  type: string
 ): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) =>
   getState().auth.userData && dispatch(authSetUpdatedRespect(isPositive, type));
 

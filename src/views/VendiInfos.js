@@ -91,7 +91,7 @@ export class VendiInfos extends Component {
       conditions: { value: conditions },
       description: { value: description }
     } = this.state.fields;
-    this.props.sellSetInfos({ price, conditions, description });
+    this.props.sellSetInfos(price, conditions, description);
     this.props.navigation.goBack(null);
   };
 
@@ -103,7 +103,7 @@ export class VendiInfos extends Component {
         conditions: { value: conditions },
         description: { value: description }
       } = this.state.fields;
-      this.props.sellSetInfos({ price, conditions, description });
+      this.props.sellSetInfos(price, conditions, description);
       protectedAction()
         .then(() => {
           this.props.navigation.navigate("PreviewItem");
@@ -146,7 +146,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    sellSetInfos: infos => dispatch(sellActions.sellSetInfos(infos))
+    sellSetInfos: (price, conditions, description) =>
+      dispatch(sellActions.sellSetInfos(price, conditions, description))
   };
 };
 

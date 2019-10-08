@@ -1,10 +1,39 @@
-import * as actionTypes from "../actions/actionTypes";
+import {
+  SELL_START,
+  SELL_SUCCESS,
+  SELL_FAIL,
+  SELL_TAKEPREVIEW,
+  SELL_ADD_REVIEW,
+  SELL_REMOVE_REVIEW,
+  SELL_SELECTBOOK,
+  SELL_SET_PREVIEWSORDER,
+  SELL_DELETE_PREVIEW,
+  SELL_CREATEBOOK,
+  SELL_START_SELLING,
+  SELL_START_MODIFYING,
+  SellType,
+  SellProcessTypeEnum,
+  TSellActions,
+  SellTakePreviewAction,
+  SellDeletePreviewAction,
+  SellSetPreviewsOrderAction,
+  SellSelectBookAction,
+  SellCreateBookAction,
+  SellStartAction,
+  SellSuccessAction,
+  SellFailAction,
+  SellAddReviewAction,
+  SellRemoveReviewAction,
+  SellSetStartSellingAction,
+  SellSetStartModifyingAction,
+  SellSetInfosAction,
+  SELL_SET_INFOS
+} from "./types";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
 import _ from "lodash";
-import { SellType } from "../../utils/constants";
 
-const initialState = {
+const initialState: SellType = {
   previews: {
     0: null,
     1: null,
@@ -14,18 +43,21 @@ const initialState = {
   },
   previewsOrder: [0, 1, 2, 3, 4],
   checking: [],
-  book: null,
+  book: undefined,
 
   price: "",
-  conditions: null,
+  conditions: undefined,
   description: "",
   loading: false,
-  error: null,
-  type: SellType.NEW,
-  itemModId: null
+  error: undefined,
+  type: SellProcessTypeEnum.NEW,
+  itemModId: undefined
 };
 
-const takePreview = (state, action) => {
+const takePreview = (
+  state: SellType,
+  action: SellTakePreviewAction
+): SellType => {
   let index = -1;
   for (let i = 0; i < state.previewsOrder.length; i++) {
     index = state.previewsOrder[i];
@@ -38,7 +70,10 @@ const takePreview = (state, action) => {
   });
 };
 
-const deletePreview = (state, action) => {
+const deletePreview = (
+  state: SellType,
+  action: SellDeletePreviewAction
+): SellType => {
   const index = state.previewsOrder[action.payload.index];
   return update(state, {
     previews: {
@@ -47,19 +82,28 @@ const deletePreview = (state, action) => {
   });
 };
 
-const setPreviewsOrder = (state, action) => {
+const setPreviewsOrder = (
+  state: SellType,
+  action: SellSetPreviewsOrderAction
+): SellType => {
   return updateObject(state, {
     previewsOrder: action.payload.order
   });
 };
 
-const selectBook = (state, action) => {
+const selectBook = (
+  state: SellType,
+  action: SellSelectBookAction
+): SellType => {
   return updateObject(state, {
     book: action.payload.book
   });
 };
 
-const createBook = (state, { payload: { title, isbn, author, subject } }) => {
+const createBook = (
+  state: SellType,
+  { payload: { title, isbn, author, subject } }: SellCreateBookAction
+): SellType => {
   return updateObject(state, {
     book: {
       $set: {
@@ -72,31 +116,13 @@ const createBook = (state, { payload: { title, isbn, author, subject } }) => {
   });
 };
 
-const setPrice = (state, action) => {
-  return updateObject(state, {
-    price: action.payload.price
-  });
-};
-
-const setConditions = (state, action) => {
-  return updateObject(state, {
-    conditions: action.payload.conditions
-  });
-};
-
-const setDescription = (state, action) => {
-  return updateObject(state, {
-    description: action.payload.description
-  });
-};
-
-const sellStart = (state, action) => {
+const sellStart = (state: SellType, action: SellStartAction): SellType => {
   return updateObject(state, {
     loading: true
   });
 };
 
-const sellSuccess = (state, action) => {
+const sellSuccess = (state: SellType, action: SellSuccessAction): SellType => {
   return updateObject(state, {
     previews: {
       0: null,
@@ -115,14 +141,17 @@ const sellSuccess = (state, action) => {
   });
 };
 
-const sellFail = (state, action) => {
+const sellFail = (state: SellType, action: SellFailAction): SellType => {
   return updateObject(state, {
     loading: false,
     error: action.payload.error
   });
 };
 
-const sellAddReview = (state, action) => {
+const sellAddReview = (
+  state: SellType,
+  action: SellAddReviewAction
+): SellType => {
   const data = _.isArray(action.payload.data)
     ? action.payload.data
     : [action.payload.data];
@@ -131,15 +160,24 @@ const sellAddReview = (state, action) => {
   });
 };
 
-const sellRemoveReview = (state, action) => {
+const sellRemoveReview = (
+  state: SellType,
+  action: SellRemoveReviewAction
+): SellType => {
   return update(state, {
     checking: { $splice: [[0, 1]] }
   });
 };
 
-const sellStartSelling = () => initialState;
+const sellStartSelling = (
+  state: SellType,
+  action: SellSetStartSellingAction
+): SellType => initialState;
 
-const sellStartModifying = (state, { payload: { item } }) => {
+const sellStartModifying = (
+  state: SellType,
+  { payload: { item } }: SellSetStartModifyingAction
+): SellType => {
   let previews = Object.assign({}, initialState.previews);
   item.image_ad.forEach((value, index) => {
     previews[index] = { uri: value };
@@ -147,7 +185,7 @@ const sellStartModifying = (state, { payload: { item } }) => {
   const { pk, description, condition, price, book } = item;
 
   return update(initialState, {
-    type: { $set: SellType.MODIFY },
+    type: { $set: SellProcessTypeEnum.MODIFY },
     $merge: {
       previews,
       itemModId: pk,
@@ -159,50 +197,53 @@ const sellStartModifying = (state, { payload: { item } }) => {
   });
 };
 
-const sellSetInfos = (state, { payload: { conditions, price, description } }) =>
+const sellSetInfos = (
+  state: SellType,
+  { payload: { conditions, price, description } }: SellSetInfosAction
+): SellType =>
   update(state, {
     $merge: { conditions, price, description }
   });
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: TSellActions): SellType => {
   switch (action.type) {
-    case actionTypes.SELL_START:
+    case SELL_START:
       return sellStart(state, action);
 
-    case actionTypes.SELL_SUCCESS:
+    case SELL_SUCCESS:
       return sellSuccess(state, action);
 
-    case actionTypes.SELL_FAIL:
+    case SELL_FAIL:
       return sellFail(state, action);
 
-    case actionTypes.SELL_TAKEPREVIEW:
+    case SELL_TAKEPREVIEW:
       return takePreview(state, action);
 
-    case actionTypes.SELL_DELETE_PREVIEW:
+    case SELL_DELETE_PREVIEW:
       return deletePreview(state, action);
 
-    case actionTypes.SELL_SET_PREVIEWSORDER:
+    case SELL_SET_PREVIEWSORDER:
       return setPreviewsOrder(state, action);
 
-    case actionTypes.SELL_SELECTBOOK:
+    case SELL_SELECTBOOK:
       return selectBook(state, action);
 
-    case actionTypes.SELL_CREATEBOOK:
+    case SELL_CREATEBOOK:
       return createBook(state, action);
 
-    case actionTypes.SELL_SET_INFOS:
+    case SELL_SET_INFOS:
       return sellSetInfos(state, action);
 
-    case actionTypes.SELL_ADD_REVIEW:
+    case SELL_ADD_REVIEW:
       return sellAddReview(state, action);
 
-    case actionTypes.SELL_REMOVE_REVIEW:
+    case SELL_REMOVE_REVIEW:
       return sellRemoveReview(state, action);
 
-    case actionTypes.SELL_START_SELLING:
+    case SELL_START_SELLING:
       return sellStartSelling(state, action);
 
-    case actionTypes.SELL_START_MODIFYING:
+    case SELL_START_MODIFYING:
       return sellStartModifying(state, action);
 
     default:

@@ -1,10 +1,10 @@
-import { UserSerializer } from "./ProfileTypes";
+import { UserSerializer, GeneralUser } from "./ProfileTypes";
 
 export interface GeneralBook {
   isbn: string;
   title: string;
   author: string;
-  subject?: GeneralSubject;
+  subject: GeneralSubject;
 }
 
 export interface GeneralSubject {
@@ -26,8 +26,23 @@ export interface BasicItem {
   price: number;
   condition: ItemConditionType;
   book: GeneralBook;
+  image_ad: string[];
 }
 
 export interface SearchResultObject extends BasicItem {
   seller: UserSerializer;
+}
+
+export interface GeneralItem extends BasicItem {
+  comment_ad: unknown[]; //ToDo
+  enabled: boolean;
+  seller: GeneralUser;
+}
+
+export interface ReducedItem {
+  pk: number;
+  book: GeneralBook;
+  seller: UserSerializer;
+  image_ad: string[];
+  enabled?: boolean;
 }

@@ -6,7 +6,7 @@ const initialState = {
   isConnected: null,
   navState: null,
   fcmToken: null,
-  toast:{
+  toast: {
     text: "",
     snapshot: 0
   }
@@ -27,12 +27,13 @@ const settingsUpdateFCM = (state, { payload: { token } }) =>
     fcmToken: { $set: token }
   });
 
-const settingsCreateToast = (state, {payload: {toast}}) => update(state, {
-  toast: {
-    text: {$set: toast},
-    snapshot: {$apply: (snapshot) => snapshot + 1}
-  }
-})
+const settingsCreateToast = (state, { payload: { toast } }) =>
+  update(state, {
+    toast: {
+      text: { $set: toast },
+      snapshot: { $apply: snapshot => snapshot + 1 }
+    }
+  });
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -48,8 +49,8 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SETTINGS_UPDATE_FCM_TOKEN:
       return settingsUpdateFCM(state, action);
 
-      case actionTypes.CREATE_TOAST:
-        return settingsCreateToast(state, action);
+    case actionTypes.CREATE_TOAST:
+      return settingsCreateToast(state, action);
 
     default:
       return state;
