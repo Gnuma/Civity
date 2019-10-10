@@ -12,15 +12,15 @@ import { combineEpics } from "redux-observable";
 import authReducer from "./auth/reducer";
 import searchReducer from "./search/reducer";
 
-import sellReducer from "./reducers/sell";
-import commentsReducer from "./reducers/comments";
-import chatReducer from "./reducers/chat";
-import settingsReducer from "./reducers/settings";
+import sellReducer from "./sell/reducer";
+import commentsReducer from "./comments/reducer";
+import chatReducer from "./chat/reducer";
+import settingsReducer from "./settings/reducer";
 
 /** Epics */
-import { searchEpics } from "./actions/search";
-import { chatEpics } from "../actions/auth";
-import { settingsEpics } from "./actions/settings";
+import { searchEpics } from "./search";
+import { chatEpics } from "./chat";
+import { settingsEpics } from "./settings";
 
 export interface StoreType {
   search: SearchType;

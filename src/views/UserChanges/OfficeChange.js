@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, ScrollView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as authActions from "../../store/actions/auth";
+import * as authActions from "../../store/auth";
 import OfficePicker, { canStateContinue } from "../../components/OfficePicker";
 import BasicHeader from "../../components/BasicHeader";
 import SolidButton from "../../components/SolidButton";
@@ -11,7 +11,7 @@ import { AndroidBackHandler } from "react-navigation-backhandler";
 import colors from "../../styles/colors";
 import FullButton from "../../components/FullButton";
 import axios from "axios";
-import { ___OFFICE_CHANGE___ } from "../../store/constants";
+import { ___OFFICE_CHANGE___ } from "../../store/endpoints";
 import { SafeAreaView } from "react-navigation";
 
 export class OfficeChange extends Component {

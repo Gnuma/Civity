@@ -13,9 +13,9 @@ import axios from "axios";
 import { UserSerializer } from "../types/ProfileTypes";
 
 export const getSubjectIndex = (
-  subjectID: string,
+  subjectID: ChatCategoryIdType,
   orderedData: OrderedShoppingData[]
-): ChatCategoryIdType => {
+): number => {
   console.log(orderedData, subjectID);
   for (let i = 0; i < orderedData.length; i++) {
     console.log(orderedData[i].subjectID, subjectID);
@@ -25,9 +25,9 @@ export const getSubjectIndex = (
 };
 
 export const getItemIndex = (
-  itemID: number,
+  itemID: ChatCategoryIdType,
   orderedData: OrderedSalesData[]
-): ChatCategoryIdType => {
+): number => {
   for (let i = 0; i < orderedData.length; i++) {
     if (orderedData[i].itemID == itemID) return i;
   }
@@ -49,7 +49,7 @@ export const createOffert = (
   _id: pk
 });
 
-export const createSystemMessage = (text: string) => ({
+export const createSystemMessage = (text: string): GeneralMessage => ({
   createdAt: new Date(),
   _id: uuid.v4(),
   text,

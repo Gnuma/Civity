@@ -11,7 +11,7 @@ import {
 } from "../../components/Text";
 import CircleValue from "../CircleValue";
 import Image from "react-native-fast-image";
-import { ___BASE_ENDPOINT___ } from "../../store/constants";
+import { ___BASE_ENDPOINT___ } from "../../store/endpoints";
 import { formatOffice } from "../../utils/helper";
 import { ProBadge } from "../Badge";
 import { UserType } from "../../utils/constants";

@@ -19,7 +19,7 @@ export const setItem = async (key: string, item: Object) => {
   }
 };
 
-export const getItem = async key => {
+export const getItem = async (key: string) => {
   try {
     const item = await AsyncStorage.getItem(key);
     if (item !== null) {
@@ -32,7 +32,7 @@ export const getItem = async key => {
   }
 };
 
-export const removeItem = async key => {
+export const removeItem = async (key: string) => {
   try {
     await AsyncStorage.removeItem(key);
   } catch (error) {
@@ -40,11 +40,12 @@ export const removeItem = async key => {
   }
 };
 
-export const multiGet = async keys => {
+export const multiGet = async (keys: string[]) => {
   try {
     let items = await AsyncStorage.multiGet(keys);
+    if (items == null) throw "No items found";
     for (let i = 0; i < items.length; i++) {
-      if (items[i][1] !== null) items[i][1] = JSON.parse(items[i][1]);
+      if (items[i][1] !== null) items[i][1] = JSON.parse(items[i][1] || "");
     }
     return items;
   } catch (error) {
@@ -52,6 +53,6 @@ export const multiGet = async keys => {
   }
 };
 
-export const isIsbn = value => {
+export const isIsbn = (value: string) => {
   return /^\d+$/.test(value) && value.length >= 9 && value.length <= 13;
 };

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, ScrollView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as authActions from "../../store/actions/auth";
+import * as authActions from "../../store/auth";
 import BasicHeader from "../../components/BasicHeader";
 import PhonePicker, { RetrySend } from "../../components/PhonePicker";
 import SolidButton from "../../components/SolidButton";
@@ -19,7 +19,7 @@ import {
   ___SEND_MESSAGE___,
   ___VALIDATE_USER___,
   ___SEND_VALIDATION___
-} from "../../store/constants";
+} from "../../store/endpoints";
 import FullButton from "../../components/FullButton";
 import colors from "../../styles/colors";
 import { isEmpty } from "rxjs/operators";

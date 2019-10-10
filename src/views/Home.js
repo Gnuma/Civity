@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import MainList from "../components/List/MainList";
 import SearchResults from "../components/SearchResults/SearchResults";
-import * as searchActions from "../store/actions/search";
+import * as searchActions from "../store/search";
 import BookShelf from "../components/Home/BookShelf";
 import SearchLink from "../components/Home/SearchLink";
 import { AndroidBackHandler } from "react-navigation-backhandler";
@@ -159,7 +159,6 @@ const mapStateToProps = state => ({
   showResults: state.search.showResults,
   searchQuery: state.search.searchQuery,
   isLoading: state.search.loading,
-  notifications: state.notifications.notifications, //TAke out
   commentsData: state.comments.data,
   commentsOrder: state.comments.orderedData
 });

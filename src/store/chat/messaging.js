@@ -1,22 +1,8 @@
-import { ChatType } from "../../utils/constants";
 import NetInfo from "@react-native-community/netinfo";
-import {
-  shoppingConfirmMsg,
-  shoppingSendMsg,
-  shoppingRetrieveData,
-  shoppingStartGlobalAction
-} from "./shopping";
 import uuid from "uuid";
-import {
-  salesConfirmMsg,
-  salesSendMsg,
-  salesRetrieveData,
-  salesStartGlobalAction
-} from "./sales";
-import { chatConfirmMsg, chatSendMsg, chatStartGlobalAction } from "./chat";
-import { sellerChatList, buyerChatList2 } from "../../mockData/Chat2";
+import { chatConfirmMsg, chatSendMsg } from "./";
 import axios from "axios";
-import { ___SEND_MESSAGE___ } from "../constants";
+import { ___SEND_MESSAGE___ } from "../endpoints";
 
 let queue = [];
 
@@ -61,20 +47,6 @@ export const sendMessage = (type, objectID, chatID) => {
 };
 
 export const messagingClear = () => (queue = []);
-
-const confirmMessage = (type, objectID, chatID, msg) => {
-  return type === ChatType.shopping
-    ? //Shopping
-      shoppingConfirmMsg(objectID, chatID, msg._id, {
-        isSending: false,
-        _id: uuid.v4()
-      })
-    : //Sales
-      salesConfirmMsg(objectID, chatID, msg._id, {
-        isSending: false,
-        _id: uuid.v4()
-      });
-};
 
 const createMsg = (content, userID) => {
   return {

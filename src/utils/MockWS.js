@@ -1,5 +1,5 @@
 import { Server } from "mock-socket";
-import { ___WS_TEST_ENDPOINT } from "../store/constants";
+import { ___WS_TEST_ENDPOINT } from "../store/endpoints";
 import {
   newSellerMsg,
   newBuyerMsg,

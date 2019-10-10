@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, StyleSheet, ActivityIndicator } from "react-native";
-import * as sellActions from "../store/actions/sell";
+import * as sellActions from "../store/sell";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { GreyBar, setGreyBar } from "../components/StatusBars";

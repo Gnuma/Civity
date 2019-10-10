@@ -25,13 +25,13 @@ import {
 } from "../endpoints";
 import WS from "../../utils/WebSocket";
 import { AutoStart } from "../../utils/constants";
-import { commentsClear } from "./comments";
-import { messagingClear } from "./messaging";
-import { chatClear } from "./chat";
+import { commentsClear } from "../comments";
+import { messagingClear } from "../chat/messaging";
+import { chatClear } from "../chat";
 import { mockWHOAMI } from "../../mockData/MockUser";
 import NetInfo from "@react-native-community/netinfo";
 import { formatUserData } from "../../utils/helper";
-import { updateFCMToken } from "./settings";
+import { updateFCMToken } from "../settings";
 import { StoreType } from "../root";
 import { GeneralOffice, FullUserData } from "../../types/ProfileTypes";
 import { any } from "prop-types";

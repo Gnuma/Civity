@@ -1,8 +1,8 @@
-export const ___SERVER_ENDPOINT___ = "http://176.223.136.43:8000/";
+export const ___SERVER_ENDPOINT___ = "http://176.223.136.43:6000/";
 //export const ___SERVER_ENDPOINT___ = "http://17029.l.time4vps.cloud/";
 export const ___BASE_ENDPOINT___ = ___SERVER_ENDPOINT___ + "gnuma/v1/";
 
-export const ___WS_ENDPOINT___ = "ws://176.223.136.43:8000/" + "ws/chat/";
+export const ___WS_ENDPOINT___ = "ws://176.223.136.43:6000/" + "ws/chat/";
 export const ___WS_TEST_ENDPOINT = "ws://192.168.178.104:1234";
 
 export const ___AD_SEARCH_ENDPOINT___ =

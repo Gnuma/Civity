@@ -17,7 +17,7 @@ import { ajax } from "rxjs/ajax";
 import {
   ___OFFICE_HINTS_ENDPOINT___,
   ___COURSE_HINTS_ENDPOINT___
-} from "../store/constants";
+} from "../store/endpoints";
 import Icon5 from "react-native-vector-icons/FontAwesome5";
 import Shadows from "./Shadows";
 import Axios from "axios";

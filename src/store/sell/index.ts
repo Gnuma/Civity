@@ -32,8 +32,12 @@ import {
   ___MODIFY_AD___
 } from "../endpoints";
 import { ___BOOK_IMG_RATIO___, SellType } from "../../utils/constants";
-import { chatNewItem, chatModifyItem } from "./chat";
-import { GeneralBook, GeneralSubject, ItemCondition } from "../../types/asdas";
+import { chatNewItem, chatModifyItem } from "../chat";
+import {
+  GeneralBook,
+  GeneralSubject,
+  ItemCondition
+} from "../../types/ItemTypes";
 import { StoreType } from "../root";
 import { GeneralItem } from "../../types/ItemTypes";
 

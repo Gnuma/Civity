@@ -9,7 +9,7 @@ import Divider from "../Divider";
 import colors from "../../styles/colors";
 import uuid from "uuid";
 import axios from "axios";
-import { ___CREATE_COMMENT___ } from "../../store/constants";
+import { ___CREATE_COMMENT___ } from "../../store/endpoints";
 import protectedAction from "../../utils/protectedAction";
 import NetInfo from "@react-native-community/netinfo";
 import IOSToast from "../IOSToast";

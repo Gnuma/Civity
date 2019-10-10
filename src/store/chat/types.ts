@@ -9,7 +9,8 @@ import {
   GeneralBook,
   ItemCondition,
   GeneralSubject,
-  ReducedItem
+  ReducedItem,
+  BasicItem
 } from "../../types/ItemTypes";
 
 export const CHAT_INIT = "CHAT_INIT";
@@ -49,8 +50,8 @@ export interface ChatType {
   shoppingOrderedData: Array<OrderedShoppingData>;
   contactedItems: { [key: number]: boolean }; //Todo
   error: unknown;
-  salesFocus: number;
-  shoppingFocus: number;
+  salesFocus: ChatCategoryIdType;
+  shoppingFocus: ChatCategoryIdType;
   chatFocus: number;
   loading: boolean;
 }
@@ -60,6 +61,11 @@ export type ChatCategoryIdType = string | number;
 export enum ChatCategoryType {
   shopping = "shopping",
   sales = "sales"
+}
+
+export enum ChatCategorySecondaryType {
+  shopping = "shopping",
+  sale = "sale"
 }
 
 export enum ChatStatus {
@@ -113,8 +119,8 @@ export interface ShoppingData {
   };
 }
 
-export interface SalesData extends GeneralItem {
-  _id: number;
+export interface SalesData {
+  _id: ChatCategoryIdType;
   seller: GeneralUser;
   book: GeneralBook;
   newsCount: number;
@@ -130,6 +136,7 @@ export interface GeneralChat {
   UserTO: GeneralUser;
   hasNews: number;
   status: ChatStatus;
+  statusLoading?: boolean;
   messages: GeneralMessage[];
   offerts: GeneralOffert[];
   toload: boolean;
@@ -151,12 +158,13 @@ export interface GeneralMessage {
   createdAt: string | Date;
   is_read: boolean;
   text: string;
-  user: {
+  user?: {
     _id: number;
     username?: string;
   };
   system?: boolean;
   isSending?: boolean;
+  error?: boolean;
 }
 
 export interface GeneralOffert {
@@ -178,13 +186,55 @@ export interface GeneralFeedback {
   chat: number;
 }
 
+export interface SalesChatItem extends ReducedItem {
+  price: number;
+  condition: ItemCondition;
+}
+
 export interface ChatSerializer {
   _id: number;
-  item: ReducedItem;
+  item: SalesChatItem;
   buyer: UserSerializer;
   createdAt: string;
 }
 
+export interface ChatInitSerializer {
+  buyer: UserSerializer;
+  feedbacks: {
+    buyer?: GeneralFeedback;
+    seller?: GeneralFeedback;
+  };
+  hasNews: number;
+  messages: GeneralMessage[];
+  offerts: GeneralOffert[];
+  status: number;
+  toload: boolean;
+  _id: number;
+}
+
+export interface InitChatItemSerializer {
+  book: GeneralBook;
+  condition: ItemCondition;
+  enabled: boolean;
+  image_ad: [];
+  newsCount: number;
+  price: number;
+  seller: UserSerializer;
+  _id: number;
+}
+
+export interface InitSalesType extends InitChatItemSerializer {
+  chats: ChatInitSerializer[];
+}
+
+export interface InitShoppingItemSerializer extends InitChatItemSerializer {
+  chats: ChatInitSerializer;
+}
+
+export interface InitShoppingType {
+  items: InitShoppingItemSerializer[];
+  subject: GeneralSubject;
+}
 /**
  * Actions
  */
@@ -192,8 +242,8 @@ export interface ChatSerializer {
 export interface ChatInitAction {
   type: typeof CHAT_INIT;
   payload: {
-    salesData: SalesData[];
-    shoppingData: { subject: GeneralSubject; items: SalesData[] }[];
+    salesData: InitSalesType[];
+    shoppingData: InitShoppingType[];
   };
 }
 
@@ -254,7 +304,7 @@ export interface ChatReceiveMessageAction {
     objectID: ChatCategoryIdType;
     chatID: number;
     msg: GeneralMessage;
-    type: ChatCategoryType;
+    type: ChatCategorySecondaryType;
   };
 }
 

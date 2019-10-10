@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Subject, of } from "rxjs";
 import { switchMap, delay, map } from "rxjs/operators";
 import store from "../store/store";
-import { createToast } from "../store/actions/settings";
+import { createToast } from "../store/settings";
 import { Header3, Header4 } from "./Text";
 import Card from "./Card";
 import * as Animatable from "react-native-animatable";

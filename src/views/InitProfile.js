@@ -7,10 +7,10 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as authActions from "../store/actions/auth";
+import * as authActions from "../store/auth";
 import { Header1, Header3, Header2 } from "../components/Text";
 import OfficePicker, { canStateContinue } from "../components/OfficePicker";
-import { ___OFFICE_HINTS_ENDPOINT___ } from "../store/constants";
+import { ___OFFICE_HINTS_ENDPOINT___ } from "../store/endpoints";
 import { AndroidBackHandler } from "react-navigation-backhandler";
 import { SafeAreaView } from "react-navigation";
 import FullButton from "../components/FullButton";

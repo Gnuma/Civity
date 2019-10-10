@@ -18,7 +18,7 @@ import { Header1, Header3 } from "../../components/Text";
 import Button from "../../components/Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AndroidBackHandler } from "react-navigation-backhandler";
-import * as authActions from "../../store/actions/auth";
+import * as authActions from "../../store/auth";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { HiddenBar } from "../../components/StatusBars";
 import { mockOffice } from "../../mockData/MockUser";

@@ -46,7 +46,10 @@ import {
   ChatReceiveMessageAction,
   ChatSystemMsgAction,
   ChatSendMsgAction,
-  ChatOnlineAction
+  ChatOnlineAction,
+  InitSalesType,
+  InitShoppingType,
+  ChatCategorySecondaryType
 } from "./types";
 import uuid from "uuid";
 import NetInfo from "@react-native-community/netinfo";
@@ -88,8 +91,8 @@ import { UserSerializer, BasicUser } from "../../types/ProfileTypes";
 import { StoreType } from "../root";
 
 export const chatInit = (
-  salesData: SalesData[],
-  shoppingData: { subject: GeneralSubject; items: SalesData[] }[]
+  salesData: InitSalesType[],
+  shoppingData: InitShoppingType[]
 ): TChatActions => ({
   type: CHAT_INIT,
   payload: {
@@ -168,7 +171,7 @@ export const chatReceiveMessage = (
   objectID: ChatCategoryIdType,
   chatID: number,
   msg: GeneralMessage,
-  type: ChatCategoryType
+  type: ChatCategorySecondaryType
 ): TChatActions => ({
   type: CHAT_RECEIVE_MSG,
   payload: {
@@ -807,7 +810,7 @@ export const onNewMessage = (
   objectID: ChatCategoryIdType,
   chatID: number,
   msg: GeneralMessage,
-  type: ChatCategoryType
+  type: ChatCategorySecondaryType
 ): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   const state = getState().chat;
   dispatch(chatReceiveMessage(objectID, chatID, msg, type));

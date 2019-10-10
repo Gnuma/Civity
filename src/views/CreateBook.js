@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as sellActions from "../store/actions/sell";
+import * as sellActions from "../store/sell";
 import axios from "axios";
 import BasicHeader from "../components/BasicHeader";
 import { Header3, Header4 } from "../components/Text";
@@ -23,7 +23,7 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import {
   ___CREATE_BOOK___,
   ___SUBJECT_HINTS_ENDPOINT___
-} from "../store/constants";
+} from "../store/endpoints";
 import { GreyBar, setGreyBar } from "../components/StatusBars";
 import { SafeAreaView } from "react-navigation";
 import Picker from "../components/TextInputPicker";

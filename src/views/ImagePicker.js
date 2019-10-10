@@ -24,7 +24,7 @@ import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import Button from "../components/Button";
 import _ from "lodash";
 import Icon from "react-native-vector-icons/FontAwesome";
-import * as sellActions from "../store/actions/sell";
+import * as sellActions from "../store/sell";
 import CameraRoll from "@react-native-community/cameraroll";
 import { SafeAreaView } from "react-navigation";
 import Permissions from "react-native-permissions";

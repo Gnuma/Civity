@@ -17,11 +17,10 @@ import {
   ___GET_AD___,
   ___DELTE_AD___,
   ___REPORT_AD___
-} from "../store/constants";
-import * as commentActions from "../store/actions/comments";
-import * as chatActions from "../store/actions/chat";
-import * as sellActions from "../store/actions/sell";
-import { notificationsViewItem } from "../store/actions/notifications";
+} from "../store/endpoints";
+import * as commentActions from "../store/comments";
+import * as chatActions from "../store/chat";
+import * as sellActions from "../store/sell";
 import { GreyBar, setGreyBar } from "../components/StatusBars";
 import { formatOffice } from "../utils/helper";
 import DecisionOverlay from "../components/DecisionOverlay";
@@ -323,8 +322,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => {
   return {
     contactRedux: item => dispatch(chatActions.chatContactUser(item)),
-    notificationViewItemRedux: itemPK =>
-      dispatch(notificationsViewItem(itemPK)),
     readComments: item => dispatch(commentActions.commentsRead(item)),
     sellStartMofifying: item => dispatch(sellActions.sellStartModifying(item)),
     blockItem: item => dispatch(chatActions.chatBlockItem(item))

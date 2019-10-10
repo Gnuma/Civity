@@ -17,7 +17,7 @@ import update from "immutability-helper";
 import FullButton from "../../components/FullButton";
 import colors from "../../styles/colors";
 import axios from "axios";
-import { ___MODIFY_USER___ } from "../../store/constants";
+import { ___MODIFY_USER___ } from "../../store/endpoints";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { SafeAreaView } from "react-navigation";
 

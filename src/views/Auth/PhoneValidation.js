@@ -14,7 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { HiddenBar, GreyBar } from "../../components/StatusBars";
 import PhonePicker, { RetrySend } from "../../components/PhonePicker";
 import ContinueButton from "../../components/ContinueButton";
-import * as authActions from "../../store/actions/auth";
+import * as authActions from "../../store/auth";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { StackActions } from "react-navigation";
 import {
@@ -28,7 +28,7 @@ import axios from "axios";
 import {
   ___VALIDATE_USER___,
   ___SEND_VALIDATION___
-} from "../../store/constants";
+} from "../../store/endpoints";
 import { AUTH_ERROR, NOTCH_MARGIN, CODE_LENGTH } from "../../utils/constants";
 import { isEmpty } from "rxjs/operators";
 

@@ -40,7 +40,7 @@ import {
   ChatType
 } from "../../utils/constants";
 import SystemMessages from "../../utils/SystemMessages";
-import { authUpdateRespect, authUpdateExperience } from "./auth";
+import { authUpdateRespect, authUpdateExperience } from "../auth";
 
 export const chatInit = (salesData, shoppingData) => ({
   type: actionTypes.CHAT_INIT,

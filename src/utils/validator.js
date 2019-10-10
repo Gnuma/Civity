@@ -3,7 +3,7 @@ import {
   ___CHECK_USERNAME___,
   ___CHECK_EMAIL___,
   ___CHECK_PHONE___
-} from "../store/constants";
+} from "../store/endpoints";
 
 export const submit = (fields, validators) =>
   new Promise(async (resolve, reject) => {

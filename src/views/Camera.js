@@ -10,7 +10,7 @@ import RNFS from "react-native-fs";
 import { connect } from "react-redux";
 import { RNCamera } from "react-native-camera";
 import CameraHeader from "../components/Camera/CameraHeader";
-import * as sellActions from "../store/actions/sell";
+import * as sellActions from "../store/sell";
 import colors from "../styles/colors";
 import _ from "lodash";
 import MainCamera from "../components/Camera/MainCamera";

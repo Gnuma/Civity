@@ -31,7 +31,7 @@ import CivityProInfoScreen from "../views/CivityProInfoScreen";
 
 import Header from "../Header/Header";
 import TabBar from "../TabBar/TabBar";
-import { saveNavState } from "../store/actions/settings";
+import { saveNavState } from "../store/settings";
 
 const UserSettingsNavigator = createStackNavigator(
   {

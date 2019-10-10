@@ -2,10 +2,10 @@ import {
   ___WS_ENDPOINT___,
   ___WS_TEST_ENDPOINT,
   ___RETRIEVE_CHATS___
-} from "../store/constants";
+} from "../store/endpoints";
 //import "./MockWS";
 import store from "../store/store";
-import { authCompleted, authFail } from "../store/actions/auth";
+import { authCompleted, authFail } from "../store/auth";
 import update from "immutability-helper";
 import { commentList } from "../mockData/comments";
 import {
@@ -17,11 +17,11 @@ import {
   commentsReceiveComment,
   commentsInit,
   commentsReceiveAnswer
-} from "../store/actions/comments";
+} from "../store/comments";
 import NetInfo from "@react-native-community/netinfo";
 import { AppState } from "react-native";
 import { ChatType, ChatStatus } from "./constants";
-import { restart } from "../store/actions/messaging";
+import { restart } from "../store/chat/messaging";
 import axios from "axios";
 import {
   chatInit,
@@ -35,7 +35,7 @@ import {
   chatSetFeedback,
   chatBlockChat,
   chatDisableItem
-} from "../store/actions/chat";
+} from "../store/chat";
 import IOSToast from "../components/IOSToast";
 
 class WS {

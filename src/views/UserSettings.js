@@ -21,7 +21,7 @@ import Card from "../components/Card";
 import ActionsList from "../components/UserSettings/ActionsList";
 import CircleValue from "../components/CircleValue";
 import Button from "../components/Button";
-import * as authActions from "../store/actions/auth";
+import * as authActions from "../store/auth";
 import Divider from "../components/Divider";
 import { getLevel } from "../utils/helper";
 import { LEVEL_DATA, IS_ANDROID, UserType } from "../utils/constants";
