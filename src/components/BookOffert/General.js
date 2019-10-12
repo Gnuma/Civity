@@ -3,7 +3,6 @@ import { Text, View, ScrollView } from "react-native";
 import ListMultiItem from "../ListItem/ListMultiItem";
 import Card from "../Card";
 import { Header2, Header3, Header4 } from "../Text";
-import CircleValue from "../CircleValue";
 import { getLevel, dateHourDisplay } from "../../utils/helper";
 import {
   TextOffertStatus,

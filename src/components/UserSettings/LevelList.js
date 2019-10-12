@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import PropTypes from "prop-types";
 import Carousel from "react-native-snap-carousel";
-import { LEVEL_DATA } from "../../utils/constants";
+import { LEVEL_DATA, CircleValueType } from "../../utils/constants";
 import { sliderWidth, itemWidth } from "./styles";
 import CircleValue from "../CircleValue";
 
@@ -25,7 +25,7 @@ class LevelList extends Component {
       <CircleValue
         value={item}
         radius={itemWidth / 2}
-        type={CircleValue.CircleValueType.LEVEL}
+        type={CircleValueType.LEVEL}
         inactive={!experience}
         experience={experience}
       />

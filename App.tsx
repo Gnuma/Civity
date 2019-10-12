@@ -26,7 +26,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Navigator
-          ref={(navigatorRef: unknown) => {
+          ref={(navigatorRef: any) => {
             NavigationService.setTopLevelNavigator(navigatorRef);
           }}
           persistNavigationState={persistNavigationState}

@@ -14,7 +14,7 @@ export interface OfficeSerializer {
   id: number;
   name: string;
   address: string;
-  officeType: OfficeIdentifierType;
+  officetype: OfficeIdentifierType;
 }
 
 export interface CourseSerializer extends GeneralCourse {

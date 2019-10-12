@@ -24,7 +24,12 @@ import Button from "../components/Button";
 import * as authActions from "../store/auth";
 import Divider from "../components/Divider";
 import { getLevel } from "../utils/helper";
-import { LEVEL_DATA, IS_ANDROID, UserType } from "../utils/constants";
+import {
+  LEVEL_DATA,
+  IS_ANDROID,
+  UserType,
+  CircleValueType
+} from "../utils/constants";
 import { SafeAreaView } from "react-navigation";
 import { ProBadge } from "../components/Badge";
 
@@ -245,7 +250,7 @@ const LevelSample = () => {
     return (
       <CircleValue
         radius={radius}
-        type={CircleValue.CircleValueType.LEVEL}
+        type={CircleValueType.LEVEL}
         value={item}
         inactive={item > 1}
         experience={(item == 1 && 70) || 0}
