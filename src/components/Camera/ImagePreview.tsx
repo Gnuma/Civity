@@ -3,11 +3,15 @@ import { View, ImageBackground, Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Button from "../Button";
 import { cameraPreview as cameraPreviewStyle, generalStyle } from "./styles";
+import { PreviewImage } from "../../store/sell/types";
 
-export default class ImagePreview extends Component {
-  constructor(props) {
-    super(props);
-  }
+interface ImagePreviewProps {
+  item: PreviewImage | null;
+  index?: number;
+  deleteItem: (index: number) => void;
+}
+
+export default class ImagePreview extends Component<ImagePreviewProps> {
   render() {
     const { item } = this.props;
     if (item)
@@ -37,6 +41,6 @@ export default class ImagePreview extends Component {
   }
 
   _local_deleteItem = () => {
-    this.props.deleteItem(this.props.index);
+    this.props.index && this.props.deleteItem(this.props.index);
   };
 }

@@ -29,7 +29,7 @@ export const dateDisplay = (date: Date | string): string => {
     );
 };
 
-export const dateHourDisplay = (date: Date): string => {
+export const dateHourDisplay = (date: Date | string): string => {
   if (!(date instanceof Date)) date = new Date(date);
   return (
     date.getHours() +

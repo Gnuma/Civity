@@ -1,11 +1,16 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { Text, View, TextProps, StyleProp, ViewStyle } from "react-native";
 import Card from "../Card";
 import colors from "../../styles/colors";
 import { Header3 } from "../Text";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-export default class ErrorMessage extends Component {
+interface ErrorMessageProps extends TextProps {
+  message: string;
+  containerStyle?: StyleProp<ViewStyle>;
+}
+
+export default class ErrorMessage extends Component<ErrorMessageProps> {
   render() {
     const { message, containerStyle, style, ...rest } = this.props;
 

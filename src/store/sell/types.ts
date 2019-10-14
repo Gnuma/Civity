@@ -105,7 +105,7 @@ export interface SellSetInfosAction {
 export interface SellAddReviewAction {
   type: typeof SELL_ADD_REVIEW;
   payload: {
-    data: CheckingImage;
+    data: CheckingImage | CheckingImage[];
   };
 }
 

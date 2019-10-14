@@ -1,22 +1,22 @@
 import React, { Component } from "react";
-import {
-  View,
-  ImageBackground,
-  StyleSheet,
-  ActivityIndicator
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import { RNCamera } from "react-native-camera";
-import { Header2 } from "../Text";
 import CameraBottom from "./CameraBottom";
-import CameraHeader from "./CameraHeader";
-import colors from "../../styles/colors";
 
-export default class MainCamera extends Component {
+interface MainCameraProps {
+  flashMode: "on" | "off" | "torch" | "auto";
+  initCamera: (camera: RNCamera) => void;
+  takePicture: () => void;
+  changeFlashMode: () => void;
+  openImagePicker: () => void;
+  loading: boolean;
+}
+
+export default class MainCamera extends Component<MainCameraProps> {
   render() {
     const {
       flashMode,
       initCamera,
-      cameraStatusChange,
       takePicture,
       changeFlashMode,
       openImagePicker,
@@ -26,7 +26,7 @@ export default class MainCamera extends Component {
     return (
       <View
         style={{
-          ...StyleSheet.absoluteFill,
+          ...StyleSheet.absoluteFillObject,
           justifyContent: "flex-end"
         }}
       >
@@ -37,7 +37,6 @@ export default class MainCamera extends Component {
           captureAudio={false}
           autoFocusPointOfInterest={{ x: 0.5, y: 0.5 }}
           ref={initCamera}
-          onStatusChange={cameraStatusChange}
         />
         <CameraBottom
           takePicture={takePicture}

@@ -1,11 +1,24 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import ImagePreview from "./ImagePreview";
-import SortableList from "react-native-sortable-list";
+import SortableList, { RowProps } from "react-native-sortable-list";
 import { cameraPreview as cameraPreviewStyle } from "./styles";
+import { PreviewImage } from "../../store/sell/types";
 
-export class CameraPreviews extends Component {
-  constructor(props) {
+interface CameraPreviewsProps {
+  previews: { [key: number]: PreviewImage | null };
+  _reorderPreviews: (order: number[]) => void;
+  previewsOrder: number[];
+  deleteItem: (index: number) => void;
+}
+
+interface CameraPreviewsState {}
+
+export class CameraPreviews extends Component<
+  CameraPreviewsProps,
+  CameraPreviewsState
+> {
+  constructor(props: CameraPreviewsProps) {
     super(props);
 
     this.state = {
@@ -28,7 +41,7 @@ export class CameraPreviews extends Component {
     );
   }
 
-  _renderItem = ({ data, index }) => {
+  _renderItem = ({ data, index }: RowProps<PreviewImage | null, number>) => {
     return (
       <ImagePreview
         item={data}
@@ -36,10 +49,6 @@ export class CameraPreviews extends Component {
         deleteItem={this.props.deleteItem}
       />
     );
-  };
-
-  _keyExtractor = (item, index) => {
-    return index.toString();
   };
 }
 

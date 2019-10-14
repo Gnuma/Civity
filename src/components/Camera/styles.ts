@@ -52,7 +52,7 @@ export const cameraPreview = StyleSheet.create({
     borderRadius: 4
   },
   overlay: {
-    ...StyleSheet.absoluteFill,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0,0,0,0.2)"
   }
 });

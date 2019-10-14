@@ -113,6 +113,11 @@ export const TextOffertStatus = {
   2: "Rifiutata"
 };
 
+export enum FeedbackOffertTypes {
+  SELLER = "seller",
+  BUYER = "buyer"
+}
+
 export const FEEDBACK_TYPES = {
   POSITIVE: 1,
   NEGATIVE: 0
@@ -156,4 +161,9 @@ export enum CircleValueType {
   LEVEL = "LEVEL",
   STATUS = "STATUS",
   USERNAME = "USERNAME"
+}
+
+export interface FieldState {
+  value: string;
+  errorMessage: string;
 }

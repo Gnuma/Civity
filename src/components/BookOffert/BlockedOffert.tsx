@@ -5,14 +5,23 @@ import Card from "../Card";
 import { Header2, Header1, Header3 } from "../Text";
 import FullButton from "../FullButton";
 import { FEEDBACK_TYPES, TextFeedbackTypes } from "../../utils/constants";
+import { GeneralOffert } from "../../store/chat/types";
+import { GeneralUser } from "../../types/ProfileTypes";
+import { GeneralItem } from "../../types/ItemTypes";
 
-export default ({ item, offert, UserTO }) => {
+interface BlockedOffertProps {
+  item: GeneralItem;
+  offert: GeneralOffert;
+  UserTO: GeneralUser;
+}
+
+export default ({ item, offert, UserTO }: BlockedOffertProps) => {
   return (
     <View style={{ flex: 1 }}>
       <OffertInfo item={item} user={UserTO} offert={offert} />
       <View
         style={{
-          ...StyleSheet.absoluteFill,
+          ...StyleSheet.absoluteFillObject,
           backgroundColor: "rgba(0,0,0,0.75)",
           justifyContent: "center",
           alignItems: "center"

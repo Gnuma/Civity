@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TextProps,
+  TextStyle,
+  ViewStyle,
+  NativeSyntheticEvent,
+  TextInputFocusEventData
+} from "react-native";
 import PropTypes from "prop-types";
 import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -7,7 +16,26 @@ import Icon5 from "react-native-vector-icons/FontAwesome5";
 import colors from "../../styles/colors";
 import Shadows from "../Shadows";
 
-export default class OutlinedInput extends Component {
+export interface OutlinedInputProps extends TextProps {
+  icon?: string;
+  inputType?: KeyboardType;
+  inputStyle?: TextStyle;
+  containerStyle?: ViewStyle;
+  borderFocus?: boolean;
+  isPhone?: boolean;
+  hideClearButton?: boolean;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  placeholder?: string;
+
+  value: string;
+  onTextChange: (text: string) => void;
+}
+
+export default class OutlinedInput extends Component<
+  OutlinedInputProps,
+  { focused: boolean }
+> {
   static propTypes = {
     onTextChange: PropTypes.func,
     value: PropTypes.string,
@@ -21,16 +49,22 @@ export default class OutlinedInput extends Component {
     hideClearButton: PropTypes.bool
   };
 
+  static defaultProps = {
+    icon: "pen"
+  };
+
+  input?: TextInput;
+
   state = {
     focused: false
   };
 
-  _onChange = text => {
+  _onChange = (text: string) => {
     this.props.onTextChange(text);
   };
 
   _focusInput = () => {
-    this.input.focus();
+    this.input && this.input.focus();
   };
 
   onButtonPress = () => {
@@ -38,7 +72,7 @@ export default class OutlinedInput extends Component {
     if (!this.props.hideClearButton && this.props.value) this._onChange("");
   };
 
-  _setInputRef = input => {
+  _setInputRef = (input: TextInput) => {
     this.input = input;
   };
 
@@ -72,11 +106,11 @@ export default class OutlinedInput extends Component {
       ...rest
     } = this.props;
     let { value } = this.props;
-
     const icon =
       !hideClearButton && this.state.focused && value
         ? "times"
         : this.props.icon;
+    if (!icon) throw "Icon not set in OI";
 
     return (
       <View
@@ -142,6 +176,17 @@ export default class OutlinedInput extends Component {
   }
 }
 
-OutlinedInput.defaultProps = {
-  icon: "pen"
-};
+type KeyboardType =
+  | "default"
+  | "email-address"
+  | "numeric"
+  | "phone-pad"
+  | "visible-password"
+  | "ascii-capable"
+  | "numbers-and-punctuation"
+  | "url"
+  | "number-pad"
+  | "name-phone-pad"
+  | "decimal-pad"
+  | "twitter"
+  | "web-search";

@@ -1,37 +1,59 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, TextInput } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  TextInput,
+  StyleProp,
+  ViewStyle
+} from "react-native";
 import PropTypes from "prop-types";
 import colors from "../../styles/colors";
 
-export default class CodeInput extends Component {
+interface CodeInputProps {
+  code: string[];
+  onTextChange: (code: string[]) => void;
+  containerStyle: StyleProp<ViewStyle>;
+}
+
+interface CodeInputState {
+  focus?: number | null;
+}
+
+export default class CodeInput extends Component<
+  CodeInputProps,
+  CodeInputState
+> {
   static propTypes = {
     code: PropTypes.array,
     onTextChange: PropTypes.func.isRequired
   };
 
+  inputBoxes: { [key: number]: TextInput | null } = {};
+
   state = {
     focus: null
   };
 
-  inputBoxes = {};
-
-  textChange = (text, index) => {
+  textChange = (text: string, index: number) => {
     text = text.trim();
     let newCode = this.props.code;
+    let input;
     if (
       text.length >= this.props.code[index].length &&
       index < this.props.code.length - 1
     ) {
-      this.inputBoxes[index + 1].focus();
+      input = this.inputBoxes[index + 1];
     } else if (this.props.code[index].length > text.length && index > 0) {
-      this.inputBoxes[index - 1].focus();
+      input = this.inputBoxes[index - 1];
     }
+    input && input.focus();
 
     newCode[index] = text;
     this.props.onTextChange(newCode);
   };
 
-  focusBox = index => {
+  focusBox = (index: number) => {
     this.setState({ focus: index });
   };
 

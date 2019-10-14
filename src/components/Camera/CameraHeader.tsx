@@ -6,8 +6,18 @@ import CameraPreviews from "./CameraPreviews";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { header as headerStyle, generalStyle } from "./styles";
 import _ from "lodash";
+import { PreviewImage } from "../../store/sell/types";
 
-export class CameraHeader extends Component {
+interface CameraHeaderProps {
+  previews: { [key: number]: PreviewImage | null };
+  handleGoBack: () => void;
+  _reorderPreviews: (order: number[]) => void;
+  deleteItem: (index: number) => void;
+  previewsOrder: number[];
+  handleGoNext: () => void;
+}
+
+export class CameraHeader extends Component<CameraHeaderProps> {
   render() {
     const {
       previews,

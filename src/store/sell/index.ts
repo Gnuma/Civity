@@ -112,7 +112,9 @@ export const sellSetInfos = (
   }
 });
 
-export const sellAddReview = (data: CheckingImage): TSellActions => ({
+export const sellAddReview = (
+  data: CheckingImage | CheckingImage[]
+): TSellActions => ({
   type: SELL_ADD_REVIEW,
   payload: {
     data

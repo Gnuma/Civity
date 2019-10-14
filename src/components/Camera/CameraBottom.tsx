@@ -4,10 +4,18 @@ import Button from "../Button";
 import colors from "../../styles/colors";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Header3 } from "../Text";
-import { RNCamera } from "react-native-camera";
+import { RNCamera, FlashMode } from "react-native-camera";
 import { bottomBar as bottomBarStyle, generalStyle } from "./styles";
 
-export class CameraBottom extends Component {
+interface CameraBottomProps {
+  takePicture: () => void;
+  flashMode: "on" | "off" | "torch" | "auto";
+  changeFlashMode: () => void;
+  openImagePicker: () => void;
+  loading?: boolean;
+}
+
+export class CameraBottom extends Component<CameraBottomProps> {
   render() {
     const { takePicture, changeFlashMode, flashMode, loading } = this.props;
     return (
@@ -34,11 +42,7 @@ export class CameraBottom extends Component {
           <Button style={bottomBarStyle.captureBtn} onPress={takePicture} />
         </View>
         <View style={bottomBarStyle.rightBox}>
-          <Button
-            onPress={this.props.openImagePicker}
-            style={generalStyle.w}
-            disabled={loading}
-          >
+          <Button onPress={this.props.openImagePicker} disabled={loading}>
             <Icon name="paperclip" size={30} style={generalStyle.w} />
           </Button>
         </View>

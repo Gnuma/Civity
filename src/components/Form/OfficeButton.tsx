@@ -5,8 +5,14 @@ import Button from "../Button";
 import { Header3, Header4 } from "../Text";
 import Icon5 from "react-native-vector-icons/FontAwesome5";
 import Shadows from "../Shadows";
+import { GeneralOffice } from "../../types/ProfileTypes";
 
-export default class OfficeButton extends Component {
+interface OfficeButtonProps {
+  office: GeneralOffice;
+  onPress: () => void;
+}
+
+export default class OfficeButton extends Component<OfficeButtonProps> {
   static propTypes = {
     office: PropTypes.object,
     onPress: PropTypes.func

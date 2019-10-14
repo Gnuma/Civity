@@ -4,7 +4,11 @@ import PropTypes from "prop-types";
 import {
   PinchGestureHandler,
   PanGestureHandler,
-  State
+  State,
+  PanGestureHandlerStateChangeEvent,
+  PinchGestureHandlerStateChangeEvent,
+  PanGestureHandlerGestureEvent,
+  PinchGestureHandlerGestureEvent
 } from "react-native-gesture-handler";
 import colors from "../../styles/colors";
 import { ___BOOK_IMG_RATIO___ } from "../../utils/constants";
@@ -12,21 +16,65 @@ import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ImageSize from "react-native-image-size";
 import Shadows from "../Shadows";
+import { CheckingImage } from "../../store/sell/types";
 
-export default class ImageReviewer extends Component {
+interface ImageReviewerProps {
+  data: CheckingImage;
+  handleReview: (
+    isAccepted: boolean,
+    img?: CheckingImage,
+    offsetPercentage?: {
+      x: number;
+      y: number;
+    },
+    sizePercentage?: {
+      width: number;
+      height: number;
+    }
+  ) => void;
+}
+
+interface ImageReviewerState {
+  img?: {
+    width: number;
+    height: number;
+    uri?: string;
+  };
+  layout?: {
+    height: number;
+    width: number;
+  };
+  cropper?: {
+    height: number;
+    width: number;
+  };
+
+  loading: boolean;
+  right_c?: number;
+  bottom_c?: number;
+  left_c?: number;
+  top_c?: number;
+  scale_c?: number;
+}
+
+export default class ImageReviewer extends Component<
+  ImageReviewerProps,
+  ImageReviewerState
+> {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    setReviewOptions: PropTypes.func,
     handleReview: PropTypes.func
   };
 
-  state = {
+  container?: { width: number; height: number };
+
+  state: ImageReviewerState = {
     loading: true,
-    right_c: null,
-    bottom_c: null,
-    left_c: null,
-    top_c: null,
-    scale_c: null
+    right_c: undefined,
+    bottom_c: undefined,
+    left_c: undefined,
+    top_c: undefined,
+    scale_c: undefined
   };
 
   pan = new Animated.ValueXY();
@@ -38,7 +86,7 @@ export default class ImageReviewer extends Component {
   lastScale = 1;
   initialized = false;
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: ImageReviewerProps) {
     if (prevProps.data.uri !== this.props.data.uri) {
       this.updateLayout();
     }
@@ -58,19 +106,14 @@ export default class ImageReviewer extends Component {
     this.pinchScale.setOffset(0);
 
     const { data } = this.props;
-    const { container } = this.state;
-    //const { width: imgWidth, height: imgHeight } =
-    //  !this.props.data.width || !this.props.data.height
-    //    ? await getImageSize(data.uri)
-    //    : data;
+
     let { width: imgWidth, height: imgHeight } =
-      !this.props.data.width || !this.props.data.height
+      data.uri && (!this.props.data.width || !this.props.data.height)
         ? await getImageSize(data.uri)
         : data;
 
     console.log(imgWidth, imgHeight);
-
-    //console.log(Image.resolveAssetSource(data.uri));
+    if (!this.container) throw "Container size not set";
 
     const imgRatio = imgHeight / imgWidth;
     let layoutHeight, layoutWidth;
@@ -131,8 +174,10 @@ export default class ImageReviewer extends Component {
     });
   };
 
-  handleReview = isValid => {
+  handleReview = (isValid: boolean) => {
     if (isValid) {
+      if (!this.state.cropper || !this.state.layout || !this.state.img)
+        throw "Container not set";
       const {
         cropper: { width: cropperWidth, height: cropperHeight },
         layout: { width: layoutWidth, height: layoutHeight }
@@ -179,7 +224,7 @@ export default class ImageReviewer extends Component {
     { useNativeDriver: true }
   );
 
-  onPanGestureChange = event => {
+  onPanGestureChange = (event: PanGestureHandlerStateChangeEvent) => {
     if (event.nativeEvent.oldState === State.ACTIVE) {
       this.lastPan.x += event.nativeEvent.translationX;
       this.lastPan.y += event.nativeEvent.translationY;
@@ -200,7 +245,7 @@ export default class ImageReviewer extends Component {
     }
   };
 
-  onPinchStateChange = event => {
+  onPinchStateChange = (event: PinchGestureHandlerStateChangeEvent) => {
     if (event.nativeEvent.oldState === State.ACTIVE) {
       this.lastScale *= event.nativeEvent.scale;
       this.lastScale = Math.max(this.lastScale, this.state.scale_c);
@@ -295,7 +340,7 @@ export default class ImageReviewer extends Component {
             onPinchGestureEvent={this.onPinchGestureEvent}
             onPinchStateChange={this.onPinchStateChange}
           >
-            {!loading && (
+            {!loading && layout && (
               <View
                 style={{
                   flex: 1,
@@ -315,7 +360,7 @@ export default class ImageReviewer extends Component {
                 >
                   <Animated.Image
                     style={{
-                      ...StyleSheet.absoluteFill,
+                      ...StyleSheet.absoluteFillObject,
                       transform: [
                         {
                           translateX: this.pan.x.interpolate({
@@ -419,8 +464,8 @@ export default class ImageReviewer extends Component {
   };
 }
 
-const getImageSize = uri =>
-  new Promise((resolve, reject) => {
+const getImageSize = (uri: string) =>
+  new Promise<{ width: number; height: number }>((resolve, reject) => {
     Image.getSize(
       uri,
       (width, height) => resolve({ width, height }),
@@ -428,13 +473,21 @@ const getImageSize = uri =>
     );
   });
 
+interface HandlersType {
+  onPanGestureEvent: (event: PanGestureHandlerGestureEvent) => void;
+  onPanGestureChange: (event: PanGestureHandlerStateChangeEvent) => void;
+  onPinchGestureEvent: (event: PinchGestureHandlerGestureEvent) => void;
+  onPinchStateChange: (event: PinchGestureHandlerStateChangeEvent) => void;
+  children: React.ReactNode;
+}
+
 const Handlers = ({
   onPanGestureEvent,
   onPanGestureChange,
   onPinchGestureEvent,
   onPinchStateChange,
   children
-}) => {
+}: HandlersType) => {
   return (
     <PanGestureHandler
       onGestureEvent={onPanGestureEvent}
@@ -461,7 +514,7 @@ const Overlay = ({ cropper, container }) => {
   return (
     <View
       style={{
-        ...StyleSheet.absoluteFill
+        ...StyleSheet.absoluteFillObject
       }}
     >
       <View

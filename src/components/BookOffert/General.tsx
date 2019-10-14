@@ -10,11 +10,30 @@ import {
   FEEDBACK_TYPES
 } from "../../utils/constants";
 import UsernameInfo from "../UsernameInfo";
+import { UserData, GeneralUser } from "../../types/ProfileTypes";
+import { GeneralItem } from "../../types/ItemTypes";
+import { GeneralOffert } from "../../store/chat/types";
 
-export const OffertInfo = ({ item, user, offert, children }) => {
+export interface FullOffertProps {
+  item?: GeneralItem;
+  user?: GeneralUser;
+  offert?: GeneralOffert;
+}
+
+interface OffertInfoProps extends FullOffertProps {
+  children?: React.ReactNode;
+}
+
+export const OffertInfo = ({
+  item,
+  user,
+  offert,
+  children
+}: OffertInfoProps) => {
   console.log(item);
   console.log(user);
   console.log(offert);
+
   return (
     <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps="handled">
       <View style={{ paddingBottom: 10 }}>
@@ -29,11 +48,11 @@ export const OffertInfo = ({ item, user, offert, children }) => {
   );
 };
 
-export const DecisionBox = ({ children }) => {
+export const DecisionBox = ({ children }: { children: React.ReactNode }) => {
   return <View style={{ margin: 10 }}>{children}</View>;
 };
 
-export const UserCard = ({ userData }) => {
+export const UserCard = ({ userData }: { userData: GeneralUser }) => {
   const { office, user } = userData;
   return (
     <Card
@@ -64,7 +83,7 @@ export const UserCard = ({ userData }) => {
   );
 };
 
-export const OffertCard = ({ offert }) => {
+export const OffertCard = ({ offert }: { offert: GeneralOffert }) => {
   const dateString = dateHourDisplay(offert.createdAt);
 
   return (

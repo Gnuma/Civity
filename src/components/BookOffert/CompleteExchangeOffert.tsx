@@ -1,16 +1,22 @@
 import React from "react";
 import { View } from "react-native";
-import { OffertInfo, DecisionBox } from "./General";
+import { OffertInfo, DecisionBox, FullOffertProps } from "./General";
 import Card from "../Card";
 import { Header3, Header2, Header1 } from "../Text";
 import FullButton from "../FullButton";
+import { GeneralUser } from "../../types/ProfileTypes";
 
-export default CompleteExchangeOffert = ({
+interface CompleteExchangeOffert extends FullOffertProps {
+  UserTO: GeneralUser;
+  setComplete: () => void;
+}
+
+export default ({
   item,
   offert,
   UserTO,
   setComplete
-}) => {
+}: CompleteExchangeOffert) => {
   console.log(item, offert);
   return (
     <View style={{ flex: 1 }}>

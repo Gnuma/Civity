@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View } from "react-native";
-import Button from "../Button";
+import Button, { ButtonProps } from "../Button";
 import colors from "../../styles/colors";
 import Shadows from "../Shadows";
 
-export default class CheckBox extends Component {
+interface CheckBoxProps extends ButtonProps {
+  active?: boolean;
+}
+
+export default class CheckBox extends Component<CheckBoxProps> {
   render() {
     const { onPress, active, style } = this.props;
     return (

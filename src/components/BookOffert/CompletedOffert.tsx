@@ -1,18 +1,33 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import { OffertInfo, DecisionBox } from "./General";
+import { OffertInfo, DecisionBox, FullOffertProps } from "./General";
 import Card from "../Card";
 import { Header2, Header1, Header3 } from "../Text";
 import FullButton from "../FullButton";
-import { FEEDBACK_TYPES, TextFeedbackTypes } from "../../utils/constants";
+import {
+  FEEDBACK_TYPES,
+  TextFeedbackTypes,
+  FeedbackOffertTypes
+} from "../../utils/constants";
+import { GeneralFeedback } from "../../store/chat/types";
+import { GeneralUser } from "../../types/ProfileTypes";
 
-export default (CompletedOffert = ({
+interface CompletedOffertProps extends FullOffertProps {
+  feedbacks: {
+    buyer?: GeneralFeedback;
+    seller?: GeneralFeedback;
+  };
+  type: FeedbackOffertTypes;
+  UserTO: GeneralUser;
+}
+
+export default ({
   item,
   offert,
   UserTO,
   feedbacks,
   type
-}) => {
+}: CompletedOffertProps) => {
   return (
     <View style={{ flex: 1 }}>
       <OffertInfo item={item} user={UserTO} offert={offert}>
@@ -26,9 +41,13 @@ export default (CompletedOffert = ({
       </OffertInfo>
     </View>
   );
-});
+};
 
-const FeedbackCard = ({ feedback, username }) => {
+interface FeedbackCardProps {
+  feedback?: GeneralFeedback;
+  username: string;
+}
+const FeedbackCard = ({ feedback, username }: FeedbackCardProps) => {
   return (
     <Card style={{ marginVertical: 10 }}>
       {feedback ? (

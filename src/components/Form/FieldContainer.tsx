@@ -2,7 +2,13 @@ import React, { Fragment } from "react";
 import { Text, View } from "react-native";
 import ErrorMessage from "./ErrorMessage";
 
-export default ({ error, children }) => {
+export default ({
+  error,
+  children
+}: {
+  error: string;
+  children: React.ReactNode;
+}) => {
   return (
     <View style={{ marginTop: 10, marginHorizontal: 10, marginBottom: 5 }}>
       {!!error && (
