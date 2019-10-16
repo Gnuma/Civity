@@ -206,7 +206,11 @@ const ShoppingNavigator = createStackNavigator(
   }
 );
 
-ShoppingNavigator.navigationOptions = ({ navigation }) => {
+ShoppingNavigator.navigationOptions = ({
+  navigation
+}: {
+  navigation: Object;
+}) => {
   const focus = navigation.state.routes[navigation.state.index];
 
   let navigationOptions = {};
@@ -235,11 +239,6 @@ const AuthNavigator = createStackNavigator(
     }
   }
 );
-
-AuthNavigator.navigationOptions = ({ navigation }) => {
-  console.log(navigation.state);
-  return {};
-};
 
 const AppStack = createBottomTabNavigator(
   {
@@ -273,15 +272,16 @@ export default createAppContainer(RootStack);
 
 //export const persistenceKey = "PERSISTANCE_KEY_0.0.0";
 
-export const persistNavigationState = async newState => {
+export const persistNavigationState = async (newState: unknown) => {
   try {
     navState = newState;
   } catch (err) {
     console.log("Error Setting", err);
   }
 };
+
 export const loadNavigationState = () => {
   return navState;
 };
 
-let navState = null;
+let navState: unknown = null;

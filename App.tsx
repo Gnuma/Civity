@@ -7,7 +7,6 @@ import Navigator, {
   persistNavigationState
 } from "./src/navigator/Navigator";
 import NavigationService from "./src/navigator/NavigationService";
-import WS from "./src/utils/WebSocket";
 import axios from "axios";
 import Notification from "./src/utils/Notifications";
 import firebase from "react-native-firebase";
