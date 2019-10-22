@@ -7,7 +7,7 @@ import {
   ChatCategoryIdType,
   SalesData,
   GeneralMessage
-} from "../store/chat/types";
+} from "../store/chat_Deprecated/types";
 import { ___READ_CHAT___ } from "../store/endpoints";
 import axios from "axios";
 import { UserSerializer } from "../types/ProfileTypes";

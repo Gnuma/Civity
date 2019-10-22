@@ -24,7 +24,7 @@ import {
 } from "./types";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
-import { ChatCategoryType } from "../chat/types";
+import { ChatCategoryType } from "../chat_Deprecated/types";
 
 const initialState: AuthType = {
   token: undefined,

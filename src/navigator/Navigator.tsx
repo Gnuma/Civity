@@ -7,7 +7,6 @@ import store from "../store/store";
 
 import HomeScreen from "../views/Home";
 import ItemScreen from "../views/Item";
-import VendiScreen from "../views/Vendi";
 import AppLoaderScreen from "../views/AppLoader";
 import Auth from "../views/Auth/Auth";
 import CameraScreen from "../views/Camera";
@@ -15,10 +14,13 @@ import SelectBookScreen from "../views/SelectBook";
 import VendiInfosScreen from "../views/VendiInfos";
 import InitProfileScreen from "../views/InitProfile";
 import CreateBookScreen from "../views/CreateBook";
-import SalesListScreen from "../views/SalesList";
-import ChatScreen from "../views/Chat";
-import BookOffertScreen from "../views/BookOffert";
-import ShoppingListScreen from "../views/ShoppingList";
+
+//import SalesListScreen from "../views/SalesList_Deprecated";
+//import ChatScreen from "../views/Chat_Deprecated.js";
+//import BookOffertScreen from "../views/BookOffert_Deprecated";
+//import ShoppingListScreen from "../views/ShoppingList_Deprecated";
+
+import ChatListScreen from "../views/ChatList";
 import ImagePickerScreen from "../views/ImagePicker";
 import UserSettingsScreen from "../views/UserSettings";
 import UserInfoScreen from "../views/UserChanges/UserInfo";
@@ -133,6 +135,7 @@ const VendiNavigator = createStackNavigator(
   }
 );
 
+/*
 const ChatNavigator = createStackNavigator(
   {
     Chat: ChatScreen,
@@ -144,7 +147,9 @@ const ChatNavigator = createStackNavigator(
     }
   }
 );
+*/
 
+/*
 const SalesNavigator = createStackNavigator(
   {
     SalesList: SalesListScreen,
@@ -159,7 +164,9 @@ const SalesNavigator = createStackNavigator(
     }
   }
 );
+*/
 
+/*
 const SalesStack = createStackNavigator(
   {
     SalesNavigator: SalesNavigator,
@@ -176,6 +183,7 @@ const SalesStack = createStackNavigator(
     }
   }
 );
+
 
 SalesStack.navigationOptions = ({ navigation }) => {
   const { routeName, routes, index } = navigation.state.routes[
@@ -220,6 +228,18 @@ ShoppingNavigator.navigationOptions = ({
 
   return navigationOptions;
 };
+*/
+
+const ChatNavigator = createStackNavigator(
+  {
+    ChatList: ChatListScreen
+  },
+  {
+    defaultNavigationOptions: {
+      header: null
+    }
+  }
+);
 
 const AuthNavigator = createStackNavigator(
   {
@@ -243,8 +263,7 @@ const AuthNavigator = createStackNavigator(
 const AppStack = createBottomTabNavigator(
   {
     SEARCH: SearchNavigator,
-    SALES: SalesStack,
-    SHOPPING: ShoppingNavigator
+    CHAT: ChatNavigator
   },
   {
     tabBarComponent: TabBar

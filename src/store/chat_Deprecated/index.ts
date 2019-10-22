@@ -1,4 +1,56 @@
-import * as actionTypes from "./actionTypes";
+import { ActionsObservable, StateObservable } from "redux-observable";
+import { ThunkAction } from "redux-thunk";
+import { Action } from "redux";
+import {
+  CHAT_INIT,
+  CHAT_CLEAR,
+  CHAT_START_CHAT_ACTION,
+  CHAT_START_GLOBAL_ACTION,
+  CHAT_FAIL,
+  CHAT_SINGLE_FAIL,
+  CHAT_SET_SALES_LIST_FOCUS,
+  CHAT_SET_SHOPPING_LIST_FOCUS,
+  CHAT_SET_CHAT_FOCUS,
+  CHAT_SET_COMPOSER,
+  CHAT_RECEIVE_MSG,
+  CHAT_SEND_MSG,
+  CHAT_SYSTEM_MSG,
+  CHAT_CONFIRM_MSG,
+  CHAT_ERROR_MSG,
+  CHAT_READ,
+  CHAT_SETTLE,
+  CHAT_LOAD_EARLIER,
+  CHAT_CONTACT_USER,
+  CHAT_NEW_ITEM,
+  CHAT_MODIFY_ITEM,
+  CHAT_NEW_CHAT,
+  CHAT_START_STATUS_ACTION,
+  CHAT_NEW_OFFERT,
+  CHAT_REMOVE_OFFERT,
+  CHAT_ACCEPT_OFFERT,
+  CHAT_OFFERT_FAIL,
+  CHAT_ONLINE,
+  CHAT_SET_FEEDBACK,
+  CHAT_DISABLE_ITEM,
+  ChatStatus,
+  FEEDBACK_TYPES,
+  TextFeedbackTypes,
+  ChatCategoryType,
+  TChatActions,
+  SalesData,
+  ChatCategoryIdType,
+  ChatIdentifierPayload,
+  GeneralMessage,
+  ChatSerializer,
+  ChatSetChatFocusAction,
+  ChatReceiveMessageAction,
+  ChatSystemMsgAction,
+  ChatSendMsgAction,
+  ChatOnlineAction,
+  InitSalesType,
+  InitShoppingType,
+  ChatCategorySecondaryType
+} from "./types";
 import uuid from "uuid";
 import NetInfo from "@react-native-community/netinfo";
 import {
@@ -17,11 +69,10 @@ import {
   ___COMPLETE_EXCHANGE___,
   ___SEND_FEEDBACK___,
   ___DELTE_AD___
-} from "../constants";
-import { loadMockNew } from "../../mockData/Chat2";
+} from "../endpoints";
+
 import protectedAction from "../../utils/protectedAction";
 import axios from "axios";
-import NavigationService from "../../navigator/NavigationService";
 import {
   map,
   filter,
@@ -32,45 +83,52 @@ import {
 } from "rxjs/operators";
 import { ofType } from "redux-observable";
 import { ajax } from "rxjs/ajax";
-import { of, timer, interval, fromEvent, throwError, iif } from "rxjs";
-import {
-  ChatStatus,
-  FEEDBACK_TYPES,
-  TextFeedbackTypes,
-  ChatType
-} from "../../utils/constants";
+import { of, fromEvent, throwError } from "rxjs";
 import SystemMessages from "../../utils/SystemMessages";
 import { authUpdateRespect, authUpdateExperience } from "../auth";
+import { GeneralSubject, GeneralItem } from "../../types/ItemTypes";
+import { UserSerializer, BasicUser } from "../../types/ProfileTypes";
+import { StoreType } from "../root";
 
-export const chatInit = (salesData, shoppingData) => ({
-  type: actionTypes.CHAT_INIT,
+export const chatInit = (
+  salesData: InitSalesType[],
+  shoppingData: InitShoppingType[]
+): TChatActions => ({
+  type: CHAT_INIT,
   payload: {
     salesData,
     shoppingData
   }
 });
 
-export const chatClear = () => ({ type: actionTypes.CHAT_CLEAR });
+export const chatClear = (): TChatActions => ({ type: CHAT_CLEAR });
 
-export const chatStartGlobalAction = () => ({
-  type: actionTypes.CHAT_START_GLOBAL_ACTION
+export const chatStartGlobalAction = (): TChatActions => ({
+  type: CHAT_START_GLOBAL_ACTION
 });
 
-export const chatStartChatAction = (objectID, chatID) => ({
-  type: actionTypes.CHAT_START_CHAT_ACTION,
+export const chatStartChatAction = (
+  objectID: ChatCategoryIdType,
+  chatID: number
+): TChatActions => ({
+  type: CHAT_START_CHAT_ACTION,
   payload: {
     objectID,
     chatID
   }
 });
 
-export const chatFail = error => ({
-  type: actionTypes.CHAT_FAIL,
+export const chatFail = (error: unknown): TChatActions => ({
+  type: CHAT_FAIL,
   payload: { error }
 });
 
-export const chatSingleFail = (objectID, chatID, error) => ({
-  type: actionTypes.CHAT_SINGLE_FAIL,
+export const chatSingleFail = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  error: unknown
+): TChatActions => ({
+  type: CHAT_SINGLE_FAIL,
   payload: {
     objectID,
     chatID,
@@ -78,28 +136,44 @@ export const chatSingleFail = (objectID, chatID, error) => ({
   }
 });
 
-export const chatSetSalesListFocus = focus => ({
-  type: actionTypes.CHAT_SET_SALES_LIST_FOCUS,
+export const chatSetSalesListFocus = (
+  focus: ChatCategoryIdType
+): TChatActions => ({
+  type: CHAT_SET_SALES_LIST_FOCUS,
   payload: { focus }
 });
 
-export const chatSetShoppingListFocus = focus => ({
-  type: actionTypes.CHAT_SET_SHOPPING_LIST_FOCUS,
+export const chatSetShoppingListFocus = (
+  focus: ChatCategoryIdType
+): TChatActions => ({
+  type: CHAT_SET_SHOPPING_LIST_FOCUS,
   payload: { focus }
 });
 
-export const chatSetChatFocus = (objectID, chatID) => ({
-  type: actionTypes.CHAT_SET_CHAT_FOCUS,
+export const chatSetChatFocus = (
+  objectID: ChatCategoryIdType,
+  chatID: number
+): TChatActions => ({
+  type: CHAT_SET_CHAT_FOCUS,
   payload: { objectID, chatID }
 });
 
-export const chatSetComposer = (objectID, chatID, value) => ({
-  type: actionTypes.CHAT_SET_COMPOSER,
+export const chatSetComposer = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  value: string
+): TChatActions => ({
+  type: CHAT_SET_COMPOSER,
   payload: { value, objectID, chatID }
 });
 
-export const chatReceiveMessage = (objectID, chatID, msg, type) => ({
-  type: actionTypes.CHAT_RECEIVE_MSG,
+export const chatReceiveMessage = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  msg: GeneralMessage,
+  type: ChatCategorySecondaryType
+): TChatActions => ({
+  type: CHAT_RECEIVE_MSG,
   payload: {
     objectID,
     chatID,
@@ -108,8 +182,13 @@ export const chatReceiveMessage = (objectID, chatID, msg, type) => ({
   }
 });
 
-export const chatSendMsg = (objectID, chatID, msg, type) => ({
-  type: actionTypes.CHAT_SEND_MSG,
+export const chatSendMsg = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  msg: GeneralMessage,
+  type: ChatCategoryType
+): TChatActions => ({
+  type: CHAT_SEND_MSG,
   payload: {
     objectID,
     chatID,
@@ -118,8 +197,12 @@ export const chatSendMsg = (objectID, chatID, msg, type) => ({
   }
 });
 
-export const chatSystemMsg = (objectID, chatID, msg) => ({
-  type: actionTypes.CHAT_SYSTEM_MSG,
+export const chatSystemMsg = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  msg: string
+): TChatActions => ({
+  type: CHAT_SYSTEM_MSG,
   payload: {
     objectID,
     chatID,
@@ -127,8 +210,16 @@ export const chatSystemMsg = (objectID, chatID, msg) => ({
   }
 });
 
-export const chatConfirmMsg = (objectID, chatID, msgID, data) => ({
-  type: actionTypes.CHAT_CONFIRM_MSG,
+export const chatConfirmMsg = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  msgID: number,
+  data: {
+    isSending: boolean;
+    _id: string;
+  }
+): TChatActions => ({
+  type: CHAT_CONFIRM_MSG,
   payload: {
     objectID,
     chatID,
@@ -137,8 +228,12 @@ export const chatConfirmMsg = (objectID, chatID, msgID, data) => ({
   }
 });
 
-export const chatErrorMsg = (objectID, chatID, msgID) => ({
-  type: actionTypes.CHAT_ERROR_MSG,
+export const chatErrorMsg = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  msgID: number
+): TChatActions => ({
+  type: CHAT_ERROR_MSG,
   payload: {
     objectID,
     chatID,
@@ -146,16 +241,23 @@ export const chatErrorMsg = (objectID, chatID, msgID) => ({
   }
 });
 
-export const chatStartStatusAction = (objectID, chatID) => ({
-  type: actionTypes.CHAT_START_STATUS_ACTION,
+export const chatStartStatusAction = (
+  objectID: ChatCategoryIdType,
+  chatID: number
+): TChatActions => ({
+  type: CHAT_START_STATUS_ACTION,
   payload: {
     objectID,
     chatID
   }
 });
 
-export const chatOffertFail = (objectID, chatID, error) => ({
-  type: actionTypes.CHAT_OFFERT_FAIL,
+export const chatOffertFail = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  error: unknown
+): TChatActions => ({
+  type: CHAT_OFFERT_FAIL,
   payload: {
     objectID,
     chatID,
@@ -163,22 +265,26 @@ export const chatOffertFail = (objectID, chatID, error) => ({
   }
 });
 
-export const chatNewItem = item => ({
-  type: actionTypes.CHAT_NEW_ITEM,
+export const chatNewItem = (item: GeneralItem): TChatActions => ({
+  type: CHAT_NEW_ITEM,
   payload: { item }
 });
 
-export const chatModifyItem = item => ({
-  type: actionTypes.CHAT_MODIFY_ITEM,
+export const chatModifyItem = (item: GeneralItem): TChatActions => ({
+  type: CHAT_MODIFY_ITEM,
   payload: { item }
 });
 
-export const chatOnline = () => ({
-  type: actionTypes.CHAT_ONLINE
+export const chatOnline = (): TChatActions => ({
+  type: CHAT_ONLINE
 });
 
-export const chatDisableItem = (type, objectID, chatID) => ({
-  type: actionTypes.CHAT_DISABLE_ITEM,
+export const chatDisableItem = (
+  type: ChatCategoryType,
+  objectID: ChatCategoryIdType,
+  chatID?: number
+): TChatActions => ({
+  type: CHAT_DISABLE_ITEM,
   payload: {
     type,
     objectID,
@@ -190,9 +296,13 @@ export const chatDisableItem = (type, objectID, chatID) => ({
 
 // --ChatNotifications--
 
-export const chatNewChat = (objectID, chatID, data) => (dispatch, getState) => {
+export const chatNewChat = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  data: ChatSerializer
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   dispatch({
-    type: actionTypes.CHAT_NEW_CHAT,
+    type: CHAT_NEW_CHAT,
     payload: {
       objectID,
       chatID,
@@ -208,12 +318,15 @@ export const chatNewChat = (objectID, chatID, data) => (dispatch, getState) => {
   );
 };
 
-export const chatNewOffert = (objectID, chatID, offertID, price, user) => (
-  dispatch,
-  getState
-) => {
+export const chatNewOffert = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  offertID: number,
+  price: number,
+  user: UserSerializer
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   dispatch({
-    type: actionTypes.CHAT_NEW_OFFERT,
+    type: CHAT_NEW_OFFERT,
     payload: {
       price,
       objectID,
@@ -232,12 +345,12 @@ export const chatNewOffert = (objectID, chatID, offertID, price, user) => (
   );
 };
 
-export const chatSetOffertAccepted = (objectID, chatID) => (
-  dispatch,
-  getState
-) => {
+export const chatSetOffertAccepted = (
+  objectID: ChatCategoryIdType,
+  chatID: number
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   dispatch({
-    type: actionTypes.CHAT_ACCEPT_OFFERT,
+    type: CHAT_ACCEPT_OFFERT,
     payload: {
       objectID,
       chatID
@@ -249,12 +362,13 @@ export const chatSetOffertAccepted = (objectID, chatID) => (
   );
 };
 
-export const chatRemoveOffert = (objectID, chatID, isRejected) => (
-  dispatch,
-  getState
-) => {
+export const chatRemoveOffert = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  isRejected: boolean
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   dispatch({
-    type: actionTypes.CHAT_REMOVE_OFFERT,
+    type: CHAT_REMOVE_OFFERT,
     payload: {
       objectID,
       chatID
@@ -273,12 +387,13 @@ export const chatRemoveOffert = (objectID, chatID, isRejected) => (
   }
 };
 
-export const chatSettleAction = (objectID, chatID, status) => (
-  dispatch,
-  getState
-) => {
+export const chatSettleAction = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  status: ChatStatus
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   dispatch({
-    type: actionTypes.CHAT_SETTLE,
+    type: CHAT_SETTLE,
     payload: {
       objectID,
       chatID,
@@ -320,15 +435,15 @@ export const chatSettleAction = (objectID, chatID, status) => (
 };
 
 export const chatSetFeedback = (
-  objectID,
-  chatID,
-  feedback,
-  comment,
-  fromWS
-) => (dispatch, getState) => {
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  feedback: FEEDBACK_TYPES,
+  comment: string,
+  fromWS?: boolean
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   console.log(objectID, chatID, feedback, comment);
   dispatch({
-    type: actionTypes.CHAT_SET_FEEDBACK,
+    type: CHAT_SET_FEEDBACK,
     payload: {
       objectID,
       chatID,
@@ -353,12 +468,20 @@ export const chatSetFeedback = (
   );
 
   const feedbacks = getState().chat.data[objectID].chats[chatID].feedbacks;
-  if (feedbacks.seller && feedbacks.buyer) {
-    const type = String(objectID).charAt(0) == "s" ? "buyer" : "seller";
+  if (feedbacks.seller != undefined && feedbacks.buyer != undefined) {
+    let isBuyer = false;
+    let judgment;
+    if (String(objectID).charAt(0) == "s") {
+      isBuyer = true;
+      judgment = feedbacks.buyer.judgment;
+    } else {
+      isBuyer = false;
+      judgment = feedbacks.seller.judgment;
+    }
     dispatch(
       authUpdateRespect(
-        feedbacks[type].judgment == FEEDBACK_TYPES.POSITIVE,
-        type == "buyer" ? ChatType.shopping : ChatType.sales
+        judgment == FEEDBACK_TYPES.POSITIVE,
+        isBuyer ? ChatCategoryType.shopping : ChatCategoryType.sales
       )
     );
   }
@@ -366,17 +489,25 @@ export const chatSetFeedback = (
 
 // --ChatNotifications--
 
-export const chatSend = (type, objectID, chatID, content) => {
+export const chatSend = (
+  type: ChatCategoryType,
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  content: string
+): ThunkAction<void, StoreType, null, Action> => {
   return (dispatch, getState) => {
     const myID = getState().auth.id;
     //const content = getState().chat.data[objectID].chats[chatID].composer;
+    if (!myID) throw "Can't send msg. User not authenticated";
     const msg = createMsg(content, myID);
-
     dispatch(chatSendMsg(objectID, chatID, msg, type));
   };
 };
 
-export const chatRead = (objectID, chatID) => (dispatch, getState) => {
+export const chatRead = (
+  objectID: ChatCategoryIdType,
+  chatID: number
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   const chat = getState().chat.data[objectID].chats[chatID];
   console.log(chat.hasNews);
   if (chat.hasNews) {
@@ -390,7 +521,7 @@ export const chatRead = (objectID, chatID) => (dispatch, getState) => {
         .then(res => console.log(res))
         .catch(err => console.log({ err }));
       dispatch({
-        type: actionTypes.CHAT_READ,
+        type: CHAT_READ,
         payload: {
           objectID,
           chatID
@@ -404,7 +535,11 @@ export const chatRead = (objectID, chatID) => (dispatch, getState) => {
   }
 };
 
-export const chatSettle = (objectID, chatID, isAccepting) => dispatch => {
+export const chatSettle = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  isAccepting: boolean
+): ThunkAction<void, StoreType, null, Action> => dispatch => {
   dispatch(chatStartChatAction(objectID, chatID));
   if (isAccepting) {
     axios
@@ -427,10 +562,10 @@ export const chatSettle = (objectID, chatID, isAccepting) => dispatch => {
   }
 };
 
-export const chatRequestContact = (objectID, chatID) => (
-  dispatch,
-  getState
-) => {
+export const chatRequestContact = (
+  objectID: ChatCategoryIdType,
+  chatID: number
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   dispatch(chatStartChatAction(objectID, chatID));
   //API
   axios
@@ -443,7 +578,7 @@ export const chatRequestContact = (objectID, chatID) => (
         chatSystemMsg(
           objectID,
           chatID,
-          SystemMessages.newChat(getUser(getState, { objectID, chatID }))
+          SystemMessages.newChat(getUser(getState))
         )
       );
     })
@@ -453,7 +588,10 @@ export const chatRequestContact = (objectID, chatID) => (
     });
 };
 
-export const chatLoadEarlier = (objectID, chatID) => (dispatch, getState) => {
+export const chatLoadEarlier = (
+  objectID: ChatCategoryIdType,
+  chatID: number
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   const chat = getState().chat.data[objectID].chats[chatID];
   const messages = chat.messages;
   if (messages.length > 0 && !chat.loading && chat.toload) {
@@ -467,7 +605,7 @@ export const chatLoadEarlier = (objectID, chatID) => (dispatch, getState) => {
       })
       .then(res => {
         dispatch({
-          type: actionTypes.CHAT_LOAD_EARLIER,
+          type: CHAT_LOAD_EARLIER,
           payload: {
             objectID,
             chatID,
@@ -481,18 +619,20 @@ export const chatLoadEarlier = (objectID, chatID) => (dispatch, getState) => {
   }
 };
 
-export const chatContactUser = item => dispatch =>
-  new Promise((resolve, reject) => {
+export const chatContactUser = (
+  item: GeneralItem
+): ThunkAction<void, StoreType, null, Action> => dispatch =>
+  new Promise<{ chatID: number; subjectID: string }>((resolve, reject) => {
     protectedAction()
       .then(() =>
         axios.post(___CONTACT_USER___, {
           item: item.pk
         })
       )
-      .then(res => {
+      .then((res: any) => {
         console.log(res);
         dispatch({
-          type: actionTypes.CHAT_CONTACT_USER,
+          type: CHAT_CONTACT_USER,
           payload: {
             item: item,
             chatID: res.data._id
@@ -503,17 +643,18 @@ export const chatContactUser = item => dispatch =>
           subjectID: "s" + item.book.subject._id
         });
       })
-      .catch(err => {
+      .catch((err: any) => {
         console.log({ err });
         dispatch(chatFail(err));
         reject();
       });
   });
 
-export const chatCreateOffert = (objectID, chatID, price) => (
-  dispatch,
-  getState
-) => {
+export const chatCreateOffert = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  price: number
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   dispatch(chatStartStatusAction(objectID, chatID));
   axios
     .post(___CREATE_OFFERT___, {
@@ -522,18 +663,22 @@ export const chatCreateOffert = (objectID, chatID, price) => (
     })
     .then(res => {
       console.log(res);
-      const {
-        userData: { username },
-        id
-      } = getState().auth;
-      dispatch(
-        chatNewOffert(objectID, chatID, res.data.pk, price, {
-          _id: id,
-          user: {
-            username
+      const { userData, id, office } = getState().auth;
+      if (!id || !office) throw "Not Authenticated";
+      const user: UserSerializer = {
+        _id: id,
+        respect: userData.respect,
+        usertype: userData.usertype,
+        xp: userData.xp,
+        user: { username: userData.username },
+        course: {
+          ...office.course,
+          office: {
+            ...office
           }
-        })
-      );
+        }
+      };
+      dispatch(chatNewOffert(objectID, chatID, res.data.pk, price, user));
     })
     .catch(err => {
       console.log({ err });
@@ -541,7 +686,10 @@ export const chatCreateOffert = (objectID, chatID, price) => (
     });
 };
 
-export const chatCancelOffert = (objectID, chatID) => (dispatch, getState) => {
+export const chatCancelOffert = (
+  objectID: ChatCategoryIdType,
+  chatID: number
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   dispatch(chatStartStatusAction(objectID, chatID));
   const offertID = getState().chat.data[objectID].chats[chatID].offerts[0]._id;
   axios
@@ -557,7 +705,10 @@ export const chatCancelOffert = (objectID, chatID) => (dispatch, getState) => {
     });
 };
 
-export const chatRejectOffert = (objectID, chatID) => (dispatch, getState) => {
+export const chatRejectOffert = (
+  objectID: ChatCategoryIdType,
+  chatID: number
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   dispatch(chatStartStatusAction(objectID, chatID));
   const offertID = getState().chat.data[objectID].chats[chatID].offerts[0]._id;
   axios
@@ -573,7 +724,10 @@ export const chatRejectOffert = (objectID, chatID) => (dispatch, getState) => {
     });
 };
 
-export const chatAcceptOffert = (objectID, chatID) => (dispatch, getState) => {
+export const chatAcceptOffert = (
+  objectID: ChatCategoryIdType,
+  chatID: number
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   dispatch(chatStartStatusAction(objectID, chatID));
   const offertID = getState().chat.data[objectID].chats[chatID].offerts[0]._id;
   axios
@@ -589,19 +743,26 @@ export const chatAcceptOffert = (objectID, chatID) => (dispatch, getState) => {
     });
 };
 
-export const chatBlockItem = (itemID, excludedChat) => (dispatch, getState) => {
+export const chatBlockItem = (
+  itemID: ChatCategoryIdType,
+  excludedChat: number
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   console.log(itemID, excludedChat);
   const chats = getState().chat.data[itemID].chats;
-  for (const chatID in chats) {
-    console.log(chatID, excludedChat);
+  for (let chatSID in chats) {
+    console.log(chatSID, excludedChat);
+    const chatID = parseInt(chatSID);
     if (chats.hasOwnProperty(chatID) && chatID != excludedChat) {
       dispatch(chatSettleAction(itemID, chatID, ChatStatus.BLOCKED));
     }
   }
-  dispatch(chatDisableItem(ChatType.sales, itemID));
+  dispatch(chatDisableItem(ChatCategoryType.sales, itemID));
 };
 
-export const chatCompleteExchange = (objectID, chatID) => dispatch => {
+export const chatCompleteExchange = (
+  objectID: ChatCategoryIdType,
+  chatID: number
+): ThunkAction<void, StoreType, null, Action> => dispatch => {
   dispatch(chatStartStatusAction(objectID, chatID));
   axios
     .post(___COMPLETE_EXCHANGE___, {
@@ -619,15 +780,16 @@ export const chatCompleteExchange = (objectID, chatID) => dispatch => {
 };
 
 export const chatSendFeedback = (
-  objectID,
-  chatID,
-  feedback,
-  comment
-) => dispatch => {
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  feedback: FEEDBACK_TYPES,
+  comment: string
+): ThunkAction<void, StoreType, null, Action> => dispatch => {
   dispatch(chatStartStatusAction(objectID, chatID));
   const data = {
     chat: chatID,
-    judgment: feedback
+    judgment: feedback,
+    comment: ""
   };
   if (comment) {
     data.comment = comment;
@@ -644,10 +806,12 @@ export const chatSendFeedback = (
     });
 };
 
-export const onNewMessage = (objectID, chatID, msg, type) => (
-  dispatch,
-  getState
-) => {
+export const onNewMessage = (
+  objectID: ChatCategoryIdType,
+  chatID: number,
+  msg: GeneralMessage,
+  type: ChatCategorySecondaryType
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
   const state = getState().chat;
   dispatch(chatReceiveMessage(objectID, chatID, msg, type));
   if (state.chatFocus === chatID) {
@@ -655,7 +819,12 @@ export const onNewMessage = (objectID, chatID, msg, type) => (
   }
 };
 
-export const chatRestart = () => dispatch => {
+export const chatRestart = (): ThunkAction<
+  void,
+  StoreType,
+  null,
+  Action
+> => dispatch => {
   axios
     .get(___RETRIEVE_CHATS___)
     .then(res => {
@@ -666,13 +835,14 @@ export const chatRestart = () => dispatch => {
 
 //  ---EPICS---
 //newMessage inChat || open chat
-const readChatEpic = (action$, state$) =>
+const readChatEpic = (
+  action$: ActionsObservable<
+    ChatSetChatFocusAction | ChatReceiveMessageAction | ChatSystemMsgAction
+  >,
+  state$: StateObservable<StoreType>
+) =>
   action$.pipe(
-    ofType(
-      actionTypes.CHAT_SET_CHAT_FOCUS,
-      actionTypes.CHAT_RECEIVE_MSG,
-      actionTypes.CHAT_SYSTEM_MSG
-    ),
+    ofType(CHAT_SET_CHAT_FOCUS, CHAT_RECEIVE_MSG, CHAT_SYSTEM_MSG),
     filter(action => {
       const { chatID } = action.payload;
       return chatID !== null && state$.value.chat.chatFocus === chatID;
@@ -683,11 +853,14 @@ const readChatEpic = (action$, state$) =>
     })
   );
 
-const sendMessageEpic = (action$, state$) =>
+const sendMessageEpic = (
+  action$: ActionsObservable<ChatSendMsgAction | ChatOnlineAction>,
+  state$: StateObservable<StoreType>
+) =>
   action$.pipe(
-    ofType(actionTypes.CHAT_SEND_MSG, actionTypes.CHAT_ONLINE),
+    ofType(CHAT_SEND_MSG, CHAT_ONLINE),
     concatMap(action => {
-      if (action.type === actionTypes.CHAT_ONLINE) return of(chatRestart());
+      if (action.type === CHAT_ONLINE) return of(chatRestart());
       const { chatID, objectID, msg } = action.payload;
       return ajax
         .post(
@@ -717,12 +890,12 @@ const sendMessageEpic = (action$, state$) =>
               })
             )
           ),
-          catchError(err => of(actionTypes.CHAT_ERROR_MSG)),
+          catchError(err => of(CHAT_ERROR_MSG)),
           map(res => {
             console.log(res);
-            return res === actionTypes.CHAT_ERROR_MSG
-              ? chatErrorMsg(objectID, chatID, msg._id)
-              : chatConfirmMsg(objectID, chatID, msg._id, {
+            return res === CHAT_ERROR_MSG
+              ? chatErrorMsg(objectID, chatID, parseInt(msg._id.toString()))
+              : chatConfirmMsg(objectID, chatID, parseInt(msg._id.toString()), {
                   isSending: false,
                   _id: uuid.v4()
                 });
@@ -733,20 +906,28 @@ const sendMessageEpic = (action$, state$) =>
 
 export const chatEpics = [readChatEpic, sendMessageEpic];
 
-const createMsg = (content, userID) => {
+const createMsg = (content: string, userID: number): GeneralMessage => {
   return {
     _id: uuid.v4(),
-    text: content,
     createdAt: new Date(),
+    is_read: true,
+    text: content,
     user: {
       _id: userID
     },
-    is_read: true,
+    system: false,
     isSending: true
   };
 };
 
-const getOffertCreatorUsername = (getState, { objectID, chatID }) => {
+/**
+ * Utils
+ */
+
+const getOffertCreatorUsername = (
+  getState: () => StoreType,
+  { objectID, chatID }: ChatIdentifierPayload
+) => {
   try {
     return getState().chat.data[objectID].chats[chatID].offerts[0].creator.user
       .username;
@@ -756,7 +937,10 @@ const getOffertCreatorUsername = (getState, { objectID, chatID }) => {
   }
 };
 
-const getOffertDeciderUsername = (getState, { objectID, chatID }) => {
+const getOffertDeciderUsername = (
+  getState: () => StoreType,
+  { objectID, chatID }: ChatIdentifierPayload
+) => {
   try {
     const offertCreator = getState().chat.data[objectID].chats[chatID]
       .offerts[0].creator;
@@ -772,7 +956,10 @@ const getOffertDeciderUsername = (getState, { objectID, chatID }) => {
   }
 };
 
-const getUserTO = (getState, { objectID, chatID }) => {
+const getUserTO = (
+  getState: () => StoreType,
+  { objectID, chatID }: ChatIdentifierPayload
+) => {
   try {
     return getState().chat.data[objectID].chats[chatID].UserTO.user.username;
   } catch (error) {
@@ -781,16 +968,15 @@ const getUserTO = (getState, { objectID, chatID }) => {
   }
 };
 
-const getUser = getState => {
+const getUser = (getState: () => StoreType) => {
   try {
     return getState().auth.userData.username;
   } catch (error) {
     console.warn(error);
-    console.log(error, "for: ", { objectID, chatID });
   }
 };
 
-const getSeller = (getState, data) => {
+const getSeller = (getState: () => StoreType, data: ChatIdentifierPayload) => {
   console.log(data.objectID, String(data.objectID).charAt(0) === "s");
   return String(data.objectID).charAt(0) === "s"
     ? getUserTO(getState, data)

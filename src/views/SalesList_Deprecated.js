@@ -3,7 +3,7 @@ import { View, Text, StatusBar, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import SalesTab from "../components/Sales/SalesTab";
-import * as chatActions from "../store/chat";
+import * as chatActions from "../store/chat_Deprecated";
 import * as sellActions from "../store/sell";
 import { Header3, Header2, Header4 } from "../components/Text";
 import SalesChatsList from "../components/Sales/SalesChatsList";

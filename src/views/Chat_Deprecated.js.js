@@ -3,7 +3,7 @@ import { View, SafeAreaView, KeyboardAvoidingView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ChatView from "../components/Chat/Chat";
-import * as chatActions from "../store/chat";
+import * as chatActions from "../store/chat_Deprecated";
 import ContactReview from "../components/Chat/ContactReview";
 import { ChatType, ChatStatus, IS_ANDROID } from "../utils/constants";
 import ChatHeader from "../components/Chat/ChatHeader";

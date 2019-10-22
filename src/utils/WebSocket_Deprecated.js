@@ -21,7 +21,7 @@ import {
 import NetInfo from "@react-native-community/netinfo";
 import { AppState } from "react-native";
 import { ChatType, ChatStatus } from "./constants";
-import { restart } from "../store/chat/messaging";
+import { restart } from "../store/chat_Deprecated/messaging";
 import axios from "axios";
 import {
   chatInit,
@@ -35,7 +35,7 @@ import {
   chatSetFeedback,
   chatBlockChat,
   chatDisableItem
-} from "../store/chat";
+} from "../store/chat_Deprecated";
 import IOSToast from "../components/IOSToast";
 
 class WS {

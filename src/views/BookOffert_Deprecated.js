@@ -9,7 +9,7 @@ import {
   OffertStatus,
   KAV_BEHAVIOR
 } from "../utils/constants";
-import * as chatActions from "../store/chat";
+import * as chatActions from "../store/chat_Deprecated";
 import LoadingOverlay from "../components/LoadingOverlay";
 import { OffertType } from "../utils/constants";
 import _ from "lodash";

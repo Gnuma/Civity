@@ -23,11 +23,11 @@ import {
   ___SIGNUP_ENDPOINT___,
   ___INITUSER_ENDPOINT___
 } from "../endpoints";
-import WS from "../../utils/WebSocket";
+//import WS from "../../utils/WebSocket_Deprecated_Deprecated";
 import { AutoStart } from "../../utils/constants";
 import { commentsClear } from "../comments";
-import { messagingClear } from "../chat/messaging";
-import { chatClear } from "../chat";
+//import { messagingClear } from "../chat_Deprecated/messaging";
+//import { chatClear } from "../chat";
 import { mockWHOAMI } from "../../mockData/MockUser";
 import NetInfo from "@react-native-community/netinfo";
 import { formatUserData } from "../../utils/helper";
@@ -236,9 +236,9 @@ export const authLogout = (): ThunkAction<void, StoreType, null, Action> => {
       });
 
     dispatch(commentsClear());
-    dispatch(chatClear());
-    messagingClear();
-    WS.close();
+    //dispatch(chatClear());
+    //messagingClear();
+    //WS.close();
     dispatch(logoutSuccess());
   };
 };
@@ -290,7 +290,8 @@ export const authValidateAccount = (): ThunkAction<
   new Promise<ResolveLogin>(resolve => {
     const token = getState().auth.token;
     dispatch(authSetValidatedAccount());
-    WS.init(token, resolve);
+    //WS.init(token, resolve);
+    resolve({ token, isActive: true });
   });
 
 export const authDelayedLogin = (): ThunkAction<
@@ -345,7 +346,8 @@ const login = async ({ dispatch, resolve, reject, token }: LoginType) => {
   dispatch(updateFCMToken());
   console.log(userData.isActive);
   if (userData.isActive) {
-    WS.init(token, resolve);
+    //WS.init(token, resolve);
+    resolve({ token, isActive: true });
   } else {
     resolve({ token, isActive: false });
     dispatch(authCompleted());

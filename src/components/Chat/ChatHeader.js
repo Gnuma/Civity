@@ -7,7 +7,7 @@ import ListMultiItem from "../ListItem/ListMultiItem";
 import NativeGoBack from "../NativeGoBack";
 import { Header1 } from "../Text";
 import FullButton from "../FullButton";
-import { pickOffert, getState } from "../../views/BookOffert";
+import { pickOffert, getState } from "../../views/BookOffert_Deprecated";
 import { OffertType } from "../../utils/constants";
 
 export default class ChatHeader extends Component {

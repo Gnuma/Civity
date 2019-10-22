@@ -1,7 +1,8 @@
 import React from "react";
 import Svg, { Path } from "react-native-svg";
+import { VectorStyle } from "./types";
 
-const SvgComponent = props => (
+const SvgComponent = (props: VectorStyle) => (
   <Svg width={29} height={29} fill="none" {...props}>
     <Path
       d="M18.605 18.605a1.75 1.75 0 0 1 2.475 0l7.248 7.247-2.476 2.476-7.247-7.248a1.75 1.75 0 0 1 0-2.475z"

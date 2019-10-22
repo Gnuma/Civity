@@ -19,7 +19,7 @@ import settingsReducer from "./settings/reducer";
 
 /** Epics */
 import { searchEpics } from "./search";
-import { chatEpics } from "./chat";
+//import { chatEpics } from "./chat";
 import { settingsEpics } from "./settings";
 
 export interface StoreType {
@@ -42,6 +42,6 @@ export const rootReducer = combineReducers({
 
 export const rootEpic = combineEpics(
   ...searchEpics,
-  ...chatEpics,
+  //...chatEpics,
   ...settingsEpics
 );

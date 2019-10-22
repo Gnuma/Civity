@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Header3 } from "../components/Text";
 import ShoppingTab from "../components/Shopping/ShoppingTab";
 import * as searchActions from "../store/search";
-import * as chatActions from "../store/chat";
+import * as chatActions from "../store/chat_Deprecated";
 import ShoppingChatsList from "../components/Shopping/ShoppingChatsList";
 import SearchLink from "../components/Home/SearchLink";
 import _ from "lodash";

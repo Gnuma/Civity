@@ -5,7 +5,7 @@ import Card from "../Card";
 import { Header2, Header1, Header3 } from "../Text";
 import FullButton from "../FullButton";
 import { FEEDBACK_TYPES, TextFeedbackTypes } from "../../utils/constants";
-import { GeneralOffert } from "../../store/chat/types";
+import { GeneralOffert } from "../../store/chat_Deprecated/types";
 import { GeneralUser } from "../../types/ProfileTypes";
 import { GeneralItem } from "../../types/ItemTypes";
 

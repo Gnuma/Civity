@@ -27,7 +27,7 @@ export interface AuthType {
 }
 
 interface ResolveObject {
-  token: string;
+  token?: string;
   isActive: boolean;
 }
 

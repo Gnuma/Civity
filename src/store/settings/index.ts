@@ -61,7 +61,7 @@ export const settingsStart = (): ThunkAction<
 };
 
 export const updateFCMToken = (
-  token: string
+  token?: string
 ): ThunkAction<void, SettingsType, null, Action> => async dispatch => {
   try {
     if (!token) token = await firebase.messaging().getToken();

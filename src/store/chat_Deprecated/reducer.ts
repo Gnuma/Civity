@@ -1,7 +1,77 @@
-import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
-import uuid from "uuid";
+import {
+  CHAT_INIT,
+  CHAT_CLEAR,
+  CHAT_START_CHAT_ACTION,
+  CHAT_START_GLOBAL_ACTION,
+  CHAT_FAIL,
+  CHAT_SINGLE_FAIL,
+  CHAT_SET_SALES_LIST_FOCUS,
+  CHAT_SET_SHOPPING_LIST_FOCUS,
+  CHAT_SET_CHAT_FOCUS,
+  CHAT_SET_COMPOSER,
+  CHAT_RECEIVE_MSG,
+  CHAT_SEND_MSG,
+  CHAT_SYSTEM_MSG,
+  CHAT_CONFIRM_MSG,
+  CHAT_ERROR_MSG,
+  CHAT_READ,
+  CHAT_SETTLE,
+  CHAT_LOAD_EARLIER,
+  CHAT_CONTACT_USER,
+  CHAT_NEW_ITEM,
+  CHAT_MODIFY_ITEM,
+  CHAT_NEW_CHAT,
+  CHAT_START_STATUS_ACTION,
+  CHAT_NEW_OFFERT,
+  CHAT_REMOVE_OFFERT,
+  CHAT_ACCEPT_OFFERT,
+  CHAT_OFFERT_FAIL,
+  CHAT_ONLINE,
+  CHAT_SET_FEEDBACK,
+  CHAT_DISABLE_ITEM,
+  ChatType,
+  TChatActions,
+  SalesData,
+  ChatStatus,
+  ChatCategoryType,
+  OffertStatus,
+  ShoppingData,
+  InitSalesType,
+  InitShoppingType,
+  ChatInitAction,
+  ChatStartGlobalActionAction,
+  ChatStartChatActionAction,
+  ChatFailAction,
+  ChatSingleFail,
+  ChatSetSalesListFocusAction,
+  ChatSetShoppingListFocusAction,
+  ChatSetChatFocusAction,
+  ChatSetComposerAction,
+  ChatReceiveMessageAction,
+  ChatSystemMsgAction,
+  ChatSendMsgAction,
+  ChatConfirmMsgAction,
+  ChatErrorMsg,
+  ChatReadAction,
+  ChatSettleActionAction,
+  ChatNewChatAction,
+  ChatStartStatusActionAction,
+  ChatLoadEarlier,
+  ChatContactUser,
+  ChatNewItemAction,
+  ChatModifyItemAction,
+  ChatNewOffertAction,
+  ChatRemoveOffertAction,
+  ChatSetOffertAcceptedAction,
+  ChatOffertFailAction,
+  ChatSetFeedbackAction,
+  ChatDisableItem,
+  ChatOnlineAction,
+  ChatCategorySecondaryType,
+  GeneralChat
+} from "./types";
 import {
   getSubjectIndex,
   getItemIndex,
@@ -9,22 +79,26 @@ import {
   createSystemMessage,
   createOffert
 } from "../../utils/chatUtility";
-import { ChatType, ChatStatus, OffertStatus } from "../../utils/constants";
 import { formatOffice, formatUser } from "../../utils/helper";
+import { GeneralUser } from "../../types/ProfileTypes";
+import { GeneralItem } from "../../types/ItemTypes";
 
-const initialState = {
+const initialState: ChatType = {
   data: {},
   salesOrderedData: [],
   shoppingOrderedData: [],
   contactedItems: {},
-  error: null,
-  salesFocus: null,
-  shoppingFocus: null,
-  chatFocus: null,
+  error: undefined,
+  salesFocus: 0,
+  shoppingFocus: 0,
+  chatFocus: 0,
   loading: false
 };
 
-const chatInit = (state, { payload: { salesData, shoppingData } }) => {
+const chatInit = (
+  state: ChatType,
+  { payload: { salesData, shoppingData } }: ChatInitAction
+): ChatType => {
   const { salesFormattedData, ...salesRest } = formatSalesData(salesData);
   const {
     shoppingFormattedData,
@@ -44,14 +118,20 @@ const chatInit = (state, { payload: { salesData, shoppingData } }) => {
   });
 };
 
-const chatClear = () => initialState;
+const chatClear = (): ChatType => initialState;
 
-const chatStartGlobalAction = (state, action) =>
+const chatStartGlobalAction = (
+  state: ChatType,
+  action: ChatStartGlobalActionAction | ChatOnlineAction
+): ChatType =>
   update(state, {
     loading: { $set: true }
   });
 
-const chatStartChatAction = (state, { payload: { objectID, chatID } }) =>
+const chatStartChatAction = (
+  state: ChatType,
+  { payload: { objectID, chatID } }: ChatStartChatActionAction
+) =>
   update(state, {
     data: {
       [objectID]: {
@@ -64,13 +144,19 @@ const chatStartChatAction = (state, { payload: { objectID, chatID } }) =>
     }
   });
 
-const chatFail = (state, { payload: { error } }) =>
+const chatFail = (
+  state: ChatType,
+  { payload: { error } }: ChatFailAction
+): ChatType =>
   update(state, {
     error: { $set: error },
     loading: { $set: false }
   });
 
-const chatSingleFail = (state, { payload: { objectID, chatID, error } }) =>
+const chatSingleFail = (
+  state: ChatType,
+  { payload: { objectID, chatID, error } }: ChatSingleFail
+): ChatType =>
   update(state, {
     error: { $set: error },
     data: {
@@ -84,22 +170,34 @@ const chatSingleFail = (state, { payload: { objectID, chatID, error } }) =>
     }
   });
 
-const chatSetSalesListFocus = (state, { payload: { focus } }) =>
+const chatSetSalesListFocus = (
+  state: ChatType,
+  { payload: { focus } }: ChatSetSalesListFocusAction
+): ChatType =>
   update(state, {
     salesFocus: { $set: focus }
   });
 
-const chatSetShoppingListFocus = (state, { payload: { focus } }) =>
+const chatSetShoppingListFocus = (
+  state: ChatType,
+  { payload: { focus } }: ChatSetShoppingListFocusAction
+): ChatType =>
   update(state, {
     shoppingFocus: { $set: focus }
   });
 
-const chatSetChatFocus = (state, { payload: { chatID } }) =>
+const chatSetChatFocus = (
+  state: ChatType,
+  { payload: { chatID } }: ChatSetChatFocusAction
+): ChatType =>
   update(state, {
     chatFocus: { $set: chatID }
   });
 
-const chatSetComposer = (state, { payload: { objectID, chatID, value } }) =>
+const chatSetComposer = (
+  state: ChatType,
+  { payload: { objectID, chatID, value } }: ChatSetComposerAction
+): ChatType =>
   update(state, {
     data: {
       [objectID]: {
@@ -113,16 +211,16 @@ const chatSetComposer = (state, { payload: { objectID, chatID, value } }) =>
   });
 
 const chatReceiveMessage = (
-  state,
-  { payload: { objectID, chatID, msg, type } }
-) => {
+  state: ChatType,
+  { payload: { objectID, chatID, msg, type } }: ChatReceiveMessageAction
+): ChatType => {
   const orderedType =
     type === "sale" ? "salesOrderedData" : "shoppingOrderedData";
   const objectIndex =
     type === "sale"
       ? getItemIndex(objectID, state.salesOrderedData)
       : getSubjectIndex(objectID, state.shoppingOrderedData);
-  const chatIndex = (chatID, state[orderedType][objectIndex]);
+  const chatIndex = state[orderedType][objectIndex];
   const hadNews = state.data[objectID].chats[chatID].hasNews > 0;
 
   return update(state, {
@@ -142,30 +240,40 @@ const chatReceiveMessage = (
     [orderedType]: {
       [objectIndex]: {
         chats: {
-          $apply: object => highlightItem(object, chatIndex)
+          $apply: (object: number) => {} //highlightItem(object, chatIndex)
         }
       }
     }
   });
 };
 
-const chatSystemMsg = (state, { payload: { objectID, chatID, msg } }) => {
-  const type = String(objectID).charAt(0) === "s" ? "shopping" : "sale";
+const chatSystemMsg = (
+  state: ChatType,
+  { payload: { objectID, chatID, msg } }: ChatSystemMsgAction
+): ChatType => {
+  const type =
+    String(objectID).charAt(0) === "s"
+      ? ChatCategorySecondaryType.shopping
+      : ChatCategorySecondaryType.sale;
   const messageData = createSystemMessage(msg);
   return chatReceiveMessage(state, {
+    type: CHAT_RECEIVE_MSG,
     payload: { objectID, chatID, msg: messageData, type }
   });
 };
 
-const chatSendMsg = (state, { payload: { objectID, chatID, msg, type } }) => {
+const chatSendMsg = (
+  state: ChatType,
+  { payload: { objectID, chatID, msg, type } }: ChatSendMsgAction
+): ChatType => {
   const orderedType =
-    type === ChatType.sales ? "salesOrderedData" : "shoppingOrderedData";
+    type === ChatCategoryType.sales
+      ? "salesOrderedData"
+      : "shoppingOrderedData";
   const objectIndex =
-    type === ChatType.sales
+    type === ChatCategoryType.sales
       ? getItemIndex(objectID, state.salesOrderedData)
       : getSubjectIndex(objectID, state.shoppingOrderedData);
-  const chatIndex = (chatID, state[orderedType][objectIndex]);
-  console.log(type, orderedType, objectIndex, chatIndex);
 
   return update(state, {
     data: {
@@ -181,7 +289,7 @@ const chatSendMsg = (state, { payload: { objectID, chatID, msg, type } }) => {
     [orderedType]: {
       [objectIndex]: {
         chats: {
-          $apply: object => highlightItem(object, chatIndex)
+          $apply: (object: number) => null //highlightItem(object, chatIndex)
         }
       }
     }
@@ -189,9 +297,9 @@ const chatSendMsg = (state, { payload: { objectID, chatID, msg, type } }) => {
 };
 
 const chatConfirmMsg = (
-  state,
-  { payload: { objectID, chatID, msgID, data } }
-) => {
+  state: ChatType,
+  { payload: { objectID, chatID, msgID, data } }: ChatConfirmMsgAction
+): ChatType => {
   try {
     const chat = state.data[objectID].chats[chatID].messages;
     console.log(data);
@@ -217,7 +325,10 @@ const chatConfirmMsg = (
   }
 };
 
-const chatErrorMsg = (state, { payload: { objectID, chatID, msgID } }) => {
+const chatErrorMsg = (
+  state: ChatType,
+  { payload: { objectID, chatID, msgID } }: ChatErrorMsg
+): ChatType => {
   try {
     const chat = state.data[objectID].chats[chatID].messages;
     for (let i = 0; i < chat.length; i++) {
@@ -249,7 +360,31 @@ const chatErrorMsg = (state, { payload: { objectID, chatID, msgID } }) => {
   }
 };
 
-const chatRead = (state, { payload: { objectID, chatID } }) => {
+/*
+{
+          data: {
+            [objectID]: {
+              chats: {
+                [chatID]: {
+                  messages: {
+                    [i]: {
+                      $merge: {
+                        isSending: false,
+                        error: true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        });
+*/
+
+const chatRead = (
+  state: ChatType,
+  { payload: { objectID, chatID } }: ChatReadAction
+): ChatType => {
   console.log(objectID, chatID);
   const hasNews = state.data[objectID].chats[chatID].hasNews;
   return update(state, {
@@ -270,7 +405,10 @@ const chatRead = (state, { payload: { objectID, chatID } }) => {
   });
 };
 
-const chatSettle = (state, { payload: { objectID, chatID, status } }) =>
+const chatSettle = (
+  state: ChatType,
+  { payload: { objectID, chatID, status } }: ChatSettleActionAction
+): ChatType =>
   update(state, {
     data: {
       [objectID]: {
@@ -285,11 +423,14 @@ const chatSettle = (state, { payload: { objectID, chatID, status } }) =>
     }
   });
 
-const chatNewChat = (state, { payload: { objectID, chatID, data } }) => {
+const chatNewChat = (
+  state: ChatType,
+  { payload: { objectID, chatID, data } }: ChatNewChatAction
+): ChatType => {
   const { pk, ...restItem } = data.item;
   const UserTO = formatUser(data.buyer);
 
-  const chat = {
+  const chat: GeneralChat = {
     _id: chatID,
     UserTO,
     hasNews: 1,
@@ -301,7 +442,7 @@ const chatNewChat = (state, { payload: { objectID, chatID, data } }) => {
     toload: false,
     feedbacks: {}
   };
-  const item = {
+  const item: SalesData = {
     _id: objectID,
     ...restItem,
     chats: {
@@ -342,7 +483,10 @@ const chatNewChat = (state, { payload: { objectID, chatID, data } }) => {
   }
 };
 
-const chatStartStatusAction = (state, { payload: { objectID, chatID } }) =>
+const chatStartStatusAction = (
+  state: ChatType,
+  { payload: { objectID, chatID } }: ChatStartStatusActionAction
+): ChatType =>
   update(state, {
     data: {
       [objectID]: {
@@ -356,9 +500,9 @@ const chatStartStatusAction = (state, { payload: { objectID, chatID } }) =>
   });
 
 const chatLoadEarlier = (
-  state,
-  { payload: { objectID, chatID, data, toload } }
-) =>
+  state: ChatType,
+  { payload: { objectID, chatID, data, toload } }: ChatLoadEarlier
+): ChatType =>
   update(state, {
     data: {
       [objectID]: {
@@ -373,7 +517,10 @@ const chatLoadEarlier = (
     }
   });
 
-const chatContactUser = (state, { payload: { item, chatID } }) => {
+const chatContactUser = (
+  state: ChatType,
+  { payload: { item, chatID } }: ChatContactUser
+): ChatType => {
   const subjectID = "s" + item.book.subject._id;
   const chat = {
     _id: chatID,
@@ -423,7 +570,10 @@ const chatContactUser = (state, { payload: { item, chatID } }) => {
   });
 };
 
-const chatNewItem = (state, { payload: { item } }) => {
+const chatNewItem = (
+  state: ChatType,
+  { payload: { item } }: ChatNewItemAction
+): ChatType => {
   console.log(item);
   const { pk: _id, ...rest } = item;
   return update(state, {
@@ -448,7 +598,10 @@ const chatNewItem = (state, { payload: { item } }) => {
   });
 };
 
-const chatModifyItem = (state, { payload: { item } }) => {
+const chatModifyItem = (
+  state: ChatType,
+  { payload: { item } }: ChatModifyItemAction
+): ChatType => {
   console.log(item);
   const { pk: _id, ...rest } = item;
   return update(state, {
@@ -464,9 +617,9 @@ const chatModifyItem = (state, { payload: { item } }) => {
 };
 
 const chatNewOffert = (
-  state,
-  { payload: { objectID, chatID, price, pk, user } }
-) => {
+  state: ChatType,
+  { payload: { objectID, chatID, price, pk, user } }: ChatNewOffertAction
+): ChatType => {
   user = user || state.data[objectID].chats[chatID].UserTO;
 
   return update(state, {
@@ -483,7 +636,10 @@ const chatNewOffert = (
   });
 };
 
-const chatRemoveOffert = (state, { payload: { objectID, chatID } }) => {
+const chatRemoveOffert = (
+  state: ChatType,
+  { payload: { objectID, chatID } }: ChatRemoveOffertAction
+): ChatType => {
   return update(state, {
     data: {
       [objectID]: {
@@ -498,7 +654,10 @@ const chatRemoveOffert = (state, { payload: { objectID, chatID } }) => {
   });
 };
 
-const chatAcceptOffert = (state, { payload: { objectID, chatID } }) =>
+const chatAcceptOffert = (
+  state: ChatType,
+  { payload: { objectID, chatID } }: ChatSetOffertAcceptedAction
+): ChatType =>
   update(state, {
     data: {
       [objectID]: {
@@ -513,7 +672,10 @@ const chatAcceptOffert = (state, { payload: { objectID, chatID } }) =>
     }
   });
 
-const chatOffertFail = (state, { payload: { objectID, chatID, error } }) =>
+const chatOffertFail = (
+  state: ChatType,
+  { payload: { objectID, chatID, error } }: ChatOffertFailAction
+): ChatType =>
   update(state, {
     data: {
       [objectID]: {
@@ -528,9 +690,11 @@ const chatOffertFail = (state, { payload: { objectID, chatID, error } }) =>
   });
 
 const chatSetFeedback = (
-  state,
-  { payload: { objectID, chatID, feedback, comment, fromWS } }
-) => {
+  state: ChatType,
+  {
+    payload: { objectID, chatID, feedback, comment, fromWS }
+  }: ChatSetFeedbackAction
+): ChatType => {
   let isBuyer = String(objectID).charAt(0) == "s";
   if (fromWS) isBuyer = !isBuyer;
   const type = isBuyer ? "buyer" : "seller";
@@ -564,8 +728,11 @@ const chatSetFeedback = (
   });
 };
 
-const chatDisableItem = (state, { payload: { type, objectID, chatID } }) => {
-  if (type == ChatType.sales) {
+const chatDisableItem = (
+  state: ChatType,
+  { payload: { type, objectID, chatID } }: ChatDisableItem
+): ChatType => {
+  if (type == ChatCategoryType.sales) {
     return update(state, {
       data: {
         [objectID]: {
@@ -590,96 +757,96 @@ const chatDisableItem = (state, { payload: { type, objectID, chatID } }) => {
   }
 };
 
-export default (state = initialState, action) => {
+export default (state = initialState, action: TChatActions): ChatType => {
   switch (action.type) {
-    case actionTypes.CHAT_INIT:
+    case CHAT_INIT:
       return chatInit(state, action);
 
-    case actionTypes.CHAT_CLEAR:
-      return chatClear(state, action);
+    case CHAT_CLEAR:
+      return chatClear();
 
-    case actionTypes.CHAT_START_GLOBAL_ACTION:
+    case CHAT_START_GLOBAL_ACTION:
       return chatStartGlobalAction(state, action);
 
-    case actionTypes.CHAT_START_CHAT_ACTION:
+    case CHAT_START_CHAT_ACTION:
       return chatStartChatAction(state, action);
 
-    case actionTypes.CHAT_FAIL:
+    case CHAT_FAIL:
       return chatFail(state, action);
 
-    case actionTypes.CHAT_SINGLE_FAIL:
+    case CHAT_SINGLE_FAIL:
       return chatSingleFail(state, action);
 
-    case actionTypes.CHAT_SET_SALES_LIST_FOCUS:
+    case CHAT_SET_SALES_LIST_FOCUS:
       return chatSetSalesListFocus(state, action);
 
-    case actionTypes.CHAT_SET_SHOPPING_LIST_FOCUS:
+    case CHAT_SET_SHOPPING_LIST_FOCUS:
       return chatSetShoppingListFocus(state, action);
 
-    case actionTypes.CHAT_SET_CHAT_FOCUS:
+    case CHAT_SET_CHAT_FOCUS:
       return chatSetChatFocus(state, action);
 
-    case actionTypes.CHAT_SET_COMPOSER:
+    case CHAT_SET_COMPOSER:
       return chatSetComposer(state, action);
 
-    case actionTypes.CHAT_RECEIVE_MSG:
+    case CHAT_RECEIVE_MSG:
       return chatReceiveMessage(state, action);
 
-    case actionTypes.CHAT_SYSTEM_MSG:
+    case CHAT_SYSTEM_MSG:
       return chatSystemMsg(state, action);
 
-    case actionTypes.CHAT_SEND_MSG:
+    case CHAT_SEND_MSG:
       return chatSendMsg(state, action);
 
-    case actionTypes.CHAT_CONFIRM_MSG:
+    case CHAT_CONFIRM_MSG:
       return chatConfirmMsg(state, action);
 
-    case actionTypes.CHAT_ERROR_MSG:
+    case CHAT_ERROR_MSG:
       return chatErrorMsg(state, action);
 
-    case actionTypes.CHAT_READ:
+    case CHAT_READ:
       return chatRead(state, action);
 
-    case actionTypes.CHAT_SETTLE:
+    case CHAT_SETTLE:
       return chatSettle(state, action);
 
-    case actionTypes.CHAT_NEW_CHAT:
+    case CHAT_NEW_CHAT:
       return chatNewChat(state, action);
 
-    case actionTypes.CHAT_START_STATUS_ACTION:
+    case CHAT_START_STATUS_ACTION:
       return chatStartStatusAction(state, action);
 
-    case actionTypes.CHAT_LOAD_EARLIER:
+    case CHAT_LOAD_EARLIER:
       return chatLoadEarlier(state, action);
 
-    case actionTypes.CHAT_CONTACT_USER:
+    case CHAT_CONTACT_USER:
       return chatContactUser(state, action);
 
-    case actionTypes.CHAT_NEW_OFFERT:
+    case CHAT_NEW_OFFERT:
       return chatNewOffert(state, action);
 
-    case actionTypes.CHAT_REMOVE_OFFERT:
+    case CHAT_REMOVE_OFFERT:
       return chatRemoveOffert(state, action);
 
-    case actionTypes.CHAT_ACCEPT_OFFERT:
+    case CHAT_ACCEPT_OFFERT:
       return chatAcceptOffert(state, action);
 
-    case actionTypes.CHAT_OFFERT_FAIL:
+    case CHAT_OFFERT_FAIL:
       return chatOffertFail(state, action);
 
-    case actionTypes.CHAT_NEW_ITEM:
+    case CHAT_NEW_ITEM:
       return chatNewItem(state, action);
 
-    case actionTypes.CHAT_MODIFY_ITEM:
+    case CHAT_MODIFY_ITEM:
       return chatModifyItem(state, action);
 
-    case actionTypes.CHAT_ONLINE:
+    case CHAT_ONLINE:
       return chatStartGlobalAction(state, action);
 
-    case actionTypes.CHAT_SET_FEEDBACK:
+    case CHAT_SET_FEEDBACK:
       return chatSetFeedback(state, action);
 
-    case actionTypes.CHAT_DISABLE_ITEM:
+    case CHAT_DISABLE_ITEM:
       return chatDisableItem(state, action);
 
     default:
@@ -687,20 +854,23 @@ export default (state = initialState, action) => {
   }
 };
 
-const formatSalesData = (arrayData, focus = 0) => {
+const formatSalesData = (arrayData: InitSalesType[], focus = 0) => {
   console.log("SALES: ", arrayData);
 
   let orderedData = [];
-  let data = {};
+  let data: { [key: string]: SalesData } = {};
   for (let i = 0; i < arrayData.length; i++) {
     const { chats, _id: itemID, seller, ...restItem } = arrayData[i];
 
-    seller.office = formatOffice(seller.course);
-    seller.course = null;
+    //seller.office = formatOffice(seller.course);
+    //delete seller.course;
 
     data[itemID] = {
       _id: itemID,
-      seller,
+      seller: {
+        ...seller,
+        office: formatOffice(seller.course)
+      },
       ...restItem,
       chats: {}
     };
@@ -708,15 +878,17 @@ const formatSalesData = (arrayData, focus = 0) => {
     for (let f = 0; f < chats.length; f++) {
       const { buyer, ...chat } = chats[f];
       orderedChats.push(chat._id);
-
-      buyer.office = formatOffice(buyer.course);
-      buyer.course = null;
+      //buyer.office = formatOffice(buyer.course);
+      //delete buyer.course;
 
       //for (let m = 0; m < chat.messages.length; m++)
       //  chat.messages[m].createdAt = new Date(chat.messages[m].createdAt);
 
       data[itemID].chats[chat._id] = {
-        UserTO: buyer,
+        UserTO: {
+          ...buyer,
+          office: formatOffice(buyer.course)
+        },
         ...chat,
         composer: "",
         loading: false
@@ -735,30 +907,33 @@ const formatSalesData = (arrayData, focus = 0) => {
   };
 };
 
-const formatShoppingData = (arrayData, focus = 0) => {
+const formatShoppingData = (arrayData: InitShoppingType[], focus = 0) => {
   console.log("SHOPPING: ", arrayData);
   let orderedData = [];
-  let data = {};
-  let contactedItems = {};
+  let data: { [key: string]: ShoppingData } = {};
+  let contactedItems: { [key: number]: boolean } = {};
   for (let i = 0; i < arrayData.length; i++) {
-    const { subject, items, newsCount, ...restSubject } = arrayData[i];
+    const { subject, items } = arrayData[i];
 
     data["s" + subject._id] = {
       _id: "s" + subject._id,
       title: subject.title,
-      ...restSubject,
-      newsCount: newsCount || 0,
+      newsCount: 0, //Bug
       chats: {}
     };
     let orderedChats = [];
     for (let f = 0; f < items.length; f++) {
-      const { chats: chat, seller, ...restItem } = items[f];
+      const { chats: chat, seller: sellerSerializer, ...restItem } = items[f];
       orderedChats.push(chat._id);
+      const seller: GeneralUser = {
+        ...sellerSerializer,
+        office: formatOffice(sellerSerializer.course)
+      };
 
-      seller.office = formatOffice(seller.course);
-      seller.course = null;
-
-      const item = {
+      const item: GeneralItem = {
+        pk: restItem._id,
+        comment_ad: [],
+        description: "",
         ...restItem,
         seller
       };

@@ -12,7 +12,7 @@ import {
 import UsernameInfo from "../UsernameInfo";
 import { UserData, GeneralUser } from "../../types/ProfileTypes";
 import { GeneralItem } from "../../types/ItemTypes";
-import { GeneralOffert } from "../../store/chat/types";
+import { GeneralOffert } from "../../store/chat_Deprecated/types";
 
 export interface FullOffertProps {
   item?: GeneralItem;

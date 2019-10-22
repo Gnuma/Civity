@@ -9,7 +9,7 @@ import {
   TextFeedbackTypes,
   FeedbackOffertTypes
 } from "../../utils/constants";
-import { GeneralFeedback } from "../../store/chat/types";
+import { GeneralFeedback } from "../../store/chat_Deprecated/types";
 import { GeneralUser } from "../../types/ProfileTypes";
 
 interface CompletedOffertProps extends FullOffertProps {

@@ -1,7 +1,8 @@
 import React from "react";
 import Svg, { Rect } from "react-native-svg";
+import { VectorStyle } from "./types";
 
-const SvgComponent = props => (
+const SvgComponent = (props: VectorStyle) => (
   <Svg width="1em" height="1em" viewBox="0 0 138 138" fill="none" {...props}>
     <Rect
       x={137.255}

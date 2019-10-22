@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import {
   View,
-  Text,
   Platform,
   Keyboard,
   StyleSheet,
-  SafeAreaView
+  SafeAreaView,
+  KeyboardEventListener,
+  EmitterSubscription
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -14,13 +15,14 @@ import SellIcon from "../media/vectors/sell-icon";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Header4 } from "../components/Text";
 import colors from "../styles/colors";
-import NavigationService from "../navigator/NavigationService";
-import protectedAction from "../utils/protectedAction";
-import firebase from "react-native-firebase";
 import Shadows from "../components/Shadows";
+import { BottomTabBarProps } from "react-navigation-tabs/lib/typescript/src/types";
+import { StoreType } from "../store/root";
 
-export class TabBar extends Component {
+export class TabBar extends Component<BottomTabBarProps> {
   static propTypes = {};
+
+  keyboardEventListeners: EmitterSubscription[] = [];
 
   state = {
     visible: true
@@ -37,17 +39,16 @@ export class TabBar extends Component {
 
   componentWillUnmount() {
     this.keyboardEventListeners &&
-      this.keyboardEventListeners.forEach(eventListener =>
-        eventListener.remove()
+      this.keyboardEventListeners.forEach(
+        (eventListener: EmitterSubscription) => eventListener.remove()
       );
   }
 
-  visible = visible => () => this.setState({ visible });
+  visible = (visible: boolean) => () => this.setState({ visible });
 
   render() {
     if (!this.state.visible) return null;
 
-    const { navigation } = this.props;
     const focus = this._getFocused();
     return (
       <SafeAreaView
@@ -82,38 +83,32 @@ export class TabBar extends Component {
           </Button>
           <Button
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-            onPress={this._goVendi}
+            onPress={this._goChat}
           >
             <SellIcon
               style={{ marginBottom: 5 }}
-              color={focus === "SALES" ? colors.secondary : colors.grey}
+              color={focus === "CHAT" ? colors.secondary : colors.grey}
               width={"20em"}
               height={"20em"}
             />
-            <Header4
-              color={focus === "SALES" ? "secondary" : "grey"}
-              style={this.props.salesNews && styles.hasNotification}
-            >
-              Vendi
+            <Header4 color={focus === "CHAT" ? "secondary" : "grey"}>
+              Chat
             </Header4>
           </Button>
           <Button
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-            onPress={this._goShopping}
+            onPress={this._goUser}
           >
             <Icon
               name="tags"
               size={20}
               style={{
                 marginBottom: 5,
-                color: focus === "SHOPPING" ? colors.secondary : colors.grey
+                color: focus === "USER" ? colors.secondary : colors.grey
               }}
             />
-            <Header4
-              color={focus === "SHOPPING" ? "secondary" : "grey"}
-              style={this.props.shoppingNews && styles.hasNotification}
-            >
-              Acquisti
+            <Header4 color={focus === "USER" ? "secondary" : "grey"}>
+              Profilo
             </Header4>
           </Button>
         </View>
@@ -129,35 +124,15 @@ export class TabBar extends Component {
   _goHome = () => {
     this.props.navigation.navigate("SEARCH");
   };
-  _goVendi = () => {
-    this.props.navigation.navigate("SALES");
+  _goChat = () => {
+    this.props.navigation.navigate("CHAT");
   };
-  _goShopping = () => {
-    this.props.navigation.navigate("SHOPPING");
+  _goUser = () => {
+    this.props.navigation.navigate("USER");
   };
 }
 
-const mapStateToProps = state => {
-  let salesNews = false;
-  let shoppingNews = false;
-
-  /*
-  for (const objectID in state.chat.data) {
-    if (
-      state.chat.data.hasOwnProperty(objectID) &&
-      state.chat.data[objectID].newsCount > 0
-    ) {
-      if (String(objectID).charAt(0) === "s") shoppingNews = true;
-      else salesNews = true;
-    }
-  }
-  */
-
-  return {
-    salesNews,
-    shoppingNews
-  };
-};
+const mapStateToProps = (state: StoreType) => ({});
 
 const mapDispatchToProps = {};
 
