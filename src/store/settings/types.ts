@@ -1,3 +1,4 @@
+export const SETTINGS_STARTUP = "SETTINGS_STARTUP";
 export const SETTINGS_START = "SETTINGS_START";
 export const SETTINGS_CHANGE_CONNECTION = "SETTINGS_CHANGE_CONNECTION";
 export const SETTINGS_SAVE_NAV_STATE = "SETTINGS_SAVE_NAV_STATE";
@@ -48,9 +49,14 @@ export interface SettingsCreateToastAction {
   };
 }
 
+export interface SettingsStartUpAction {
+  type: typeof SETTINGS_STARTUP;
+}
+
 export type TSettingsAction =
   | SettingsChangeConnectionAction
   | SettingsSaveNavStateAction
   | SettingsUpdateFCMAction
   | SettingsStartAction
-  | SettingsCreateToastAction;
+  | SettingsCreateToastAction
+  | SettingsStartUpAction;

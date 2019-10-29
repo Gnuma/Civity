@@ -11,7 +11,8 @@ import {
   TSettingsAction,
   ToastType,
   SettingsStartAction,
-  SettingsChangeConnectionAction
+  SettingsChangeConnectionAction,
+  SETTINGS_STARTUP
 } from "./types";
 import { getItem } from "../utility";
 import { searchRecentKey, searchUpdateHistory } from "../search";
@@ -24,6 +25,8 @@ import firebase from "react-native-firebase";
 import axios from "axios";
 import { ___UPDATE_FCM___ } from "../endpoints";
 import { StoreType } from "../root";
+import { RehydrateAction, REHYDRATE } from "redux-persist";
+import NavigationService from "../../navigator/NavigationService";
 
 export const saveNavState = () => (navState: Object): TSettingsAction => ({
   type: SETTINGS_SAVE_NAV_STATE,
@@ -46,23 +49,13 @@ const settingsConnectionChange = (isConnected: boolean): TSettingsAction => ({
   }
 });
 
-export const settingsStart = (): ThunkAction<
-  void,
-  SettingsType,
-  null,
-  Action
-> => dispatch => {
-  dispatch({
-    type: SETTINGS_START
-  });
-  getItem(searchRecentKey)
-    .then(recent => recent && dispatch(searchUpdateHistory(recent)))
-    .catch(err => console.log(err));
-};
+export const settingsStartUp = () => ({
+  type: SETTINGS_STARTUP
+});
 
 export const updateFCMToken = (
   token?: string
-): ThunkAction<void, SettingsType, null, Action> => async dispatch => {
+): ThunkAction<void, StoreType, null, Action> => async dispatch => {
   try {
     if (!token) token = await firebase.messaging().getToken();
   } catch (error) {

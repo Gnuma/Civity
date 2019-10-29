@@ -1,4 +1,5 @@
 import { ThunkAction } from "redux-thunk";
+import { ActionsObservable, StateObservable, ofType } from "redux-observable";
 import { Action } from "redux";
 import {
   AUTH_APPINIT,
@@ -12,7 +13,8 @@ import {
   AUTH_UPDATE_EXPERIENCE,
   AUTH_UPDATE_RESPECT,
   ResolveLogin,
-  TAuthActions
+  TAuthActions,
+  AUTH_UPDATE_USER_DATA
 } from "./types";
 import axios from "axios";
 import { setItem, removeItem, multiGet } from "../utility";
@@ -21,20 +23,49 @@ import {
   ___WHOAMI_ENDPOINT___,
   ___LOGOUT_ENDPOINT___,
   ___SIGNUP_ENDPOINT___,
-  ___INITUSER_ENDPOINT___
+  ___INITUSER_ENDPOINT___,
+  ___WS_TEST_ENDPOINT
 } from "../endpoints";
 //import WS from "../../utils/WebSocket_Deprecated_Deprecated";
 import { AutoStart } from "../../utils/constants";
 import { commentsClear } from "../comments";
 //import { messagingClear } from "../chat_Deprecated/messaging";
 //import { chatClear } from "../chat";
-import { mockWHOAMI } from "../../mockData/MockUser";
+//import { mockWHOAMI } from "../../mockData/MockUser";
 import NetInfo from "@react-native-community/netinfo";
 import { formatUserData } from "../../utils/helper";
 import { updateFCMToken } from "../settings";
 import { StoreType } from "../root";
 import { GeneralOffice, FullUserData } from "../../types/ProfileTypes";
-import { any } from "prop-types";
+import { RehydrateAction, REHYDRATE } from "redux-persist";
+import { switchMap, filter, map } from "rxjs/operators";
+import { forkJoin } from "rxjs";
+import { webSocket } from "rxjs/webSocket";
+import { ajax } from "rxjs/ajax";
+import { chatConnect, chatReconnect } from "../chat";
+import { SETTINGS_STARTUP, SettingsStartUpAction } from "../settings/types";
+
+/**
+ * StartUp Process:
+ *
+ * OLD
+ * 1) Settings start
+ * 2) WhoAmI -> Set Store
+ * 3) UpdateFCM
+ * 4) WS init
+ * 5) Retrieve chats
+ *
+ * NEW
+ * 1) Settings start
+ * Re-Connection
+ * ---Primary
+ * 2) Re-Connection sending -ToDo
+ * 2.1) Retrieve Chats - ToDo
+ * 2.2) WS init - ToDo
+ * ---Secondary
+ * 3) | WhoAmI - Done
+ * 3) | UpdateFCM - Done
+ */
 
 const CookieManager = require("react-native-cookies");
 
@@ -133,6 +164,13 @@ const authSetValidatedAccount = (): TAuthActions => ({
   type: AUTH_VALIDATE_ACCOUNT
 });
 
+const authUpdateUserData = (userData: FullUserData): TAuthActions => ({
+  type: AUTH_UPDATE_USER_DATA,
+  payload: {
+    userData
+  }
+});
+
 //Action Creators
 
 export const authUpdateExperience = (
@@ -166,58 +204,6 @@ export const authLogin = (
           console.log(err);
           dispatch(authFail(err));
           reject(err);
-        });
-    });
-  };
-};
-
-export const autoLogin = (): ThunkAction<void, StoreType, null, Action> => {
-  return (dispatch, getState): Promise<ResolveLogin> => {
-    return new Promise<ResolveLogin>((resolve, reject) => {
-      //return reject(AutoStart.firstTime); //Testing
-      if (getState().auth.token) return resolve(AutoStart.logged);
-      dispatch(authStart());
-      multiGet([tokenKey, officeKey, userDataKey])
-        .then(async (userInfos: any) => {
-          if (userInfos === undefined) return reject(AutoStart.anonymous);
-          const token = userInfos[0][1];
-          const office = userInfos[1][1];
-          const userData = userInfos[2][1];
-
-          if (token !== null) {
-            if (await NetInfo.isConnected.fetch()) {
-              login({
-                dispatch,
-                resolve,
-                token,
-                reject: () => reject(AutoStart.anonymous)
-              });
-            } else {
-              if (userData) {
-                dispatch(loginSuccess(token, userData, true));
-                resolve(AutoStart.logged);
-              } else {
-                dispatch(authFail("No User data saved in async store"));
-                reject(AutoStart.anonymous);
-              }
-            }
-          } else {
-            dispatch(authFail("Token not found"));
-            if (office !== null) {
-              //Office Set but no login
-              dispatch(authAppInit(office, false));
-              reject(AutoStart.anonymous);
-            } else {
-              //No Login And no Office: First time start
-              dispatch(authFail("Office not set"));
-              reject(AutoStart.firstTime);
-            }
-          }
-        })
-        .catch(err => {
-          console.log("Error in storage: ", err);
-          dispatch(authFail(err));
-          reject(AutoStart.firstTime);
         });
     });
   };
@@ -353,3 +339,40 @@ const login = async ({ dispatch, resolve, reject, token }: LoginType) => {
     dispatch(authCompleted());
   }
 };
+
+const reConnectUpdateUserData = (): ThunkAction<
+  void,
+  StoreType,
+  null,
+  Action
+> => (dispatch, getState) => {
+  const { token } = getState().auth;
+  axios.defaults.headers.common["Authorization"] = "Token " + token; // for all requests
+  axios
+    .get(___WHOAMI_ENDPOINT___)
+    .then(res => dispatch(authUpdateUserData(formatUserData(res.data))))
+    .catch(err => console.log(err));
+  dispatch(updateFCMToken());
+  setTimeout(() => {
+    dispatch(chatReconnect());
+  }, 2000);
+};
+
+/**
+ * EPICS
+ */
+
+type ReConnectUserType = RehydrateAction;
+
+const reConnectUserEpic = (
+  action$: ActionsObservable<SettingsStartUpAction>,
+  state$: StateObservable<StoreType>
+) =>
+  action$.pipe(
+    ofType(SETTINGS_STARTUP),
+    filter(() => !!state$.value.auth.token),
+    map(reConnectUpdateUserData)
+    //switchMap(() => map(reConnectUpdateUserData))
+  );
+
+export const authEpics = [reConnectUserEpic];

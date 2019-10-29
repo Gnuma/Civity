@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-community/async-storage";
 /** Types */
 import { SearchType } from "./search/types";
 import { AuthType } from "./auth/types";
@@ -19,8 +20,10 @@ import settingsReducer from "./settings/reducer";
 
 /** Epics */
 import { searchEpics } from "./search";
-//import { chatEpics } from "./chat";
+import { chatEpics } from "./chat";
 import { settingsEpics } from "./settings";
+import { authEpics } from "./auth";
+import { persistReducer } from "redux-persist";
 
 export interface StoreType {
   search: SearchType;
@@ -31,17 +34,24 @@ export interface StoreType {
   settings: SettingsType;
 }
 
+const chatPersistConfig = {
+  key: "chat",
+  storage: AsyncStorage,
+  blacklist: ["state"]
+};
+
 export const rootReducer = combineReducers({
   search: searchReducer,
   auth: authReducer,
   sell: sellReducer,
   comments: commentsReducer,
-  chat: chatReducer,
+  chat: persistReducer(chatPersistConfig, chatReducer),
   settings: settingsReducer
 });
 
 export const rootEpic = combineEpics(
   ...searchEpics,
-  //...chatEpics,
-  ...settingsEpics
+  ...chatEpics,
+  ...settingsEpics,
+  ...authEpics
 );

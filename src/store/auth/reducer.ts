@@ -20,7 +20,9 @@ import {
   LogoutSuccessAction,
   AuthSetUpdatedRespect,
   AuthSetValidatedAccount,
-  AuthSetUpdatedExperience
+  AuthSetUpdatedExperience,
+  AUTH_UPDATE_USER_DATA,
+  AuthUpdateUserData
 } from "./types";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
@@ -156,6 +158,22 @@ const authUpdateRespect = (
   });
 };
 
+const authUpdateUserData = (
+  state: AuthType,
+  {
+    payload: {
+      userData: { pk, office, isActive, ...restUserData }
+    }
+  }: AuthUpdateUserData
+) =>
+  updateObject(state, {
+    userData: restUserData,
+    office,
+    isActive,
+    id: pk,
+    error: null
+  });
+
 const reducer = (state = initialState, action: TAuthActions): AuthType => {
   switch (action.type) {
     case AUTH_APPINIT:
@@ -187,6 +205,9 @@ const reducer = (state = initialState, action: TAuthActions): AuthType => {
 
     case AUTH_UPDATE_RESPECT:
       return authUpdateRespect(state, action);
+
+    case AUTH_UPDATE_USER_DATA:
+      return authUpdateUserData(state, action);
 
     default:
       return state;

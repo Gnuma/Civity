@@ -14,6 +14,7 @@ export const AUTH_SET_PHONE = "AUTH_SET_PHONE";
 export const AUTH_VALIDATE_ACCOUNT = "AUTH_VALIDATE_ACCOUNT";
 export const AUTH_UPDATE_EXPERIENCE = "AUTH_UPDATE_EXPERIENCE";
 export const AUTH_UPDATE_RESPECT = "AUTH_UPDATE_RESPECT";
+export const AUTH_UPDATE_USER_DATA = "AUTH_UPDATE_USER_DATA";
 
 export interface AuthType {
   token?: string;
@@ -94,6 +95,13 @@ export interface AuthSetValidatedAccount {
   type: typeof AUTH_VALIDATE_ACCOUNT;
 }
 
+export interface AuthUpdateUserData {
+  type: typeof AUTH_UPDATE_USER_DATA;
+  payload: {
+    userData: FullUserData;
+  };
+}
+
 export type TAuthActions =
   | AuthAppInitAction
   | AuthStartAction
@@ -104,4 +112,5 @@ export type TAuthActions =
   | AuthSetPhoneAction
   | AuthSetUpdatedExperience
   | AuthSetUpdatedRespect
-  | AuthSetValidatedAccount;
+  | AuthSetValidatedAccount
+  | AuthUpdateUserData;
