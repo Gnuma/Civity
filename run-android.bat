@@ -1,1 +1,1 @@
-cd android && gradlew clean && cd .. && react-native run-android
+cd android && gradlew clean && cd .. && npx react-native run-android

@@ -26,7 +26,8 @@ export class AppLoader extends Component<AppLoaderProps> {
     //Anonymous
     else if (office) NavigationService.navigate("Home");
     //First time
-    else NavigationService.navigate("InitProfile");
+    // else NavigationService.navigate("InitProfile");
+    else NavigationService.navigate("Home");
   }
 
   render() {
@@ -43,7 +44,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => ({
   settingsStartUp: () => dispatch(settingsStartUp())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AppLoader);
+export default connect(mapStateToProps, mapDispatchToProps)(AppLoader);

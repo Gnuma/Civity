@@ -14,9 +14,9 @@ import firebase from "react-native-firebase";
 import { Header2 } from "./src/components/Text";
 import SplashScreen from "./src/components/SplashScreen";
 import { ___WS_TEST_ENDPOINT } from "./src/store/endpoints";
-import MockWS from "./src/utils/MockWS";
+//import MockWS from "./src/utils/MockWS";
 
-MockWS.init();
+//MockWS.init();
 
 class App extends Component {
   componentDidMount() {

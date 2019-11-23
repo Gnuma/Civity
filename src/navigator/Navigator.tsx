@@ -21,6 +21,10 @@ import CreateBookScreen from "../views/CreateBook";
 //import ShoppingListScreen from "../views/ShoppingList_Deprecated";
 
 import ChatListScreen from "../views/ChatList";
+
+import SelectBooksScreen from "../views/Sell/SelectBooks";
+import PhotosListScreen from "../views/Sell/PhotosList";
+
 import ImagePickerScreen from "../views/ImagePicker";
 import UserSettingsScreen from "../views/UserSettings";
 import UserInfoScreen from "../views/UserChanges/UserInfo";
@@ -230,6 +234,20 @@ ShoppingNavigator.navigationOptions = ({
 };
 */
 
+const SellNavigator = createStackNavigator(
+  {
+    SelectBooks: { screen: SelectBooksScreen },
+    PhotosList: { screen: PhotosListScreen }
+  },
+  {
+    initialRouteName: "SelectBooks",
+    defaultNavigationOptions: {
+      gesturesEnabled: false,
+      header: null
+    }
+  }
+);
+
 const ChatNavigator = createStackNavigator(
   {
     ChatList: ChatListScreen
@@ -263,9 +281,11 @@ const AuthNavigator = createStackNavigator(
 const AppStack = createBottomTabNavigator(
   {
     SEARCH: SearchNavigator,
+    SELL: SellNavigator,
     CHAT: ChatNavigator
   },
   {
+    initialRouteName: "SEARCH",
     tabBarComponent: TabBar
   }
 );

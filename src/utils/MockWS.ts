@@ -1,7 +1,7 @@
 import { Server } from "mock-socket";
 import { ___WS_TEST_ENDPOINT } from "../store/endpoints";
 import { ResumeMessages } from "../store/chat/types";
-import uuid = require("uuid");
+import uuid from "uuid";
 
 class MockServer {
   mockServer?: Server;

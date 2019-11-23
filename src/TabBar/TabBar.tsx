@@ -11,8 +11,11 @@ import {
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Button from "../components/Button";
-import SellIcon from "../media/vectors/sell-icon";
-import Icon from "react-native-vector-icons/FontAwesome";
+
+import ChatIcon from "../media/vectors/ChatIcon";
+import SearchIcon from "../media/vectors/SearchIcon";
+import CivitySquareIcon from "../media/vectors/CivitySquareIcon";
+
 import { Header4 } from "../components/Text";
 import colors from "../styles/colors";
 import Shadows from "../components/Shadows";
@@ -69,13 +72,9 @@ export class TabBar extends Component<BottomTabBarProps> {
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
             onPress={this._goHome}
           >
-            <Icon
-              name="search"
-              size={20}
-              style={{
-                marginBottom: 5,
-                color: focus === "SEARCH" ? colors.secondary : colors.grey
-              }}
+            <SearchIcon
+              color={focus === "SEARCH" ? colors.secondary : colors.grey}
+              size={25}
             />
             <Header4 color={focus === "SEARCH" ? "secondary" : "grey"}>
               Esplora
@@ -83,32 +82,26 @@ export class TabBar extends Component<BottomTabBarProps> {
           </Button>
           <Button
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-            onPress={this._goChat}
+            onPress={this._goSell}
           >
-            <SellIcon
-              style={{ marginBottom: 5 }}
-              color={focus === "CHAT" ? colors.secondary : colors.grey}
-              width={"20em"}
-              height={"20em"}
+            <CivitySquareIcon
+              color={focus === "SELL" ? colors.secondary : colors.grey}
+              size={25}
             />
-            <Header4 color={focus === "CHAT" ? "secondary" : "grey"}>
-              Chat
+            <Header4 color={focus === "SELL" ? "secondary" : "grey"}>
+              Vendi
             </Header4>
           </Button>
           <Button
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
             onPress={this._goUser}
           >
-            <Icon
-              name="tags"
-              size={20}
-              style={{
-                marginBottom: 5,
-                color: focus === "USER" ? colors.secondary : colors.grey
-              }}
-            />
-            <Header4 color={focus === "USER" ? "secondary" : "grey"}>
-              Profilo
+            <ChatIcon
+              color={focus === "CHAT" ? colors.secondary : colors.grey}
+              size={25}
+            ></ChatIcon>
+            <Header4 color={focus === "CHAT" ? "secondary" : "grey"}>
+              Chat
             </Header4>
           </Button>
         </View>
@@ -124,11 +117,11 @@ export class TabBar extends Component<BottomTabBarProps> {
   _goHome = () => {
     this.props.navigation.navigate("SEARCH");
   };
-  _goChat = () => {
-    this.props.navigation.navigate("CHAT");
+  _goSell = () => {
+    this.props.navigation.navigate("SELL");
   };
   _goUser = () => {
-    this.props.navigation.navigate("USER");
+    this.props.navigation.navigate("CHAT");
   };
 }
 
@@ -136,10 +129,7 @@ const mapStateToProps = (state: StoreType) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TabBar);
+export default connect(mapStateToProps, mapDispatchToProps)(TabBar);
 
 const styles = StyleSheet.create({
   hasNotification: {

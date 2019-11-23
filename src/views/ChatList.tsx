@@ -22,7 +22,4 @@ const mapStateToProps = (state: StoreType) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChatList);
+export default connect(mapStateToProps, mapDispatchToProps)(ChatList);
