@@ -73,6 +73,14 @@ export function Header5({ children, style, color, ...rest }: Props) {
   );
 }
 
+export function Text({ children, style, color, ...rest }: Props) {
+  return (
+    <RText style={[styles.text, style]} {...rest}>
+      {children}
+    </RText>
+  );
+}
+
 interface UsernameProps {
   size?: number;
   username: string;
@@ -139,5 +147,8 @@ const styles = StyleSheet.create({
   },
   usernameText: {
     marginRight: 25
+  },
+  text: {
+    fontSize: 12
   }
 });

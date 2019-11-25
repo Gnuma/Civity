@@ -4,13 +4,15 @@ export default {
   black: "#202020",
   red: "#F50101",
   lightYellow: "#E2D66B",
-  grey: "#3C3C3C",
   white: "#FFFFFF",
   darkRed: "#B00020",
   fullBlack: "#000000",
   darkGreen: "#188452",
-  lightGrey: "#A9A9A9",
-  divider: "#C8C8C8"
+  divider: "#C8C8C8",
+  darkGrey: "#555555",
+  grey: "#A9A9A9",
+  lightGrey: "#C4C4C4",
+  lighLighGrey: "#F0F0F0"
 };
 
 export type ColorType =
@@ -25,6 +27,7 @@ export type ColorType =
   | "fullBlack"
   | "darkGreen"
   | "lightGrey"
-  | "divider";
+  | "divider"
+  | "lighLighGrey";
 
 //#1EA67E

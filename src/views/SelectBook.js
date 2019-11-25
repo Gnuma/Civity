@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { View, Text, KeyboardAvoidingView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import SBHeader from "../components/Sell/SelectBook/SelectBookHeader";
+import SBHeader from "../components/Sell_Deprecated/SelectBook/SelectBookHeader";
 import { bookList } from "../mockData/Book";
-import SBList from "../components/Sell/SelectBook/SelectBookList";
+import SBList from "../components/Sell_Deprecated/SelectBook/SelectBookList";
 import * as sellActions from "../store/sell";
 import axios from "axios";
 import { ___BOOK_HINTS_ENDPOINT___ } from "../store/endpoints";
@@ -157,7 +157,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SelectBook);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectBook);

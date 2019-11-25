@@ -23,6 +23,7 @@ import CreateBookScreen from "../views/CreateBook";
 import ChatListScreen from "../views/ChatList";
 
 import SelectBooksScreen from "../views/Sell/SelectBooks";
+import GeneralInfosScreen from "../views/Sell/GeneralInfos";
 import PhotosListScreen from "../views/Sell/PhotosList";
 
 import ImagePickerScreen from "../views/ImagePicker";
@@ -237,6 +238,7 @@ ShoppingNavigator.navigationOptions = ({
 const SellNavigator = createStackNavigator(
   {
     SelectBooks: { screen: SelectBooksScreen },
+    SellGeneralInfos: { screen: GeneralInfosScreen },
     PhotosList: { screen: PhotosListScreen }
   },
   {

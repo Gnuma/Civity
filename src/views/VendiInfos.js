@@ -9,7 +9,7 @@ import {
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ItemHeader from "../components/Item/ItemHeader";
-import MainSell from "../components/Sell/MainSell";
+import MainSell from "../components/Sell_Deprecated/MainSell";
 import * as sellActions from "../store/sell";
 import colors from "../styles/colors";
 import protectedAction from "../utils/protectedAction";
@@ -151,10 +151,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(VendiInfos);
+export default connect(mapStateToProps, mapDispatchToProps)(VendiInfos);
 
 const isNegative = n => n <= 0;
 const descriptionLengthValidator = str => str.length < 16 || str.length > 280;
