@@ -25,6 +25,7 @@ interface GeneralItemInfo {
   price?: string;
   condition?: ItemCondition;
   notes?: string;
+  completed?: boolean;
 }
 
 interface GeneralInfosProps {
@@ -45,15 +46,69 @@ export default class GeneralInfos extends Component<
     state: 0
   };
 
-  continue = () => {};
-  goBack = () => {};
-  switchTab = () => {};
+  complete = () => {
+    this.setState(
+      state =>
+        update(state, {
+          data: {
+            [state.state]: {
+              completed: { $set: true }
+            }
+          },
+          state: {
+            $apply: bookIndex => {
+              const right = state.data
+                .slice(bookIndex + 1)
+                .findIndex(item => !item.completed);
+              const left = state.data
+                .slice(0, bookIndex - 1)
+                .findIndex(item => !item.completed);
+              console.log(
+                state.data.slice(bookIndex + 1),
+                state.data.slice(0, bookIndex)
+              );
+              console.log(right, left);
+              if (right != -1) return right + ;
+              if (left != -1) return left;
+              return bookIndex;
+            }
+          }
+        }),
+      () => {
+        let canContinue = true;
+        this.state.data.forEach(
+          item => (canContinue = !!(canContinue && item.completed))
+        );
+        if (canContinue) this.continue();
+      }
+    );
+  };
+
+  continue = () => {
+    this.props.navigation.navigate("PhotosList");
+  };
+
+  goBack = () => {
+    this.setState(state =>
+      update(state, {
+        state: {
+          $apply: bookIndex => Math.max(0, bookIndex - 1)
+        }
+      })
+    );
+  };
+
+  switchTab = (item: GeneralBook, index: number) => {
+    this.setState({
+      state: index
+    });
+  };
 
   onChangePrice = (price: string) =>
     this.setState(state =>
       update(state, {
         data: {
-          [state.state]: { price: { $set: price } }
+          [state.state]: { price: { $set: price }, completed: { $set: false } }
         }
       })
     );
@@ -62,7 +117,7 @@ export default class GeneralInfos extends Component<
     this.setState(state =>
       update(state, {
         data: {
-          [state.state]: { notes: { $set: notes } }
+          [state.state]: { notes: { $set: notes }, completed: { $set: false } }
         }
       })
     );
@@ -71,7 +126,10 @@ export default class GeneralInfos extends Component<
     this.setState(state =>
       update(state, {
         data: {
-          [state.state]: { condition: { $set: condition } }
+          [state.state]: {
+            condition: { $set: condition },
+            completed: { $set: false }
+          }
         }
       })
     );
@@ -79,15 +137,19 @@ export default class GeneralInfos extends Component<
   render() {
     const { data, state } = this.state;
     const { price, condition, notes } = data[state];
-    const books = data.map(item => item.book);
+    const books = data.map(item => ({
+      ...item.book,
+      completed: item.completed
+    }));
 
     return (
       <SellTabLayout
         state={state}
         data={books}
-        onContinue={this.continue}
+        onContinue={this.complete}
         onGoBack={this.goBack}
         onSwitchTab={this.switchTab}
+        disableConfirm={!this.canComplete()}
       >
         <View>
           <PriceInput
@@ -122,6 +184,12 @@ export default class GeneralInfos extends Component<
       </SellTabLayout>
     );
   }
+
+  canComplete = () =>
+    !!(
+      this.state.data[this.state.state].price != null &&
+      this.state.data[this.state.state].condition != null
+    );
 }
 
 interface ConditionsObjectType {

@@ -39,6 +39,7 @@ import CivityProInfoScreen from "../views/CivityProInfoScreen";
 import Header from "../Header/Header";
 import TabBar from "../TabBar/TabBar";
 import { saveNavState } from "../store/settings";
+import { View } from "react-native";
 
 const UserSettingsNavigator = createStackNavigator(
   {
@@ -287,7 +288,7 @@ const AppStack = createBottomTabNavigator(
     CHAT: ChatNavigator
   },
   {
-    initialRouteName: "SEARCH",
+    initialRouteName: "SELL",
     tabBarComponent: TabBar
   }
 );

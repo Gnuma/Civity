@@ -3,7 +3,7 @@ import { TextStyle, StyleSheet, ViewStyle, StyleProp } from "react-native";
 import Button, { ButtonProps } from "./Button";
 import colors from "../../styles/colors";
 
-export type SelectableClassType = "green" | "yellow" | "red";
+export type SelectableClassType = "green" | "yellow" | "red" | "greenOpacity";
 
 export interface SelectableProps extends ButtonProps {
   selected?: boolean;
@@ -90,5 +90,20 @@ const styles = StyleSheet.create({
   },
   yellowTextUnselected: {
     color: colors.lightYellow
+  },
+
+  greenOpacitySelected: {
+    borderColor: colors.secondary,
+    backgroundColor: colors.secondary
+  },
+  greenOpacityUnselected: {
+    borderColor: colors.secondary,
+    backgroundColor: colors.secondary + "50"
+  },
+  greenOpacityTextSelected: {
+    color: colors.white
+  },
+  greenOpacityTextUnselected: {
+    color: colors.secondary
   }
 });

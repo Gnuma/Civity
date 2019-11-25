@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   input: {
+    paddingVertical: 10,
     paddingLeft: 13,
     fontSize: 16,
     flex: 1

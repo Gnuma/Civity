@@ -21,13 +21,14 @@ export class AppLoader extends Component<AppLoaderProps> {
     const { token, office } = this.props;
 
     this.props.settingsStartUp();
+
     //Logged in
-    if (token) NavigationService.navigate("Home");
+    if (token) NavigationService.navigate("App");
     //Anonymous
-    else if (office) NavigationService.navigate("Home");
+    else if (office) NavigationService.navigate("App");
     //First time
     // else NavigationService.navigate("InitProfile");
-    else NavigationService.navigate("Home");
+    else NavigationService.navigate("App");
   }
 
   render() {

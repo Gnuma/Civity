@@ -27,7 +27,7 @@ export class Button extends Component<ButtonProps> {
     if (disabled)
       return (
         <View
-          pointerEvents={IS_ANDROID ? "box-only" : undefined}
+          pointerEvents={IS_ANDROID ? "box-only" : "auto"}
           style={[styles.button, style]}
         >
           {children}
@@ -38,16 +38,11 @@ export class Button extends Component<ButtonProps> {
   }
 
   renderIOS = () => {
-    const { disabled, onPress, style, children, ...rest } = this.props;
+    const { disabled, children, ...rest } = this.props;
     let opacity = disabled ? 1 : 0.5;
 
     return (
-      <TouchableOpacity
-        activeOpacity={opacity}
-        //onPress={onPress}
-        style={style}
-        {...rest}
-      >
+      <TouchableOpacity activeOpacity={opacity} {...rest}>
         {children}
       </TouchableOpacity>
     );

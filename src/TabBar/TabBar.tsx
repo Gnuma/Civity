@@ -6,7 +6,8 @@ import {
   StyleSheet,
   SafeAreaView,
   KeyboardEventListener,
-  EmitterSubscription
+  EmitterSubscription,
+  TouchableOpacity
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -68,7 +69,7 @@ export class TabBar extends Component<BottomTabBarProps> {
             minHeight: 60
           }}
         >
-          <Button
+          <TouchableOpacity
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
             onPress={this._goHome}
           >
@@ -79,7 +80,7 @@ export class TabBar extends Component<BottomTabBarProps> {
             <Header4 color={focus === "SEARCH" ? "secondary" : "grey"}>
               Esplora
             </Header4>
-          </Button>
+          </TouchableOpacity>
           <Button
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
             onPress={this._goSell}

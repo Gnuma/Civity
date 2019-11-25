@@ -18,6 +18,7 @@ interface GeneralItemInfo {
   price?: string;
   condition?: ItemCondition;
   notes?: string;
+  completed?: boolean;
 }
 
 export const generateItemOnlyBooks = (size: number): GeneralItemInfo[] => {

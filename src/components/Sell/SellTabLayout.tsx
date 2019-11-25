@@ -4,7 +4,8 @@ import {
   StyleSheet,
   View,
   ListRenderItem,
-  ScrollView
+  ScrollView,
+  SafeAreaView
 } from "react-native";
 import Selectable from "../Touchables/Selectable";
 import { GeneralBook } from "../../types/ItemTypes";
@@ -12,15 +13,20 @@ import colors from "../../styles/colors";
 import Shadows from "../Shadows";
 import { Header2, Header4, Header1, Text } from "../Text";
 import Button from "../Touchables/Button";
+import { iif } from "rxjs";
+
+export interface SellBookBadge extends GeneralBook {
+  completed?: boolean;
+}
 
 interface SellTabLayoutProps {
-  data: GeneralBook[];
+  data: SellBookBadge[];
   state: number;
   onGoBack: () => void;
   onContinue: () => void;
-  onSwitchTab: (item: GeneralBook, index: number) => void;
+  onSwitchTab: (item: SellBookBadge, index: number) => void;
   children?: React.ReactNode;
-  disabled?: boolean;
+  disableConfirm?: boolean;
 }
 
 const SellTabLayout = ({
@@ -30,13 +36,13 @@ const SellTabLayout = ({
   onContinue,
   onSwitchTab,
   children,
-  disabled
+  disableConfirm
 }: SellTabLayoutProps) => {
-  const renderTab: ListRenderItem<GeneralBook> = ({ item, index }) => {
+  const renderTab: ListRenderItem<SellBookBadge> = ({ item, index }) => {
     return (
       <Selectable
         onPress={() => onSwitchTab(item, index)}
-        classType="green"
+        classType={item.completed ? "greenOpacity" : "green"}
         value={item.title}
         style={{ maxWidth: 140 }}
         selected={index === state}
@@ -45,8 +51,16 @@ const SellTabLayout = ({
     );
   };
 
+  let itemsToComplete = 0;
+  let indexOfToComplete = state;
+  data.forEach((item, index) => {
+    if (!item.completed) {
+      itemsToComplete++;
+    } else if (indexOfToComplete > index) indexOfToComplete--;
+  });
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
         <FlatList
           data={data}
@@ -70,17 +84,22 @@ const SellTabLayout = ({
       </View>
       <View style={styles.actionContainer}>
         <View style={styles.button}>
-          <Button type="secondary" value="Indietro" />
+          <Button type="secondary" value="Indietro" onPress={onGoBack} />
         </View>
         <View style={styles.button}>
-          <Button type="primary" value={"Avanti "} disabled={disabled}>
+          <Button
+            type="primary"
+            value={"Conferma "}
+            disabled={disableConfirm}
+            onPress={onContinue}
+          >
             <Text style={styles.buttonCounter}>
-              ({state + 1}/{data.length})
+              ({indexOfToComplete + 1}/{itemsToComplete})
             </Text>
           </Button>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

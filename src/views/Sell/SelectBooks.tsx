@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { FlatList, StyleSheet, View, ListRenderItem } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  ListRenderItem,
+  SafeAreaView
+} from "react-native";
 import {
   NavigationScreenProp,
   NavigationState,
@@ -72,7 +78,7 @@ export default class SelectBooks extends Component<
     data = data.filter(data => !!data);
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.headerContainer}>
           <BookBadgeList data={data} onDelete={this.onRemoveBook} />
         </View>
@@ -98,7 +104,7 @@ export default class SelectBooks extends Component<
             onPress={this.continue}
           ></Button>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 
