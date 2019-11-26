@@ -33,9 +33,17 @@ import {
 } from "../store/sell_Deprecated/types";
 import { ThunkDispatch } from "redux-thunk";
 import sellReducer from "../store/sell_Deprecated/reducer";
+import { GeneralBook } from "../types/ItemTypes";
+import { SellImage } from "../store/sell/types";
+
+export interface CameraNavigationProps {
+  index: number;
+  book: GeneralBook;
+  image_ad: SellImage[];
+}
 
 interface CameraProps extends ReduxStoreProps, ReduxDispatchProps {
-  navigation: NavigationStackProp;
+  navigation: NavigationStackProp<CameraNavigationProps>;
 }
 
 interface CameraState {
@@ -46,10 +54,21 @@ interface CameraState {
 }
 
 export class Camera extends Component<CameraProps, CameraState> {
+  focusedItem: number;
+  book: GeneralBook;
+  image_ad: SellImage[];
+
   imgCounter = 5;
   camera?: RNCamera;
   isImagePickerOpen = false;
   _navListener?: NavigationEventSubscription;
+
+  constructor(props: CameraProps) {
+    super(props);
+    this.focusedItem = props.navigation.getParam("index");
+    this.book = props.navigation.getParam("book");
+    this.image_ad = props.navigation.getParam("GeneralBook");
+  }
 
   state: CameraState = {
     flashMode: RNCamera.Constants.FlashMode.off,
@@ -298,44 +317,32 @@ export class Camera extends Component<CameraProps, CameraState> {
 }
 
 interface ReduxStoreProps {
+  /*
   previews: { [key: number]: PreviewImage | null };
   previewsOrder: number[];
   checking: CheckingImage[];
   type?: SellProcessType;
+  */
 }
 
-const mapStateToProps = (state: StoreType): ReduxStoreProps => ({
-  previews: state.sell.previews,
-  previewsOrder: state.sell.previewsOrder,
-  checking: state.sell.checking,
-  type: state.sell.type
-});
+const mapStateToProps = (state: StoreType): ReduxStoreProps => ({});
 
 interface ReduxDispatchProps {
-  takePreviewRedux: typeof sellActions.takePreview;
+  /*takePreviewRedux: typeof sellActions.takePreview;
   setPreviewsOrderRedux: typeof sellActions.setPreviewsOrder;
   deletePreviewRedux: typeof sellActions.deletePreview;
   addReview: typeof sellActions.sellAddReview;
   removeReview: typeof sellActions.sellRemoveReview;
+  */
 }
 
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<any, any, AnyAction>
 ): ReduxDispatchProps => {
-  return {
-    takePreviewRedux: data => dispatch(sellActions.takePreview(data)),
-    setPreviewsOrderRedux: nextOrder =>
-      dispatch(sellActions.setPreviewsOrder(nextOrder)),
-    deletePreviewRedux: index => dispatch(sellActions.deletePreview(index)),
-    addReview: data => dispatch(sellActions.sellAddReview(data)),
-    removeReview: () => dispatch(sellActions.sellRemoveReview())
-  };
+  return {};
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Camera);
+export default connect(mapStateToProps, mapDispatchToProps)(Camera);
 
 const options: TakePictureOptions = {
   quality: 1,

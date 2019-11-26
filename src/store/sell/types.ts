@@ -16,12 +16,17 @@ export interface SellItem {
   price?: string;
   condition?: ItemCondition;
   description?: string;
-  image_ad?: SellImage[];
+  image_ad: SellImage[];
 }
 
 export interface SellImage {
   base64?: string;
   uri?: string;
+}
+
+export interface CheckingImage extends SellImage {
+  width: number;
+  height: number;
 }
 
 export interface GeneralInfoItem {
@@ -37,7 +42,7 @@ export interface PictureSelectorItem {
   price?: string;
   condition?: ItemCondition;
   description?: string;
-  image_ad?: SellImage[];
+  image_ad: SellImage[];
   completed?: boolean;
 }
 

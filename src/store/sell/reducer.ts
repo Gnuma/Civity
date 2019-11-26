@@ -47,7 +47,8 @@ const sellSetBooks = (
           if (isbns[book.isbn] != null) newItems.push(isbns[book.isbn]);
           else
             newItems.push({
-              book
+              book,
+              image_ad: []
             });
         });
         return newItems;
@@ -66,7 +67,7 @@ const sellSetGeneralInfo = (
 ) =>
   update(state, {
     items: {
-      [index]: { $set: restInfo }
+      [index]: { $merge: restInfo }
     }
   });
 

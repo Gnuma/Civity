@@ -14,6 +14,7 @@ import CameraIcon from "../../media/vectors/CameraIcon";
 import colors from "../../styles/colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { PictureSelectorItem } from "../../store/sell/types";
+import { CameraNavigationProps } from "../Camera";
 
 interface PicturesSelectorProps extends ReduxStoreProps, ReduxDispatchProps {
   navigation: NavigationStackProp;
@@ -34,7 +35,13 @@ class PicturesSelector extends Component<
   };
 
   openCamera = () => {
-    this.props.navigation.navigate("SellCamera");
+    const { state, data } = this.state;
+    const cameraProps: CameraNavigationProps = {
+      book: data[state].book,
+      index: state,
+      image_ad: data[state].image_ad
+    };
+    this.props.navigation.navigate("SellCamera", cameraProps);
   };
 
   continue = () => {
