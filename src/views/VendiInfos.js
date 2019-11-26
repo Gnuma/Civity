@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ItemHeader from "../components/Item/ItemHeader";
 import MainSell from "../components/Sell_Deprecated/MainSell";
-import * as sellActions from "../store/sell";
+import * as sellActions from "../store/sell_Deprecated";
 import colors from "../styles/colors";
 import protectedAction from "../utils/protectedAction";
 import { GreyBar } from "../components/StatusBars";

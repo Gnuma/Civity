@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import ImagePreview from "./ImagePreview";
 import SortableList, { RowProps } from "react-native-sortable-list";
 import { cameraPreview as cameraPreviewStyle } from "./styles";
-import { PreviewImage } from "../../store/sell/types";
+import { PreviewImage } from "../../store/sell_Deprecated/types";
 
 interface CameraPreviewsProps {
   previews: { [key: number]: PreviewImage | null };

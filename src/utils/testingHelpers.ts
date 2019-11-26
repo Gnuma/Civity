@@ -1,5 +1,6 @@
 import uuid from "uuid";
 import { GeneralBook, ItemCondition } from "../types/ItemTypes";
+import { GeneralInfoItem, PictureSelectorItem } from "../store/sell/types";
 
 export const generateBooks = (size: number) => {
   const data = [];
@@ -13,15 +14,7 @@ export const generateBooks = (size: number) => {
   return data;
 };
 
-interface GeneralItemInfo {
-  book: GeneralBook;
-  price?: string;
-  condition?: ItemCondition;
-  notes?: string;
-  completed?: boolean;
-}
-
-export const generateItemOnlyBooks = (size: number): GeneralItemInfo[] => {
+export const generateItemOnlyBooks = (size: number): GeneralInfoItem[] => {
   const data = [];
   for (let i = 0; i < size; i++)
     data.push({
@@ -31,6 +24,24 @@ export const generateItemOnlyBooks = (size: number): GeneralItemInfo[] => {
         isbn: uuid.v4(),
         subject: { _id: 4, title: "Matematica" }
       }
+    });
+  return data;
+};
+
+export const generateGeneralInfoItem = (
+  size: number
+): PictureSelectorItem[] => {
+  const data = [];
+  for (let i = 0; i < size; i++)
+    data.push({
+      book: {
+        title: generateText(3, 33),
+        author: "Io, te, gli altri",
+        isbn: uuid.v4(),
+        subject: { _id: 4, title: "Matematica" }
+      },
+      price: Math.floor(Math.random() * 20 + 5).toString(),
+      condition: ItemCondition.Good
     });
   return data;
 };

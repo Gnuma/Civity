@@ -6,12 +6,13 @@ import {
   ListRenderItem,
   SafeAreaView
 } from "react-native";
-import {
-  NavigationScreenProp,
-  NavigationState,
-  NavigationParams
-} from "react-navigation";
-import { Header2, Header3, Header4 } from "../../components/Text";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+import { NavigationStackProp } from "react-navigation-stack";
+import * as sellActions from "../../store/sell";
+import { StoreType } from "../../store/root";
+import { Header3, Header4 } from "../../components/Text";
 import TextInputField from "../../components/Inputs/SolidTextInput";
 import SearchIcon from "../../media/vectors/SearchIcon";
 import colors from "../../styles/colors";
@@ -24,20 +25,28 @@ import BookBadgeList from "../../components/Sell/BookBadgeList";
 import Shadows from "../../components/Shadows";
 import Button from "../../components/Touchables/Button";
 
-interface SelectBooksProps {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
+interface SelectBooksProps extends ReduxStoreProps, ReduxDispatchProps {
+  navigation: NavigationStackProp;
 }
+
+type SelectedBooksType = { [key: string]: GeneralBook | null };
 
 interface SelectBooksState {
   searchQuery: string;
   booksResult: GeneralBook[];
-  selectedBooks: { [key: string]: GeneralBook | null };
+  selectedBooks: SelectedBooksType;
 }
 
-export default class SelectBooks extends Component<
-  SelectBooksProps,
-  SelectBooksState
-> {
+class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
+  constructor(props: SelectBooksProps) {
+    super(props);
+    this.state = {
+      searchQuery: "",
+      booksResult: generateBooks(20),
+      selectedBooks: props.selectedBooks
+    };
+  }
+
   state = {
     searchQuery: "",
     booksResult: generateBooks(20),
@@ -69,6 +78,13 @@ export default class SelectBooks extends Component<
   };
 
   continue = () => {
+    let selectedBooks = [];
+    for (const key in this.state.selectedBooks) {
+      if (this.state.selectedBooks.hasOwnProperty(key)) {
+        selectedBooks.push(this.state.selectedBooks[key]);
+      }
+    }
+    this.props.saveBooks(selectedBooks);
     this.props.navigation.navigate("SellGeneralInfos");
   };
 
@@ -108,7 +124,7 @@ export default class SelectBooks extends Component<
     );
   }
 
-  renderBook: ListRenderItem<GeneralBook> = ({ item, index }) => {
+  renderBook: ListRenderItem<GeneralBook> = ({ item }) => {
     const { selectedBooks } = this.state;
     return (
       <TouchableOpacity
@@ -129,8 +145,37 @@ export default class SelectBooks extends Component<
       searchQuery
     });
   };
-  bookKeyExtractor = (book: GeneralBook, index: number) => book.isbn;
+  bookKeyExtractor = (book: GeneralBook) => book.isbn;
 }
+
+interface ReduxStoreProps {
+  selectedBooks: SelectedBooksType;
+}
+
+const mapStateToProps = (state: StoreType): ReduxStoreProps => {
+  const selectedBooks: SelectedBooksType = state.sell.items.reduce(
+    (obj: SelectedBooksType, item) => {
+      if (item.book) obj[item.book.isbn] = item.book;
+      return obj;
+    },
+    {}
+  );
+  return {
+    selectedBooks
+  };
+};
+
+interface ReduxDispatchProps {
+  saveBooks: typeof sellActions.sellSetBooks;
+}
+
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AnyAction>
+): ReduxDispatchProps => ({
+  saveBooks: books => dispatch(sellActions.sellSetBooks(books))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectBooks);
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
@@ -157,13 +202,3 @@ const styles = StyleSheet.create({
     marginVertical: 10
   }
 });
-
-/**
- *        <View style={{ marginVertical: 40 }}>
-      <Text>{focusedIndex}</Text>
-    </View>
-    <Button
-      onPress={() => this.props.navigation.navigate("PhotosList")}
-      value="Photos example"
-    />
- */

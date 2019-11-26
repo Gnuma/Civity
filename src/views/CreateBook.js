@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as sellActions from "../store/sell";
+import * as sellActions from "../store/sell_Deprecated";
 import axios from "axios";
 import BasicHeader from "../components/BasicHeader";
 import { Header3, Header4 } from "../components/Text";

@@ -3,7 +3,7 @@ import { View, ImageBackground, Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Button from "../Button";
 import { cameraPreview as cameraPreviewStyle, generalStyle } from "./styles";
-import { PreviewImage } from "../../store/sell/types";
+import { PreviewImage } from "../../store/sell_Deprecated/types";
 
 interface ImagePreviewProps {
   item: PreviewImage | null;

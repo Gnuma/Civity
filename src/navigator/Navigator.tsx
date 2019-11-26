@@ -24,6 +24,7 @@ import ChatListScreen from "../views/ChatList";
 
 import SelectBooksScreen from "../views/Sell/SelectBooks";
 import GeneralInfosScreen from "../views/Sell/GeneralInfos";
+import SellPicturesSelectorScreen from "../views/Sell/PicturesSelector";
 import PhotosListScreen from "../views/Sell/PhotosList";
 
 import ImagePickerScreen from "../views/ImagePicker";
@@ -240,6 +241,8 @@ const SellNavigator = createStackNavigator(
   {
     SelectBooks: { screen: SelectBooksScreen },
     SellGeneralInfos: { screen: GeneralInfosScreen },
+    SellPicturesSelector: { screen: SellPicturesSelectorScreen },
+    SellCamera: { screen: CameraScreen },
     PhotosList: { screen: PhotosListScreen }
   },
   {
@@ -247,6 +250,15 @@ const SellNavigator = createStackNavigator(
     defaultNavigationOptions: {
       gesturesEnabled: false,
       header: null
+    },
+    navigationOptions: ({ navigation }) => {
+      console.log(navigation);
+      const { routeName } = navigation.state.routes[navigation.state.index];
+      const navigationOptions = {
+        tabBarVisible: true
+      };
+      if (routeName === "SellCamera") navigationOptions.tabBarVisible = false;
+      return navigationOptions;
     }
   }
 );
@@ -288,7 +300,7 @@ const AppStack = createBottomTabNavigator(
     CHAT: ChatNavigator
   },
   {
-    initialRouteName: "SELL",
+    initialRouteName: "SEARCH",
     tabBarComponent: TabBar
   }
 );

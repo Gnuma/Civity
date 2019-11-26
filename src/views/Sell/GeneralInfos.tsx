@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import SellTabLayout from "../../components/Sell/SellTabLayout";
 import {
-  generateBooks,
-  generateItemOnlyBooks
+  generateItemOnlyBooks,
+  generateBooks
 } from "../../utils/testingHelpers";
 import { GeneralBook, ItemCondition } from "../../types/ItemTypes";
-import {
-  NavigationScreenProp,
-  NavigationState,
-  NavigationParams
-} from "react-navigation";
-import UnderlinedTextInput from "../../components/Inputs/UnderlinedTextInput";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+import { NavigationStackProp } from "react-navigation-stack";
+import * as sellActions from "../../store/sell";
+import { StoreType } from "../../store/root";
 import LabeledInput from "../../components/Inputs/LabeledInput";
 import PriceInput from "../../components/Inputs/PriceInput";
 import LabeledField from "../../components/Inputs/LabeledField";
@@ -19,89 +19,28 @@ import Selectable, {
   SelectableClassType
 } from "../../components/Touchables/Selectable";
 import update from "immutability-helper";
+import { GeneralInfoItem } from "../../store/sell/types";
 
-interface GeneralItemInfo {
-  book: GeneralBook;
-  price?: string;
-  condition?: ItemCondition;
-  notes?: string;
-  completed?: boolean;
-}
-
-interface GeneralInfosProps {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
+interface GeneralInfosProps extends ReduxStoreProps, ReduxDispatchProps {
+  navigation: NavigationStackProp;
 }
 
 interface GeneralInfosState {
-  data: GeneralItemInfo[];
+  data: GeneralInfoItem[];
   state: number;
 }
 
-export default class GeneralInfos extends Component<
-  GeneralInfosProps,
-  GeneralInfosState
-> {
-  state = {
-    data: generateItemOnlyBooks(4),
-    state: 0
-  };
-
-  complete = () => {
-    this.setState(
-      state =>
-        update(state, {
-          data: {
-            [state.state]: {
-              completed: { $set: true }
-            }
-          },
-          state: {
-            $apply: bookIndex => {
-              const right = state.data
-                .slice(bookIndex + 1)
-                .findIndex(item => !item.completed);
-              const left = state.data
-                .slice(0, bookIndex - 1)
-                .findIndex(item => !item.completed);
-              console.log(
-                state.data.slice(bookIndex + 1),
-                state.data.slice(0, bookIndex)
-              );
-              console.log(right, left);
-              if (right != -1) return right + ;
-              if (left != -1) return left;
-              return bookIndex;
-            }
-          }
-        }),
-      () => {
-        let canContinue = true;
-        this.state.data.forEach(
-          item => (canContinue = !!(canContinue && item.completed))
-        );
-        if (canContinue) this.continue();
-      }
-    );
-  };
+class GeneralInfos extends Component<GeneralInfosProps, GeneralInfosState> {
+  constructor(props: GeneralInfosProps) {
+    super(props);
+    this.state = {
+      data: props.itemsData,
+      state: 0
+    };
+  }
 
   continue = () => {
-    this.props.navigation.navigate("PhotosList");
-  };
-
-  goBack = () => {
-    this.setState(state =>
-      update(state, {
-        state: {
-          $apply: bookIndex => Math.max(0, bookIndex - 1)
-        }
-      })
-    );
-  };
-
-  switchTab = (item: GeneralBook, index: number) => {
-    this.setState({
-      state: index
-    });
+    this.props.navigation.navigate("SellPicturesSelector");
   };
 
   onChangePrice = (price: string) =>
@@ -113,11 +52,14 @@ export default class GeneralInfos extends Component<
       })
     );
 
-  onChangeNotes = (notes: string) =>
+  onChangeNotes = (description: string) =>
     this.setState(state =>
       update(state, {
         data: {
-          [state.state]: { notes: { $set: notes }, completed: { $set: false } }
+          [state.state]: {
+            description: { $set: description },
+            completed: { $set: false }
+          }
         }
       })
     );
@@ -136,7 +78,7 @@ export default class GeneralInfos extends Component<
 
   render() {
     const { data, state } = this.state;
-    const { price, condition, notes } = data[state];
+    const { price, condition, description } = data[state];
     const books = data.map(item => ({
       ...item.book,
       completed: item.completed
@@ -149,9 +91,10 @@ export default class GeneralInfos extends Component<
         onContinue={this.complete}
         onGoBack={this.goBack}
         onSwitchTab={this.switchTab}
+        onNavigationGoBack={this.navigationGoBack}
         disableConfirm={!this.canComplete()}
       >
-        <View>
+        <View style={styles.container}>
           <PriceInput
             label="PREZZO *"
             containerStyle={styles.field}
@@ -177,7 +120,7 @@ export default class GeneralInfos extends Component<
             placeholder="Aggiungi delle note"
             multiline
             containerStyle={styles.field}
-            value={notes}
+            value={description}
             onChangeText={this.onChangeNotes}
           />
         </View>
@@ -185,12 +128,86 @@ export default class GeneralInfos extends Component<
     );
   }
 
+  complete = () => {
+    const { data, state } = this.state;
+    this.props.saveItem(data[state], state);
+    this.setState(
+      state =>
+        update(state, {
+          data: {
+            [state.state]: {
+              completed: { $set: true }
+            }
+          },
+          state: {
+            $apply: bookIndex => incrementIndex(state, bookIndex)
+          }
+        }),
+      () => {
+        let canContinue = true;
+        const { data } = this.state;
+        data.forEach(item => (canContinue = !!(canContinue && item.completed)));
+        if (canContinue) this.continue();
+      }
+    );
+  };
+
+  goBack = () => {
+    this.setState(state =>
+      update(state, {
+        state: {
+          $apply: bookIndex => decrementIndex(state, bookIndex)
+        }
+      })
+    );
+  };
+
+  switchTab = (item: GeneralBook, index: number) => {
+    this.setState({
+      state: index
+    });
+  };
+
   canComplete = () =>
     !!(
       this.state.data[this.state.state].price != null &&
       this.state.data[this.state.state].condition != null
     );
+
+  navigationGoBack = () => this.props.navigation.goBack(null);
 }
+
+interface ReduxStoreProps {
+  itemsData: GeneralInfoItem[];
+}
+
+const mapStateToProps = (state: StoreType): ReduxStoreProps => ({
+  itemsData: state.sell.items.reduce(
+    (itemsData: GeneralInfoItem[], { book, ...rest }) => {
+      if (book)
+        itemsData.push({
+          book: book,
+          ...rest,
+          completed: !!(rest.price != null && rest.condition != null)
+        });
+      return itemsData;
+    },
+    []
+  )
+});
+
+interface ReduxDispatchProps {
+  saveItem: typeof sellActions.sellSetGeneralInfo;
+}
+
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AnyAction>
+): ReduxDispatchProps => ({
+  saveItem: (info, index) =>
+    dispatch(sellActions.sellSetGeneralInfo(info, index))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GeneralInfos);
 
 interface ConditionsObjectType {
   name: string;
@@ -208,9 +225,40 @@ const CONDITION_WIDTH =
   (Dimensions.get("window").width - 20 - 10 * 2) / CONDITIONS_ARRAY.length;
 
 const styles = StyleSheet.create({
+  container: { marginHorizontal: 10 },
   conditionContainer: { flexDirection: "row", justifyContent: "space-between" },
   conditionSelectable: { width: CONDITION_WIDTH },
   field: {
     marginTop: 40
   }
 });
+
+const incrementIndex = (
+  state: GeneralInfosState,
+  bookIndex: number
+): number => {
+  const right = state.data
+    .slice(bookIndex + 1)
+    .findIndex(item => !item.completed);
+  const left = state.data
+    .slice(0, bookIndex)
+    .findIndex(item => !item.completed);
+  if (right != -1) return right + bookIndex + 1;
+  if (left != -1) return left;
+  return bookIndex;
+};
+
+const decrementIndex = (
+  state: GeneralInfosState,
+  bookIndex: number
+): number => {
+  const left = state.data
+    .slice(0, bookIndex)
+    .findIndex(item => !item.completed);
+  const right = state.data
+    .slice(bookIndex + 1)
+    .findIndex(item => !item.completed);
+  if (left != -1) return left;
+  else if (right != -1) return right + bookIndex + 1;
+  else return Math.max(0, bookIndex - 1);
+};

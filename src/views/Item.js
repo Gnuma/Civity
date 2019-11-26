@@ -20,7 +20,7 @@ import {
 } from "../store/endpoints";
 import * as commentActions from "../store/comments";
 import * as chatActions from "../store/chat_Deprecated";
-import * as sellActions from "../store/sell";
+import * as sellActions from "../store/sell_Deprecated";
 import { GreyBar, setGreyBar } from "../components/StatusBars";
 import { formatOffice } from "../utils/helper";
 import DecisionOverlay from "../components/DecisionOverlay";

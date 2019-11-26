@@ -9,7 +9,7 @@ import ImageEditor from "@react-native-community/image-editor";
 import RNFS from "react-native-fs";
 import { connect } from "react-redux";
 import { RNCamera, FlashMode, TakePictureOptions } from "react-native-camera";
-import * as sellActions from "../store/sell";
+import * as sellActions from "../store/sell_Deprecated";
 import colors from "../styles/colors";
 import _ from "lodash";
 import { TransparentBar, HiddenBar } from "../components/StatusBars";
@@ -30,9 +30,9 @@ import {
   PreviewImage,
   CheckingImage,
   SellProcessType
-} from "../store/sell/types";
+} from "../store/sell_Deprecated/types";
 import { ThunkDispatch } from "redux-thunk";
-import sellReducer from "../store/sell/reducer";
+import sellReducer from "../store/sell_Deprecated/reducer";
 
 interface CameraProps extends ReduxStoreProps, ReduxDispatchProps {
   navigation: NavigationStackProp;

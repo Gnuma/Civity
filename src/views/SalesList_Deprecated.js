@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import SalesTab from "../components/Sales/SalesTab";
 import * as chatActions from "../store/chat_Deprecated";
-import * as sellActions from "../store/sell";
+import * as sellActions from "../store/sell_Deprecated";
 import { Header3, Header2, Header4 } from "../components/Text";
 import SalesChatsList from "../components/Sales/SalesChatsList";
 import SellButton from "../components/Sales/SellButton";

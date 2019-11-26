@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 /** Types */
 import { SearchType } from "./search/types";
 import { AuthType } from "./auth/types";
+//import { SellType } from "./sell_Deprecated/types";
 import { SellType } from "./sell/types";
 import { CommentsType } from "./comments/types";
 import { ChatType } from "./chat/types";
@@ -13,6 +14,7 @@ import { combineEpics } from "redux-observable";
 import authReducer from "./auth/reducer";
 import searchReducer from "./search/reducer";
 
+//import sellReducer from "./sell_Deprecated/reducer";
 import sellReducer from "./sell/reducer";
 import commentsReducer from "./comments/reducer";
 import chatReducer from "./chat/reducer";

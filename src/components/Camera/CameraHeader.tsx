@@ -6,7 +6,7 @@ import CameraPreviews from "./CameraPreviews";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { header as headerStyle, generalStyle } from "./styles";
 import _ from "lodash";
-import { PreviewImage } from "../../store/sell/types";
+import { PreviewImage } from "../../store/sell_Deprecated/types";
 
 interface CameraHeaderProps {
   previews: { [key: number]: PreviewImage | null };
@@ -55,6 +55,7 @@ export class CameraHeader extends Component<CameraHeaderProps> {
           style={headerStyle.button}
           onPress={handleGoNext}
           disabled={!hasPreviews}
+
         >
           <Icon
             name="arrow-circle-right"

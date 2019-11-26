@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import SBHeader from "../components/Sell_Deprecated/SelectBook/SelectBookHeader";
 import { bookList } from "../mockData/Book";
 import SBList from "../components/Sell_Deprecated/SelectBook/SelectBookList";
-import * as sellActions from "../store/sell";
+import * as sellActions from "../store/sell_Deprecated";
 import axios from "axios";
 import { ___BOOK_HINTS_ENDPOINT___ } from "../store/endpoints";
 import _ from "lodash";

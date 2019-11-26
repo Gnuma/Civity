@@ -16,7 +16,7 @@ import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ImageSize from "react-native-image-size";
 import Shadows from "../Shadows";
-import { CheckingImage } from "../../store/sell/types";
+import { CheckingImage } from "../../store/sell_Deprecated/types";
 
 interface ImageReviewerProps {
   data: CheckingImage;
