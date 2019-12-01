@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View, ScrollView } from "react-native";
-import { MainItemStyles as styles } from "./styles";
+import { MainItemStyles as styles } from "./styles_Deprecated";
 import ImageSlider_Deprecated from "./ImageSlider_Deprecated";
-import { PrimaryInfo, DescriptionInfo, SecondaryInfo } from "./ItemInfos";
-import SellerInfo from "./SellerInfo";
+import { PrimaryInfo, DescriptionInfo, SecondaryInfo } from "./ItemInfos_Deprecated";
+import SellerInfo from "./SellerInfo_Deprecated";
 import Divider from "../Divider";
 
-export default class MainItemPreview extends Component {
+export default class MainItemPreview_Deprecated extends Component {
   render() {
     const { data } = this.props;
     const primaryData = {

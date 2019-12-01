@@ -6,7 +6,7 @@ import colors from "../../styles/colors";
 import FullButton from "../FullButton";
 import Shadows from "../Shadows";
 
-export class ContactButton extends Component {
+export class ContactButton_Deprecated extends Component {
   height = 0;
 
   render() {
@@ -67,7 +67,7 @@ export class ContactButton extends Component {
   }
 }
 
-export default ContactButton;
+export default ContactButton_Deprecated;
 
 const styles = StyleSheet.create({
   contactButton: {

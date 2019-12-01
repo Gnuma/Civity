@@ -81,6 +81,7 @@ export const buttonStyles = StyleSheet.create({
   },
   text: {
     fontSize: 16
+    //textTransform: "capitalize"
   },
   primary: {
     backgroundColor: colors.secondary,
@@ -88,7 +89,7 @@ export const buttonStyles = StyleSheet.create({
   },
   secondary: {
     backgroundColor: "transparent",
-    borderColor: colors.lightGrey
+    borderColor: "transparent"
   },
   disabled: {
     backgroundColor: colors.grey
@@ -97,7 +98,7 @@ export const buttonStyles = StyleSheet.create({
     color: colors.white
   },
   secondaryText: {
-    color: colors.lightGrey
+    color: colors.darkGrey
   },
   disabledText: {
     color: colors.white

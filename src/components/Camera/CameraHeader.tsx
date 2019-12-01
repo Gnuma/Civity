@@ -6,14 +6,13 @@ import CameraPreviews from "./CameraPreviews";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { header as headerStyle, generalStyle } from "./styles";
 import _ from "lodash";
-import { PreviewImage } from "../../store/sell_Deprecated/types";
+import { SellImage } from "../../store/sell/types";
 
 interface CameraHeaderProps {
-  previews: { [key: number]: PreviewImage | null };
+  previews: SellImage[];
   handleGoBack: () => void;
   _reorderPreviews: (order: number[]) => void;
   deleteItem: (index: number) => void;
-  previewsOrder: number[];
   handleGoNext: () => void;
 }
 
@@ -24,19 +23,10 @@ export class CameraHeader extends Component<CameraHeaderProps> {
       handleGoBack,
       _reorderPreviews,
       deleteItem,
-      previewsOrder,
       handleGoNext
     } = this.props;
 
-    let hasPreviews = false;
-    for (const key in previews) {
-      if (previews.hasOwnProperty(key)) {
-        if (previews[key]) {
-          hasPreviews = true;
-          break;
-        }
-      }
-    }
+    let hasPreviews = previews.length > 0;
 
     return (
       <View style={headerStyle.container}>
@@ -48,14 +38,12 @@ export class CameraHeader extends Component<CameraHeaderProps> {
             previews={previews}
             _reorderPreviews={_reorderPreviews}
             deleteItem={deleteItem}
-            previewsOrder={previewsOrder}
           />
         </View>
         <Button
           style={headerStyle.button}
           onPress={handleGoNext}
           disabled={!hasPreviews}
-
         >
           <Icon
             name="arrow-circle-right"

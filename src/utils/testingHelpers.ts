@@ -41,7 +41,8 @@ export const generateGeneralInfoItem = (
         subject: { _id: 4, title: "Matematica" }
       },
       price: Math.floor(Math.random() * 20 + 5).toString(),
-      condition: ItemCondition.Good
+      condition: ItemCondition.Good,
+      image_ad: []
     });
   return data;
 };

@@ -17,9 +17,11 @@ interface LoadingOverlayProps {
 
 export default class LoadingOverlay extends Component<LoadingOverlayProps> {
   render() {
-    const { style, opacity = 0.2 } = this.props;
+    const { style, opacity = 0.3 } = this.props;
     return (
-      <View style={{ ...StyleSheet.absoluteFillObject, zIndex: 10 }}>
+      <View
+        style={{ ...StyleSheet.absoluteFillObject, zIndex: 999, elevation: 3 }}
+      >
         <TouchableWithoutFeedback
           style={{
             flex: 1

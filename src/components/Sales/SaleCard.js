@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Button from "../Button";
 import NavigationService from "../../navigator/NavigationService";
 import { StackActions } from "react-navigation";
-import BlockedBadge from "../Item/BlockedBadge";
+import BlockedBadge_Deprecated from "../Item/BlockedBadge_Deprecated";
 import Shadows from "../Shadows";
 
 export default class SaleCard extends Component {
@@ -66,7 +66,7 @@ export default class SaleCard extends Component {
               <CircleValue value={data.condition} radius={35} />
             </View>
           </View>
-          {data.enabled === false && <BlockedBadge />}
+          {data.enabled === false && <BlockedBadge_Deprecated />}
         </Button>
       </View>
     );

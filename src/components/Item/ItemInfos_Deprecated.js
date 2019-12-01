@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View } from "react-native";
-import { ItemInfoStyles as styles } from "./styles";
+import { ItemInfoStyles as styles } from "./styles_Deprecated";
 import { Header1, Header3, Header2 } from "../Text";
 import CircleValue from "../CircleValue";
 import { UserType } from "../../utils/constants";

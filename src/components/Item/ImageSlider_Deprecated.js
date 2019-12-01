@@ -7,13 +7,13 @@ import {
   itemWidth,
   slideHeight,
   itemHorizontalMargin
-} from "./styles";
+} from "./styles_Deprecated";
 import colors from "../../styles/colors";
 import Shadows from "../Shadows";
 
 const IS_IOS = Platform.OS === "ios";
 
-export class ImageSlider extends Component {
+export class ImageSlider_Deprecated extends Component {
   _renderItem = ({ item, index }, parallaxProps) => {
     const uri = typeof item === "string" ? item : item.uri || item.base64;
 
@@ -67,7 +67,7 @@ export class ImageSlider extends Component {
   }
 }
 
-export default ImageSlider;
+export default ImageSlider_Deprecated;
 
 const styles = StyleSheet.create({
   itemContainer: {

@@ -6,9 +6,13 @@ import {
   StyleSheet,
   KeyboardAvoidingView
 } from "react-native";
-import { MainItemStyles as styles } from "./styles";
-import { PrimaryInfo, DescriptionInfo, SecondaryInfo } from "./ItemInfos";
-import SellerInfo from "./SellerInfo";
+import { MainItemStyles as styles } from "./styles_Deprecated";
+import {
+  PrimaryInfo,
+  DescriptionInfo,
+  SecondaryInfo
+} from "./ItemInfos_Deprecated";
+import SellerInfo from "./SellerInfo_Deprecated";
 import ImageSlider_Deprecated from "./ImageSlider_Deprecated";
 import Divider from "../Divider";
 import QuipuComment from "../Comments/QuipuComment";
@@ -17,7 +21,7 @@ import FullButton from "../FullButton";
 import BlockedItemBar_Deprecated from "./BlockedItemBar_Deprecated";
 import { KAV_BEHAVIOR } from "../../utils/constants";
 
-export class MainItem extends Component {
+export class MainItem_Deprecated extends Component {
   state = {
     scrollY: new Animated.Value(0),
     viewHeight: this.props.viewHeight,
@@ -75,7 +79,10 @@ export class MainItem extends Component {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          <ImageSlider_Deprecated style={styles.imageSlider} data={data.image_ad} />
+          <ImageSlider_Deprecated
+            style={styles.imageSlider}
+            data={data.image_ad}
+          />
           <View style={styles.content} onLayout={this._setContainerOffset}>
             <PrimaryInfo data={primaryData} />
             <SellerInfo data={sellerData} reportItem={reportItem} />
@@ -158,4 +165,4 @@ export class MainItem extends Component {
   containerOffset = 0;
 }
 
-export default MainItem;
+export default MainItem_Deprecated;

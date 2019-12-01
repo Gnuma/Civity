@@ -20,6 +20,8 @@ export enum ItemCondition {
 
 export type ItemConditionType = 0 | 1 | 2;
 
+export const ItemConditionToText = ["Come nuovo", "Usato", "Molto usato"];
+
 export interface BasicItem {
   pk: number;
   description: string;

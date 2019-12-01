@@ -75,7 +75,10 @@ export function Header5({ children, style, color, ...rest }: Props) {
 
 export function Text({ children, style, color, ...rest }: Props) {
   return (
-    <RText style={[styles.text, style]} {...rest}>
+    <RText
+      style={[styles.text, color && { color: colors[color] }, style]}
+      {...rest}
+    >
       {children}
     </RText>
   );
@@ -120,6 +123,36 @@ export function Username({
   );
 }
 
+export interface PriceProps {
+  containerStyle?: StyleProp<ViewStyle>;
+  style?: StyleProp<TextStyle>;
+  color?: ColorType;
+  rest?: TextProps;
+  children?: React.ReactNode;
+}
+
+export function Price({
+  containerStyle,
+  children,
+  color,
+  style,
+  ...rest
+}: PriceProps) {
+  return (
+    <View style={[styles.priceContainer, containerStyle]}>
+      <Text style={styles.priceEuro} color={color}>
+        €
+      </Text>
+      <Text style={[styles.price, style]} color={color}>
+        {children}
+      </Text>
+      <Text style={styles.priceDecimals} color={color}>
+        ,00
+      </Text>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   h1: {
     fontSize: 27
@@ -150,5 +183,24 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 12
+  },
+  priceContainer: {
+    flexDirection: "row",
+    alignSelf: "flex-start"
+  },
+  priceEuro: {
+    fontSize: 20,
+    lineHeight: 20
+  },
+  priceDecimals: {
+    fontSize: 16,
+    alignSelf: "flex-end"
+  },
+  price: {
+    fontSize: 35,
+    lineHeight: 35,
+    fontWeight: "500",
+    paddingLeft: 4,
+    alignSelf: "flex-end"
   }
 });

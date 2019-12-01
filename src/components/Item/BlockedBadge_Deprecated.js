@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import colors from "../../styles/colors";
 import { Header4 } from "../Text";
 
-export default class BlockedBadge extends Component {
+export default class BlockedBadge_Deprecated extends Component {
   render() {
     const { rotation } = this.props;
     return (

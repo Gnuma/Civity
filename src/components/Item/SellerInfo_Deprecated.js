@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import { SellerInfoStyles as styles } from "./styles";
+import { SellerInfoStyles as styles } from "./styles_Deprecated";
 import { Header2, Header4, Header3, Username } from "../Text";
 import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";

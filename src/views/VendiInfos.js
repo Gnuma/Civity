@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import ItemHeader from "../components/Item/ItemHeader";
+import ItemHeader_Deprecated from "../components/Item/ItemHeader_Deprecated";
 import MainSell from "../components/Sell_Deprecated/MainSell";
 import * as sellActions from "../store/sell_Deprecated";
 import colors from "../styles/colors";
@@ -56,7 +56,7 @@ export class VendiInfos extends Component {
           behavior={KAV_BEHAVIOR}
         >
           <GreyBar />
-          <ItemHeader
+          <ItemHeader_Deprecated
             handleGoBack={this._handleGoBack}
             title={title}
             author={author}

@@ -8,7 +8,11 @@ import {
   SellSetBooks,
   SellItem,
   SELL_SET_GENERAL_INFO,
-  SellSetGeneralInfo
+  SellSetGeneralInfo,
+  SELL_SET_IMAGES,
+  SellSetImages,
+  SELL_START,
+  SellStart
 } from "./types";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
@@ -71,6 +75,21 @@ const sellSetGeneralInfo = (
     }
   });
 
+const sellSetImages = (
+  state: SellType,
+  { payload: { image_ad, index } }: SellSetImages
+) =>
+  update(state, {
+    items: {
+      [index]: { $merge: { image_ad } }
+    }
+  });
+
+const sellStart = (state: SellType, action: SellStart) =>
+  update(state, {
+    loading: { $set: true }
+  });
+
 const reducer = (state = initialState, action: TSellActions): SellType => {
   switch (action.type) {
     case SELL_SUCCESS:
@@ -84,6 +103,12 @@ const reducer = (state = initialState, action: TSellActions): SellType => {
 
     case SELL_SET_GENERAL_INFO:
       return sellSetGeneralInfo(state, action);
+
+    case SELL_SET_IMAGES:
+      return sellSetImages(state, action);
+
+    case SELL_START:
+      return sellStart(state, action);
 
     default:
       return state;

@@ -26,6 +26,7 @@ import SelectBooksScreen from "../views/Sell/SelectBooks";
 import GeneralInfosScreen from "../views/Sell/GeneralInfos";
 import SellPicturesSelectorScreen from "../views/Sell/PicturesSelector";
 import PhotosListScreen from "../views/Sell/PhotosList";
+import PreviewScreen from "../views/Sell/Preview";
 
 import ImagePickerScreen from "../views/ImagePicker";
 import UserSettingsScreen from "../views/UserSettings";
@@ -243,7 +244,8 @@ const SellNavigator = createStackNavigator(
     SellGeneralInfos: { screen: GeneralInfosScreen },
     SellPicturesSelector: { screen: SellPicturesSelectorScreen },
     SellCamera: { screen: CameraScreen },
-    PhotosList: { screen: PhotosListScreen }
+    SellPhotosList: { screen: PhotosListScreen },
+    SellPreview: { screen: PreviewScreen }
   },
   {
     initialRouteName: "SelectBooks",
@@ -252,7 +254,6 @@ const SellNavigator = createStackNavigator(
       header: null
     },
     navigationOptions: ({ navigation }) => {
-      console.log(navigation);
       const { routeName } = navigation.state.routes[navigation.state.index];
       const navigationOptions = {
         tabBarVisible: true

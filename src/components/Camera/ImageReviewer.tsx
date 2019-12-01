@@ -14,9 +14,8 @@ import colors from "../../styles/colors";
 import { ___BOOK_IMG_RATIO___ } from "../../utils/constants";
 import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
-import ImageSize from "react-native-image-size";
 import Shadows from "../Shadows";
-import { CheckingImage } from "../../store/sell_Deprecated/types";
+import { SellImage, CheckingImage } from "../../store/sell/types";
 
 interface ImageReviewerProps {
   data: CheckingImage;

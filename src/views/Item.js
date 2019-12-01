@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import ItemHeader from "../components/Item/ItemHeader";
+import ItemHeader_Deprecated from "../components/Item/ItemHeader_Deprecated";
 import { itemData } from "../mockData/Item";
-import MainItem from "../components/Item/MainItem";
+import MainItem_Deprecated from "../components/Item/MainItem_Deprecated";
 import colors from "../styles/colors";
 import axios from "axios";
 import {
@@ -26,7 +26,7 @@ import { formatOffice } from "../utils/helper";
 import DecisionOverlay from "../components/DecisionOverlay";
 import LoadingOverlay from "../components/LoadingOverlay";
 import { ChatStatus, IS_ANDROID } from "../utils/constants";
-import BlockedItemBar from "../components/Item/BlockedItemBar";
+import BlockedItemBar_Deprecated from "../components/Item/BlockedItemBar_Deprecated";
 import { SafeAreaView, StackActions } from "react-navigation";
 import update from "immutability-helper";
 import IOSToast from "../components/IOSToast";
@@ -230,7 +230,7 @@ export class Item extends Component {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1, overflow: "hidden" }}>
           <IOSToast>
-            <ItemHeader
+            <ItemHeader_Deprecated
               handleGoBack={this._handleGoBack}
               title={bookName}
               author={bookAuthors}
@@ -248,7 +248,7 @@ export class Item extends Component {
                   <ActivityIndicator size="large" color={colors.secondary} />
                 </View>
               ) : (
-                <MainItem
+                <MainItem_Deprecated
                   data={data}
                   user={this.props.user}
                   newComments={this.newComments}
@@ -341,4 +341,4 @@ const styles = StyleSheet.create({
   }
 });
 
-//<ImageSlider imgWidth={imageWidth} imgHeight={imageHeight} />
+//<ImageSlider_Deprecated imgWidth={imageWidth} imgHeight={imageHeight} />

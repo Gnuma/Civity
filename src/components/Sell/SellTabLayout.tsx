@@ -30,6 +30,7 @@ interface SellTabLayoutProps {
   onNavigationGoBack: () => void;
   children?: React.ReactNode;
   disableConfirm?: boolean;
+  completeText?: string;
 }
 
 const SellTabLayout = ({
@@ -40,7 +41,8 @@ const SellTabLayout = ({
   onSwitchTab,
   onNavigationGoBack,
   children,
-  disableConfirm
+  disableConfirm,
+  completeText = "Continua"
 }: SellTabLayoutProps) => {
   const renderTab: ListRenderItem<SellBookBadge> = ({ item, index }) => {
     return (
@@ -110,7 +112,7 @@ const SellTabLayout = ({
         <View style={styles.button}>
           <Button
             type="primary"
-            value={focusedItem.completed ? "Continua" : "Salva "}
+            value={focusedItem.completed ? completeText : "Salva "}
             disabled={disableConfirm}
             onPress={onContinue}
           >

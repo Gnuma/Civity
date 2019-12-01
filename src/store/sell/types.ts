@@ -4,6 +4,8 @@ export const SELL_SUCCESS = "SELL_SUCCESS";
 export const SELL_FAIL = "SELL_FAIL";
 export const SELL_SET_BOOKS = "SELL_SET_BOOKS";
 export const SELL_SET_GENERAL_INFO = "SELL_SET_GENERAL_INFO";
+export const SELL_SET_IMAGES = "SELL_SET_IMAGES";
+export const SELL_START = "SELL_START";
 
 export interface SellType {
   items: SellItem[];
@@ -43,6 +45,14 @@ export interface PictureSelectorItem {
   condition?: ItemCondition;
   description?: string;
   image_ad: SellImage[];
+}
+
+export interface PreviewItem {
+  book: GeneralBook;
+  price: string;
+  condition: ItemCondition;
+  description: string;
+  image_ad: SellImage[];
   completed?: boolean;
 }
 
@@ -76,8 +86,22 @@ export interface SellSetGeneralInfo {
   };
 }
 
+export interface SellSetImages {
+  type: typeof SELL_SET_IMAGES;
+  payload: {
+    image_ad: SellImage[];
+    index: number;
+  };
+}
+
+export interface SellStart {
+  type: typeof SELL_START;
+}
+
 export type TSellActions =
   | SellSuccessAction
   | SellFailAction
   | SellSetBooks
-  | SellSetGeneralInfo;
+  | SellSetGeneralInfo
+  | SellSetImages
+  | SellStart;

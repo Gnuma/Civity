@@ -3,12 +3,11 @@ import { Text, View } from "react-native";
 import ImagePreview from "./ImagePreview";
 import SortableList, { RowProps } from "react-native-sortable-list";
 import { cameraPreview as cameraPreviewStyle } from "./styles";
-import { PreviewImage } from "../../store/sell_Deprecated/types";
+import { SellImage } from "../../store/sell/types";
 
 interface CameraPreviewsProps {
-  previews: { [key: number]: PreviewImage | null };
+  previews: SellImage[];
   _reorderPreviews: (order: number[]) => void;
-  previewsOrder: number[];
   deleteItem: (index: number) => void;
 }
 
@@ -27,7 +26,7 @@ export class CameraPreviews extends Component<
   }
 
   render() {
-    const { previews, _reorderPreviews, previewsOrder } = this.props;
+    const { previews, _reorderPreviews } = this.props;
     return (
       <SortableList
         horizontal
@@ -36,12 +35,11 @@ export class CameraPreviews extends Component<
         renderRow={this._renderItem}
         rowActivationTime={0}
         onChangeOrder={_reorderPreviews}
-        order={previewsOrder}
       />
     );
   }
 
-  _renderItem = ({ data, index }: RowProps<PreviewImage | null, number>) => {
+  _renderItem = ({ data, index }: RowProps<SellImage | null, number>) => {
     return (
       <ImagePreview
         item={data}

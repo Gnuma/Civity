@@ -4,7 +4,7 @@ import Card from "../Card";
 import colors from "../../styles/colors";
 import { Header3 } from "../Text";
 
-export default class BlockedItemBar extends Component {
+export default class BlockedItemBar_Deprecated extends Component {
   render() {
     return (
       <Card

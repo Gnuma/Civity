@@ -9,7 +9,6 @@ import ImageEditor from "@react-native-community/image-editor";
 import RNFS from "react-native-fs";
 import { connect } from "react-redux";
 import { RNCamera, FlashMode, TakePictureOptions } from "react-native-camera";
-import * as sellActions from "../store/sell_Deprecated";
 import colors from "../styles/colors";
 import _ from "lodash";
 import { TransparentBar, HiddenBar } from "../components/StatusBars";
@@ -25,16 +24,11 @@ import CameraHeader from "../components/Camera/CameraHeader";
 import ImageReviewer from "../components/Camera/ImageReviewer";
 import { StoreType, rootReducer } from "../store/root";
 import { Dispatch, AnyAction } from "redux";
-import {
-  SellType as SellTypeStore,
-  PreviewImage,
-  CheckingImage,
-  SellProcessType
-} from "../store/sell_Deprecated/types";
 import { ThunkDispatch } from "redux-thunk";
-import sellReducer from "../store/sell_Deprecated/reducer";
 import { GeneralBook } from "../types/ItemTypes";
-import { SellImage } from "../store/sell/types";
+import { SellImage, CheckingImage } from "../store/sell/types";
+import update from "immutability-helper";
+import * as sellActions from "../store/sell";
 
 export interface CameraNavigationProps {
   index: number;
@@ -51,6 +45,9 @@ interface CameraState {
   loading: boolean;
   camerStatus?: any;
   hasPermission?: boolean;
+
+  checking: CheckingImage[];
+  image_ad: SellImage[];
 }
 
 export class Camera extends Component<CameraProps, CameraState> {
@@ -67,14 +64,17 @@ export class Camera extends Component<CameraProps, CameraState> {
     super(props);
     this.focusedItem = props.navigation.getParam("index");
     this.book = props.navigation.getParam("book");
-    this.image_ad = props.navigation.getParam("GeneralBook");
-  }
+    this.image_ad = props.navigation.getParam("image_ad");
+    this.state = {
+      flashMode: RNCamera.Constants.FlashMode.off,
+      loading: false,
+      hasPermission: undefined,
+      checking: [],
+      image_ad: this.image_ad
+    };
 
-  state: CameraState = {
-    flashMode: RNCamera.Constants.FlashMode.off,
-    loading: false,
-    hasPermission: undefined
-  };
+    console.log(this.state, this.focusedItem, this.book);
+  }
 
   componentDidMount() {
     this._navListener = this.props.navigation.addListener(
@@ -90,9 +90,8 @@ export class Camera extends Component<CameraProps, CameraState> {
   }
 
   openImagePicker = () => {
-    let busyPreviews = 0;
-    for (let key in this.props.previews)
-      if (this.props.previews[key] !== null) busyPreviews++;
+    const { image_ad } = this.state;
+    let busyPreviews = image_ad.length;
     if (busyPreviews !== 5) {
       if (IS_ANDROID)
         this.props.navigation.navigate("ImagePicker", {
@@ -110,7 +109,7 @@ export class Camera extends Component<CameraProps, CameraState> {
             for (let i = 0; i < data.length; i++) {
               imagesToReview.push({ ...data[i], uri: data[i].path });
             }
-            this.props.addReview(imagesToReview);
+            this.addReview(imagesToReview);
             this.isImagePickerOpen = false;
           })
           .catch(err => (this.isImagePickerOpen = false));
@@ -130,7 +129,7 @@ export class Camera extends Component<CameraProps, CameraState> {
             this.setState(prevState => ({
               loading: false
             }));
-            this.props.addReview(data);
+            this.addReview(data);
             this.imgCounter--;
             //setTimeout(() => this.camera.resumePreview(), 500);
           })
@@ -159,7 +158,7 @@ export class Camera extends Component<CameraProps, CameraState> {
   ) => {
     if (isAccepted == true) {
       if (!img || !offsetPercentage || !sizePercentage)
-        return this.props.removeReview();
+        return this.removeReview();
       const offset = {
         x: Math.round(img.width * offsetPercentage.x),
         y: Math.round(img.height * offsetPercentage.y)
@@ -182,18 +181,15 @@ export class Camera extends Component<CameraProps, CameraState> {
         displaySize
       })
         .then(uri => RNFS.readFile(uri, "base64"))
-        .then(base64 => this.props.takePreviewRedux({ base64, uri }))
+        .then(base64 => this.addPreview({ base64, uri }))
         .catch(err => console.warn("Err: ", err));
     }
-    this.props.removeReview();
+    this.removeReview();
   };
 
   handleGoNext = () => {
-    if (this.props.type === SellType.NEW) {
-      this.props.navigation.navigate("SelectBook");
-    } else {
-      this.props.navigation.navigate("VendiInfos");
-    }
+    this.props.setPreviews(this.state.image_ad, this.focusedItem);
+    this.props.navigation.goBack();
   };
 
   changeFlashMode = () => {
@@ -210,12 +206,12 @@ export class Camera extends Component<CameraProps, CameraState> {
   };
 
   deleteItem = (index: number) => {
-    this.props.deletePreviewRedux(index);
+    this.deletePreview(index);
     this.imgCounter++;
   };
 
   _reorderPreviews = (nextOrder: number[]) => {
-    this.props.setPreviewsOrderRedux(nextOrder);
+    console.log(nextOrder);
   };
 
   renderMainCamera = () => {
@@ -253,25 +249,25 @@ export class Camera extends Component<CameraProps, CameraState> {
   };
 
   render() {
-    const isReviewing = !_.isEmpty(this.props.checking);
-    const { previews, previewsOrder } = this.props;
+    const { image_ad, checking } = this.state;
+
+    const isReviewing = !_.isEmpty(checking);
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.fullBlack }}>
         {IS_ANDROID ? <TransparentBar /> : <HiddenBar />}
         {!isReviewing && this.renderMainCamera()}
         <CameraHeader
-          previews={previews}
+          previews={image_ad}
           handleGoBack={this.handleGoBack}
           _reorderPreviews={this._reorderPreviews}
           deleteItem={this.deleteItem}
-          previewsOrder={previewsOrder}
           handleGoNext={this.handleGoNext}
         />
         {isReviewing && (
           <View style={{ flex: 1 }}>
             <ImageReviewer
-              data={this.props.checking[0]}
+              data={checking[0]}
               handleReview={this.handleReview}
             />
           </View>
@@ -314,6 +310,35 @@ export class Camera extends Component<CameraProps, CameraState> {
       this.setState({ hasPermission: false });
     }
   };
+
+  addReview = (checking: CheckingImage[] | CheckingImage) => {
+    const data = _.isArray(checking) ? checking : [checking];
+    this.setState(state =>
+      update(state, {
+        checking: { $push: data }
+      })
+    );
+  };
+
+  removeReview = () => {
+    this.setState(state =>
+      update(state, {
+        checking: { $splice: [[0, 1]] }
+      })
+    );
+  };
+
+  addPreview = (img: SellImage) => {
+    this.setState(state => update(state, { image_ad: { $push: [img] } }));
+  };
+
+  deletePreview = (index: number) => {
+    this.setState(state =>
+      update(state, {
+        image_ad: { $splice: [[index, 1]] }
+      })
+    );
+  };
 }
 
 interface ReduxStoreProps {
@@ -334,13 +359,15 @@ interface ReduxDispatchProps {
   addReview: typeof sellActions.sellAddReview;
   removeReview: typeof sellActions.sellRemoveReview;
   */
+  setPreviews: typeof sellActions.sellSetImages;
 }
 
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<any, any, AnyAction>
-): ReduxDispatchProps => {
-  return {};
-};
+): ReduxDispatchProps => ({
+  setPreviews: (image_ad, index) =>
+    dispatch(sellActions.sellSetImages(image_ad, index))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Camera);
 
@@ -351,7 +378,6 @@ const options: TakePictureOptions = {
   forceUpOrientation: true,
   pauseAfterCapture: true
   //width: 1080,
-  //skipProcessing: true
 };
 
 const IMAGE_MAX_HEIGHT = 1280;

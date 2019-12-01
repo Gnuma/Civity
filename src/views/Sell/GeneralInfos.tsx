@@ -78,6 +78,9 @@ class GeneralInfos extends Component<GeneralInfosProps, GeneralInfosState> {
 
   render() {
     const { data, state } = this.state;
+
+    if (data.length == 0) return null;
+
     const { price, condition, description } = data[state];
     const books = data.map(item => ({
       ...item.book,

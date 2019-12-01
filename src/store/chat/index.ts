@@ -83,7 +83,6 @@ export const chatReconnect = (): ThunkAction<void, StoreType, null, Action> => (
     dispatch(chatResume(generateMessageResume(1)));
     dispatch(chatConnect());
   }, 1000);
-
   //axios
   //  .get(___RETRIEVE_CHATS___)
   //  .then(res => {

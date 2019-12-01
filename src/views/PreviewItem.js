@@ -4,8 +4,8 @@ import * as sellActions from "../store/sell_Deprecated";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { GreyBar, setGreyBar } from "../components/StatusBars";
-import ItemHeader from "../components/Item/ItemHeader";
-import MainItemPreview from "../components/Item/MainItemPreview";
+import ItemHeader_Deprecated from "../components/Item/ItemHeader_Deprecated";
+import MainItemPreview_Deprecated from "../components/Item/MainItemPreview_Deprecated";
 import Button from "../components/Button";
 import { Header2, Header3 } from "../components/Text";
 import colors from "../styles/colors";
@@ -76,7 +76,7 @@ export class PreviewItem extends Component {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1, overflow: "hidden" }}>
           <GreyBar />
-          <ItemHeader
+          <ItemHeader_Deprecated
             handleGoBack={this.goBack}
             title={this.book.title}
             author={this.book.author}
@@ -85,7 +85,7 @@ export class PreviewItem extends Component {
             {book && (
               <View style={{ flex: 1 }}>
                 <View style={{ flex: 1 }}>
-                  <MainItemPreview data={data} />
+                  <MainItemPreview_Deprecated data={data} />
                 </View>
                 <View
                   style={{

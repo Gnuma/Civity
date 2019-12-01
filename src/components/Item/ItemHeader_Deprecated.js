@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
-import { HeaderStyles as styles } from "./styles";
+import { HeaderStyles as styles } from "./styles_Deprecated";
 import Button from "../Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Header2, Header5 } from "../Text";
 import colors from "../../styles/colors";
 import Shadows from "../Shadows";
 
-export default class ItemHeader extends Component {
+export default class ItemHeader_Deprecated extends Component {
   static propTypes = {
     handleGoBack: PropTypes.func,
     title: PropTypes.string,
