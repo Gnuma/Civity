@@ -9,12 +9,12 @@ import {
 import { MainItemStyles as styles } from "./styles";
 import { PrimaryInfo, DescriptionInfo, SecondaryInfo } from "./ItemInfos";
 import SellerInfo from "./SellerInfo";
-import ImageSlider from "./ImageSlider";
+import ImageSlider_Deprecated from "./ImageSlider_Deprecated";
 import Divider from "../Divider";
 import QuipuComment from "../Comments/QuipuComment";
-import ContactButton from "./ContactButton";
+import ContactButton_Deprecated from "./ContactButton_Deprecated";
 import FullButton from "../FullButton";
-import BlockedItemBar from "./BlockedItemBar";
+import BlockedItemBar_Deprecated from "./BlockedItemBar_Deprecated";
 import { KAV_BEHAVIOR } from "../../utils/constants";
 
 export class MainItem extends Component {
@@ -75,7 +75,7 @@ export class MainItem extends Component {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          <ImageSlider style={styles.imageSlider} data={data.image_ad} />
+          <ImageSlider_Deprecated style={styles.imageSlider} data={data.image_ad} />
           <View style={styles.content} onLayout={this._setContainerOffset}>
             <PrimaryInfo data={primaryData} />
             <SellerInfo data={sellerData} reportItem={reportItem} />
@@ -116,7 +116,7 @@ export class MainItem extends Component {
               />
             ) : null}
           </View>
-          <ContactButton
+          <ContactButton_Deprecated
             onContact={this.props.onContact}
             scrollY={this.state.scrollY}
             viewHeight={this.state.viewHeight}
@@ -136,7 +136,7 @@ export class MainItem extends Component {
             }}
             pointerEvents="box-only"
           >
-            <BlockedItemBar />
+            <BlockedItemBar_Deprecated />
           </View>
         )}
       </KeyboardAvoidingView>

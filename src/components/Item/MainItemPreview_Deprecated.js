@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View, ScrollView } from "react-native";
 import { MainItemStyles as styles } from "./styles";
-import ImageSlider from "./ImageSlider";
+import ImageSlider_Deprecated from "./ImageSlider_Deprecated";
 import { PrimaryInfo, DescriptionInfo, SecondaryInfo } from "./ItemInfos";
 import SellerInfo from "./SellerInfo";
 import Divider from "../Divider";
@@ -25,7 +25,7 @@ export default class MainItemPreview extends Component {
         style={styles.scrollView}
         keyboardShouldPersistTaps={"handled"}
       >
-        <ImageSlider style={styles.imageSlider} data={data.image_ad} />
+        <ImageSlider_Deprecated style={styles.imageSlider} data={data.image_ad} />
         <View style={styles.content}>
           <PrimaryInfo data={primaryData} />
           <SellerInfo data={sellerData} isPreview />
