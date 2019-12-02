@@ -12,7 +12,7 @@ import { AnyAction } from "redux";
 import { NavigationStackProp } from "react-navigation-stack";
 import * as sellActions from "../../store/sell";
 import { StoreType } from "../../store/root";
-import { Header3, Header4 } from "../../components/Text";
+import { Header3, Header4, Text } from "../../components/Text";
 import TextInputField from "../../components/Inputs/SolidTextInput";
 import SearchIcon from "../../media/vectors/SearchIcon";
 import colors from "../../styles/colors";
@@ -24,6 +24,8 @@ import { generateBooks } from "../../utils/testingHelpers";
 import BookBadgeList from "../../components/Sell/BookBadgeList";
 import Shadows from "../../components/Shadows";
 import Button from "../../components/Touchables/Button";
+import BottomSheet from "../../components/BottomSheet";
+import CreateBook from "../../components/Sell/BookCreator";
 
 interface SelectBooksProps extends ReduxStoreProps, ReduxDispatchProps {
   navigation: NavigationStackProp;
@@ -35,6 +37,7 @@ interface SelectBooksState {
   searchQuery: string;
   booksResult: GeneralBook[];
   selectedBooks: SelectedBooksType;
+  isBookCreatorOpen: boolean;
 }
 
 class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
@@ -43,15 +46,10 @@ class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
     this.state = {
       searchQuery: "",
       booksResult: generateBooks(20),
-      selectedBooks: props.selectedBooks
+      selectedBooks: props.selectedBooks,
+      isBookCreatorOpen: false
     };
   }
-
-  state = {
-    searchQuery: "",
-    booksResult: generateBooks(20),
-    selectedBooks: {}
-  };
 
   selectBook = (book: GeneralBook) => {
     this.setState(state =>
@@ -64,6 +62,8 @@ class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
       })
     );
   };
+
+  createBook = () => {};
 
   onRemoveBook = (id: string) => {
     this.setState(state =>
@@ -89,38 +89,60 @@ class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
   };
 
   render() {
-    const { searchQuery, booksResult, selectedBooks } = this.state;
+    const {
+      searchQuery,
+      booksResult,
+      selectedBooks,
+      isBookCreatorOpen
+    } = this.state;
     let data: GeneralBook[] = Object.values(selectedBooks);
     data = data.filter(data => !!data);
 
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.headerContainer}>
-          <BookBadgeList data={data} onDelete={this.onRemoveBook} />
-        </View>
-        <View style={styles.viewContainer}>
-          <TextInputField
-            placeholder="Cerca il tuo libro"
-            containerStyle={styles.searchBar}
-            value={searchQuery}
-            onChangeText={this.onChangeSearchQuery}
-            icon={<SearchIcon size={25} color={colors.black} />}
-          />
-          <FlatList
-            data={booksResult}
-            renderItem={this.renderBook}
-            keyExtractor={this.bookKeyExtractor}
-            extraData={selectedBooks}
-          />
-          <Button
-            value="Avanti"
-            type="primary"
-            disabled={data.length == 0}
-            style={styles.continueButton}
-            onPress={this.continue}
-          ></Button>
-        </View>
-      </SafeAreaView>
+      <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.headerContainer}>
+            <BookBadgeList data={data} onDelete={this.onRemoveBook} />
+          </View>
+          <View style={styles.viewContainer}>
+            <TextInputField
+              placeholder="Cerca il tuo libro"
+              containerStyle={styles.searchBar}
+              value={searchQuery}
+              onChangeText={this.onChangeSearchQuery}
+              icon={<SearchIcon size={25} color={colors.black} />}
+            />
+            <FlatList
+              data={booksResult}
+              renderItem={this.renderBook}
+              keyExtractor={this.bookKeyExtractor}
+              extraData={selectedBooks}
+              ListFooterComponent={() => (
+                <Button
+                  type="secondary"
+                  value="Aggiungi libro"
+                  onPress={() => this.toggleBookCreator(true)}
+                />
+              )}
+            />
+            <Button
+              value="Avanti"
+              type="primary"
+              disabled={data.length == 0}
+              style={styles.continueButton}
+              onPress={this.continue}
+            ></Button>
+          </View>
+        </SafeAreaView>
+        {isBookCreatorOpen && (
+          <BottomSheet>
+            <CreateBook
+              createBook={this.createBook}
+              closeBookCreator={() => this.toggleBookCreator(false)}
+            />
+          </BottomSheet>
+        )}
+      </View>
     );
   }
 
@@ -146,6 +168,14 @@ class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
     });
   };
   bookKeyExtractor = (book: GeneralBook) => book.isbn;
+
+  toggleBookCreator = (isOpen: boolean) => {
+    this.setState(state =>
+      update(state, {
+        isBookCreatorOpen: { $set: isOpen }
+      })
+    );
+  };
 }
 
 interface ReduxStoreProps {
