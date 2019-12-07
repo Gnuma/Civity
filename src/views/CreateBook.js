@@ -13,7 +13,7 @@ import * as sellActions from "../store/sell_Deprecated";
 import axios from "axios";
 import BasicHeader from "../components/BasicHeader";
 import { Header3, Header4 } from "../components/Text";
-import { isNotISBN, isEmpty, submit } from "../utils/validator";
+import { isNotISBN, isEmpty, submit } from "../utils/validatorOLD";
 import colors from "../styles/colors";
 import FullButton from "../components/FullButton";
 import LabeledInput from "../components/Form/LabeledInput";

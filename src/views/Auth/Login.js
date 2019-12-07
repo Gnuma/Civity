@@ -3,7 +3,7 @@ import { View, Keyboard } from "react-native";
 import { Header1, Header3 } from "../../components/Text";
 import SolidButton from "../../components/SolidButton";
 import OutlinedInput from "../../components/Form/OutlinedInput";
-import { submit, isEmpty, fieldCheck } from "../../utils/validator.js";
+import { submit, isEmpty, fieldCheck } from "../../utils/validatorOLD.js";
 import ErrorMessage from "../../components/Form/ErrorMessage";
 import FullButton from "../../components/FullButton";
 import colors from "../../styles/colors";

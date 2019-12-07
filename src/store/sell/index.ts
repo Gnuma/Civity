@@ -11,19 +11,21 @@ import {
   SELL_SET_GENERAL_INFO,
   SellImage,
   SELL_SET_IMAGES,
-  SELL_START
+  SELL_START,
+  SellItem,
+  SellBook
 } from "./types";
 
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import RNFetchBlob from "rn-fetch-blob";
 import FormData from "form-data";
 import RNFS from "react-native-fs";
 import {
   ___BASE_UPLOAD_PICTURE___,
   ___CREATE_AD___,
-  ___MODIFY_AD___
+  ___MODIFY_AD___,
+  ___CREATE_BOOK___
 } from "../endpoints";
-import { GeneralBook } from "../../types/ItemTypes";
 import { StoreType } from "../root";
 
 export const sellSuccess = (): TSellActions => ({
@@ -37,7 +39,7 @@ export const sellFail = (error: unknown): TSellActions => ({
   }
 });
 
-export const sellSetBooks = (books: GeneralBook[]): TSellActions => ({
+export const sellSetBooks = (books: SellBook[]): TSellActions => ({
   type: SELL_SET_BOOKS,
   payload: {
     books
@@ -73,57 +75,51 @@ export const sellStart = (): ThunkAction<
   Action
 > => (dispatch, getState) =>
   new Promise(async function(resolve, reject) {
+    const { items } = getState().sell;
     dispatch({ type: SELL_START });
-    setTimeout(() => {
+    try {
+      const createBooks = await Promise.all(
+        items
+          .filter(item => item.book && item.book.isCreated)
+          .map(item => item.book && SellCreateBook(item.book))
+      );
+      const result = await Promise.all(items.map(item => SellSingleItem(item)));
+      console.log(result);
       dispatch(sellSuccess());
       resolve();
-    }, 2000);
+    } catch (error) {
+      console.log(error);
+      dispatch(sellFail(error));
+      reject();
+    }
   });
 
-/*
-    const isbn = "978889152023";
-    const price = 16;
-    const condition = 0;
+const SellSingleItem = (item: SellItem): Promise<AxiosResponse<any>> => {
+  const data = new FormData();
+  const { book, condition, description, image_ad, price } = item;
+  if (!book) throw new Error("No book selected");
 
-    const { items } = getState().sell;
-    const data = new FormData();
-    try {
-      let images = "";
+  item.image_ad.forEach(img => data.append("images", img.base64));
+  data.append("isbn", book.isbn);
+  data.append("price", price);
+  data.append("condition", condition);
+  description && data.append("description", description);
 
-      items[0].image_ad.forEach(item => {
-        images += item.base64;
-      });
-
-      await RNFS.writeFile(
-        RNFS.DocumentDirectoryPath + "/test.txt",
-        images,
-        "utf8"
-      );
-
-      data.append("images", {
-        uri: "file://" + RNFS.DocumentDirectoryPath + "/test.txt",
-        type: "text/plain",
-        name: "images"
-      });
-
-      data.append("isbn", isbn);
-      data.append("price", price);
-      data.append("condition", condition);
-
-      const result = await axios.post(
-        "http://192.168.178.105:8000/gnuma/v1/ads/",
-        data,
-        {
-          headers: {
-            accept: "application/json",
-            "Accept-Language": "en-US,en;q=0.8",
-            "Content-Type": `multipart/form-data`,
-            Authorization: "Token 5d4b05c0e74a397efbdb384c5855f86b244808c9"
-          }
-        }
-      );
-      console.log(result);
-    } catch (e) {
-      console.log({ e });
+  return axios.post(___CREATE_AD___, data, {
+    headers: {
+      accept: "application/json",
+      "Accept-Language": "en-US,en;q=0.8",
+      "Content-Type": `multipart/form-data`
     }
-    */
+  });
+};
+
+const SellCreateBook = (book: SellBook): Promise<AxiosResponse<any>> => {
+  const { authors, isbn, subject, title } = book;
+  return axios.post(___CREATE_BOOK___, {
+    isbn,
+    title,
+    authors: authors.map(author => author.name),
+    subject: subject._id || subject.title
+  });
+};

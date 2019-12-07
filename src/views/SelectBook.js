@@ -121,17 +121,6 @@ export class SelectBook extends Component {
 
   _goCreateBook = () => {
     this.props.navigation.navigate("CreateBook");
-
-    /*
-    //TEST
-    this.props.selectBookRedux({
-      isbn: 9788808831538,
-      title: "FAKE Matematica Verde 4",
-      authors: "FAKE MARIO"
-    });
-    this.props.navigation.navigate("VendiInfos");
-    //TEST
-    */
   };
 
   resetSearchBar = () => this.handleChange("");

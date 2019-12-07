@@ -1,5 +1,5 @@
 import uuid from "uuid";
-import { GeneralBook, ItemCondition } from "../types/ItemTypes";
+import { GeneralBook, ItemCondition, GeneralAuthor } from "../types/ItemTypes";
 import { GeneralInfoItem, PictureSelectorItem } from "../store/sell/types";
 
 export const generateBooks = (size: number) => {
@@ -7,7 +7,7 @@ export const generateBooks = (size: number) => {
   for (let i = 0; i < size; i++)
     data.push({
       title: generateText(3, 33),
-      author: "Io, te, gli altri",
+      authors: AuthorsList,
       isbn: uuid.v4(),
       subject: { _id: 4, title: "Matematica" }
     });
@@ -20,7 +20,7 @@ export const generateItemOnlyBooks = (size: number): GeneralInfoItem[] => {
     data.push({
       book: {
         title: generateText(3, 33),
-        author: "Io, te, gli altri",
+        authors: AuthorsList,
         isbn: uuid.v4(),
         subject: { _id: 4, title: "Matematica" }
       }
@@ -36,7 +36,7 @@ export const generateGeneralInfoItem = (
     data.push({
       book: {
         title: generateText(3, 33),
-        author: "Io, te, gli altri",
+        authors: AuthorsList,
         isbn: uuid.v4(),
         subject: { _id: 4, title: "Matematica" }
       },
@@ -54,3 +54,18 @@ export const generateText = (min: number, max: number) => {
 
 const LOREM =
   "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, enim! Cupiditate ratione quisquam provident dolore ut velit at, libero necessitatibus vitae sed enim culpa eos quo doloribus magnam amet repellendus.";
+
+const AuthorsList: GeneralAuthor[] = [
+  {
+    id: 1,
+    name: "Test 1",
+    last_name: "TestLast",
+    books: []
+  },
+  {
+    id: 2,
+    name: "Test 2",
+    last_name: "Colloquio",
+    books: []
+  }
+];

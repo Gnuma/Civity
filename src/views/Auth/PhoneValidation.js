@@ -22,7 +22,7 @@ import {
   getNumber,
   isPhoneTaken,
   submit
-} from "../../utils/validator";
+} from "../../utils/validatorOLD";
 import ErrorMessage from "../../components/Form/ErrorMessage";
 import axios from "axios";
 import {

@@ -14,7 +14,7 @@ export interface SellType {
 }
 
 export interface SellItem {
-  book?: GeneralBook;
+  book?: SellBook;
   price?: string;
   condition?: ItemCondition;
   description?: string;
@@ -31,8 +31,12 @@ export interface CheckingImage extends SellImage {
   height: number;
 }
 
+export interface SellBook extends GeneralBook {
+  isCreated?: boolean;
+}
+
 export interface GeneralInfoItem {
-  book: GeneralBook;
+  book: SellBook;
   price?: string;
   condition?: ItemCondition;
   description?: string;
@@ -40,7 +44,7 @@ export interface GeneralInfoItem {
 }
 
 export interface PictureSelectorItem {
-  book: GeneralBook;
+  book: SellBook;
   price?: string;
   condition?: ItemCondition;
   description?: string;
@@ -48,7 +52,7 @@ export interface PictureSelectorItem {
 }
 
 export interface PreviewItem {
-  book: GeneralBook;
+  book: SellBook;
   price: string;
   condition: ItemCondition;
   description: string;
@@ -74,7 +78,7 @@ export interface SellFailAction {
 export interface SellSetBooks {
   type: typeof SELL_SET_BOOKS;
   payload: {
-    books: GeneralBook[];
+    books: SellBook[];
   };
 }
 

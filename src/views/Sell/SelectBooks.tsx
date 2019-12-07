@@ -16,7 +16,6 @@ import { Header3, Header4, Text } from "../../components/Text";
 import TextInputField from "../../components/Inputs/SolidTextInput";
 import SearchIcon from "../../media/vectors/SearchIcon";
 import colors from "../../styles/colors";
-import { GeneralBook } from "../../types/ItemTypes";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CheckBox from "../../components/Touchables/CheckBox";
 import update from "immutability-helper";
@@ -26,16 +25,18 @@ import Shadows from "../../components/Shadows";
 import Button from "../../components/Touchables/Button";
 import BottomSheet from "../../components/BottomSheet";
 import CreateBook from "../../components/Sell/BookCreator";
+import { printAuthors } from "../../utils/helper";
+import { SellBook } from "../../store/sell/types";
 
 interface SelectBooksProps extends ReduxStoreProps, ReduxDispatchProps {
   navigation: NavigationStackProp;
 }
 
-type SelectedBooksType = { [key: string]: GeneralBook | null };
+type SelectedBooksType = { [key: string]: SellBook | null };
 
 interface SelectBooksState {
   searchQuery: string;
-  booksResult: GeneralBook[];
+  booksResult: SellBook[];
   selectedBooks: SelectedBooksType;
   isBookCreatorOpen: boolean;
 }
@@ -51,7 +52,7 @@ class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
     };
   }
 
-  selectBook = (book: GeneralBook) => {
+  selectBook = (book: SellBook) => {
     this.setState(state =>
       update(state, {
         selectedBooks: {
@@ -63,7 +64,9 @@ class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
     );
   };
 
-  createBook = () => {};
+  createBook = (book: SellBook) => {
+    this.selectBook({ ...book, isCreated: true });
+  };
 
   onRemoveBook = (id: string) => {
     this.setState(state =>
@@ -95,7 +98,7 @@ class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
       selectedBooks,
       isBookCreatorOpen
     } = this.state;
-    let data: GeneralBook[] = Object.values(selectedBooks);
+    let data: SellBook[] = Object.values(selectedBooks);
     data = data.filter(data => !!data);
 
     return (
@@ -146,7 +149,7 @@ class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
     );
   }
 
-  renderBook: ListRenderItem<GeneralBook> = ({ item }) => {
+  renderBook: ListRenderItem<SellBook> = ({ item }) => {
     const { selectedBooks } = this.state;
     return (
       <TouchableOpacity
@@ -155,7 +158,7 @@ class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
       >
         <View style={{ flex: 1 }}>
           <Header3 color="black">{item.title}</Header3>
-          <Header4 color="lightGrey">{item.author}</Header4>
+          <Header4 color="lightGrey">Di {printAuthors(item.authors)}</Header4>
         </View>
         <CheckBox selected={selectedBooks[item.isbn] != null} />
       </TouchableOpacity>
@@ -167,7 +170,7 @@ class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
       searchQuery
     });
   };
-  bookKeyExtractor = (book: GeneralBook) => book.isbn;
+  bookKeyExtractor = (book: SellBook) => book.isbn;
 
   toggleBookCreator = (isOpen: boolean) => {
     this.setState(state =>

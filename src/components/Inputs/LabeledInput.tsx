@@ -16,6 +16,7 @@ export interface LabeledInputProps extends UnderlinedTextInputProps {
   label?: string;
   inputContainerStyle?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
+  warning?: string;
 }
 
 const LabeledInput = ({
@@ -23,11 +24,15 @@ const LabeledInput = ({
   inputContainerStyle,
   labelStyle,
   label,
+  warning,
   ...rest
 }: LabeledInputProps) => {
   return (
     <View style={containerStyle}>
-      <Text style={[styles.label, labelStyle]}>{label}</Text>
+      <View style={styles.labelContainer}>
+        <Text style={[styles.label, labelStyle]}>{label}</Text>
+        <Text style={[styles.warning]}>{warning}</Text>
+      </View>
       <UnderlinedTextInput containerStyle={[inputContainerStyle]} {...rest} />
     </View>
   );
@@ -40,6 +45,18 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontSize: 16,
     letterSpacing: 0.5,
-    paddingBottom: 5
+    paddingBottom: 5,
+    paddingRight: 10
+  },
+  labelContainer: {
+    flexDirection: "row"
+  },
+  warning: {
+    color: colors.darkRed,
+    fontSize: 16,
+    letterSpacing: 0.5,
+    paddingBottom: 5,
+    flex: 1,
+    textAlign: "right"
   }
 });

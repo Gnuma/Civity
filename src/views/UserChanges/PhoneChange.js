@@ -14,7 +14,7 @@ import {
   SafeAreaView
 } from "react-navigation";
 import ErrorMessage from "../../components/Form/ErrorMessage";
-import { getNumber, submit, isPhoneTaken } from "../../utils/validator";
+import { getNumber, submit, isPhoneTaken } from "../../utils/validatorOLD";
 import {
   ___SEND_MESSAGE___,
   ___VALIDATE_USER___,

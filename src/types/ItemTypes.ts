@@ -3,13 +3,20 @@ import { UserSerializer, GeneralUser } from "./ProfileTypes";
 export interface GeneralBook {
   isbn: string;
   title: string;
-  author: string;
+  authors: GeneralAuthor[];
   subject: GeneralSubject;
 }
 
 export interface GeneralSubject {
   _id: number;
   title: string;
+}
+
+export interface GeneralAuthor {
+  id: number;
+  name: string;
+  last_name: string;
+  books: string[];
 }
 
 export enum ItemCondition {

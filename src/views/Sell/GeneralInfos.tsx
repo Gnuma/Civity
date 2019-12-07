@@ -5,7 +5,7 @@ import {
   generateItemOnlyBooks,
   generateBooks
 } from "../../utils/testingHelpers";
-import { GeneralBook, ItemCondition } from "../../types/ItemTypes";
+import { ItemCondition } from "../../types/ItemTypes";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
@@ -19,7 +19,8 @@ import Selectable, {
   SelectableClassType
 } from "../../components/Touchables/Selectable";
 import update from "immutability-helper";
-import { GeneralInfoItem } from "../../store/sell/types";
+import { GeneralInfoItem, SellBook } from "../../store/sell/types";
+import { ValidatorObject, isValidPrice, submit } from "../../utils/validator";
 
 interface GeneralInfosProps extends ReduxStoreProps, ReduxDispatchProps {
   navigation: NavigationStackProp;
@@ -28,6 +29,7 @@ interface GeneralInfosProps extends ReduxStoreProps, ReduxDispatchProps {
 interface GeneralInfosState {
   data: GeneralInfoItem[];
   state: number;
+  fieldWarnings: { price: string }[];
 }
 
 class GeneralInfos extends Component<GeneralInfosProps, GeneralInfosState> {
@@ -35,7 +37,8 @@ class GeneralInfos extends Component<GeneralInfosProps, GeneralInfosState> {
     super(props);
     this.state = {
       data: props.itemsData,
-      state: 0
+      state: 0,
+      fieldWarnings: props.itemsData.map(() => ({ price: "" }))
     };
   }
 
@@ -77,7 +80,7 @@ class GeneralInfos extends Component<GeneralInfosProps, GeneralInfosState> {
     );
 
   render() {
-    const { data, state } = this.state;
+    const { data, state, fieldWarnings } = this.state;
 
     if (data.length == 0) return null;
 
@@ -103,6 +106,7 @@ class GeneralInfos extends Component<GeneralInfosProps, GeneralInfosState> {
             containerStyle={styles.field}
             value={price}
             onChangeText={this.onChangePrice}
+            warning={fieldWarnings[state].price}
           />
           <LabeledField label="CONDIZIONI *" containerStyle={styles.field}>
             <View style={styles.conditionContainer}>
@@ -133,26 +137,42 @@ class GeneralInfos extends Component<GeneralInfosProps, GeneralInfosState> {
 
   complete = () => {
     const { data, state } = this.state;
-    this.props.saveItem(data[state], state);
-    this.setState(
-      state =>
-        update(state, {
-          data: {
-            [state.state]: {
-              completed: { $set: true }
-            }
-          },
-          state: {
-            $apply: bookIndex => incrementIndex(state, bookIndex)
+    submit({ price: data[state].price }, Validator)
+      .then(() => {
+        this.props.saveItem(data[state], state);
+        this.setState(
+          state =>
+            update(state, {
+              data: {
+                [state.state]: {
+                  completed: { $set: true }
+                }
+              },
+              state: {
+                $apply: bookIndex => incrementIndex(state, bookIndex)
+              }
+            }),
+          () => {
+            let canContinue = true;
+            const { data } = this.state;
+            data.forEach(
+              item => (canContinue = !!(canContinue && item.completed))
+            );
+            if (canContinue) this.continue();
           }
-        }),
-      () => {
-        let canContinue = true;
-        const { data } = this.state;
-        data.forEach(item => (canContinue = !!(canContinue && item.completed)));
-        if (canContinue) this.continue();
-      }
-    );
+        );
+      })
+      .catch(err => {
+        this.setState(state =>
+          update(state, {
+            fieldWarnings: {
+              [state.state]: {
+                $merge: err
+              }
+            }
+          })
+        );
+      });
   };
 
   goBack = () => {
@@ -165,7 +185,7 @@ class GeneralInfos extends Component<GeneralInfosProps, GeneralInfosState> {
     );
   };
 
-  switchTab = (item: GeneralBook, index: number) => {
+  switchTab = (item: SellBook, index: number) => {
     this.setState({
       state: index
     });
@@ -264,4 +284,11 @@ const decrementIndex = (
   if (left != -1) return left;
   else if (right != -1) return right + bookIndex + 1;
   else return Math.max(0, bookIndex - 1);
+};
+
+const Validator: ValidatorObject = {
+  price: {
+    functions: [isValidPrice],
+    warnings: ["Il prezzo inserito non sembra essere valido"]
+  }
 };

@@ -7,6 +7,7 @@ import {
   UserSerializer,
   GeneralUser
 } from "../types/ProfileTypes";
+import { GeneralAuthor } from "../types/ItemTypes";
 
 const dayInMilliseconds = 1000 * 60 * 60 * 24;
 
@@ -108,6 +109,17 @@ export const getLevel = (xp: number): { level: number; exp: number } => {
     exp: LEVEL_DATA[levelLength]
   };
 };
+
+export const printAuthors = (authors: GeneralAuthor[]) =>
+  authors.reduce(
+    (str, author, i) =>
+      (str +=
+        author.last_name +
+        " " +
+        author.name +
+        (i === authors.length - 1 ? "" : ", ")),
+    ""
+  );
 
 export default {
   dateDisplay: dateDisplay,

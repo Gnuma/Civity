@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { GeneralBook } from "../../types/ItemTypes";
 import LabeledInput from "../Inputs/LabeledInput";
 import BadgedInput from "../Inputs/BadgedInput";
 import update from "immutability-helper";
 import Button from "../Touchables/Button";
+import { SellBook } from "../../store/sell/types";
+import {
+  ValidatorObject,
+  isNotEmpty,
+  isISBN,
+  submit
+} from "../../utils/validator";
 
 interface BookCreatorProps {
-  createBook: (book: GeneralBook) => void;
+  createBook: (book: SellBook) => void;
   closeBookCreator: () => void;
 }
 
@@ -18,15 +24,44 @@ const BookCreator = ({
   const [isbn, setIsbn] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  const [authorsList, setAuthorsList] = useState([]);
+  const authorsInitialState: string[] = [];
+  const [authorsList, setAuthorsList] = useState(authorsInitialState);
+  const [fieldWarnings, setFieldWarnings] = useState({
+    isbn: "",
+    title: "",
+    author: ""
+  });
 
   const createBook = () => {
-    closeBookCreator();
+    submit({ isbn, title }, Validator)
+      .then(() => {
+        remoteCreateBook({
+          authors: authorsList.map(a => ({
+            id: 0,
+            name: a,
+            last_name: "", //TODO
+            books: [isbn]
+          })),
+          isbn,
+          title,
+          subject: { _id: 0, title: "matematica" } //TODO
+        });
+        closeBookCreator();
+      })
+      .catch(err =>
+        setFieldWarnings(state =>
+          update(state, {
+            $merge: err
+          })
+        )
+      );
   };
 
   const onAddAuthor = () => {
-    setAuthorsList(list => update(list, { $push: [author] }));
-    setAuthor("");
+    if (author) {
+      setAuthorsList(list => update(list, { $push: [author] }));
+      setAuthor("");
+    }
   };
 
   const onDeleteAuthor = (index: number) => {
@@ -41,6 +76,7 @@ const BookCreator = ({
         containerStyle={styles.field}
         value={isbn}
         onChangeText={setIsbn}
+        warning={fieldWarnings.isbn}
       />
       <LabeledInput
         label="TITOLO"
@@ -48,6 +84,7 @@ const BookCreator = ({
         containerStyle={styles.field}
         value={title}
         onChangeText={setTitle}
+        warning={fieldWarnings.title}
       />
       <BadgedInput
         label="AUTORI"
@@ -95,3 +132,17 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
+const Validator: ValidatorObject = {
+  isbn: {
+    functions: [isNotEmpty, isISBN],
+    warnings: [
+      "Inserisici l'ISBN del libro",
+      "L'ISBN inserito non sembra essere valido"
+    ]
+  },
+  title: {
+    functions: [isNotEmpty],
+    warnings: ["Inserisici il titolo del libro"]
+  }
+};

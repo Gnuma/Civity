@@ -6,14 +6,18 @@ import { AnyAction } from "redux";
 import { NavigationStackProp } from "react-navigation-stack";
 import * as sellActions from "../../store/sell";
 import { StoreType } from "../../store/root";
-import { GeneralBook, ItemCondition } from "../../types/ItemTypes";
+import { ItemCondition } from "../../types/ItemTypes";
 import SellTabLayout from "../../components/Sell/SellTabLayout";
 import { generateGeneralInfoItem } from "../../utils/testingHelpers";
 import update from "immutability-helper";
 import CameraIcon from "../../media/vectors/CameraIcon";
 import colors from "../../styles/colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { PictureSelectorItem, SellImage } from "../../store/sell/types";
+import {
+  PictureSelectorItem,
+  SellImage,
+  SellBook
+} from "../../store/sell/types";
 import { CameraNavigationProps } from "../Camera";
 import { Header3 } from "../../components/Text";
 
@@ -144,7 +148,7 @@ class PicturesSelector extends Component<
     );
   };
 
-  switchTab = (item: GeneralBook, index: number) => {
+  switchTab = (item: SellBook, index: number) => {
     this.setState({
       state: index
     });

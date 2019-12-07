@@ -10,7 +10,7 @@ import {
   isUsernameTaken,
   isEmailTaken,
   isPhoneTaken
-} from "../../utils/validator.js";
+} from "../../utils/validatorOLD.js";
 import Button from "../../components/Button";
 import { Header3, Header2, Header1 } from "../../components/Text";
 import SolidButton from "../../components/SolidButton";

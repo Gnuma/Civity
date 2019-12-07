@@ -8,7 +8,6 @@ import {
   SafeAreaView
 } from "react-native";
 import Selectable from "../Touchables/Selectable";
-import { GeneralBook } from "../../types/ItemTypes";
 import colors from "../../styles/colors";
 import Shadows from "../Shadows";
 import { Header2, Header4, Header1, Text } from "../Text";
@@ -16,8 +15,10 @@ import Button from "../Touchables/Button";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import Svg, { Defs, LinearGradient, Stop, Rect } from "react-native-svg";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { printAuthors } from "../../utils/helper";
+import { SellBook } from "../../store/sell/types";
 
-export interface SellBookBadge extends GeneralBook {
+export interface SellBookBadge extends SellBook {
   completed?: boolean;
 }
 
@@ -98,7 +99,7 @@ const SellTabLayout = ({
             {data[state].title}
           </Header1>
           <Header4 style={styles.bookAuthor} numberOfLines={1}>
-            Di {data[state].author}
+            Di {printAuthors(data[state].authors)}
           </Header4>
         </View>
       </View>

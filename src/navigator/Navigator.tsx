@@ -297,7 +297,6 @@ const AuthNavigator = createStackNavigator(
 const AppStack = createBottomTabNavigator(
   {
     SEARCH: SearchNavigator,
-    SELL: SellNavigator,
     CHAT: ChatNavigator
   },
   {
@@ -309,6 +308,7 @@ const AppStack = createBottomTabNavigator(
 const MainStack = createStackNavigator(
   {
     App: AppStack,
+    SELL: SellNavigator,
     AuthStack: AuthNavigator
   },
   {

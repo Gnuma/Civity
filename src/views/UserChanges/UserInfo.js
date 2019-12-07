@@ -12,7 +12,7 @@ import {
   submit,
   isEmailTaken,
   isUsernameTaken
-} from "../../utils/validator";
+} from "../../utils/validatorOLD";
 import update from "immutability-helper";
 import FullButton from "../../components/FullButton";
 import colors from "../../styles/colors";

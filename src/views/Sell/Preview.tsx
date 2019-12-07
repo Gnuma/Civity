@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
 import SellTabLayout from "../../components/Sell/SellTabLayout";
-import { GeneralBook } from "../../types/ItemTypes";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
@@ -10,7 +9,7 @@ import { StackActions } from "react-navigation";
 import * as sellActions from "../../store/sell";
 import { StoreType } from "../../store/root";
 import update from "immutability-helper";
-import { PreviewItem } from "../../store/sell/types";
+import { PreviewItem, SellBook } from "../../store/sell/types";
 import ImageAdSlider from "../../components/Item/ImageAdSlider";
 import {
   imageAdToWidthRatio,
@@ -21,6 +20,7 @@ import ConditionTag from "../../components/Item/ConditionTag";
 import Divider from "../../components/Divider";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import protectedAction from "../../utils/protectedAction";
+import { printAuthors } from "../../utils/helper";
 
 interface PreviewProps extends ReduxStoreProps, ReduxDispatchProps {
   navigation: NavigationStackProp;
@@ -42,11 +42,10 @@ class Preview extends Component<PreviewProps, PreviewState> {
 
   continue = () => {
     protectedAction().then(() => {
-      !this.props.loading &&
-        this.props.publish().then(res => {
-          this.props.navigation.navigate("SEARCH");
-          this.props.navigation.dispatch(StackActions.popToTop());
-        });
+      this.props.publish().then(res => {
+        this.props.navigation.navigate("SEARCH");
+        this.props.navigation.dispatch(StackActions.popToTop());
+      });
     });
   };
 
@@ -88,7 +87,9 @@ class Preview extends Component<PreviewProps, PreviewState> {
             <Header1 color="primary" style={{ fontWeight: "700" }}>
               {item.book.title}
             </Header1>
-            <Header4 color="black">Di {item.book.author}</Header4>
+            <Header4 color="black">
+              Di {printAuthors(item.book.authors)}
+            </Header4>
             <View style={styles.priceContainer}>
               <Price
                 color="primary"
@@ -148,7 +149,7 @@ class Preview extends Component<PreviewProps, PreviewState> {
     );
   };
 
-  switchTab = (item: GeneralBook, index: number) => {
+  switchTab = (item: SellBook, index: number) => {
     this.setState({
       state: index
     });

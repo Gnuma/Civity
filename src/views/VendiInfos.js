@@ -17,7 +17,7 @@ import { GreyBar } from "../components/StatusBars";
 import { SafeAreaView } from "react-navigation";
 import { KAV_BEHAVIOR } from "../utils/constants";
 import update from "immutability-helper";
-import { submit, isEmpty, isUndefined } from "../utils/validator";
+import { submit, isEmpty, isUndefined } from "../utils/validatorOLD";
 
 export class VendiInfos extends Component {
   constructor(props) {

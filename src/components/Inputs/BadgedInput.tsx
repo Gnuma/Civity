@@ -57,6 +57,7 @@ function BadgedInput<B>({
         contentContainerStyle={styles.badgesList}
         renderItem={renderItem}
         style={listStyle}
+        keyExtractor={(_, index) => index.toString()}
       />
     </View>
   );
