@@ -77,8 +77,7 @@ export default class SaleCard extends Component {
       routeName: "Item",
       params: {
         itemID: this.props.data._id,
-        name: this.props.data.book.title,
-        authors: this.props.data.book.author
+        book: this.props.data.book,
       }
     });
     NavigationService.dispatch(pushAction);

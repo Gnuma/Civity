@@ -31,7 +31,7 @@ import { SafeAreaView, StackActions } from "react-navigation";
 import update from "immutability-helper";
 import IOSToast from "../components/IOSToast";
 
-export class Item extends Component {
+export class Item_Deprecated extends Component {
   constructor(props) {
     super(props);
 
@@ -328,7 +328,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Item);
+export default connect(mapStateToProps, mapDispatchToProps)(Item_Deprecated);
 
 const styles = StyleSheet.create({
   container: {

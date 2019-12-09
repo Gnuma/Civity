@@ -27,6 +27,8 @@ import BottomSheet from "../../components/BottomSheet";
 import CreateBook from "../../components/Sell/BookCreator";
 import { printAuthors } from "../../utils/helper";
 import { SellBook } from "../../store/sell/types";
+import { BehaviorSubject } from "rxjs";
+import { searchBooks } from "../../service/bookService";
 
 interface SelectBooksProps extends ReduxStoreProps, ReduxDispatchProps {
   navigation: NavigationStackProp;
@@ -39,18 +41,36 @@ interface SelectBooksState {
   booksResult: SellBook[];
   selectedBooks: SelectedBooksType;
   isBookCreatorOpen: boolean;
+  searching: boolean;
 }
 
 class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
+  searchSubject$: BehaviorSubject<string>;
+
   constructor(props: SelectBooksProps) {
     super(props);
     this.state = {
       searchQuery: "",
-      booksResult: generateBooks(20),
+      booksResult: [],
       selectedBooks: props.selectedBooks,
-      isBookCreatorOpen: false
+      isBookCreatorOpen: false,
+      searching: false
     };
+    this.searchSubject$ = new BehaviorSubject("");
   }
+
+  componentDidMount = () => {
+    searchBooks(this.searchSubject$).subscribe(
+      books => {
+        this.setState({ booksResult: books });
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  };
+
+  componentWillUnmount = () => this.searchSubject$.unsubscribe();
 
   selectBook = (book: SellBook) => {
     this.setState(state =>
@@ -166,10 +186,10 @@ class SelectBooks extends Component<SelectBooksProps, SelectBooksState> {
   };
 
   onChangeSearchQuery = (searchQuery: string) => {
-    this.setState({
-      searchQuery
-    });
+    this.setState({ searchQuery, searching: true });
+    this.searchSubject$.next(searchQuery);
   };
+
   bookKeyExtractor = (book: SellBook) => book.isbn;
 
   toggleBookCreator = (isOpen: boolean) => {

@@ -57,7 +57,7 @@ export interface UserSerializer extends BasicUser {
 }
 
 export interface GeneralUser extends BasicUser {
-  office: GeneralOffice;
+  course: CourseSerializer;
 }
 
 export const LEVEL_DATA: { [key: number]: number } = {

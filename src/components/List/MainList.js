@@ -56,7 +56,7 @@ export class MainList extends Component {
         <Button
           onPress={() => {
             const pushAction = StackActions.push({
-              routeName: "Item",
+              routeName: "Item_Deprecated",
               params: {
                 itemID: 2,
                 name: "FAKE",

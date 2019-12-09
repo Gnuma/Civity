@@ -110,8 +110,9 @@ export const getLevel = (xp: number): { level: number; exp: number } => {
   };
 };
 
-export const printAuthors = (authors: GeneralAuthor[]) =>
-  authors.reduce(
+export const printAuthors = (authors: GeneralAuthor[]) => {
+  if (authors.length == 0) return "Sconosciuto";
+  return authors.reduce(
     (str, author, i) =>
       (str +=
         author.last_name +
@@ -120,6 +121,7 @@ export const printAuthors = (authors: GeneralAuthor[]) =>
         (i === authors.length - 1 ? "" : ", ")),
     ""
   );
+};
 
 export default {
   dateDisplay: dateDisplay,

@@ -19,7 +19,7 @@ import { SellImage } from "../../store/sell/types";
 import { imageAdMargin, imageAdToWidthRatio } from "./styles";
 
 interface ImageAdSliderProps {
-  image_ad: SellImage[];
+  image_ad: SellImage[] | string[];
   style?: StyleProp<ViewStyle>;
 }
 
@@ -60,6 +60,12 @@ const ImageAdSlider = ({ image_ad, style }: ImageAdSliderProps) => {
       </View>
     );
   };
+
+  if (image_ad.length > 0 && typeof image_ad[0] == "string") {
+    image_ad = image_ad.map((uri: string) => ({
+      uri
+    }));
+  }
 
   return (
     <Carousel

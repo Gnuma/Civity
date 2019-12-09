@@ -29,8 +29,7 @@ export class ListSingleItem extends Component {
       routeName: "Item",
       params: {
         itemID: pk,
-        name: book.title,
-        authors: book.author
+        book
       }
     });
 

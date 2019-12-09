@@ -21,6 +21,10 @@ import Divider from "../../components/Divider";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import protectedAction from "../../utils/protectedAction";
 import { printAuthors } from "../../utils/helper";
+import ItemDetailInfos from "../../components/Item/DetailInfos";
+import SellerInfo from "../../components/Item/SellerInfo";
+import DetailDescription from "../../components/Item/DetailDescription";
+import DetailSecondaryInfos from "../../components/Item/DetailSecondaryInfos";
 
 interface PreviewProps extends ReduxStoreProps, ReduxDispatchProps {
   navigation: NavigationStackProp;
@@ -84,52 +88,11 @@ class Preview extends Component<PreviewProps, PreviewState> {
               marginHorizontal: containerMargin
             }}
           >
-            <Header1 color="primary" style={{ fontWeight: "700" }}>
-              {item.book.title}
-            </Header1>
-            <Header4 color="black">
-              Di {printAuthors(item.book.authors)}
-            </Header4>
-            <View style={styles.priceContainer}>
-              <Price
-                color="primary"
-                containerStyle={styles.price}
-                style={{
-                  fontWeight: "700"
-                }}
-              >
-                {item.price}
-              </Price>
-              <ConditionTag type={item.condition} />
-            </View>
-            <View style={styles.userContainer}>
-              <View style={styles.usernameContainer}>
-                <Header3 style={styles.username}>Username</Header3>
-              </View>
-              <View style={styles.locationContainer}>
-                <Header3 style={styles.office} numberOfLines={2}>
-                  Università Nome
-                </Header3>
-                <Header3 style={styles.officeLocation}>Roma (RM)</Header3>
-              </View>
-            </View>
+            <ItemDetailInfos item={item} />
             <Divider />
-            {!!item.description && (
-              <View style={styles.descriptionContainer}>
-                <Text style={styles.description}>{item.description}</Text>
-              </View>
-            )}
+            <DetailDescription description={item.description} />
             <Divider />
-            <View style={styles.info}>
-              <View style={styles.infoRow}>
-                <Header4 style={styles.infoLabel}>ISBN</Header4>
-                <Header4>{item.book.isbn}</Header4>
-              </View>
-              <View style={styles.infoRow}>
-                <Header4 style={styles.infoLabel}>Materia</Header4>
-                <Header4>{item.book.subject.title}</Header4>
-              </View>
-            </View>
+            <DetailSecondaryInfos item={item} />
           </View>
         </SellTabLayout>
         {loading && <LoadingOverlay />}

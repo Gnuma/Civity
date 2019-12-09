@@ -1,32 +1,16 @@
 import React, { Component } from "react";
-import {
-  StatusBar,
-  NativeModules,
-  KeyboardAvoidingView,
-  View
-} from "react-native";
+import { StatusBar } from "react-native";
 import { withNavigation, StackActions } from "react-navigation";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import MainList from "../components/List/MainList";
 import SearchResults from "../components/SearchResults/SearchResults";
 import * as searchActions from "../store/search";
-import BookShelf from "../components/Home/BookShelf";
-import SearchLink from "../components/Home/SearchLink";
 import { AndroidBackHandler } from "react-navigation-backhandler";
-import {
-  singleResults,
-  multiResults,
-  generateResults
-} from "../mockData/SearchResults";
-import Button from "../components/Button";
-import protectedAction from "../utils/protectedAction";
-import NotificationCenter from "../components/Home/NotificationCenter";
 import _ from "lodash";
 import MainHome from "../components/Home/MainHome";
-import { GreenBar } from "../components/StatusBars";
 import colors from "../styles/colors";
-import { IS_ANDROID, KAV_BEHAVIOR } from "../utils/constants";
+import { IS_ANDROID } from "../utils/constants";
 import IOSToast from "../components/IOSToast";
 
 export class Home extends Component {
@@ -122,8 +106,7 @@ export class Home extends Component {
       routeName: "Item",
       params: {
         itemID: itemPK,
-        name: book.title,
-        authors: book.authors
+        book: book
       }
     });
 
@@ -174,8 +157,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withNavigation(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Home)
+  connect(mapStateToProps, mapDispatchToProps)(Home)
 );

@@ -6,7 +6,8 @@ import { createStackNavigator } from "react-navigation-stack";
 import store from "../store/store";
 
 import HomeScreen from "../views/Home";
-import ItemScreen from "../views/Item";
+//import ItemScreen from "../views/Item_Deprecated";
+import ItemScreen from "../views/ItemDetail";
 import AppLoaderScreen from "../views/AppLoader";
 import Auth from "../views/Auth/Auth";
 import CameraScreen from "../views/Camera";
@@ -107,7 +108,7 @@ const InitProfileNavigator = {
     }
   )
 };
-
+/*
 const VendiNavigator = createStackNavigator(
   {
     Camera: {
@@ -142,7 +143,7 @@ const VendiNavigator = createStackNavigator(
     }
   }
 );
-
+*/
 /*
 const ChatNavigator = createStackNavigator(
   {

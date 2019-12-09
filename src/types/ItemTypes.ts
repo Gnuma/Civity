@@ -20,9 +20,9 @@ export interface GeneralAuthor {
 }
 
 export enum ItemCondition {
-  Good = 0,
-  Medium = 1,
-  Bad = 2
+  Good = "0",
+  Medium = "1",
+  Bad = "2"
 }
 
 export type ItemConditionType = 0 | 1 | 2;
@@ -43,7 +43,6 @@ export interface SearchResultObject extends BasicItem {
 }
 
 export interface GeneralItem extends BasicItem {
-  comment_ad: unknown[]; //ToDo
   enabled: boolean;
   seller: GeneralUser;
 }

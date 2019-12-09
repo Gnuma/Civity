@@ -221,24 +221,6 @@ export const searchLoadMore = (): ThunkAction<
     });
 };
 
-/*
-export const handleSearchQueryChange = search_query => {
-  return dispatch => {
-    dispatch(searchSetSearchQuery(search_query));
-    axios
-      .post(___BOOK_HINTS_ENDPOINT___, {
-        keyword: search_query
-      })
-      .then(res => {
-        dispatch(searchSuggest(res.data.results));
-      })
-      .catch(err => {
-        dispatch(searchFail(err));
-      });
-  };
-};
-*/
-
 //Epics
 const searchChangeEpic = (
   action$: ActionsObservable<SearchSetSearchQueryAction>
@@ -246,17 +228,17 @@ const searchChangeEpic = (
   action$.pipe(
     ofType<SearchSetSearchQueryAction>(SEARCH_SET_SEARCHQUERY),
     debounceTime(200),
-    mergeMap(action =>
+    switchMap(action =>
       ajax
         .post(___BOOK_HINTS_ENDPOINT___, {
           keyword: action.payload.search_query
         })
         .pipe(
+          catchError(error => of(searchFail(error))),
           map(({ response }) => {
             console.log(response);
             return searchSuggest(response);
-          }),
-          catchError(error => of(searchFail(error)))
+          })
         )
     )
   );

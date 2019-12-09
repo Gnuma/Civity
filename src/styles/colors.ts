@@ -28,6 +28,7 @@ export type ColorType =
   | "darkGreen"
   | "lightGrey"
   | "divider"
-  | "lighLighGrey";
+  | "lighLighGrey"
+  | "darkGrey";
 
 //#1EA67E

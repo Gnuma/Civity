@@ -55,7 +55,7 @@ export interface PreviewItem {
   book: SellBook;
   price: string;
   condition: ItemCondition;
-  description: string;
+  description?: string;
   image_ad: SellImage[];
   completed?: boolean;
 }

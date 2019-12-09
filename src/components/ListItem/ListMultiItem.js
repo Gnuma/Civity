@@ -56,8 +56,7 @@ export class ListMultiItem extends Component {
       routeName: "Item",
       params: {
         itemID: pk || this.props.data._id,
-        name: book.title,
-        authors: book.author
+        book: book
       }
     });
     NavigationService.dispatch(pushAction);
