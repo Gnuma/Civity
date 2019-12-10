@@ -112,8 +112,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withNavigation(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Header)
+  connect(mapStateToProps, mapDispatchToProps)(Header)
 );

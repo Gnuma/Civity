@@ -20,8 +20,8 @@ import { OffertStatus, ChatStatus, IT_MONTHS } from "../../utils/constants";
 import LoadingOverlay from "../LoadingOverlay";
 import Shadows from "../Shadows";
 import NativeButton from "../NativeButton";
-import RNChat from "../RNChat";
-import { dispalyTime } from "../RNChat/Timestamp";
+import RNChat from "../RNChat_Deprecated";
+import { dispalyTime } from "../RNChat_Deprecated/Timestamp";
 
 export default class Chat extends Component {
   onSend = () => {

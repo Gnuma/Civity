@@ -5,7 +5,7 @@ import { AuthType } from "./auth/types";
 //import { SellType } from "./sell_Deprecated/types";
 import { SellType } from "./sell/types";
 import { CommentsType } from "./comments/types";
-import { ChatType } from "./chat/types";
+import { ChatStructure } from "./chat/types";
 import { SettingsType } from "./settings/types";
 /** Reducers */
 import { combineReducers } from "redux";
@@ -32,7 +32,7 @@ export interface StoreType {
   auth: AuthType;
   sell: SellType;
   comments: CommentsType;
-  chat: ChatType;
+  chat: ChatStructure;
   settings: SettingsType;
 }
 
@@ -47,7 +47,8 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   sell: sellReducer,
   comments: commentsReducer,
-  chat: persistReducer(chatPersistConfig, chatReducer),
+  //chat: persistReducer(chatPersistConfig, chatReducer),
+  chat: chatReducer,
   settings: settingsReducer
 });
 

@@ -6,7 +6,7 @@ import ChatView from "../components/Chat/Chat";
 import * as chatActions from "../store/chat_Deprecated";
 import ContactReview from "../components/Chat/ContactReview";
 import { ChatType, ChatStatus, IS_ANDROID } from "../utils/constants";
-import ChatHeader from "../components/Chat/ChatHeader";
+import ChatHeader_Deprecated from "../components/Chat/ChatHeader_Deprecated";
 import { setGreyBar } from "../components/StatusBars";
 
 export class Chat extends Component {
@@ -87,7 +87,7 @@ export class Chat extends Component {
       >
         <SafeAreaView style={{ flex: 1 }}>
           <View style={{ flex: 1 }}>
-            <ChatHeader
+            <ChatHeader_Deprecated
               chatData={chatData}
               item={item}
               goBack={this._goBack}

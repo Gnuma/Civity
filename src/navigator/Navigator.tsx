@@ -22,6 +22,7 @@ import CreateBookScreen from "../views/CreateBook";
 //import ShoppingListScreen from "../views/ShoppingList_Deprecated";
 
 import ChatListScreen from "../views/ChatList";
+import ChatDetailScreen from "../views/ChatDetail";
 
 import SelectBooksScreen from "../views/Sell/SelectBooks";
 import GeneralInfosScreen from "../views/Sell/GeneralInfos";
@@ -267,7 +268,8 @@ const SellNavigator = createStackNavigator(
 
 const ChatNavigator = createStackNavigator(
   {
-    ChatList: ChatListScreen
+    ChatList: ChatListScreen,
+    ChatDetail: ChatDetailScreen
   },
   {
     defaultNavigationOptions: {

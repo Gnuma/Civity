@@ -10,7 +10,7 @@ import FullButton from "../FullButton";
 import { pickOffert, getState } from "../../views/BookOffert_Deprecated";
 import { OffertType } from "../../utils/constants";
 
-export default class ChatHeader extends Component {
+export default class ChatHeader_Deprecated extends Component {
   getOffertButtonState = () => {
     const { type, title } = getState(
       this.props.chatData,

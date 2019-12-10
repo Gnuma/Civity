@@ -1,8 +1,9 @@
 import { GeneralUser } from "../../types/ProfileTypes";
 import { GeneralItem } from "../../types/ItemTypes";
 
-export interface ChatType {
+export interface ChatStructure {
   data: ChatDataType;
+  chatOrder: string[];
   error?: unknown;
   state: ChatState;
 }
@@ -20,53 +21,58 @@ export enum ChatState {
   CONNECTED = "CONNECTED"
 }
 
-export type ChatDataType = { [key: number]: MockChatType };
+export type ChatDataType = { [key: string]: ChatType };
 
-interface MockChatType {
-  _id: string;
-  seller: GeneralUser;
-  buyer: GeneralUser;
-
-  blocked: boolean;
-  status: ChatStatus;
-  news: number;
-
+export interface ChatType {
+  id: string;
   messages: GeneralMessage[];
-  composer: string;
-
-  type: ChatClass;
-
+  users: ChatUser[];
+  createdAt: string | Date;
+  status: ChatStatus;
   items: GeneralItem[];
+  //seller: GeneralUser;
+  //buyer: GeneralUser;
+  //blocked: boolean;
+
+  composer: string;
+  receiver: ChatUser;
+  //type: ChatClass;
 }
 
 interface BasicMessage {
-  _id: number;
-  createdAt: string | Date;
-  is_read: boolean;
+  id: number;
   text: string;
+  createdAt: string | Date;
+
+  //is_read: boolean;
   isSending?: boolean;
   error?: any;
 }
 
-interface UserMessage extends BasicMessage {
+export interface ChatUser {
   user: {
-    _id: number;
+    id: number;
     username: string;
   };
+  news: number;
+}
+
+interface UserMessage extends BasicMessage {
+  sender: ChatUser;
 }
 
 interface SystemMessage extends BasicMessage {
   system: boolean;
 }
 
-type GeneralMessage = UserMessage | SystemMessage;
+export type GeneralMessage = UserMessage | SystemMessage;
 
-enum ChatClass {
+export enum ChatClass {
   SALES = "sales",
   SHOPPING = "shopping"
 }
 
-enum ChatStatus {
+export enum ChatStatus {
   LOCAL = "local", // #frontend
   PENDING = "pending",
   PROGRESS = "progress",

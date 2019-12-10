@@ -1,7 +1,7 @@
 import { updateObject } from "../utility";
 import update from "immutability-helper";
 import {
-  ChatType,
+  ChatStructure,
   TChatActions,
   CHAT_CONNECT,
   ChatState,
@@ -17,41 +17,55 @@ import {
   ResumeMessages,
   CHAT_RESUME
 } from "./types";
+import { generateChatData } from "../../utils/testingHelpers";
 
-const initialState: ChatType = {
-  data: {
-    //Test
-  },
+const testData = generateChatData(4);
+
+const initialState: ChatStructure = {
+  data: testData.data,
+  chatOrder: testData.chatOrder,
   error: undefined,
   state: ChatState.DISCONNECTED
 };
 
-const chatConnect = (state: ChatType, action: ChatConnectAction): ChatType => {
+const chatConnect = (
+  state: ChatStructure,
+  action: ChatConnectAction
+): ChatStructure => {
   return updateObject(state, {
     state: ChatState.CONNECTED
   });
 };
 
 const chatDisconnect = (
-  state: ChatType,
+  state: ChatStructure,
   action: ChatDisconnectAction
-): ChatType => {
+): ChatStructure => {
   return updateObject(state, {
     state: ChatState.DISCONNECTED
   });
 };
 
-const chatBuffer = (state: ChatType, action: ChatBufferAction): ChatType =>
+const chatBuffer = (
+  state: ChatStructure,
+  action: ChatBufferAction
+): ChatStructure =>
   updateObject(state, {
     state: ChatState.BUFFER
   });
 
-const chatFail = (state: ChatType, action: ChatFailAction): ChatType =>
+const chatFail = (
+  state: ChatStructure,
+  action: ChatFailAction
+): ChatStructure =>
   updateObject(state, {
     error: action.payload.error
   });
 
-const chatResume = (state: ChatType, action: ChatResumeAction): ChatType =>
+const chatResume = (
+  state: ChatStructure,
+  action: ChatResumeAction
+): ChatStructure =>
   update(state, {
     data: {
       $apply: (data: ChatDataType) => {
@@ -63,7 +77,7 @@ const chatResume = (state: ChatType, action: ChatResumeAction): ChatType =>
     }
   });
 
-export default (state = initialState, action: TChatActions): ChatType => {
+export default (state = initialState, action: TChatActions): ChatStructure => {
   switch (action.type) {
     case CHAT_CONNECT:
       return chatConnect(state, action);

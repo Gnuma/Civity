@@ -7,7 +7,7 @@ import {
   UserSerializer,
   GeneralUser
 } from "../types/ProfileTypes";
-import { GeneralAuthor } from "../types/ItemTypes";
+import { GeneralAuthor, GeneralBook } from "../types/ItemTypes";
 
 const dayInMilliseconds = 1000 * 60 * 60 * 24;
 
@@ -122,6 +122,13 @@ export const printAuthors = (authors: GeneralAuthor[]) => {
     ""
   );
 };
+
+export const printBookTitles = (books: GeneralBook[]) =>
+  books.reduce(
+    (titles, book, i) =>
+      (titles += book.title + (i != books.length - 1 ? ", " : "")),
+    ""
+  );
 
 export default {
   dateDisplay: dateDisplay,

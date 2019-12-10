@@ -1,15 +1,5 @@
 import { ActionsObservable, StateObservable, ofType } from "redux-observable";
-import {
-  switchMap,
-  filter,
-  map,
-  mergeMap,
-  takeUntil,
-  bufferWhen,
-  buffer,
-  ignoreElements,
-  tap
-} from "rxjs/operators";
+import { filter, map, mergeMap, bufferWhen } from "rxjs/operators";
 import { forkJoin, pipe } from "rxjs";
 import { webSocket } from "rxjs/webSocket";
 import { ajax } from "rxjs/ajax";

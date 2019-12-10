@@ -370,7 +370,7 @@ const reConnectUserEpic = (
 ) =>
   action$.pipe(
     ofType(SETTINGS_STARTUP),
-    filter(() => !state$.value.auth.token),
+    filter(() => !!state$.value.auth.token),
     map(reConnectUpdateUserData)
     //switchMap(() => map(reConnectUpdateUserData))
   );
