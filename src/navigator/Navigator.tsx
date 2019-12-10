@@ -274,6 +274,9 @@ const ChatNavigator = createStackNavigator(
   {
     defaultNavigationOptions: {
       header: null
+    },
+    navigationOptions: {
+      tabBarVisible: false
     }
   }
 );

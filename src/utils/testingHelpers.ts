@@ -5,8 +5,20 @@ import {
   ChatDataType,
   GeneralMessage,
   ChatStatus,
-  ChatClass
+  ChatClass,
+  ChatUser
 } from "../store/chat/types";
+import _ from "lodash";
+
+export const user0: ChatUser = {
+  user: { id: 0, username: "User Io" },
+  news: 0
+};
+
+export const user1: ChatUser = {
+  user: { id: 1, username: "User L'altro" },
+  news: 0
+};
 
 export const generateChatData = (
   size: number
@@ -17,7 +29,7 @@ export const generateChatData = (
     const id = uuid.v4();
     data[id] = {
       id: id,
-      messages: generateMessages(30),
+      messages: generateMessages(50),
       composer: "",
       createdAt: new Date(),
       items: [
@@ -26,33 +38,13 @@ export const generateChatData = (
           condition: 0,
           image_ad: [
             "https://civity.s3.amazonaws.com/media/items/c0e71153-f38.jpg"
-          ]
+          ],
+          seller: user1
         }
       ],
       status: ChatStatus.PROGRESS,
-      users: [
-        {
-          user: {
-            id: 0,
-            username: "User1"
-          },
-          news: 0
-        },
-        {
-          user: {
-            id: 1,
-            username: "User to reciever"
-          },
-          news: 0
-        }
-      ],
-      receiver: {
-        user: {
-          id: 1,
-          username: "User to reciever"
-        },
-        news: 0
-      }
+      users: [user0, user1],
+      receiver: user1
     };
     chatOrder.push(id);
   }
@@ -61,18 +53,16 @@ export const generateChatData = (
 
 export const generateMessages = (size: number): GeneralMessage[] => {
   const data: GeneralMessage[] = [];
+  const from = new Date("12/1/2019");
+  const to = new Date("12/12/2019");
   for (let i = size; i > 0; i--) {
     data.push({
       id: i,
-      createdAt: new Date(),
-      text: generateText(3, 33),
-      sender: {
-        user: {
-          id: 0,
-          username: "User1"
-        },
-        news: 0
-      }
+      createdAt: new Date(
+        (to.getTime() - from.getTime()) * (i / size) + from.getTime()
+      ),
+      text: generateText(3, 63),
+      sender: _.random(0, 1, false) == 0 ? user1 : user0
     });
   }
   return data;

@@ -39,10 +39,11 @@ export interface ChatType {
   //type: ChatClass;
 }
 
-interface BasicMessage {
+export interface BasicMessage {
   id: number;
   text: string;
   createdAt: string | Date;
+  attachment?: GenericAttachment;
 
   //is_read: boolean;
   isSending?: boolean;
@@ -57,15 +58,18 @@ export interface ChatUser {
   news: number;
 }
 
-interface UserMessage extends BasicMessage {
+export interface UserMessage extends BasicMessage {
   sender: ChatUser;
 }
 
-interface SystemMessage extends BasicMessage {
+export interface SystemMessage extends BasicMessage {
   system: boolean;
 }
 
-export type GeneralMessage = UserMessage | SystemMessage;
+export interface GeneralMessage extends BasicMessage {
+  sender?: ChatUser;
+  system?: boolean;
+}
 
 export enum ChatClass {
   SALES = "sales",
@@ -80,6 +84,57 @@ export enum ChatStatus {
   BLOCKED = "blocked",
   COMPLETED = "completed"
 }
+
+export interface ImageAttachment {
+  type: typeof AttachmentType.IMAGE;
+  url: string;
+}
+
+export enum AttachmentType {
+  IMAGE = "IMAGE"
+  //AUDIO = "AUDIO",
+  //VIDEO = "VIDEO"
+}
+
+/*
+export interface AudioAttachment {
+  type: typeof AttachmentType.AUDIO;
+  id: string;
+  url: string;
+}
+*/
+
+/*
+export interface BasicAudio {
+  id: string;
+  url: string;
+  isPaused: boolean;
+}
+*/
+
+/*
+export interface VideoAttachment {
+  type: typeof AttachmentType.VIDEO;
+  url: string;
+}
+*/
+
+export type GenericAttachment = ImageAttachment;
+//| AudioAttachment
+//| VideoAttachment;
+
+/*
+export interface AudioPlayer {
+  playAudio: (audio: AudioAttachment) => void;
+  pauseAudio: () => void;
+  focusedAudio?: BasicAudio;
+  time: number;
+}
+*/
+
+/**
+ * Actions
+ */
 
 export interface ChatConnectAction {
   type: typeof CHAT_CONNECT;
