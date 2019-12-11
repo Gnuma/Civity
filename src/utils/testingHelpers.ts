@@ -6,7 +6,8 @@ import {
   GeneralMessage,
   ChatStatus,
   ChatClass,
-  ChatUser
+  ChatUser,
+  AttachmentType
 } from "../store/chat/types";
 import _ from "lodash";
 
@@ -34,8 +35,7 @@ export const generateChatData = (
       createdAt: new Date(),
       items: [
         {
-          book: generateBooks(1)[0],
-          condition: 0,
+          ...generateGeneralInfoItem(1)[0],
           image_ad: [
             "https://civity.s3.amazonaws.com/media/items/c0e71153-f38.jpg"
           ],
@@ -64,6 +64,30 @@ export const generateMessages = (size: number): GeneralMessage[] => {
       text: generateText(3, 63),
       sender: _.random(0, 1, false) == 0 ? user1 : user0
     });
+    if (i % 5 == 0) {
+      const author = _.random(0, 1, false) == 0 ? user1 : user0;
+      const seller = author == user1 ? user1 : user0;
+      const itemInfos = generateGeneralInfoItem(1)[0];
+      data.push({
+        attachment: {
+          item: {
+            ...itemInfos,
+            image_ad: [
+              "https://civity.s3.amazonaws.com/media/items/c0e71153-f38.jpg"
+            ],
+            seller: seller
+          },
+          type: AttachmentType.ITEM,
+          buyer: author
+        },
+        createdAt: new Date(
+          (to.getTime() - from.getTime()) * (i / size) + from.getTime()
+        ),
+        id: i + 1000,
+        text: `${author.user.username} ha aggiunto ${itemInfos.book.title} al carrello`,
+        system: true
+      });
+    }
   }
   return data;
 };

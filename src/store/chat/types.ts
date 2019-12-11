@@ -6,6 +6,7 @@ export interface ChatStructure {
   chatOrder: string[];
   error?: unknown;
   state: ChatState;
+  chatFocus: string | null;
 }
 
 export const CHAT_CONNECT = "CHAT_CONNECT";
@@ -14,6 +15,8 @@ export const CHAT_SOCKET_MSG = "CHAT_SOCKET_MSG";
 export const CHAT_BUFFER = "CHAT_BUFFER";
 export const CHAT_FAIL = "CHAT_FAIL";
 export const CHAT_RESUME = "CHAT_RESUME";
+export const CHAT_SAVE_COMPOSER = "CHAT_SAVE_COMPOSER";
+export const CHAT_SET_FOCUS = "CHAT_SET_FOCUS";
 
 export enum ChatState {
   DISCONNECTED = "DISCONNECTED",
@@ -85,17 +88,23 @@ export enum ChatStatus {
   COMPLETED = "completed"
 }
 
+export enum AttachmentType {
+  IMAGE = "IMAGE",
+  ITEM = "ITEM"
+  //AUDIO = "AUDIO",
+  //VIDEO = "VIDEO"
+}
+
 export interface ImageAttachment {
   type: typeof AttachmentType.IMAGE;
   url: string;
 }
 
-export enum AttachmentType {
-  IMAGE = "IMAGE"
-  //AUDIO = "AUDIO",
-  //VIDEO = "VIDEO"
+export interface ItemAttachment {
+  type: typeof AttachmentType.ITEM;
+  item: GeneralItem;
+  buyer: ChatUser;
 }
-
 /*
 export interface AudioAttachment {
   type: typeof AttachmentType.AUDIO;
@@ -119,7 +128,7 @@ export interface VideoAttachment {
 }
 */
 
-export type GenericAttachment = ImageAttachment;
+export type GenericAttachment = ImageAttachment | ItemAttachment;
 //| AudioAttachment
 //| VideoAttachment;
 
@@ -172,10 +181,27 @@ export interface ChatResumeAction {
   };
 }
 
+export interface ChatSaveComposer {
+  type: typeof CHAT_SAVE_COMPOSER;
+  payload: {
+    composer: string;
+    id: string;
+  };
+}
+
+export interface ChatSetFocus {
+  type: typeof CHAT_SET_FOCUS;
+  payload: {
+    id: string | null;
+  };
+}
+
 export type TChatActions =
   | ChatConnectAction
   | ChatDisconnectAction
   | ChatBufferAction
   | ChatSocketMsgAction
   | ChatFailAction
-  | ChatResumeAction;
+  | ChatResumeAction
+  | ChatSaveComposer
+  | ChatSetFocus;

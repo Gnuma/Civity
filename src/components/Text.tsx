@@ -128,6 +128,7 @@ export interface PriceProps {
   style?: StyleProp<TextStyle>;
   color?: ColorType;
   rest?: TextProps;
+  size?: number;
   children?: React.ReactNode;
 }
 
@@ -136,22 +137,31 @@ export function Price({
   children,
   color,
   style,
+  size = 35,
   ...rest
 }: PriceProps) {
+  const euroFontSize = size * (16 / 35);
+  const decimalFontSize = size * (16 / 35);
+
   return (
     <View style={[styles.priceContainer, containerStyle]}>
-      <Text style={styles.priceEuro} color={color}>
+      <Text style={[getFontSize(euroFontSize), styles.priceEuro]} color={color}>
         €
       </Text>
-      <Text style={[styles.price, style]} color={color}>
+      <Text style={[getFontSize(size), styles.price, style]} color={color}>
         {children}
       </Text>
-      <Text style={styles.priceDecimals} color={color}>
+      <Text
+        style={[getFontSize(decimalFontSize), styles.priceDecimals]}
+        color={color}
+      >
         ,00
       </Text>
     </View>
   );
 }
+
+const getFontSize = (size: number) => ({ fontSize: size, lineHeight: size });
 
 const styles = StyleSheet.create({
   h1: {
@@ -188,17 +198,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "flex-start"
   },
-  priceEuro: {
-    fontSize: 20,
-    lineHeight: 20
-  },
+  priceEuro: {},
   priceDecimals: {
-    fontSize: 16,
     alignSelf: "flex-end"
   },
   price: {
-    fontSize: 35,
-    lineHeight: 35,
     fontWeight: "500",
     paddingLeft: 4,
     alignSelf: "flex-end"

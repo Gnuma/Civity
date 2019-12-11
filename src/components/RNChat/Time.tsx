@@ -15,13 +15,13 @@ export const BubbleDate = ({ date }: { date: Date }): React.ReactElement => {
 };
 
 interface TimeSpanProps {
-  item: UserMessage;
+  createdAt: string | Date;
   style?: StyleProp<TextStyle>;
 }
 export const TimeSpan = (props: TimeSpanProps) => {
   return (
     <Text style={[styles.time, props.style]}>
-      {dispalyTime(props.item.createdAt)}
+      {dispalyTime(props.createdAt)}
     </Text>
   );
 };

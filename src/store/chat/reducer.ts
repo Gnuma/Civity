@@ -15,7 +15,11 @@ import {
   ChatResumeAction,
   ChatDataType,
   ResumeMessages,
-  CHAT_RESUME
+  CHAT_RESUME,
+  CHAT_SET_FOCUS,
+  CHAT_SAVE_COMPOSER,
+  ChatSaveComposer,
+  ChatSetFocus
 } from "./types";
 import { generateChatData } from "../../utils/testingHelpers";
 
@@ -25,7 +29,8 @@ const initialState: ChatStructure = {
   data: testData.data,
   chatOrder: testData.chatOrder,
   error: undefined,
-  state: ChatState.DISCONNECTED
+  state: ChatState.DISCONNECTED,
+  chatFocus: null
 };
 
 const chatConnect = (
@@ -77,6 +82,16 @@ const chatResume = (
     }
   });
 
+const chatSaveComposer = (
+  state: ChatStructure,
+  { payload: { composer, id } }: ChatSaveComposer
+) => update(state, { data: { [id]: { composer: { $set: composer } } } });
+
+const chatSetFocus = (
+  state: ChatStructure,
+  { payload: { id } }: ChatSetFocus
+) => update(state, { chatFocus: { $set: id } });
+
 export default (state = initialState, action: TChatActions): ChatStructure => {
   switch (action.type) {
     case CHAT_CONNECT:
@@ -93,6 +108,12 @@ export default (state = initialState, action: TChatActions): ChatStructure => {
 
     case CHAT_RESUME:
       return chatResume(state, action);
+
+    case CHAT_SAVE_COMPOSER:
+      return chatSaveComposer(state, action);
+
+    case CHAT_SET_FOCUS:
+      return chatSetFocus(state, action);
 
     default:
       return state;

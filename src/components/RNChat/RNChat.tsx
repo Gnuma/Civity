@@ -33,7 +33,10 @@ export default class RNChat extends Component<RNChatProps, RNChatState> {
       return (
         <View>
           {showDate && <BubbleDate date={createdAt} />}
-          <SystemMessage text={item.text} />
+          <SystemMessage
+            item={{ ...item, system: true }}
+            userID={owner.user.id}
+          />
         </View>
       );
     }
@@ -46,30 +49,17 @@ export default class RNChat extends Component<RNChatProps, RNChatState> {
       nextMessage.sender.user.id === author.user.id &&
       !showDate;
 
-    if (item.system) {
-      return (
-        <View>
-          {showDate && <BubbleDate date={createdAt} />}
-          <SystemMessage text={item.text} />
-        </View>
-      );
-    }
-
     const userMessage = getUserMessage(item, createdAt);
 
     return (
       <View>
         {showDate && <BubbleDate date={createdAt} />}
-        {item.system ? (
-          <SystemMessage text={item.text} />
-        ) : (
-          <Bubble
-            item={userMessage}
-            showDate={showDate}
-            continuation={!!continuation}
-            userMade={!!(author && owner.user.id === author.user.id)}
-          />
-        )}
+        <Bubble
+          item={userMessage}
+          showDate={showDate}
+          continuation={!!continuation}
+          userMade={!!(author && owner.user.id === author.user.id)}
+        />
       </View>
     );
   };
@@ -88,6 +78,7 @@ export default class RNChat extends Component<RNChatProps, RNChatState> {
           removeClippedSubviews={true}
           windowSize={31}
           maxToRenderPerBatch={30}
+          contentContainerStyle={styles.listContainer}
         />
       </View>
     );
@@ -99,6 +90,9 @@ export default class RNChat extends Component<RNChatProps, RNChatState> {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  listContainer: {
+    paddingVertical: 10
   },
   audioPlayer: {
     height: 0

@@ -16,7 +16,9 @@ import {
   ChatSocketMsgAction,
   CHAT_FAIL,
   ResumeMessages,
-  CHAT_RESUME
+  CHAT_RESUME,
+  CHAT_SAVE_COMPOSER,
+  CHAT_SET_FOCUS
 } from "./types";
 
 import uuid from "uuid";
@@ -47,16 +49,25 @@ export const chatSocketMsg = (data: any): TChatActions => ({
 
 export const chatFail = (error: unknown): TChatActions => ({
   type: CHAT_FAIL,
-  payload: {
-    error
-  }
+  payload: { error }
 });
 
 export const chatResume = (data: ResumeMessages[]): TChatActions => ({
   type: CHAT_RESUME,
-  payload: {
-    data
-  }
+  payload: { data }
+});
+
+export const chatSaveComposer = (
+  composer: string,
+  id: string
+): TChatActions => ({
+  type: CHAT_SAVE_COMPOSER,
+  payload: { composer, id }
+});
+
+export const chatSetChatFocus = (id: string | null): TChatActions => ({
+  type: CHAT_SET_FOCUS,
+  payload: { id }
 });
 
 /**

@@ -10,6 +10,8 @@ import {
 } from "../../store/chat/types";
 import Shadows from "../Shadows";
 import colors from "../../styles/colors";
+import ItemSmall from "../Item/ItemSmall";
+import styles from "./styles";
 
 interface BubbleProps {
   item: UserMessage;
@@ -19,22 +21,6 @@ interface BubbleProps {
 }
 
 const Bubble = ({ item, showDate, continuation, userMade }: BubbleProps) => {
-  const renderAttachment = (attachment: GenericAttachment) => {
-    switch (attachment.type) {
-      case AttachmentType.IMAGE:
-        return (
-          <Image
-            style={styles.image}
-            source={{
-              uri: attachment.url
-            }}
-            resizeMode={Image.resizeMode.cover}
-          />
-        );
-      default:
-        break;
-    }
-  };
   const sidedStyle = userMade ? rightStyle : leftStyle;
   return (
     <View
@@ -44,25 +30,43 @@ const Bubble = ({ item, showDate, continuation, userMade }: BubbleProps) => {
         !continuation ? sidedStyle.continuation : null
       ]}
     >
-      <Fragment>
-        {item.attachment && renderAttachment(item.attachment)}
+      {item.attachment && renderAttachment(item.attachment)}
+      <View style={styles.contentContainer}>
         {item.text !== null && item.text !== undefined && (
           <MessageText style={[styles.content, sidedStyle.text]}>
             {item.text}
           </MessageText>
         )}
-        <TimeSpan item={item} style={sidedStyle.text} />
-      </Fragment>
+        <TimeSpan createdAt={item.createdAt} style={sidedStyle.text} />
+      </View>
     </View>
   );
 };
 
 export default Bubble;
 
+const renderAttachment = (attachment: GenericAttachment) => {
+  switch (attachment.type) {
+    case AttachmentType.IMAGE:
+      return (
+        <Image
+          style={styles.image}
+          source={{
+            uri: attachment.url
+          }}
+          resizeMode={Image.resizeMode.cover}
+        />
+      );
+    default:
+      break;
+  }
+};
+
 interface MessageTextProps {
   children: React.ReactNode;
   style: StyleProp<TextStyle>;
 }
+
 export const MessageText = ({ children, ...rest }: MessageTextProps) => {
   return (
     <ParsedText {...rest} parse={MESSAGE_PARSER}>
@@ -70,64 +74,6 @@ export const MessageText = ({ children, ...rest }: MessageTextProps) => {
     </ParsedText>
   );
 };
-
-const OTHER_BACKGROUND_COLOR = colors.white;
-const USER_BACKGROUND_COLOR = colors.primary;
-
-const styles = StyleSheet.create({
-  fullScreen: {
-    width: 100,
-    height: 100,
-    backgroundColor: "red"
-  },
-  container: {
-    minWidth: 100,
-    maxWidth: 300,
-    padding: 10,
-    marginHorizontal: 10,
-    marginTop: 5,
-    borderRadius: 10,
-    ...Shadows[1]
-  },
-  left: {
-    alignSelf: "flex-start",
-    backgroundColor: OTHER_BACKGROUND_COLOR
-  },
-  right: {
-    alignSelf: "flex-end",
-    backgroundColor: USER_BACKGROUND_COLOR
-  },
-  pressed: {
-    backgroundColor: "#D1FCFF"
-  },
-  content: {
-    fontSize: 15,
-    paddingBottom: 4
-  },
-  newMessageLeft: {
-    marginTop: 15,
-    borderTopLeftRadius: 0
-  },
-  newMessageRight: {
-    marginTop: 15,
-    borderTopRightRadius: 0
-  },
-  link: {
-    color: "#0645AD",
-    textDecorationLine: "underline"
-  },
-  image: {
-    width: 300 - 8 * 2,
-    height: 300 - 8 * 2,
-    borderRadius: 4
-  },
-  textRight: {
-    color: colors.white
-  },
-  textLeft: {
-    color: colors.black
-  }
-});
 
 const leftStyle = {
   container: styles.left,
