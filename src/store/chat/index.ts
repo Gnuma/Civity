@@ -174,22 +174,13 @@ const chatMessageEpic = (
 ) => {
   return action$.pipe(
     ofType(CHAT_SOCKET_MSG),
-    filter(
-      () =>
-        state$.value.chat && state$.value.chat.state !== ChatState.DISCONNECTED
-    ),
+    filter(() => state$.value.chat.state !== ChatState.DISCONNECTED),
     bufferWhen(() =>
       action$.pipe(
-        filter(() => {
-          return (
-            state$.value.chat && state$.value.chat.state === ChatState.CONNECTED
-          );
-        })
+        filter(() => state$.value.chat.state === ChatState.CONNECTED)
       )
     ),
-    filter(buffer => {
-      return buffer.length > 0;
-    }),
+    filter(buffer => buffer.length > 0),
     map(msg => ({ type: "n messages " + msg.length }))
   );
 };
