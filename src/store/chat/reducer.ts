@@ -21,10 +21,14 @@ import {
   ChatSaveComposerAction,
   ChatSetFocusAction,
   CHAT_CONTACT_ITEM,
-  ChatContactItemAction
+  ChatContactItemAction,
+  CHAT_NEW_MESSAGE,
+  ChatNewMessageAction,
+  CHAT_CONFIRM_MESSAGE,
+  ChatConfirmMessageAction
 } from "./types";
 import { generateChatData } from "../../utils/testingHelpers";
-import { createChat } from "./chatUtils";
+import { createChat, findMessageIndexFromId } from "./chatUtils";
 
 const testData = generateChatData(4);
 
@@ -108,8 +112,31 @@ const chatContactItem = (
     }
   });
 
+const chatNewMessage = (
+  state: ChatStructure,
+  { payload: { chatID, message } }: ChatNewMessageAction
+) =>
+  update(state, { data: { [chatID]: { messages: { $unshift: [message] } } } });
+
+const chatConfirmMessage = (
+  state: ChatStructure,
+  { payload: { chatID, messageID } }: ChatConfirmMessageAction
+) => {
+  const messageIndex = findMessageIndexFromId(
+    state.data[chatID].messages,
+    messageID
+  );
+
+  return update(state, {
+    data: {
+      [chatID]: { messages: { [messageIndex]: { isSending: { $set: false } } } }
+    }
+  });
+};
+
 export default (state = initialState, action: TChatActions): ChatStructure => {
   switch (action.type) {
+    
     case CHAT_CONNECT:
       return chatConnect(state, action);
 
@@ -133,6 +160,12 @@ export default (state = initialState, action: TChatActions): ChatStructure => {
 
     case CHAT_CONTACT_ITEM:
       return chatContactItem(state, action);
+
+    case CHAT_NEW_MESSAGE:
+      return chatNewMessage(state, action);
+
+    case CHAT_CONFIRM_MESSAGE:
+      return chatConfirmMessage(state, action);
 
     default:
       return state;

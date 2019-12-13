@@ -52,6 +52,9 @@ export class ChatDetail extends Component<ChatDetailProps, ChatDetailState> {
     this.navigationListeners.forEach(l => l.remove());
 
   onSend = () => {
+    const composer = this.state.composer;
+    const chatID = this.props.chat.id;
+    this.props.sendMessage(chatID, composer);
     this.setState({ composer: "" });
   };
 
@@ -108,6 +111,7 @@ const mapStateToProps = (
 interface ReduxDispatchProps {
   saveComposer: typeof chatActions.chatSaveComposer;
   setFocus: typeof chatActions.chatSetChatFocus;
+  sendMessage: typeof chatActions.chatCreateMessage;
 }
 
 const mapDispatchToProps = (
@@ -115,7 +119,9 @@ const mapDispatchToProps = (
 ): ReduxDispatchProps => ({
   saveComposer: (composer, id) =>
     dispatch(chatActions.chatSaveComposer(composer, id)),
-  setFocus: id => dispatch(chatActions.chatSetChatFocus(id))
+  setFocus: id => dispatch(chatActions.chatSetChatFocus(id)),
+  sendMessage: (chatID, composer) =>
+    dispatch(chatActions.chatCreateMessage(chatID, composer))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatDetail);

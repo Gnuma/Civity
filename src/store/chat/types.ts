@@ -18,6 +18,8 @@ export const CHAT_RESUME = "CHAT_RESUME";
 export const CHAT_SAVE_COMPOSER = "CHAT_SAVE_COMPOSER";
 export const CHAT_SET_FOCUS = "CHAT_SET_FOCUS";
 export const CHAT_CONTACT_ITEM = "CHAT_CONTACT_ITEM";
+export const CHAT_NEW_MESSAGE = "CHAT_NEW_MESSAGE";
+export const CHAT_CONFIRM_MESSAGE = "CHAT_CONFIRM_MESSAGE";
 
 export enum ChatState {
   DISCONNECTED = "DISCONNECTED",
@@ -206,6 +208,22 @@ export interface ChatContactItemAction {
   };
 }
 
+export interface ChatNewMessageAction {
+  type: typeof CHAT_NEW_MESSAGE;
+  payload: {
+    message: GeneralMessage;
+    chatID: string;
+  };
+}
+
+export interface ChatConfirmMessageAction {
+  type: typeof CHAT_CONFIRM_MESSAGE;
+  payload: {
+    chatID: string;
+    messageID: number;
+  };
+}
+
 export type TChatActions =
   | ChatConnectAction
   | ChatDisconnectAction
@@ -215,4 +233,6 @@ export type TChatActions =
   | ChatResumeAction
   | ChatSaveComposerAction
   | ChatSetFocusAction
-  | ChatContactItemAction;
+  | ChatContactItemAction
+  | ChatNewMessageAction
+  | ChatConfirmMessageAction;

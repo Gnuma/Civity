@@ -19,7 +19,11 @@ import {
   CHAT_RESUME,
   CHAT_SAVE_COMPOSER,
   CHAT_SET_FOCUS,
-  CHAT_CONTACT_ITEM
+  CHAT_CONTACT_ITEM,
+  GeneralMessage,
+  CHAT_NEW_MESSAGE,
+  ChatUser,
+  CHAT_CONFIRM_MESSAGE
 } from "./types";
 
 import uuid from "uuid";
@@ -31,7 +35,8 @@ import { WebSocket } from "mock-socket";
 import axios from "axios";
 import { generateMessageResume } from "../../utils/MockWS";
 import { GeneralItem } from "../../types/ItemTypes";
-import { findChatIDFromUserID } from "./chatUtils";
+import { findChatIDFromUserID, createMessage } from "./chatUtils";
+import { chatSetComposer } from "../chat_Deprecated";
 
 export const chatConnect = (): TChatActions => ({
   type: CHAT_CONNECT
@@ -71,6 +76,22 @@ export const chatSaveComposer = (
 export const chatSetChatFocus = (id: string | null): TChatActions => ({
   type: CHAT_SET_FOCUS,
   payload: { id }
+});
+
+export const chatNewMessage = (
+  chatID: string,
+  message: GeneralMessage
+): TChatActions => ({
+  type: CHAT_NEW_MESSAGE,
+  payload: { chatID, message }
+});
+
+export const chatConfirmMessage = (
+  chatID: string,
+  messageID: number
+): TChatActions => ({
+  type: CHAT_CONFIRM_MESSAGE,
+  payload: { chatID, messageID }
 });
 
 /**
@@ -136,6 +157,16 @@ export const chatContactItem = (
     resolve(chatID);
   });
 
+export const chatCreateMessage = (
+  chatID: string,
+  composer: string
+): ThunkAction<void, StoreType, null, Action> => (dispatch, getState) => {
+  const user: ChatUser = { news: 0, user: { username: "AAA", id: 0 } }; //TODO
+  const messageID = Math.random() * 99999 + 99999;
+  dispatch(chatNewMessage(chatID, createMessage(composer, messageID, user)));
+  setTimeout(() => dispatch(chatConfirmMessage(chatID, messageID)), 2000); // testing
+};
+
 /**
  * EPICS
  */
@@ -143,7 +174,7 @@ export const chatContactItem = (
 const socket$ = webSocket({
   url: ___WS_TEST_ENDPOINT,
   //WebSocketCtor
-  WebSocketCtor: WebSocket
+  WebSocketCtor: WebSocket //TEST
 });
 
 const webSocketEpic = (
@@ -177,7 +208,10 @@ const chatMessageEpic = (
     filter(() => state$.value.chat.state !== ChatState.DISCONNECTED),
     bufferWhen(() =>
       action$.pipe(
-        filter(() => state$.value.chat.state === ChatState.CONNECTED)
+        filter(
+          () =>
+            state$.value.chat && state$.value.chat.state === ChatState.CONNECTED
+        )
       )
     ),
     filter(buffer => buffer.length > 0),

@@ -1,4 +1,10 @@
-import { ChatDataType, ChatType, ChatStatus, ChatUser } from "./types";
+import {
+  ChatDataType,
+  ChatType,
+  ChatStatus,
+  ChatUser,
+  GeneralMessage
+} from "./types";
 import { GeneralItem } from "../../types/ItemTypes";
 
 export const findChatIDFromUserID = (
@@ -25,3 +31,20 @@ export const createChat = (
   status: ChatStatus.LOCAL,
   users: [{ news: 0, user: { id: 0, username: "TODO" } }, user] //TODO
 });
+
+export const createMessage = (
+  text: string,
+  messageID: number,
+  user: ChatUser
+): GeneralMessage => ({
+  createdAt: new Date(),
+  id: messageID,
+  text: text,
+  isSending: true,
+  sender: user
+});
+
+export const findMessageIndexFromId = (
+  messages: GeneralMessage[],
+  messageID: number
+) => messages.findIndex(m => m.id === messageID);

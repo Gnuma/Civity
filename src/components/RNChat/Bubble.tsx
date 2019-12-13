@@ -12,6 +12,7 @@ import Shadows from "../Shadows";
 import colors from "../../styles/colors";
 import ItemSmall from "../Item/ItemSmall";
 import styles from "./styles";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 interface BubbleProps {
   item: UserMessage;
@@ -37,7 +38,13 @@ const Bubble = ({ item, showDate, continuation, userMade }: BubbleProps) => {
             {item.text}
           </MessageText>
         )}
-        <TimeSpan createdAt={item.createdAt} style={sidedStyle.text} />
+        <View style={styles.footerContainer}>
+          {item.isSending ? (
+            <Icon name="spinner" style={sidedStyle.text} size={12} />
+          ) : (
+            <TimeSpan createdAt={item.createdAt} style={sidedStyle.text} />
+          )}
+        </View>
       </View>
     </View>
   );

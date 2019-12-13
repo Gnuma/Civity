@@ -58,7 +58,14 @@ export default StyleSheet.create({
     color: colors.black
   },
   contentContainer: {
-    padding: 10
+    paddingTop: 6,
+    paddingBottom: 6,
+    paddingHorizontal: 10
+  },
+  footerContainer: {
+    height: 14,
+    justifyContent: "flex-end",
+    alignItems: "flex-end"
   },
 
   systemMessage: {
