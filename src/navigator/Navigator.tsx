@@ -275,8 +275,13 @@ const ChatNavigator = createStackNavigator(
     defaultNavigationOptions: {
       header: null
     },
-    navigationOptions: {
-      tabBarVisible: false
+    navigationOptions: ({ navigation }) => {
+      const { routeName } = navigation.state.routes[navigation.state.index];
+      const navigationOptions = {
+        tabBarVisible: true
+      };
+      if (routeName === "ChatDetail") navigationOptions.tabBarVisible = false;
+      return navigationOptions;
     }
   }
 );

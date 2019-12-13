@@ -55,7 +55,7 @@ export default class Login extends Component {
             }
           })
           .catch(err => {
-            console.log(err);
+            console.log({ err });
             //this.setState({ error: "Login Error: " + err.response.status });
             this.setState({ error: "Nome utente o password non validi" });
           });

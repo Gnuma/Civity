@@ -471,7 +471,7 @@ export interface ChatContactUser {
   type: typeof CHAT_CONTACT_USER;
   payload: {
     item: GeneralItem;
-    chatID: number;
+    chatID: string;
   };
 }
 

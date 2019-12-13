@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import colors from "../../styles/colors";
+import { IS_ANDROID } from "../../utils/constants";
 
 export interface ComposerProps extends TextInputProps {
   onSend: (text?: string) => void;
@@ -27,23 +28,21 @@ const Composer = ({
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.toolbar}>
-        <ScrollView style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            multiline
-            placeholder={"Send a message"}
-            value={value}
-            onChangeText={onChangeText}
-            {...rest}
-          />
-        </ScrollView>
-        <TouchableOpacity style={styles.btn} onPress={onSend}>
-          <Text style={styles.btnText}>Send</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+    <View style={styles.toolbar}>
+      <ScrollView style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          multiline
+          placeholder={"Send a message"}
+          value={value}
+          onChangeText={onChangeText}
+          {...rest}
+        />
+      </ScrollView>
+      <TouchableOpacity style={styles.btn} onPress={onSend}>
+        <Text style={styles.btnText}>Invia</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 

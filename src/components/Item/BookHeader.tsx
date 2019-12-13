@@ -8,6 +8,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Header1, Header3, Header4, Header2 } from "../Text";
 import { printAuthors } from "../../utils/helper";
 import { NavigationContext } from "react-navigation";
+import GoBackButton from "../Touchables/GoBackButton";
 
 interface BookHeaderProps {
   book: GeneralBook;
@@ -23,9 +24,7 @@ const BookHeader = ({ book, goBack: remoteGoBack }: BookHeaderProps) => {
   };
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={goBack} style={styles.backBtn}>
-        <Icon name="chevron-left" style={styles.backIcon} size={24} />
-      </TouchableOpacity>
+      <GoBackButton goBack={goBack} />
       <View style={styles.contentContainer}>
         <Header2 color={"black"}>{book.title}</Header2>
         <Header4 color={"grey"}>Di {printAuthors(book.authors)}</Header4>

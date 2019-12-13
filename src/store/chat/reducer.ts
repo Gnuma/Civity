@@ -18,10 +18,13 @@ import {
   CHAT_RESUME,
   CHAT_SET_FOCUS,
   CHAT_SAVE_COMPOSER,
-  ChatSaveComposer,
-  ChatSetFocus
+  ChatSaveComposerAction,
+  ChatSetFocusAction,
+  CHAT_CONTACT_ITEM,
+  ChatContactItemAction
 } from "./types";
 import { generateChatData } from "../../utils/testingHelpers";
+import { createChat } from "./chatUtils";
 
 const testData = generateChatData(4);
 
@@ -84,13 +87,26 @@ const chatResume = (
 
 const chatSaveComposer = (
   state: ChatStructure,
-  { payload: { composer, id } }: ChatSaveComposer
+  { payload: { composer, id } }: ChatSaveComposerAction
 ) => update(state, { data: { [id]: { composer: { $set: composer } } } });
 
 const chatSetFocus = (
   state: ChatStructure,
-  { payload: { id } }: ChatSetFocus
+  { payload: { id } }: ChatSetFocusAction
 ) => update(state, { chatFocus: { $set: id } });
+
+const chatContactItem = (
+  state: ChatStructure,
+  { payload: { item, chatID, user } }: ChatContactItemAction
+) =>
+  update(state, {
+    data: {
+      [chatID]: chat =>
+        update(chat || createChat(chatID, item, user), {
+          items: { $push: [item] }
+        })
+    }
+  });
 
 export default (state = initialState, action: TChatActions): ChatStructure => {
   switch (action.type) {
@@ -114,6 +130,9 @@ export default (state = initialState, action: TChatActions): ChatStructure => {
 
     case CHAT_SET_FOCUS:
       return chatSetFocus(state, action);
+
+    case CHAT_CONTACT_ITEM:
+      return chatContactItem(state, action);
 
     default:
       return state;

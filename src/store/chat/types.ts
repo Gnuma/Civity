@@ -17,6 +17,7 @@ export const CHAT_FAIL = "CHAT_FAIL";
 export const CHAT_RESUME = "CHAT_RESUME";
 export const CHAT_SAVE_COMPOSER = "CHAT_SAVE_COMPOSER";
 export const CHAT_SET_FOCUS = "CHAT_SET_FOCUS";
+export const CHAT_CONTACT_ITEM = "CHAT_CONTACT_ITEM";
 
 export enum ChatState {
   DISCONNECTED = "DISCONNECTED",
@@ -181,7 +182,7 @@ export interface ChatResumeAction {
   };
 }
 
-export interface ChatSaveComposer {
+export interface ChatSaveComposerAction {
   type: typeof CHAT_SAVE_COMPOSER;
   payload: {
     composer: string;
@@ -189,10 +190,19 @@ export interface ChatSaveComposer {
   };
 }
 
-export interface ChatSetFocus {
+export interface ChatSetFocusAction {
   type: typeof CHAT_SET_FOCUS;
   payload: {
     id: string | null;
+  };
+}
+
+export interface ChatContactItemAction {
+  type: typeof CHAT_CONTACT_ITEM;
+  payload: {
+    item: GeneralItem;
+    chatID: string;
+    user: ChatUser;
   };
 }
 
@@ -203,5 +213,6 @@ export type TChatActions =
   | ChatSocketMsgAction
   | ChatFailAction
   | ChatResumeAction
-  | ChatSaveComposer
-  | ChatSetFocus;
+  | ChatSaveComposerAction
+  | ChatSetFocusAction
+  | ChatContactItemAction;

@@ -5,6 +5,7 @@ import SystemMessage from "./SystemMessage";
 import Bubble from "./Bubble";
 import uuid from "uuid";
 import { GeneralMessage, ChatUser, UserMessage } from "../../store/chat/types";
+import { CHAT_HEADER_HEIGHT } from "../Chat/ChatHeader";
 
 export interface RNChatProps {
   messages: GeneralMessage[];
@@ -79,6 +80,9 @@ export default class RNChat extends Component<RNChatProps, RNChatState> {
           windowSize={31}
           maxToRenderPerBatch={30}
           contentContainerStyle={styles.listContainer}
+          style={{
+            marginTop: CHAT_HEADER_HEIGHT
+          }}
         />
       </View>
     );

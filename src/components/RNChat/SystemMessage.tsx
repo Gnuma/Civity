@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Dimensions } from "react-native";
 import {
   SystemMessage as SystemMessageType,
   AttachmentType,
@@ -63,6 +63,7 @@ const renderItemsModificationMessage = ({
 }: ItemsModificationMessageProps) => {
   const userMade = userID == buyer.user.id;
   const sidedStyle = userMade ? rightStyle : leftStyle;
+  const vw = Dimensions.get("screen").width * 0.75;
 
   const connection = (
     <Fragment>
@@ -80,15 +81,12 @@ const renderItemsModificationMessage = ({
         style={[
           styles.container,
           styles.itemModificationBubbleContainer,
-          sidedStyle.container
+          sidedStyle.container,
+          { maxWidth: vw }
           //!continuation ? sidedStyle.continuation : null
         ]}
       >
-        <ItemSmall
-          width={CHAT_SMALL_ITEM_WIDTH}
-          height={CHAT_SMALL_ITEM_HEIGHT}
-          item={item}
-        />
+        <ItemSmall width={vw} height={CHAT_SMALL_ITEM_HEIGHT} item={item} />
         <View style={styles.contentContainer}>
           {message.text !== null && message.text !== undefined && (
             <MessageText style={[styles.content, sidedStyle.text]}>

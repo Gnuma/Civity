@@ -18,7 +18,8 @@ import {
   ResumeMessages,
   CHAT_RESUME,
   CHAT_SAVE_COMPOSER,
-  CHAT_SET_FOCUS
+  CHAT_SET_FOCUS,
+  CHAT_CONTACT_ITEM
 } from "./types";
 
 import uuid from "uuid";
@@ -29,6 +30,8 @@ import { SETTINGS_STARTUP, SettingsStartUpAction } from "../settings/types";
 import { WebSocket } from "mock-socket";
 import axios from "axios";
 import { generateMessageResume } from "../../utils/MockWS";
+import { GeneralItem } from "../../types/ItemTypes";
+import { findChatIDFromUserID } from "./chatUtils";
 
 export const chatConnect = (): TChatActions => ({
   type: CHAT_CONNECT
@@ -113,6 +116,25 @@ export const chatReconnect = (): ThunkAction<void, StoreType, null, Action> => (
   //      setTimeout(() => dispatch(chatReconnect()), 5000);
   //  });
 };
+
+export const chatContactItem = (
+  item: GeneralItem
+): ThunkAction<Promise<string>, StoreType, null, Action> => (
+  dispatch,
+  getState
+) =>
+  new Promise((resolve, reject) => {
+    const { chatOrder, data } = getState().chat;
+    const user = {}; //TODO
+    let chatID = findChatIDFromUserID(item.seller._id, chatOrder, data);
+    if (chatID == null) chatID = uuid.v4();
+    const action: TChatActions = {
+      type: CHAT_CONTACT_ITEM,
+      payload: { item, chatID }
+    };
+    dispatch(action);
+    resolve(chatID);
+  });
 
 /**
  * EPICS

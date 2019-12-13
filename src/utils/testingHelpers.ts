@@ -40,6 +40,20 @@ export const generateChatData = (
             "https://civity.s3.amazonaws.com/media/items/c0e71153-f38.jpg"
           ],
           seller: user1
+        },
+        {
+          ...generateGeneralInfoItem(1)[0],
+          image_ad: [
+            "https://civity.s3.amazonaws.com/media/items/c0e71153-f38.jpg"
+          ],
+          seller: user1
+        },
+        {
+          ...generateGeneralInfoItem(1)[0],
+          image_ad: [
+            "https://civity.s3.amazonaws.com/media/items/c0e71153-f38.jpg"
+          ],
+          seller: user1
         }
       ],
       status: ChatStatus.PROGRESS,

@@ -17,6 +17,8 @@ import * as chatActions from "../store/chat";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import { NavigationEventSubscription } from "react-navigation";
+import { IS_ANDROID } from "../utils/constants";
+import ChatHeader from "../components/Chat/ChatHeader";
 
 interface ChatDetailProps extends ReduxStoreProps, ReduxDispatchProps {
   navigation: NavigationStackProp;
@@ -24,13 +26,15 @@ interface ChatDetailProps extends ReduxStoreProps, ReduxDispatchProps {
 
 interface ChatDetailState {
   composer: string;
+  showHeader: boolean;
 }
 
 export class ChatDetail extends Component<ChatDetailProps, ChatDetailState> {
   navigationListeners: NavigationEventSubscription[] = [];
 
   state = {
-    composer: ""
+    composer: "",
+    showHeader: false
   };
 
   componentDidMount = () => {
@@ -55,15 +59,24 @@ export class ChatDetail extends Component<ChatDetailProps, ChatDetailState> {
 
   render() {
     const { messages, items } = this.props.chat;
-    const { composer } = this.state;
+    const { composer, showHeader } = this.state;
 
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+        enabled={!IS_ANDROID}
+      >
+        <ChatHeader
+          show={showHeader}
+          chat={this.props.chat}
+          goBack={this.goBack}
+          setHeaderOpen={this.setHeaderOpen}
+        />
         <RNChat
           messages={messages}
           user={{ user: { id: 0, username: "AASA" }, news: 0 }}
         />
-
         <SafeAreaView>
           <Composer
             value={composer}
@@ -74,6 +87,9 @@ export class ChatDetail extends Component<ChatDetailProps, ChatDetailState> {
       </KeyboardAvoidingView>
     );
   }
+
+  goBack = () => this.props.navigation.goBack(null);
+  setHeaderOpen = (showHeader: boolean) => this.setState({ showHeader });
 }
 
 //<ItemSmall width={280} height={100} item={items[0]} />;
