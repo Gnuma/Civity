@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { GeneralItem } from "../../types/ItemTypes";
 import colors from "../../styles/colors";
 import Shadows from "../Shadows";
@@ -8,20 +8,42 @@ import { Header3, Header4, Price } from "../Text";
 import { printAuthors } from "../../utils/helper";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import SearchIcon from "../../media/vectors/SearchIcon";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export interface ItemSmallProps {
   width: number;
   height: number;
   item: GeneralItem;
+  containerStyle: StyleProp<ViewStyle>;
+  icon: string;
 }
 
-const ItemSmall = ({ width, height, item }: ItemSmallProps) => {
+const ItemSmall = ({
+  width,
+  height,
+  item,
+  containerStyle,
+  icon
+}: ItemSmallProps) => {
   const size = { width, height };
 
   return (
-    <TouchableOpacity style={(styles.outerContainer, size)}>
+    <TouchableOpacity style={[styles.outerContainer, size, containerStyle]}>
       <View style={[styles.container]}>
-        <SearchIcon color={colors.white} size={23} style={styles.searchIcon} />
+        {!icon ? (
+          <SearchIcon
+            color={colors.white}
+            size={23}
+            style={styles.searchIcon}
+          />
+        ) : (
+          <Icon
+            name={icon}
+            size={23}
+            color={colors.white}
+            style={styles.searchIcon}
+          />
+        )}
         <View
           style={[
             styles.imageContainer,
@@ -55,8 +77,9 @@ export default ItemSmall;
 
 const styles = StyleSheet.create({
   outerContainer: {
-    backgroundColor: colors.secondary,
-    ...Shadows[0]
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    ...Shadows[1]
   },
   container: {
     borderRadius: 10,

@@ -29,6 +29,7 @@ import GeneralInfosScreen from "../views/Sell/GeneralInfos";
 import SellPicturesSelectorScreen from "../views/Sell/PicturesSelector";
 import PhotosListScreen from "../views/Sell/PhotosList";
 import PreviewScreen from "../views/Sell/Preview";
+import SellEndScreen from "../views/Sell/End";
 
 import ImagePickerScreen from "../views/ImagePicker";
 import UserSettingsScreen from "../views/UserSettings";
@@ -247,7 +248,8 @@ const SellNavigator = createStackNavigator(
     SellPicturesSelector: { screen: SellPicturesSelectorScreen },
     SellCamera: { screen: CameraScreen },
     SellPhotosList: { screen: PhotosListScreen },
-    SellPreview: { screen: PreviewScreen }
+    SellPreview: { screen: PreviewScreen },
+    SellEnd: { screen: SellEndScreen }
   },
   {
     initialRouteName: "SelectBooks",

@@ -28,12 +28,12 @@ import { authEpics } from "./auth";
 import { persistReducer } from "redux-persist";
 
 export interface StoreType {
-  search: SearchType;
-  auth: AuthType;
-  sell: SellType;
-  comments: CommentsType;
-  chat: ChatStructure;
-  settings: SettingsType;
+  search: SearchType; //Persist only history
+  auth: AuthType; //Persist
+  sell: SellType; //Don't persist
+  comments: CommentsType; 
+  chat: ChatStructure; //Persist
+  settings: SettingsType; //Don't persist
 }
 
 const chatPersistConfig = {

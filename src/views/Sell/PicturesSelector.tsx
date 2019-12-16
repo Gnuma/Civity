@@ -20,6 +20,7 @@ import {
 } from "../../store/sell/types";
 import { CameraNavigationProps } from "../Camera";
 import { Header3 } from "../../components/Text";
+import Button from "../../components/Touchables/Button";
 
 interface PicturesSelectorProps extends ReduxStoreProps, ReduxDispatchProps {
   navigation: NavigationStackProp;
@@ -56,7 +57,8 @@ class PicturesSelector extends Component<
 
   continue = () => {
     console.log("Continue");
-    this.props.navigation.navigate("SellPreview");
+    //this.props.navigation.navigate("SellPreview");
+    this.props.navigation.navigate("SellEnd");
   };
 
   render() {

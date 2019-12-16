@@ -6,6 +6,7 @@ export const SELL_SET_BOOKS = "SELL_SET_BOOKS";
 export const SELL_SET_GENERAL_INFO = "SELL_SET_GENERAL_INFO";
 export const SELL_SET_IMAGES = "SELL_SET_IMAGES";
 export const SELL_START = "SELL_START";
+export const SELL_QUIT = "SELL_QUIT";
 
 export interface SellType {
   items: SellItem[];
@@ -102,10 +103,15 @@ export interface SellStart {
   type: typeof SELL_START;
 }
 
+export interface SellQuitAction {
+  type: typeof SELL_QUIT;
+}
+
 export type TSellActions =
   | SellSuccessAction
   | SellFailAction
   | SellSetBooks
   | SellSetGeneralInfo
   | SellSetImages
-  | SellStart;
+  | SellStart
+  | SellQuitAction;

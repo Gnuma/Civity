@@ -12,7 +12,10 @@ import {
   SELL_SET_IMAGES,
   SellSetImages,
   SELL_START,
-  SellStart
+  SellStart,
+  SELL_QUIT,
+  SellQuitAction,
+  SellSuccessAction
 } from "./types";
 import { updateObject } from "../utility";
 import update from "immutability-helper";
@@ -23,7 +26,12 @@ const initialState: SellType = {
   error: undefined
 };
 
-const sellSuccess = (state: SellType): SellType => initialState;
+const sellSuccess = (state: SellType, action: SellSuccessAction) =>
+  updateObject(state, {
+    loading: false
+  });
+
+const sellReset = (state: SellType, action: SellQuitAction) => initialState;
 
 const sellFail = (state: SellType, action: SellFailAction): SellType => {
   return updateObject(state, {
@@ -93,7 +101,7 @@ const sellStart = (state: SellType, action: SellStart) =>
 const reducer = (state = initialState, action: TSellActions): SellType => {
   switch (action.type) {
     case SELL_SUCCESS:
-      return sellSuccess(state);
+      return sellSuccess(state, action);
 
     case SELL_FAIL:
       return sellFail(state, action);
@@ -109,6 +117,9 @@ const reducer = (state = initialState, action: TSellActions): SellType => {
 
     case SELL_START:
       return sellStart(state, action);
+
+    case SELL_QUIT:
+      return sellReset(state, action);
 
     default:
       return state;

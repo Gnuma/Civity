@@ -47,8 +47,8 @@ class Preview extends Component<PreviewProps, PreviewState> {
   continue = () => {
     protectedAction().then(() => {
       this.props.publish().then(res => {
-        this.props.navigation.navigate("SEARCH");
-        this.props.navigation.dispatch(StackActions.popToTop());
+        this.props.navigation.navigate("SellEnd");
+        //this.props.navigation.dispatch(StackActions.popToTop());
       });
     });
   };

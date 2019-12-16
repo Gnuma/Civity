@@ -13,7 +13,8 @@ import {
   SELL_SET_IMAGES,
   SELL_START,
   SellItem,
-  SellBook
+  SellBook,
+  SELL_QUIT
 } from "./types";
 
 import axios, { AxiosResponse } from "axios";
@@ -67,6 +68,8 @@ export const sellSetImages = (
     index
   }
 });
+
+export const sellQuit = () => ({type: SELL_QUIT})
 
 export const sellStart = (): ThunkAction<
   Promise<void>,
