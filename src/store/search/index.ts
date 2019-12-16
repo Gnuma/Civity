@@ -44,7 +44,7 @@ import update from "immutability-helper";
 import { GeneralBook, SearchResultObject } from "../../types/ItemTypes";
 import { StoreType } from "../root";
 
-export const searchRecentKey = "@auth:searchRecent";
+//export const searchRecentKey = "@auth:searchRecent";
 
 export const searchSetSearchQuery = (search_query: string): TSearchActions => ({
   type: SEARCH_SET_SEARCHQUERY,
@@ -111,7 +111,7 @@ export const searchGoHome = (): TSearchActions => {
 };
 
 export const searchUpdateHistory = (recent: SearchRecent): TSearchActions => {
-  setItem(searchRecentKey, recent);
+  //setItem(searchRecentKey, recent);
   return {
     type: SEARCH_UPDATE_HISTORY,
     payload: {

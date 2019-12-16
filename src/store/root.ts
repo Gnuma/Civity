@@ -26,24 +26,27 @@ import { chatEpics } from "./chat";
 import { settingsEpics } from "./settings";
 import { authEpics } from "./auth";
 import { persistReducer } from "redux-persist";
+import hardSet from "redux-persist/es/stateReconciler/hardSet";
 
 export interface StoreType {
   search: SearchType; //Persist only history
   auth: AuthType; //Persist
   sell: SellType; //Don't persist
-  comments: CommentsType; 
+  comments: CommentsType;
   chat: ChatStructure; //Persist
   settings: SettingsType; //Don't persist
 }
 
-const chatPersistConfig = {
-  key: "chat",
+const searchPersistConfig = {
+  key: "search",
   storage: AsyncStorage,
-  blacklist: ["state"]
+  stateReconciler: hardSet,
+  blacklist: ["recent"]
 };
 
 export const rootReducer = combineReducers({
   search: searchReducer,
+  //search: persistReducer(searchPersistConfig, searchReducer),
   auth: authReducer,
   sell: sellReducer,
   comments: commentsReducer,

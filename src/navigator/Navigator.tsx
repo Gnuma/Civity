@@ -9,7 +9,7 @@ import HomeScreen from "../views/Home";
 //import ItemScreen from "../views/Item_Deprecated";
 import ItemScreen from "../views/ItemDetail";
 import AppLoaderScreen from "../views/AppLoader";
-import Auth from "../views/Auth/Auth";
+import Auth from "../views/Auth_Deprecated/Auth";
 import CameraScreen from "../views/Camera";
 import SelectBookScreen from "../views/SelectBook";
 import VendiInfosScreen from "../views/VendiInfos";
@@ -20,6 +20,9 @@ import CreateBookScreen from "../views/CreateBook";
 //import ChatScreen from "../views/Chat_Deprecated.js";
 //import BookOffertScreen from "../views/BookOffert_Deprecated";
 //import ShoppingListScreen from "../views/ShoppingList_Deprecated";
+
+import AuthIntroScreen from "../views/Auth/Intro";
+import SignupScreen from "../views/Auth/Signup";
 
 import ChatListScreen from "../views/ChatList";
 import ChatDetailScreen from "../views/ChatDetail";
@@ -37,7 +40,7 @@ import UserInfoScreen from "../views/UserChanges/UserInfo";
 import OfficeChangeScreen from "../views/UserChanges/OfficeChange";
 import PhoneChangeScreen from "../views/UserChanges/PhoneChange";
 import PreviewItemScreen from "../views/PreviewItem";
-import PhoneValidationScreen from "../views/Auth/PhoneValidation";
+import PhoneValidationScreen from "../views/Auth_Deprecated/PhoneValidation";
 import BetaInfosView from "../views/BetaInfosView";
 import CivityProInfoScreen from "../views/CivityProInfoScreen";
 
@@ -288,7 +291,7 @@ const ChatNavigator = createStackNavigator(
   }
 );
 
-const AuthNavigator = createStackNavigator(
+const AuthNavigator_Deprecated = createStackNavigator(
   {
     AUTH: {
       screen: Auth,
@@ -307,6 +310,14 @@ const AuthNavigator = createStackNavigator(
   }
 );
 
+const AuthNavigator = createStackNavigator(
+  {
+    AUTH: { screen: AuthIntroScreen },
+    Signup: { screen: SignupScreen }
+  },
+  { defaultNavigationOptions: { header: null, gesturesEnabled: false } }
+);
+
 const AppStack = createBottomTabNavigator(
   {
     SEARCH: SearchNavigator,
@@ -322,6 +333,7 @@ const MainStack = createStackNavigator(
   {
     App: AppStack,
     SELL: SellNavigator,
+    //AuthStack: AuthNavigator_Deprecated
     AuthStack: AuthNavigator
   },
   {

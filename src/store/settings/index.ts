@@ -15,7 +15,6 @@ import {
   SETTINGS_STARTUP
 } from "./types";
 import { getItem } from "../utility";
-import { searchRecentKey, searchUpdateHistory } from "../search";
 import NetInfo from "@react-native-community/netinfo";
 import { ofType } from "redux-observable";
 import { fromEvent } from "rxjs";
