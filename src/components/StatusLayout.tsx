@@ -5,6 +5,7 @@ import Shadows from "./Shadows";
 import GoBackButton from "./Touchables/GoBackButton";
 import { Header3, Text, Header2 } from "./Text";
 import Button from "./Touchables/Button";
+import LoadingOverlay from "./LoadingOverlay";
 
 export type StatusLayoutViewType = {
   renderView: () => React.ReactNode;
@@ -16,13 +17,17 @@ interface StatusLayoutProps {
   state: number;
   goBack: () => void;
   onContinue: () => void;
+  title?: string;
+  loading?: boolean;
 }
 
 const StatusLayout = ({
   state,
   views,
   goBack,
-  onContinue
+  onContinue,
+  title,
+  loading
 }: StatusLayoutProps) => {
   const view = views[state];
 
@@ -30,20 +35,23 @@ const StatusLayout = ({
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
         <GoBackButton goBack={goBack} />
-        <Header2 color="black">{view.title}</Header2>
+        <Header2 color="black">{title}</Header2>
       </View>
-      <View style={styles.content}>{view.renderView()}</View>
-      <View style={styles.actionContainer}>
-        <View style={styles.button}>
-          <Button type="secondary" value="Indietro" onPress={goBack} />
+      <View style={styles.container}>
+        <View style={styles.content}>{view.renderView()}</View>
+        <View style={styles.actionContainer}>
+          <View style={styles.button}>
+            <Button type="secondary" value="Indietro" onPress={goBack} />
+          </View>
+          <View style={styles.button}>
+            <Button type="primary" value={"Continua "} onPress={onContinue}>
+              <Text style={styles.buttonCounter}>
+                ({state + 1}/{views.length})
+              </Text>
+            </Button>
+          </View>
         </View>
-        <View style={styles.button}>
-          <Button type="primary" value={"Continua "} onPress={onContinue}>
-            <Text style={styles.buttonCounter}>
-              ({state + 1}/{views.length})
-            </Text>
-          </Button>
-        </View>
+        {loading && <LoadingOverlay />}
       </View>
     </SafeAreaView>
   );

@@ -6,7 +6,7 @@ import {
 } from "../store/endpoints";
 import _ from "lodash";
 
-export type ValidatorFunction = (data: any) => boolean;
+export type ValidatorFunction = (data: any) => boolean | Promise<boolean>;
 
 export interface Validator {
   warnings: string[];
@@ -83,3 +83,33 @@ export const isNotUndefined: ValidatorFunction = x => x !== undefined;
 
 export const isValidPrice: ValidatorFunction = x =>
   !isNaN(parseFloat(x)) && isFinite(x);
+
+export const isAvailableUsername: ValidatorFunction = username =>
+  axios.post(___CHECK_USERNAME___, {
+    username
+  });
+
+export const isAvailableEmail: ValidatorFunction = email =>
+  axios.post(___CHECK_EMAIL___, {
+    email
+  });
+export const isAvailablePhone: ValidatorFunction = async phone => {
+  try {
+    const res = await axios.post(___CHECK_PHONE___, { phone });
+    console.log(res);
+    return true;
+  } catch (error) {
+    console.log({ error });
+    return false;
+  }
+};
+
+//Field length validators
+
+export const usernameLengthValidator: ValidatorFunction = str =>
+  str.length >= 4 && str.length <= 13;
+export const emailLengthValidator: ValidatorFunction = str => str.length <= 254;
+export const passwordLengthValidator: ValidatorFunction = str =>
+  str.length >= 8 && str.length <= 128;
+export const phoneLengthValidator: ValidatorFunction = str =>
+  str.length >= 9 && str.length <= 11;

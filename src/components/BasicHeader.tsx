@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "white",
-    ...Shadows[6]
+    ...Shadows[3]
   },
   goBackBtn: {
     padding: 10,

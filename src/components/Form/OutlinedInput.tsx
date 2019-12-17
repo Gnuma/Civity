@@ -27,6 +27,7 @@ export interface OutlinedInputProps extends TextProps {
   onFocus?: () => void;
   onBlur?: () => void;
   placeholder?: string;
+  prefix?: string;
 
   value: string;
   onTextChange: (text: string) => void;

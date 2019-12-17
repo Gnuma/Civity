@@ -10,9 +10,12 @@ import {
   TextInputFocusEventData
 } from "react-native";
 import colors from "../../styles/colors";
+import { Header3 } from "../Text";
 
 export interface UnderlinedTextInputProps extends TextInputProps {
   containerStyle?: StyleProp<ViewStyle>;
+  prefix?: string;
+  inputRef?: refType;
 }
 
 const UnderlinedTextInput = ({
@@ -20,6 +23,8 @@ const UnderlinedTextInput = ({
   containerStyle,
   onFocus: remoteFocus,
   onBlur: remoteBlur,
+  prefix,
+  inputRef,
   ...rest
 }: UnderlinedTextInputProps) => {
   const [focused, setFocused] = useState(false);
@@ -33,11 +38,17 @@ const UnderlinedTextInput = ({
   };
   return (
     <View style={[styles.container, containerStyle]}>
+      {prefix && <Header3 style={styles.prefix}>{prefix}</Header3>}
       <TextInput
         onFocus={onFocus}
         onBlur={onBlur}
         placeholderTextColor={colors.grey}
-        style={[styles.field, style]}
+        style={[
+          styles.field,
+          !!prefix && { paddingLeft: 13 + 15 * prefix.length },
+          style
+        ]}
+        ref={inputRef}
         {...rest}
       />
       <View style={styles.lineContainer}>
@@ -68,5 +79,16 @@ const styles = StyleSheet.create({
   lineUnfocused: {
     height: 1.5,
     backgroundColor: colors.grey
+  },
+  prefix: {
+    position: "absolute",
+    bottom: 7,
+    left: 13
   }
 });
+
+type refType =
+  | ((instance: TextInput | null) => void)
+  | React.RefObject<TextInput>
+  | null
+  | undefined;

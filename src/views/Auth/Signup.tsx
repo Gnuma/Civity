@@ -7,10 +7,25 @@ import StatusLayout, {
 } from "../../components/StatusLayout";
 import LabeledInput from "../../components/Inputs/LabeledInput";
 import update from "immutability-helper";
-import { ValidatorObject, isNotEmpty, submit } from "../../utils/validator";
-import { Header3, Header4 } from "../../components/Text";
+import {
+  ValidatorObject,
+  isNotEmpty,
+  submit,
+  isAvailableUsername,
+  usernameLengthValidator,
+  isValidEmail,
+  isAvailableEmail,
+  emailLengthValidator,
+  passwordLengthValidator,
+  isAvailablePhone,
+  phoneLengthValidator
+} from "../../utils/validator";
+import { Header4 } from "../../components/Text";
+import { NavigationStackProp } from "react-navigation-stack";
 
-interface SignupProps {}
+interface SignupProps {
+  navigation: NavigationStackProp;
+}
 
 interface SignupState {
   state: SignupStateEnum;
@@ -21,6 +36,7 @@ interface SignupState {
     3: { phone: string };
   };
   warnings: { [key: string]: string };
+  loading: boolean;
 }
 
 export class Signup extends Component<SignupProps, SignupState> {
@@ -38,20 +54,44 @@ export class Signup extends Component<SignupProps, SignupState> {
       password: "",
       confirmPassword: "",
       phone: ""
-    }
+    },
+    loading: false
   };
 
   continue = () => {
     const { fields, state } = this.state;
-    submit(fields[state], Validator[state])
-      .then(() => {
-        this.setState(state =>
-          update(state, { state: { $apply: s => s + 1 } })
-        );
-      })
-      .catch(err => {
-        this.setState(state => update(state, { warnings: { $merge: err } }));
-      });
+    const fullValidator = update(Validator, {
+      2: {
+        confirmPassword: { functions: { $push: [this.isConfirmPasswordValid] } }
+      }
+    });
+    this.setState({ loading: true }, () => {
+      submit(fields[state], fullValidator[state])
+        .then(() => {
+          if (state == SignupStateEnum.PHONE) {
+            this.signup();
+          } else {
+            this.setState(state =>
+              update(state, {
+                state: { $apply: s => s + 1 },
+                loading: { $set: false }
+              })
+            );
+          }
+        })
+        .catch(err => {
+          this.setState(state =>
+            update(state, {
+              warnings: { $merge: err },
+              loading: { $set: false }
+            })
+          );
+        });
+    });
+  };
+
+  signup = () => {
+    this.props.navigation.navigate("PhoneValidation");
   };
 
   renderUsername = () => {
@@ -62,6 +102,7 @@ export class Signup extends Component<SignupProps, SignupState> {
         value={username}
         warning={this.state.warnings.username}
         onChangeText={text => this.updateField("username", text)}
+        autoFocus
       />
     );
   };
@@ -74,6 +115,7 @@ export class Signup extends Component<SignupProps, SignupState> {
         value={email}
         warning={this.state.warnings.email}
         onChangeText={text => this.updateField("email", text)}
+        autoFocus
       />
     );
   };
@@ -89,6 +131,9 @@ export class Signup extends Component<SignupProps, SignupState> {
           value={password}
           warning={this.state.warnings.password}
           onChangeText={text => this.updateField("password", text)}
+          textContentType="password"
+          secureTextEntry={true}
+          autoFocus
         />
         <LabeledInput
           label="CONFIRM PASSWORD"
@@ -96,6 +141,8 @@ export class Signup extends Component<SignupProps, SignupState> {
           warning={this.state.warnings.confirmPassword}
           onChangeText={text => this.updateField("confirmPassword", text)}
           containerStyle={{ marginTop: 20 }}
+          textContentType="password"
+          secureTextEntry={true}
         />
       </View>
     );
@@ -110,11 +157,10 @@ export class Signup extends Component<SignupProps, SignupState> {
           value={phone}
           warning={this.state.warnings.phone}
           onChangeText={text => this.updateField("phone", text)}
+          prefix="+39"
+          autoFocus
         />
-        <Header4
-          color="darkGrey"
-          style={{ textAlign: "center", marginTop: 10 }}
-        >
+        <Header4 color="darkGrey" style={{ textAlign: "left", marginTop: 10 }}>
           Il numero verà utilizzato al solo scopo di verificare il tuo account
         </Header4>
       </View>
@@ -128,7 +174,7 @@ export class Signup extends Component<SignupProps, SignupState> {
   };
 
   render() {
-    const { state } = this.state;
+    const { state, loading } = this.state;
     const views: StatusLayoutViewType[] = [
       { renderView: this.renderUsername, title: "Username" },
       { renderView: this.renderEmail, title: "Email" },
@@ -141,11 +187,26 @@ export class Signup extends Component<SignupProps, SignupState> {
         state={state}
         goBack={this.goBack}
         onContinue={this.continue}
+        title={"Signup"}
+        loading={loading}
       />
     );
   }
 
-  goBack = () => {};
+  goBack = () => {
+    if (this.state.state == 0) this.props.navigation.goBack(null);
+    else
+      this.setState(state =>
+        update(state, {
+          state: { $apply: s => Math.max(0, s - 1) }
+        })
+      );
+  };
+
+  isConfirmPasswordValid = () => {
+    const { confirmPassword, password } = this.state.fields[2];
+    return confirmPassword === password;
+  };
 }
 
 const mapStateToProps = state => ({});
@@ -164,30 +225,54 @@ enum SignupStateEnum {
 const Validator: { [key: number]: ValidatorObject } = {
   0: {
     username: {
-      functions: [isNotEmpty],
-      warnings: ["Inserisici il tuo username"]
+      functions: [isNotEmpty, isAvailableUsername, usernameLengthValidator],
+      warnings: [
+        "Inserisici il tuo username",
+        "L'username inserito è già stato preso",
+        "L'username deve contenere dai 4 ai 13 caratteri"
+      ]
     }
   },
   1: {
     email: {
-      functions: [isNotEmpty],
-      warnings: ["Inserisici la tua email"]
+      functions: [
+        isNotEmpty,
+        isValidEmail,
+        isAvailableEmail,
+        emailLengthValidator
+      ],
+      warnings: [
+        "Inserisici la tua email",
+        "L'email inserita non sembra essere valida",
+        "L'email è già stata utilizzata per un altro account",
+        "L'email deve contenere massimo 254 caratteri"
+      ]
     }
   },
   2: {
     password: {
-      functions: [isNotEmpty],
-      warnings: ["Scegli una password"]
+      functions: [isNotEmpty, passwordLengthValidator],
+      warnings: [
+        "Scegli una password",
+        "La password deve contenere minimo 8 caratteri"
+      ]
     },
     confirmPassword: {
       functions: [isNotEmpty],
-      warnings: ["Conferma la password inserita"]
+      warnings: [
+        "Conferma la password inserita",
+        "La password non coincide con quella inserita"
+      ]
     }
   },
   3: {
     phone: {
-      functions: [isNotEmpty],
-      warnings: ["Inserisci il tuo numero"]
+      functions: [isNotEmpty, isAvailablePhone, phoneLengthValidator],
+      warnings: [
+        "Inserisci il tuo numero",
+        "Il numero inseito è già stato utilizzato per un altro account",
+        "Il numero inserito non sembra essere valido"
+      ]
     }
   }
 };

@@ -23,6 +23,7 @@ import CreateBookScreen from "../views/CreateBook";
 
 import AuthIntroScreen from "../views/Auth/Intro";
 import SignupScreen from "../views/Auth/Signup";
+import ConfirmPhoneScreen from "../views/Auth/ConfirmPhoneScreen";
 
 import ChatListScreen from "../views/ChatList";
 import ChatDetailScreen from "../views/ChatDetail";
@@ -313,7 +314,8 @@ const AuthNavigator_Deprecated = createStackNavigator(
 const AuthNavigator = createStackNavigator(
   {
     AUTH: { screen: AuthIntroScreen },
-    Signup: { screen: SignupScreen }
+    Signup: { screen: SignupScreen },
+    PhoneValidation: { screen: ConfirmPhoneScreen }
   },
   { defaultNavigationOptions: { header: null, gesturesEnabled: false } }
 );
